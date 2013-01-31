@@ -232,14 +232,14 @@ function nkSessionInit() {
 //    $cookie_forum = $nuked['cookiename'] . '_forum_read';
 //    $cookie_userid = $nuked['cookiename'] . '_userid';
 //
-//    // Création d'un cookie captcha
+//    // Crï¿½ation d'un cookie captcha
 //    $cookie_captcha = $nuked['cookiename'] . '_captcha';
 //    setcookie($cookie_captcha, 1);
 //
 //    // Recherche de l'adresse IP
 //    $uip = (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
 //    
-//    // Validité adresse IP v4 / v6
+//    // Validitï¿½ adresse IP v4 / v6
 //    //if(isset($uip) && !empty($uip)) {
 //    //    if(preg_match('/^(([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]).){3}([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/', $uip)) $user_ip = $uip;
 //    //    elseif(preg_match('/^(([A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4})$|^([A-Fa-f0-9]{1,4}::([A-Fa-f0-9]{1,4}:){0,5}[A-Fa-f0-9]{1,4})$|^(([A-Fa-f0-9]{1,4}:){2}:([A-Fa-f0-9]{1,4}:){0,4}[A-Fa-f0-9]{1,4})$|^(([A-Fa-f0-9]{1,4}:){3}:([A-Fa-f0-9]{1,4}:){0,3}[A-Fa-f0-9]{1,4})$|^(([A-Fa-f0-9]{1,4}:){4}:([A-Fa-f0-9]{1,4}:){0,2}[A-Fa-f0-9]{1,4})$|^(([A-Fa-f0-9]{1,4}:){5}:([A-Fa-f0-9]{1,4}:){0,1}[A-Fa-f0-9]{1,4})$|^(([A-Fa-f0-9]{1,4}:){6}:[A-Fa-f0-9]{1,4})$/', $uip)) $user_ip = $uip;
@@ -281,7 +281,7 @@ function secure(){
             
             $last_visite = $last_used;
             
-            $upd = mysql_query("UPDATE " . SESSIONS_TABLE . "  last_used = '" . $time . "' WHERE id = '" . $id_de_session . "'");
+            $upd = mysql_query("UPDATE " . SESSIONS_TABLE . "  SET `last_used` = '" . $time . "' WHERE `id` = '" . $id_de_session . "'");
 
             if (isset($_REQUEST['file']) && isset($_REQUEST['thread_id']) && $_REQUEST['file'] == 'Forum' && is_numeric($_REQUEST['thread_id']) && $_REQUEST['thread_id'] > 0 && $secu_user > 0) {
                 $select_thread = "SELECT MAX(id) FROM " . FORUM_MESSAGES_TABLE . " WHERE date > '" . $last_used . "' AND thread_id = '" . $_REQUEST['thread_id'] . "' ";

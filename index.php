@@ -17,15 +17,19 @@ define('NK_START_TIME', microtime(true));
 define('INDEX_CHECK', true);
 define('ROOT_PATH', dirname( __FILE__ ) .'/');
 
+
 // Include configuration constants
-if (file_exists('conf.inc.php')){
-    require ROOT_PATH . 'conf.inc.php';
-}elseif (!defined('NK_INSTALLED')){
+if(file_exists(ROOT_PATH . 'conf.inc.php')) require(ROOT_PATH . 'conf.inc.php');
+
+
+# Redirect to INSTALL
+if (!defined('NK_INSTALLED')){
     if (file_exists('INSTALL/index.php')){
         header('location: INSTALL/index.php');
         exit();
     }
 }
+
 // Kernel
 include('nuked.php');
 
@@ -43,9 +47,17 @@ include('globals.php');
 // INCLUDE FATAL ERROR LANG
 //include('Includes/fatal_errors.php');
 
+
 // POUR LA COMPATIBILITE DES ANCIENS THEMES ET MODULES - FOR COMPATIBITY WITH ALL OLD MODULE AND THEME
 if (defined('COMPATIBILITY_MODE') && COMPATIBILITY_MODE == TRUE) extract($_REQUEST);
 
+
+/* A QUOI CA SERT ????? 
+if (!defined('NK_OPEN')){
+    echo WBSITE_CLOSED;
+    exit();
+}
+/************************/
 
 include_once('Includes/hash.php');
 
@@ -117,51 +129,16 @@ else $visiteur = $user[1];
 //include ('themes/' . $theme . '/colors.php');
 translate('lang/' . $language . '.lang.php');
 
+
 if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login_screen' && $_REQUEST['op'] != 'login_message' && $_REQUEST['op'] != 'login'){
-?>
-    <!DOCTYPE html>
-    <html lang="<?php echo $lang; ?>">
-        <head>
-            <title><?php echo $nuked['name']; ?>&nbsp;-&nbsp;<?php echo $nuked['slogan']; ?></title>
-            <meta charset="utf-8" />
-            <link title="style" type="text/css" rel="stylesheet" href="css/nkCss.css" />
-        </head>
-        <body id="nkSiteClose">
-            <section>
-                <header>
-                    <hgroup>
-                        <img src="images/logo.png" />
-                        <h1><?php echo $nuked['name']; ?></h1>
-                        <h2><?php echo $nuked['slogan']; ?></h2>
-                    </hgroup>
-                </header>
-                <article>
-                    <p><?php echo SITECLOSED; ?></p>
-                    <form action="index.php?file=User&amp;nuked_nude=index&amp;op=login" method="post">
-                        <div>
-                            <label for="pseudo"><?php echo PSEUDO; ?></label>
-                                <input id="pseudo" type="text" name="pseudo" size="15" maxlength="180" />
-                         </div>
-                        <div>
-                            <label for="password"><?php echo PASSWORD; ?></label>
-                                <input type="password" id="password" name="pass" size="15" maxlength="15" />                        
-                                <input type="hidden" class="checkbox" name="remember_me" value="ok" checked="checked" />
-                        </div>
-                                <input type="submit" value="<?php echo TOLOG; ?>" />      
-                    </form>         
-                </article>
-                <footer>
-                    <p>
-                        <a href="/"><?php echo $nuked['name']; ?></a> &copy; 2001, <?php echo date(Y); ?>&nbsp;|&nbsp;<?php echo POWERED; ?> <a href="http://www.nuked-klan.org">Nuked-Klan</a>
-                    </p>
-                </footer>
-            </section>
-        </body>
-    </html>
-<?php
+  /* Add page for website close */
+  include ('Includes/nkSiteClosed.php');
+
 }else if (($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin')) && $_SESSION['admin'] == 0){
     include('modules/Admin/login.php');
+
 }else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( nivo_mod($_REQUEST['file']) === false || (nivo_mod($_REQUEST['file']) > -1 && (nivo_mod($_REQUEST['file']) <= $visiteur))) ){
+
     include ('themes/' . $theme . '/theme.php');
 
     if ($nuked['level_analys'] != -1) visits();
@@ -204,17 +181,25 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
         if ($nuked['time_generate'] == 'on'){
             $mtime = microtime() - $mtime;
         ?>
-            <p class="nkCenter"><?php echo GENERATE.'&nbsp;'.${mtime}; ?>s</p>
+            <p class="nkAlignCenter"><?php echo GENERATE.'&nbsp;'.${mtime}; ?>s</p>
         <?php
         }
         //@todo reactive and test it when head inclusion is done
         //sendStatsNk();
     }
+
+    /* AJOUT DU LIEN POUR LE BACK TO TOP */
+    ?>
+    <div><a id="nkToTop" href="#top"></a></div>
+    <?php
+
+    
 }else{  
+  
     include ('themes/' . $theme . '/theme.php');
     top();
     translate('lang/' . $language . '.lang.php');
-    badLevel();
+    $GLOBALS['nkTpl']->nkBadLevel();
     footer();
 }
 

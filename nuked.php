@@ -15,9 +15,6 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 /* Test Environnement : Apache 2.0.63 and PHP 5.3.5 */
 /* ---------------------------------- */
 
-// Include configuration constants
-require ROOT_PATH . 'conf.inc.php';
-
 // Sets which PHP errors are reported, use error debug popup
 if ( defined( 'NK_ERROR_DEBUG' ) && NK_ERROR_DEBUG ) {
     require ROOT_PATH . 'Includes/libs/NK_exception.php';
@@ -108,7 +105,7 @@ function nkConstructNuked($prefixDB) {
  */
 function nkDate($timestamp, $block = false) {    
     if ($block === false) {
-        $format = $GLOBALS['nuked']['isBlock']; // à quoi correspond cette variable, voir function get_blok() ???
+        $format = $GLOBALS['nuked']['isBlock']; // ? quoi correspond cette variable, voir function get_blok() ???
     } else {
         $format = $block;
     }
@@ -1591,7 +1588,7 @@ function erreursql($errno, $errstr, $errfile, $errline, $errcontext){
             exit();
             break;
     }
-    // Ne pas exécuter le gestionnaire interne de PHP
+    // Ne pas ex?cuter le gestionnaire interne de PHP
     return true;
 }
  * */

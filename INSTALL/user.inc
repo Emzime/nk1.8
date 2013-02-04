@@ -34,8 +34,8 @@
             
             mysql_query('TRUNCATE TABLE `'.$_SESSION['db_prefix'].'_users`');            
             mysql_query("INSERT INTO `".$_SESSION['db_prefix']."_users` VALUES ('".$user_id."', '', '', '', '', '', '" .$pseudo."', '".$mail."', '', '', '', '', '', '', '".$pass."', 9, '".$date."', '', '', '', '', 1, 'France.gif', '', '', '', '0')");      
-            mysql_query("INSERT INTO `".$_SESSION['db_prefix']."_news` VALUES (1, 1, '"._FIRSTNEWSTITLE."', '".$pseudo."', '".$user_id."', '"._FIRSTNEWSCONTENT."', '', '".$date."', '', '')");    
-            mysql_query("INSERT INTO `".$_SESSION['db_prefix']."_shoutbox` VALUES (1, '".$pseudo. "', '".$ip."', '" . _FIRSTNEWSTITLE . "', '".$date."')");  
+            mysql_query("INSERT INTO `".$_SESSION['db_prefix']."_news` VALUES (1, 1, '".mysql_real_escape_string(FIRSTNEWSTITLE)."', '".$pseudo."', '".$user_id."', '".mysql_real_escape_string(FIRSTNEWSCONTENT)."', '', '".$date."', '', '')");    
+            mysql_query("INSERT INTO `".$_SESSION['db_prefix']."_shoutbox` VALUES (1, '".$pseudo. "', '".$ip."', '".mysql_real_escape_string(FIRSTNEWSTITLE)."', '".$date."')");  
             mysql_query("UPDATE `".$_SESSION['db_prefix']."_config` SET value = '".$mail."' WHERE name = 'contact_mail'");
             mysql_query("UPDATE `".$_SESSION['db_prefix']."_config` SET value = '".$mail."' WHERE name = 'mail'");
         }
@@ -52,18 +52,18 @@
                     . "//  it under the terms of the GNU General Public License as published by   //\n"
                     . "//  the Free Software Foundation; either version 2 of the License.         //\n"
                     . "//-------------------------------------------------------------------------//\n"
-                    . "\$nk_version = '1.7.9';\n"
+                    . "\$nk_version = '1.8';\n"
                     . "\n"
                     . "\$global['db_host']  = '".$_SESSION['host']."';\n"
                     . "\$global['db_user']  = '".$_SESSION['user']."';\n"
                     . "\$global['db_pass']  = '".$_SESSION['pass']."';\n"
                     . "\$global['db_name'] = '".$_SESSION['db_name']."';\n"
                     . "\$db_prefix = '".$_SESSION['db_prefix']."';\n"
-                    . "\$db_type = 'MySQL';\n"
+                    . "\$db_type = 'mySql';\n"
                     . "\n"
                     . "define('NK_INSTALLED', true);\n"
                     . "define('NK_OPEN', true);\n"
-                    . "define('NK_GZIP', " . GZIP_COMPRESS . ");\n"
+                    . "define('NK_GZIP', ".GZIP_COMPRESS.");\n"
                     . "// NE PAS SUPPRIMER! / DO NOT DELETE\n"
                     . "define('HASHKEY', '".$_SESSION['hash']."');\n"
                     . "\n"

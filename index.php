@@ -17,7 +17,15 @@ define('NK_START_TIME', microtime(true));
 define('INDEX_CHECK', true);
 define('ROOT_PATH', dirname( __FILE__ ) .'/');
 
-
+// Include configuration constants
+if (file_exists('conf.inc.php')){
+    require ROOT_PATH . 'conf.inc.php';
+}elseif (!defined('NK_INSTALLED')){
+    if (file_exists('INSTALL/index.php')){
+        header('location: INSTALL/index.php');
+        exit();
+    }
+}
 // Kernel
 include('nuked.php');
 
@@ -38,13 +46,6 @@ include('globals.php');
 // POUR LA COMPATIBILITE DES ANCIENS THEMES ET MODULES - FOR COMPATIBITY WITH ALL OLD MODULE AND THEME
 if (defined('COMPATIBILITY_MODE') && COMPATIBILITY_MODE == TRUE) extract($_REQUEST);
 
-# Redirect to INSTALL
-if (!defined('NK_INSTALLED')){
-    if (file_exists('INSTALL/index.php')){
-        header('location: INSTALL/index.php');
-        exit();
-    }
-}
 
 include_once('Includes/hash.php');
 

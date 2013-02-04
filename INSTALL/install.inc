@@ -9,7 +9,7 @@
                           `pseudo`  text NOT NULL,
                           `action`  text NOT NULL,
                           PRIMARY KEY  (`id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -25,7 +25,7 @@
                             `dure` VARCHAR(20)  NULL,
                             `texte` text NOT NULL,
                             PRIMARY KEY  (`id`)
-                          ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                          ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                           $req = mysql_query($sql) or die (mysql_error());
                           echo 'OK';
         break;
@@ -43,21 +43,21 @@
                           `nivo` int(1) NOT NULL default '0',
                           `page` text NOT NULL,
                           PRIMARY KEY  (`bid`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
                         $sql = "INSERT INTO `" . $db_prefix . "_block` VALUES
-                            (1, 2, 1, '', '" . _BLOKLOGIN . "', '', 'login', 0, 'Tous'),
-                            (2, 1, 1, '', '" . _NAV . "', '[News]|" . _NAVNEWS . "||0|NEWLINE[Archives]|" . _NAVARCHIV . "||0|NEWLINE[Forum]|" . _NAVFORUM . "||0|NEWLINE[Download]|" . _NAVDOWNLOAD . "||0|NEWLINE[Members]|" . _NAVMEMBERS . "||0|NEWLINE[Team]|" . _NAVTEAM . "||0|NEWLINE[Defy]|" . _NAVDEFY . "||0|NEWLINE[Recruit]|" . _NAVRECRUIT . "||0|NEWLINE[Sections]|" . _NAVART . "||0|NEWLINE[Server]|" . _NAVSERVER . "||0|NEWLINE[Links]|" . _NAVLINKS . "||0|NEWLINE[Calendar]|" . _NAVCALENDAR . "||0|NEWLINE[Gallery]|" . _NAVGALLERY . "||0|NEWLINE[Wars]|" . _NAVMATCHS . "||0|NEWLINE[Irc]|" . _NAVIRC . "||0|NEWLINE[Guestbook]|" . _NAVGUESTBOOK . "||0|NEWLINE[Search]|" . _NAVSEARCH . "||0|NEWLINE|<b>" . _MEMBER . "</b>||1|NEWLINE[User]|" . _NAVACCOUNT . "||1|NEWLINE|<b>" . _ADMIN . "</b>||2|NEWLINE[Admin]|" . _NAVADMIN . "||2|', 'menu', 0, 'Tous'),
-                            (3, 1, 2, 'Search', '" . _BLOKSEARCH . "', '', 'module', 0, 'Tous'),
-                            (4, 2, 2, '', '" . _POLL . "', '', 'survey', 0, 'Tous'),
-                            (5, 2, 3, 'Wars', '" . _NAVMATCHS . "', '', 'module', 0, 'Tous'),
-                            (6, 1, 3, 'Stats', '" . _BLOKSTATS . "', '', 'module', 0, 'Tous'),
-                            (7, 0, 0, 'Irc', '" . _IRCAWARD . "', '', 'module', 0, 'Tous'),
-                            (8, 0, 0, 'Server', '" . _SERVERMONITOR . "', '', 'module', 0, 'Tous'),
-                            (9, 0, 0, '', '" . _SUGGEST . "', '', 'suggest', 1, 'Tous'),
-                            (10, 0, 0, 'Textbox', '" . _BLOKSHOUT . "', '', 'module', 0, 'Tous'),
-                            (11, 1, 4, '', '" . _BLOKPARTNERS . "', '<div style=\"text-align: center;padding: 10px;\"><a href=\"http://www.nuked-klan.org\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/ban.png\" alt=\"\" title=\"Nuked-klaN CMS\" /></a></div><div style=\"text-align: center;padding: 10px;\"><a href=\"http://www.nitroserv.fr\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/nitroserv.png\" alt=\"\" title=\"Location de serveurs de jeux\" /></a></div>', 'html', 0, 'Tous');";
+                            (1, 2, 1, '', '" . mysql_real_escape_string(BLOKLOGIN) . "', '', 'login', 0, 'Tous'),
+                            (2, 1, 1, '', '" . mysql_real_escape_string(NAV) . "', '[News]|" . mysql_real_escape_string(NAVNEWS) . "||0|NEWLINE[Archives]|" . mysql_real_escape_string(NAVARCHIV) . "||0|NEWLINE[Forum]|" . mysql_real_escape_string(NAVFORUM) . "||0|NEWLINE[Download]|" . mysql_real_escape_string(NAVDOWNLOAD) . "||0|NEWLINE[Members]|" . mysql_real_escape_string(NAVMEMBERS) . "||0|NEWLINE[Team]|" . mysql_real_escape_string(NAVTEAM) . "||0|NEWLINE[Defy]|" . mysql_real_escape_string(NAVDEFY) . "||0|NEWLINE[Recruit]|" . mysql_real_escape_string(NAVRECRUIT) . "||0|NEWLINE[Sections]|" . mysql_real_escape_string(NAVART) . "||0|NEWLINE[Server]|" . mysql_real_escape_string(NAVSERVER) . "||0|NEWLINE[Links]|" . mysql_real_escape_string(NAVLINKS) . "||0|NEWLINE[Calendar]|" . mysql_real_escape_string(NAVCALENDAR) . "||0|NEWLINE[Gallery]|" . mysql_real_escape_string(NAVGALLERY) . "||0|NEWLINE[Wars]|" . mysql_real_escape_string(NAVMATCHS) . "||0|NEWLINE[Irc]|" . mysql_real_escape_string(NAVIRC) . "||0|NEWLINE[Guestbook]|" . mysql_real_escape_string(NAVGUESTBOOK) . "||0|NEWLINE[Search]|" . mysql_real_escape_string(NAVSEARCH) . "||0|NEWLINE|<b>" . mysql_real_escape_string(MEMBER) . "</b>||1|NEWLINE[User]|" . mysql_real_escape_string(NAVACCOUNT) . "||1|NEWLINE|<b>" . mysql_real_escape_string(ADMIN) . "</b>||2|NEWLINE[Admin]|" . mysql_real_escape_string(NAVADMIN) . "||2|', 'menu', 0, 'Tous'),
+                            (3, 1, 2, 'Search', '" . mysql_real_escape_string(BLOKSEARCH) . "', '', 'module', 0, 'Tous'),
+                            (4, 2, 2, '', '" . mysql_real_escape_string(POLL) . "', '', 'survey', 0, 'Tous'),
+                            (5, 2, 3, 'Wars', '" . mysql_real_escape_string(NAVMATCHS) . "', '', 'module', 0, 'Tous'),
+                            (6, 1, 3, 'Stats', '" . mysql_real_escape_string(BLOKSTATS) . "', '', 'module', 0, 'Tous'),
+                            (7, 0, 0, 'Irc', '" . mysql_real_escape_string(IRCAWARD) . "', '', 'module', 0, 'Tous'),
+                            (8, 0, 0, 'Server', '" . mysql_real_escape_string(SERVERMONITOR) . "', '', 'module', 0, 'Tous'),
+                            (9, 0, 0, '', '" . mysql_real_escape_string(SUGGEST) . "', '', 'suggest', 1, 'Tous'),
+                            (10, 0, 0, 'Textbox', '" . mysql_real_escape_string(BLOKSHOUT) . "', '', 'module', 0, 'Tous'),
+                            (11, 1, 4, '', '" . mysql_real_escape_string(BLOKPARTNERS) . "', '<div style=\"text-align: center;padding: 10px;\"><a href=\"http://www.nuked-klan.org\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/ban.png\" alt=\"\" title=\"Nuked-klaN CMS\" /></a></div><div style=\"text-align: center;padding: 10px;\"><a href=\"http://www.nitroserv.fr\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/nitroserv.png\" alt=\"\" title=\"Location de serveurs de jeux\" /></a></div>', 'html', 0, 'Tous');";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -74,7 +74,7 @@
                           `heure` varchar(5) NOT NULL default '',
                           `auteur` text NOT NULL,
                           PRIMARY KEY  (`id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -93,7 +93,7 @@
                           `autor_ip` varchar(20) default NULL,
                           PRIMARY KEY  (`id`),
                           KEY `im_id` (`im_id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -105,7 +105,7 @@
                           `module` text NOT NULL,
                           `active` int(1) NOT NULL,
                           PRIMARY KEY  (`id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());                        
                         
                         $sql = "INSERT INTO `" . $db_prefix . "_comment_mod` VALUES
@@ -126,7 +126,7 @@
                           `name` varchar(255) NOT NULL default '',
                           `value` text NOT NULL,
                           PRIMARY KEY  (`name`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
                         $date = time();
@@ -238,7 +238,7 @@
                           `date` varchar(30) NOT NULL default '',
                           PRIMARY KEY  (`id`),
                           KEY `titre` (`titre`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -263,7 +263,7 @@
                           `map` text NOT NULL,
                           `comment` text NOT NULL,
                           PRIMARY KEY  (`id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -276,7 +276,7 @@
                           `pseudo`  text NOT NULL,
                           `texte`  text NOT NULL,
                           PRIMARY KEY  (`id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -304,7 +304,7 @@
                           `comp` text NOT NULL,
                           PRIMARY KEY  (`id`),
                           KEY `type` (`type`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -320,7 +320,7 @@
                           `position` int(2) unsigned NOT NULL default '0',
                           PRIMARY KEY  (`cid`),
                           KEY `parentid` (`parentid`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -340,7 +340,7 @@
                           `level_vote` int(1) NOT NULL default '0',
                           PRIMARY KEY  (`id`),
                           KEY `cat` (`cat`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
                         $sql = "INSERT INTO `" . $db_prefix . "_forums` VALUES (1, 1, 'Forum', 'Test Forum', '', 0, 0, 0, 1 ,1);";
@@ -356,7 +356,7 @@
                           `ordre` int(5) NOT NULL default '0',
                           `niveau` int(1) NOT NULL default '0',
                           PRIMARY KEY  (`id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                     
                         $sql="INSERT INTO `" . $db_prefix . "_forums_cat` VALUES (1, 'Categorie 1', 0, 0);";
@@ -387,7 +387,7 @@
                           KEY `auteur_id` (`auteur_id`),
                           KEY `thread_id` (`thread_id`),
                           KEY `forum_id` (`forum_id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -409,7 +409,7 @@
                           PRIMARY KEY  (`id`),
                           KEY `auteur_id` (`auteur_id`),
                           KEY `forum_id` (`forum_id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -423,17 +423,17 @@
                           `post` int(4) NOT NULL default '0',
                           `image` varchar(200) NOT NULL default '',
                           PRIMARY KEY  (`id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
                         $sql = "INSERT INTO `" . $db_prefix . "_forums_rank` VALUES
-                            (1, '"._NEWBIE."', 0, 0, 'modules/Forum/images/rank/star1.gif'),
-                            (2, '"._JUNIORMEMBER."', 0, 10, 'modules/Forum/images/rank/star2.gif'),
-                            (3, '"._MEMBER."', 0, 100, 'modules/Forum/images/rank/star3.gif'),
-                            (4, '"._SENIORMEMBER."', 0, 500, 'modules/Forum/images/rank/star4.gif'),
-                            (5, '"._POSTINGFREAK."', 0, 1000, 'modules/Forum/images/rank/star5.gif'),
-                            (6, '"._MODERATOR."', 1, 0, 'modules/Forum/images/rank/mod.gif'),
-                            (7, '"._ADMINISTRATOR."', 2, 0, 'modules/Forum/images/rank/mod.gif');";
+                            (1, '".mysql_real_escape_string(NEWBIE)."', 0, 0, 'modules/Forum/images/rank/star1.gif'),
+                            (2, '".mysql_real_escape_string(JUNIORMEMBER)."', 0, 10, 'modules/Forum/images/rank/star2.gif'),
+                            (3, '".mysql_real_escape_string(MEMBER)."', 0, 100, 'modules/Forum/images/rank/star3.gif'),
+                            (4, '".mysql_real_escape_string(SENIORMEMBER)."', 0, 500, 'modules/Forum/images/rank/star4.gif'),
+                            (5, '".mysql_real_escape_string(POSTINGFREAK)."', 0, 1000, 'modules/Forum/images/rank/star5.gif'),
+                            (6, '".mysql_real_escape_string(MODERATOR)."', 1, 0, 'modules/Forum/images/rank/mod.gif'),
+                            (7, '".mysql_real_escape_string(ADMINISTRATOR)."', 2, 0, 'modules/Forum/images/rank/mod.gif');";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -445,7 +445,7 @@
                           `thread_id` text NOT NULL,
                           `forum_id` text NOT NULL,
                           PRIMARY KEY  (`user_id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -458,7 +458,7 @@
                           `titre` varchar(255) NOT NULL default '',
                           PRIMARY KEY  (`id`),
                           KEY `thread_id` (`thread_id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -471,7 +471,7 @@
                           `option_text` varchar(255) NOT NULL default '',
                           `option_vote` int(11) NOT NULL default '0',
                           KEY `poll_id` (`poll_id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -483,7 +483,7 @@
                           `auteur_id` varchar(20) NOT NULL default '',
                           `auteur_ip` varchar(20) NOT NULL default '',
                           KEY `poll_id` (`poll_id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -503,7 +503,7 @@
                           `autor` text NOT NULL,
                           PRIMARY KEY  (`sid`),
                           KEY `cat` (`cat`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -518,7 +518,7 @@
                           `position` int(2) unsigned NOT NULL default '0',
                           PRIMARY KEY  (`cid`),
                           KEY `parentid` (`parentid`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -537,11 +537,11 @@
                           `pref_5` varchar(50) NOT NULL default '',
                           `map` TEXT NOT NULL,
                           PRIMARY KEY  (`id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
                         $sql = "INSERT INTO `" . $db_prefix . "_games` VALUES
-                            (1, 'Counter Strike Source', '" . _PREFCS . "', 'images/games/cs.gif', '" . _OTHERNICK . "', '" . _FAVMAP . "', '" . _FAVWEAPON . "', '" . _SKINT . "', '" . _SKINCT . "', 'de_dust2|de_inferno');";
+                            (1, 'Counter Strike Source', '" . mysql_real_escape_string(PREFCS) . "', 'images/games/cs.gif', '" . mysql_real_escape_string(OTHERNICK) . "', '" . mysql_real_escape_string(FAVMAP) . "', '" . mysql_real_escape_string(FAVWEAPON) . "', '" . mysql_real_escape_string(SKINT) . "', '" . mysql_real_escape_string(SKINCT) . "', 'de_dust2|de_inferno');";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -558,7 +558,7 @@
                           `pref_4` text NOT NULL,
                           `pref_5` text NOT NULL,
                           PRIMARY KEY  (`id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -574,7 +574,7 @@
                           `host` varchar(60) NOT NULL default '',
                           `comment` text NOT NULL,
                           PRIMARY KEY  (`id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -586,7 +586,7 @@
                           `text` text NOT NULL,
                           `date` varchar(30) NOT NULL default '',
                           PRIMARY KEY  (`id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -606,7 +606,7 @@
                           `broke` int(11) NOT NULL default '0',
                           PRIMARY KEY  (`id`),
                           KEY `cat` (`cat`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -621,7 +621,7 @@
                           `position` int(2) unsigned NOT NULL default '0',
                           PRIMARY KEY  (`cid`),
                           KEY `parentid` (`parentid`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -653,7 +653,7 @@
                           `dispo` text,
                           `pas_dispo` text,
                           PRIMARY KEY  (`warid`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req  =mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -668,7 +668,7 @@
                           `url` varchar(200) NOT NULL default '',
                           PRIMARY KEY  (`id`),
                           KEY `im_id` (`im_id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -681,7 +681,7 @@
                           `niveau` int(1) NOT NULL default '0',
                           `admin` int(1) NOT NULL default '0',
                           PRIMARY KEY  (`id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
                         $sql = "INSERT INTO `" . $db_prefix . "_modules` VALUES (1, 'News', 0, 2),
@@ -719,7 +719,7 @@
                           `user_id` varchar(20) NOT NULL default '',
                           `username` varchar(40) NOT NULL default '',
                           PRIMARY KEY  ( `IP` , `user_id` )
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -739,7 +739,7 @@
                           `smileyoff` int(1) NOT NULL default '0',
                           PRIMARY KEY  (`id`),
                           KEY `cat` (`cat`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die(mysql_error());
                         echo 'OK';
         break;
@@ -752,11 +752,11 @@
                           `description` text,
                           `image` text,
                           PRIMARY KEY  (`nid`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
                         $sql = "INSERT INTO `" . $db_prefix . "_news_cat` VALUES
-                            ('1', 'Counter Strike Source', '" . _BESTMOD . "', 'modules/News/images/cs.gif');";
+                            ('1', 'Counter Strike Source', '" . mysql_real_escape_string(BESTMOD) . "', 'modules/News/images/cs.gif');";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -769,12 +769,12 @@
                           `type`  text NOT NULL,
                           `texte`  text NOT NULL,
                           PRIMARY KEY  (`id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
 
                         if(ini_get('suhosin.session.encrypt') == 1){
                           $sql = "INSERT INTO `" . $db_prefix . "_notification` VALUES
-                              ('', '', '4', '"._SUHOSIN."');";
+                              ('', '', '4', '".mysql_real_escape_string(SUHOSIN)."');";
                           $req = mysql_query($sql) or die (mysql_error());
                         }
                         echo 'OK';
@@ -798,7 +798,7 @@
                           `comment` text NOT NULL,
                           PRIMARY KEY  (`id`),
                           KEY `game` (`game`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -818,7 +818,7 @@
                         `date` varchar(12) NOT NULL default '',
                         PRIMARY KEY  (`artid`),
                         KEY `secid` (`secid`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -833,7 +833,7 @@
                           `position` int(2) unsigned NOT NULL default '0',
                           PRIMARY KEY  (`secid`),
                           KEY `parentid` (`parentid`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -850,7 +850,7 @@
                           PRIMARY KEY  (`sid`),
                           KEY `game` (`game`),
                           KEY `cat` (`cat`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -862,7 +862,7 @@
                           `titre` varchar(30) NOT NULL default '',
                           `description` text NOT NULL,
                           PRIMARY KEY  (`cid`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -878,7 +878,7 @@
                           `vars` blob NOT NULL,
                           PRIMARY KEY  (`id`),
                           KEY `user_id` (`user_id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -891,7 +891,7 @@
                           `url` varchar(100) NOT NULL default '',
                           `name` varchar(100) NOT NULL default '',
                           PRIMARY KEY  (`id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
                         $sql = "INSERT INTO `" . $db_prefix . "_smilies` VALUES
@@ -918,11 +918,11 @@
                             `date` varchar(15) NOT NULL default '0',
                             `niveau` int(1) NOT NULL default '0',
                             PRIMARY KEY  (`sid`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
                         $sql = "INSERT INTO `" . $db_prefix . "_sondage` VALUES
-                            (1, '" . _LIKENK . "', '" . time() . "', 0);";
+                            (1, '" . mysql_real_escape_string(LIKENK) . "', '" . time() . "', 0);";
                         $req = mysql_query($sql);
                         echo 'OK';
         break;
@@ -935,7 +935,7 @@
                           `heurelimite` int(14) NOT NULL default '0',
                           `sid` varchar(30) NOT NULL default '',
                           KEY `sid` (`sid`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -948,14 +948,14 @@
                           `optionCount` int(11) NOT NULL default '0',
                           `voteID` int(11) NOT NULL default '0',
                           KEY `sid` (`sid`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
                         $sql = "INSERT INTO `" . $db_prefix . "_sondage_data` VALUES
-                            (1, '" . _ROXX . "', 0, 1),
-                            (1, '" . _NOTBAD . "', 0, 2),
-                            (1, '" . _SHIET . "', 0, 3),
-                            (1, '" . _WHATSNK . "', 0, 4);";
+                            (1, '" . mysql_real_escape_string(ROXX) . "', 0, 1),
+                            (1, '" . mysql_real_escape_string(NOTBAD) . "', 0, 2),
+                            (1, '" . mysql_real_escape_string(SHIET) . "', 0, 3),
+                            (1, '" . mysql_real_escape_string(WHATSNK) . "', 0, 4);";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -967,7 +967,7 @@
                           `type` varchar(50) NOT NULL default '',
                           `count` int(11) NOT NULL default '0',
                           PRIMARY KEY  (`nom`,`type`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
                         $sql = "INSERT INTO `" . $db_prefix . "_stats` VALUES
@@ -1013,7 +1013,7 @@
                             KEY `browser` (`browser`),
                             KEY `os` (`os`),
                             KEY `referer` (`referer`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -1028,7 +1028,7 @@
                           `date` varchar(14) NOT NULL default '',
                           PRIMARY KEY  (`id`),
                           KEY `user_id` (`user_id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -1042,7 +1042,7 @@
                           `texte` text,
                           `date` varchar(30) NOT NULL default '',
                           PRIMARY KEY  (`id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -1057,7 +1057,7 @@
                           `ordre` int(5) NOT NULL default '0',
                           `game` int(11) NOT NULL default '0',
                           PRIMARY KEY  (`cid`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -1069,7 +1069,7 @@
                           `titre` varchar(80) NOT NULL default '',
                           `ordre` int(5) NOT NULL default '0',
                           PRIMARY KEY  (`id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -1081,7 +1081,7 @@
                             `session_vars` text NOT NULL,
                             `session_start` bigint(20) NOT NULL,
                             PRIMARY KEY (`session_id`)
-                            ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                            ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -1099,7 +1099,7 @@
                           PRIMARY KEY  (`mid`),
                           KEY `user_from` (`user_from`),
                           KEY `user_for` (`user_for`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -1140,7 +1140,7 @@
                           KEY `team3` (`team3`),
                           KEY `rang` (`rang`),
                           KEY `game` (`game`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -1171,7 +1171,7 @@
                           `pref_4` text NOT NULL,
                           `pref_5` text NOT NULL,
                           PRIMARY KEY  (`user_id`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -1186,7 +1186,7 @@
                           `vote` int(2) default NULL,
                           PRIMARY KEY  (`id`),
                           KEY `vid` (`vid`)
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -1198,7 +1198,7 @@
                             `module` text COLLATE latin1_general_ci NOT NULL,
                             `active` int(1) NOT NULL,
                             PRIMARY KEY (`id`)
-                          ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                          ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                           $req = mysql_query($sql) or die (mysql_error());
 
                           $sql = "INSERT INTO `" . $db_prefix . "_vote_mod` VALUES
@@ -1213,7 +1213,7 @@
                           echo 'OK';
         break;
         default:
-            echo _WRONGTABLENAME;
+            echo WRONGTABLENAME;
         break;
     }
 ?>

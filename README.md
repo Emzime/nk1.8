@@ -1,1 +1,1 @@
-*Nothing to read yet !
+Nothing to read yet !

@@ -24,6 +24,7 @@ if ( defined( 'NK_ERROR_DEBUG' ) && NK_ERROR_DEBUG ) {
  * Include main librairies.
  */
 require ROOT_PATH . 'Includes/libs/NK_tpl.php';
+require ROOT_PATH . 'Includes/libs/NK_functions.php';
 require ROOT_PATH . 'Includes/libs/NK_' . $db_type .'.php';
 require ROOT_PATH . 'Includes/nkSessions.php';
 
@@ -36,6 +37,7 @@ nkTryConnect();
  */
 $GLOBALS['nuked'] = nkConstructNuked($db_prefix);
 $GLOBALS['nkTpl'] = NK_tpl::getInstance();
+$GLOBALS['nkFunctions'] = NK_functions::getInstance();
 
 // Include SQL constant tables
 include ROOT_PATH . 'Includes/constants.php';
@@ -46,10 +48,7 @@ nkSessionInit();
 
 
 /******** REQUIRE AJOUT PAR MAXXI *******/
-$nkTpl = NK_Tpl::getInstance();
-require 'Includes/libs/function.php';
-require 'Includes/libs/comment.php';
-require 'Includes/libs/rating.php';
+require ROOT_PATH . 'Includes/libs/NK_comment.php';
 
 /**
  * Try to connect, if false, display a error message.

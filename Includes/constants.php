@@ -20,8 +20,6 @@ define('COMMENT_TABLE', $nuked['prefix'] . '_comment');
 define('CONFIG_TABLE', $nuked['prefix'] . '_config');
 define('DEFY_TABLE', $nuked['prefix'] . '_defie');
 define('DEFY_PREF_TABLE', $nuked['prefix'] . '_defie_pref');
-define('DOWNLOAD_TABLE', $nuked['prefix'] . '_downloads');
-define('DOWNLOAD_CAT_TABLE', $nuked['prefix'] . '_downloads_cat');
 define('FORUM_TABLE', $nuked['prefix'] . '_forums');
 define('FORUM_CAT_TABLE', $nuked['prefix'] . '_forums_cat');
 define('FORUM_MESSAGES_TABLE', $nuked['prefix'] . '_forums_messages');
@@ -74,9 +72,14 @@ define('PAGE_TABLE', $nuked['prefix'] . '_page');
 
 
 
+
 /********* MODIF PAR MAXXI **********/
 define('COMMENT_MOD_TABLE', $nuked['prefix'] . '_comment_mod');
 define('VOTE_MOD_TABLE', $nuked['prefix'] . '_vote_mod');
+define('ACTION_TABLE', $nuked['prefix'].'_action');
+define('DOWNLOADS_TABLE', $nuked['prefix'] . '_downloads');
+define('DOWNLOADS_CAT_TABLE', $nuked['prefix'] . '_downloads_cat');
+define('DOWNLOADS_CONFIG_TABLE', $nuked['prefix'] . '_downloads_config');
 
 
 ?>

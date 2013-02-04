@@ -2,7 +2,7 @@
 
     class install{
         private $data;
-        private $array_lang = array('_ENGLISH' => 'english','_FRENCH' => 'french');
+        private $array_lang = array('ENGLISH' => 'english','FRENCH' => 'french');
         
         function __construct(){
             $this->initSession();
@@ -11,7 +11,7 @@
         }
         
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Méthodes du core, elles permettent l'affichage des pages
+        // M?thodes du core, elles permettent l'affichage des pages
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         
         private function initSession(){       
@@ -26,7 +26,7 @@
         
         private function checkLang(){
             echo '<div style="text-align: center;margin:30px auto;">
-                        <h2>'._SELECTLANG.' : </h2>
+                        <h2>'.SELECTLANG.' : </h2>
                         <form id="form_lang" name="form_lang" method="post" action="index.php?action=setLang" >
                             <select id="lang_install" name="lang_install" onChange="renameButton();">';
             if(!isset($this->data['lang_install'])){
@@ -43,7 +43,7 @@
                 echo '>'.constant($k).'</option>';
             }
             echo '         </select><br/><br/>
-                            <a href="#" style="display:inline-block;margin-top:30px;" class="button" id="button" onclick="document.forms[\'form_lang\'].submit();" >'._SUBMIT.'</a>
+                            <a href="#" style="display:inline-block;margin-top:30px;" class="button" id="button" onclick="document.forms[\'form_lang\'].submit();" >'.SUBMIT.'</a>
                         </form>
                     </div>
                     <script type="text/javascript" >
@@ -71,8 +71,8 @@
             }
             global $global,$dbprefix;
             echo '<div style="text-align: center;margin:30px auto;">
-                        <h2>'._WELCOMEINSTALL.'</h2>
-                        <p>'._GUIDEINSTALL.'</p>';
+                        <h2>'.WELCOMEINSTALL.'</h2>
+                        <p>'.GUIDEINSTALL.'</p>';
             if(is_file('../conf.inc.php')){
                 define('INDEX_CHECK', '');
                 if(is_file('../Includes/version.php')){
@@ -88,29 +88,29 @@
                
                 $_SESSION['version'] = $this->checkVersion($version);               
                 echo '<h3 style="background:#ECEADB;width:60%;padding:5px;border:1px solid #ddd;margin:20px auto;" >
-                            '._DETECTUPDATE.' '.$_SESSION['version']['print'].' '._DETECTUPDATEEND.'
+                            '.DETECTUPDATE.' '.$_SESSION['version']['print'].' '.DETECTUPDATEEND.'
                         </h3>';
                 if($this->validVersion($_SESSION['version'])){
-                    echo '<a href="index.php?action=main&amp;type=update" class="button" >'._STARTUPDATE.'</a>';
+                    echo '<a href="index.php?action=main&amp;type=update" class="button" >'.STARTUPDATE.'</a>';
                 }
                 else{
-                    echo '<p>'._BADVERSION.'</p>';
+                    echo '<p>'.BADVERSION.'</p>';
                 }
                 echo '</div>';
             }
             else{
-                echo '<a href="index.php?action=main&amp;type=install" class="button" >'._STARTINSTALL.'</a>
+                echo '<a href="index.php?action=main&amp;type=install" class="button" >'.STARTINSTALL.'</a>
                         </div>';
             }
         }
         
         private function checkCompatibility(){
             echo '<div style="text-align: center;margin:30px auto;">
-                        <h3 style="margin-bottom:5px;" >'. _CHECKCOMPATIBILITYHOSTING .'</h3>
+                        <h3 style="margin-bottom:5px;" >'. CHECKCOMPATIBILITYHOSTING .'</h3>
                         <table style="width:500px;margin:15px auto;border:1px solid #ddd;text-align:left;background:#fff;" cellpadding="3">
                             <tr>
-                                <td style="width:80%;"><b>'._COMPOSANT.'</b></td>
-                                <td style="width:20%;text-align:center;"><b>'._COMPATIBILITY.'</b></td>';
+                                <td style="width:80%;"><b>'.COMPOSANT.'</b></td>
+                                <td style="width:20%;text-align:center;"><b>'.COMPATIBILITY.'</b></td>';
             $array_requirements = $this->requirements();
             $i=0;
             foreach($array_requirements as $k => $v){
@@ -127,7 +127,7 @@
                 }
                 echo '>
                                 <td>'.constant($k).'</td>
-                                <td style="text-align:center;"><img src='.$src.' alt="" />
+                                <td style="text-align:center;"><img src='.$src.' alt="" /></td>
                             </tr>';
                 if($v == 3 || $v == 2){
                     $class_error = $v == 2 ? 'warning' : 'error';
@@ -139,12 +139,12 @@
             echo '</table>';            
             $compatibility = (in_array(3, $array_requirements) || in_array(3, $array_requirements)) ? false : true;
             if($compatibility === true){                
-                echo '<a href="index.php?action=checkStats" class="button" >'._CONTINUE.'</a>
+                echo '<a href="index.php?action=checkStats" class="button" >'.PROCEED.'</a>
                     </div>';
             }
             else{
-                echo '<p>'._BADHOSTING.'</p>
-                        <a href="index.php?action=checkStats" class="button" >'._FORCE.'</a>
+                echo '<p>'.BADHOSTING.'</p>
+                        <a href="index.php?action=checkStats" class="button" >'.FORCE.'</a>
                         </div>';
             }
         }
@@ -152,11 +152,11 @@
         private function checkStats(){
             $checked = isset($this->data['stats']) && $this->data['stats'] === false ? '' : 'checked="checked" ';
             echo '<div style="text-align: center;margin:30px auto;">
-                        <h3 style="margin-bottom:30px;" >'._SELECTSTATS.'</h3>
-                        '._TXTSTATS.'
+                        <h3 style="margin-bottom:30px;" >'.SELECTSTATS.'</h3>
+                        '.TXTSTATS.'
                         <form action="index.php?action=setStats" method="post" id="form_stats" >
-                            <label><input type="checkbox" name="conf_stats" '.$checked.' style="margin-top:20px;" />&nbsp; '._CONFIRMSTATS.'</label>
-                            <br/><a href="#" style="margin-top:20px;" class="button" onclick="document.forms[\'form_stats\'].submit();" >'._CONFIRM.'</a>
+                            <label><input type="checkbox" name="conf_stats" '.$checked.' style="margin-top:20px;" />&nbsp; '.CONFIRMSTATS.'</label>
+                            <br/><a href="#" style="margin-top:20px;" class="button" onclick="document.forms[\'form_stats\'].submit();" >'.CONFIRM.'</a>
                         </form>
                     </div>';
         }
@@ -178,9 +178,9 @@
         
         private function checkSave(){
             echo '<div style="text-align: center;margin:30px auto;">
-                        <h3 style="margin-bottom:30px;" >'._SELECTSAVE.'</h3>
-                        <a href="index.php?action=makeSave" style="margin-top:20px;" class="button" >'._TOSAVE.'</a>
-                        <a href="index.php?action=checkTypeInstall" class="button" >'._NOTHANKS.'</a>
+                        <h3 style="margin-bottom:30px;" >'.SELECTSAVE.'</h3>
+                        <a href="index.php?action=makeSave" style="margin-top:20px;" class="button" >'.TOSAVE.'</a>
+                        <a href="index.php?action=checkTypeInstall" class="button" >'.NOTHANKS.'</a>
                     </div>';
             $_SESSION['db_save'] = 'no';
         }
@@ -188,13 +188,13 @@
         private function makeSave(){
                 $_SESSION['db_save'] = 'yes';
                 echo '<div style="text-align: center;margin:30px auto;">
-                        <h3 style="margin-bottom:30px;" >'._DBSAVED.'</h3>
-                        <p>'._DBSAVEDTXT.'</p>
+                        <h3 style="margin-bottom:30px;" >'.DBSAVED.'</h3>
+                        <p>'.DBSAVEDTXT.'</p>
                         <p>
-                            <a href="index.php?action=createBackupBdd" target="_blank">'._SAVE.'</a>
+                            <a href="index.php?action=createBackupBdd" target="_blank">'.SAVE.'</a>
                         </p>
                         <p>
-                            <a href="index.php?action=checkTypeInstall" class="button" >'._CONTINUE.'</a>
+                            <a href="index.php?action=checkTypeInstall" class="button" >'.PROCEED.'</a>
                         </p>
                     </div>';
         }
@@ -211,15 +211,15 @@
                 }
             }
             if($this->data['type'] == 'install'){
-                $speed = _INSTALLSPEED;
-                $assist = _INSTALLASSIST;
+                $speed = INSTALLSPEED;
+                $assist = INSTALLASSIST;
             }
             elseif($this->data['type'] == 'update'){
-                $speed = _UPDATESPEED;
-                $assist = _UPDATEASSIST;
+                $speed = UPDATESPEED;
+                $assist = UPDATEASSIST;
             }
             echo '<div style="text-align: center;margin:30px auto;">
-                        <h3 style="margin-bottom:30px;" >'. _CHECKTYPEINSTALL .'</h3>
+                        <h3 style="margin-bottom:30px;" >'. CHECKTYPEINSTALL .'</h3>
                             <a href="index.php?action=checkTypeInstall&amp;assist='.$this->data['type'].'speed" class="button" >'.$speed.'</a>
                             <a href="index.php?action=checkTypeInstall&amp;assist='.$this->data['type'].'assist" class="button" >'.$assist.'</a> 
                     </div>';
@@ -227,7 +227,7 @@
         
         private function setConfig(){
             if($this->data['type'] == 'update'){
-                $type = _UPDATESPEED;
+                $type = UPDATESPEED;
                 include('../conf.inc.php');
                 $host = $global['db_host'];
                 $user = $global['db_user'];
@@ -236,19 +236,19 @@
                 $prefix = $db_prefix;
             }
             elseif($this->data['type'] == 'install'){
-                $type = _INSTALLSPEED;
+                $type = INSTALLSPEED;
                 $host = $user = $name = $pass = '';
                 $prefix = 'nuked';
             }
             echo '<div style="text-align: center;margin:30px auto;">
                         <h2>'.$type.'</h2>
                         <form method="post" action="index.php?action=installDB" id="form_config">
-                            <h4>' . _CONFIG . '</h4>
+                            <h4>' . CONFIG . '</h4>
                             <div id="config" >';
                             $array_fields = array('host', 'user', 'pass', 'prefix', 'name');
                             foreach($array_fields as $k){
                                 echo '<label>
-                                            <strong>'.constant('_DB'.strtoupper($k)).'</strong>
+                                            <strong>'.constant('DB'.strtoupper($k)).'</strong>
                                             <input type="';
                                 echo $k == 'pass' ? 'password" autocomplete="off"' : 'text"';
                                 if($this->data['type'] == 'update' && $k != 'pass'){
@@ -260,8 +260,8 @@
             echo '</div>
                             <div id="infos" style="text-align: center;margin:30px auto;color:#FF4040;"></div>
                             <div style="text-align: center;">
-                                <a href="#" id="submit" class="button" onclick="verifFormBDD(\''.$this->data['type'].'\', \'form_config\', \''.addslashes(_WAIT).'\', \''.addslashes(_ERROR_HOST).'\', \''.addslashes(_ERROR_USER).'\', \''.addslashes(_ERROR_DB).'\', \''.addslashes(_ERROR_PREFIX).'\');"  >' . _SUBMIT . '</a>
-                                <a href="index.php?action=checkTypeInstall" class="button" >' . _BACK . '</a>
+                                <a href="#" id="submit" class="button" onclick="verifFormBDD(\''.$this->data['type'].'\', \'form_config\', \''.addslashes(WAIT).'\', \''.addslashes(ERRORHOST).'\', \''.addslashes(ERRORUSER).'\', \''.addslashes(ERRORDB).'\', \''.addslashes(ERRORPREFIX).'\');"  >' . SUBMIT . '</a>
+                                <a href="index.php?action=checkTypeInstall" class="button" >' . BACK . '</a>
                             </div>
                         </form>
                     </div>';
@@ -271,7 +271,7 @@
             $page = isset($_REQUEST['page']) ? $_REQUEST['page'] : null;
             if($page == 'set'){
                 if($this->data['type'] == 'update'){
-                    $type = _UPDATEASSIST;
+                    $type = UPDATEASSIST;
                     include('../conf.inc.php');
                     $host = $global['db_host'];
                     $user = $global['db_user'];
@@ -280,19 +280,19 @@
                     $prefix = $db_prefix;
                 }
                 elseif($this->data['type'] == 'install'){
-                    $type = _INSTALLASSIST;
+                    $type = INSTALLASSIST;
                     $host = $user = $name = $pass = '';
                     $prefix = 'nuked';
                 }
                 echo '<div style="text-align: center;">
                         <h2>'.$type.'</h2>
                         <form method="post" action="index.php?action=installDB" id="form_config">
-                            <h4>' . _CONFIG . '</h4>
+                            <h4>' . CONFIG . '</h4>
                             <div id="config" >';
                             $array_fields = array('host', 'user', 'pass', 'prefix', 'name');
                             foreach($array_fields as $k){
                                 echo '<label>
-                                            <strong>'.constant('_DB'.strtoupper($k)).'</strong>
+                                            <strong>'.constant('DB'.strtoupper($k)).'</strong>
                                             <input type="';
                                 echo $k == 'pass' ? 'password" autocomplete="off"' : 'text"';
                                 if($this->data['type'] == 'update' && $k != 'pass'){
@@ -300,14 +300,14 @@
                                 }
                                 echo ' name="db_'.$k.'" id="form_bdd_'.$k.'"  value="'.${$k}.'" onblur="checkInputBDD($(this));" />
                                             </label>
-                                            <p><img src="images/info.png" style="float:left;margin-right:5px;" />'.constant('_INSTALLDB'.strtoupper($k)).'</p>';
+                                            <p><img src="images/info.png" style="float:left;margin-right:5px;" />'.constant('INSTALLDB'.strtoupper($k)).'</p>';
                             }
                 echo '</div>
                             <div id="infos" style="text-align: center;margin:30px auto;color:#FF4040;"></div>
                             <div style="text-align: center;">
-                                <a href="#" id="submit" class="button" onclick="verifFormBDD(\''.$this->data['type'].'\', \'form_config\', \''.addslashes(_WAIT).'\', \''.addslashes(_ERROR_HOST).'\', \''.addslashes(_ERROR_USER).'\', \''.addslashes(_ERROR_DB).'\', \''.addslashes(_ERROR_PREFIX).'\');"  >' . _SUBMIT . '</a>';
+                                <a href="#" id="submit" class="button" onclick="verifFormBDD(\''.$this->data['type'].'\', \'form_config\', \''.addslashes(WAIT).'\', \''.addslashes(ERRORHOST).'\', \''.addslashes(ERRORUSER).'\', \''.addslashes(ERRORDB).'\', \''.addslashes(ERRORPREFIX).'\');"  >' . SUBMIT . '</a>';
                 if($page == 'set'){
-                    echo '<a href="index.php?action=checkTypeInstall" class="button" >' . _BACK . '</a>';
+                    echo '<a href="index.php?action=checkTypeInstall" class="button" >' . BACK . '</a>';
                 }
                 echo '</div>
                         </form>
@@ -316,10 +316,10 @@
             else{
                 echo '<div style="text-align:center;">
                                 <img src="images/nk.png"/>
-                                <h2><b>'. _NEWNK179.'</b></h2>
+                                <h2><b>'. NEWNK179.'</b></h2>
                             </div>
                             <div style="width:90%;margin: 20px auto;">';                            
-                $array_infos = array('_SECURITE', '_OPTIMISATION', '_ADMINISTRATION', '_BANTEMP', '_SHOUTBOX', '_ERRORSQL', '_MULTIWARS', '_COMSYS', '_EDITWYS', '_CONT', '_ERREURPASS', '_DIFFMODIF');
+                $array_infos = array('SECURITE', 'OPTIMISATION', 'ADMINISTRATION', 'BANTEMP', 'SHOUTBOX', 'ERRORSQL', 'MULTIWARS', 'COMSYS', 'EDITWYS', 'CONT', 'ERREURPASS', 'DIFFMODIF');
                 foreach($array_infos as $k){
                     echo '<p>
                                     <b>'.constant($k).':</b>
@@ -330,7 +330,7 @@
                 }                
                 echo '</div>
                             <div style="text-align: center;">
-                                <a href="index.php?action=setConfigAssistant&page=set" class="button" >' . _CONTINUE . '</a>
+                                <a href="index.php?action=setConfigAssistant&page=set" class="button" >' . PROCEED . '</a>
                             </div>';
             }
         }
@@ -342,11 +342,11 @@
                 $_SESSION['pass'] = $_REQUEST['db_pass'];
                 $_SESSION['db_name'] = $_REQUEST['db_name'];
                 $db_prefix = $_SESSION['db_prefix'] = $_REQUEST['db_prefix'];
-                $array_text = array( _LOGITXTSUCCESS);
-                $error = _LOGITXTERROR;
-                $complete = _LOGITXTENDSUCCESS;
-                $complete_error_start = _LOGITXTENDERRORSTART;
-                $complete_error_end = _LOGITXTENDERROREND;
+                $array_text = array( LOGITXTSUCCESS);
+                $error = LOGITXTERROR;
+                $complete = LOGITXTENDSUCCESS;
+                $complete_error_start = LOGITXTENDERRORSTART;
+                $complete_error_end = LOGITXTENDERROREND;
             }
             elseif($this->data['type'] == 'update'){
                 unset($_SESSION['hash']);
@@ -356,16 +356,16 @@
                 $_SESSION['pass'] = $_REQUEST['db_pass'];
                 $_SESSION['db_name'] = $global['db_name'];
                 $_SESSION['db_prefix'] = $db_prefix;
-                $array_text = array( _LOGUTXTSUCCESS, _LOGUTXTUPDATE, _LOGUTXTUPDATE2, _LOGUTXTREMOVE, _LOGUTXTREMOVE2);
-                $error = _LOGUTXTERROR;
-                $complete = _LOGUTXTENDSUCCESS;
-                $complete_error_start = _LOGUTXTENDERRORSTART;
-                $complete_error_end = _LOGUTXTENDERROREND;
+                $array_text = array( LOGUTXTSUCCESS, LOGUTXTUPDATE, LOGUTXTUPDATE2, LOGUTXTREMOVE, LOGUTXTREMOVE2);
+                $error = LOGUTXTERROR;
+                $complete = LOGUTXTENDSUCCESS;
+                $complete_error_start = LOGUTXTENDERRORSTART;
+                $complete_error_end = LOGUTXTENDERROREND;
             }
             echo '<div style="text-align: center;"><h2>';
-            echo $this->data['type'] == 'install' ? _CREATEDB : _UPDATEDB;
+            echo $this->data['type'] == 'install' ? CREATEDB : UPDATEDB;
             echo '</h2>
-                    <div id="log_install" >'._WAITING.'</div>
+                    <div id="log_install" >'.WAITING.'</div>
                     <div id="progress" class="progress-bar-bg">
                     <span class="progress-bar" ></span></div>
                     <script type="text/javascript">
@@ -373,7 +373,7 @@
                         function start_'.$this->data['type'].'(){
                             if(busy == false){
                                 busy = true;
-                                $("#log_install").text("'.constant('_STARTING'.strtoupper($this->data['type'])).'");
+                                $("#log_install").html("'.constant('STARTING'.strtoupper($this->data['type'])).'").text;
                                 $("#log_install").append("<img src=\"images/loading.gif\" alt=\"\" id=\"loading_img\" />");
                                 $("#continue_install").removeClass("button");
                                 $("#continue_install").addClass("button_disabled");
@@ -394,7 +394,7 @@
                                 }
                                 else{
                                     writeInfo("'.$this->data['type'].'", "'.$db_prefix.'", table, "'.$error.'", "NO");errors++;
-                                    writeError("'._PRINTERROR.'", txt);
+                                    writeError("'.PRINTERROR.'", txt);
                                 }                                  
                                 $("#log_install").scrollTop(1000);
                                 ajaxBusy = false;
@@ -403,19 +403,19 @@
                         function viewEnd(){
                             if(errors == 0){
                                 txt_end = "'.$complete.'";
-                                $("#continue_install").text("' . _CONTINUE . '");
+                                $("#continue_install").text("' . PROCEED . '");
                                 install = true;
                             }
                             else{
                                 txt_end = "'.$complete_error_start.'"+errors+"'.$complete_error_end.'";
-                                $("#continue_install").text("' . _RETRY . '");
+                                $("#continue_install").html("' . RETRY . '").text;
                             }
                             writeComplete(txt_end);
                             $("#continue_install").removeClass("button_disabled");
                             $("#continue_install").addClass("button");
                         }
                     </script>';
-            echo '<a href="#" class="button" id="continue_install" onclick="submit(\''.$this->data['type'].'\')" >' . _START . '</a>
+            echo '<a href="#" class="button" id="continue_install" onclick="submit(\''.$this->data['type'].'\')" >' . START . '</a>
                     </div>';
         }
                 
@@ -443,9 +443,9 @@
                     || strlen($_REQUEST['pseudo']) < 3 || $_REQUEST['pass'] != $_REQUEST['pass2'] || preg_match("`[\$\^\(\)'\"?%#<>,;:]`", $_REQUEST['pseudo'])
                     || !preg_match("/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/", $_REQUEST['mail']) ){
                     echo '<div style="text-align: center;margin:30px auto;">
-                            <h2>'._CHECKUSERADMIN.'</h2>
-                            <p>'._ERRORFIELDS.'</p>
-                            <a href="index.php?action=checkUserAdmin" class="button" >' . _BACK . '</a>
+                            <h2>'.CHECKUSERADMIN.'</h2>
+                            <p>'.ERRORFIELDS.'</p>
+                            <a href="index.php?action=checkUserAdmin" class="button" >' . BACK . '</a>
                             </div>';
                 }
                 else{
@@ -464,7 +464,7 @@
             }
             else{
                 echo '<div style="text-align: center;margin:30px auto;">
-                        <h2>'._CHECKUSERADMIN.'</h2>';
+                        <h2>'.CHECKUSERADMIN.'</h2>';
             }
             if(!isset($_REQUEST['send'])){
                 echo '<form method="post" action="index.php?action=checkUserAdmin" id="form_user_admin">
@@ -472,7 +472,7 @@
                                 $array_fields = array('pseudo', 'pass', 'pass2', 'mail');
                                 foreach($array_fields as $k){
                                     echo '<label>
-                                                <strong>'.constant('_'.strtoupper($k)).'</strong>
+                                                <strong>'.constant(strtoupper($k)).'</strong>
                                                 <input type="';
                                     echo (($k == 'pass') || ($k == 'pass2')) ? 'password' : 'text';
                                     echo '" name="'.$k.'" value="" onblur="checkInputAdmin($(this));" />
@@ -482,7 +482,7 @@
                                 <input type="hidden" name="send" value="ok" />
                                 <div id="infos" style="text-align: center;margin:30px auto;color:#FF4040;"></div>
                                 <div style="text-align: center;margin:30px auto;">
-                                    <a href="#" class="button" onclick="verifFormAdmin(\'form_user_admin\',  \''.addslashes(_WAIT).'\', \''.addslashes(_ERROR_PSEUDO).'\', \''.addslashes(_ERROR_PASS).'\', \''.addslashes(_ERROR_PASS2).'\',  \''.addslashes(_ERROR_MAIL).'\');"  >' . _SUBMIT . '</a>
+                                    <a href="#" class="button" onclick="verifFormAdmin(\'form_user_admin\',  \''.addslashes(WAIT).'\', \''.addslashes(ERRORPSEUDO).'\', \''.addslashes(ERRORPASS).'\', \''.addslashes(ERRORPASS2).'\',  \''.addslashes(ERRORMAIL).'\');"  >' . SUBMIT . '</a>
                                 </div>
                             </form>
                         </div>';
@@ -504,37 +504,37 @@
             $_SESSION['user_admin'] = 'FINISH';
             $error = isset($_REQUEST['error']) ? $_REQUEST['error'] : '';
             echo '<div style="text-align: center;margin:30px auto;">
-                        <h2>'._ERROR.'</h2>
-                        <p>'.constant('_'.$error).'</p>';
+                        <h2>'.ERROR.'</h2>
+                        <p>'.constant(''.$error).'</p>';
             if($error == 'CONF.INC' || $error == 'COPY'){                
                 echo '<div id="log_install">';
                 if(isset($_SESSION['content_web'])){
                     echo $_SESSION['content_web'];
-                    echo '</div><p>'.constant('_'.$error.'2').'</p>';
+                    echo '</div><p>'.constant(''.$error.'2').'</p>';
                     
                 }
                 else{
-                    echo _ERRORGENERATECONFINC;
+                    echo ERRORGENERATECONFINC;
                     echo '</div>';
                 }                
             }
             if(isset($_SESSION['content_web']) && $error != 'CHMOD'){
-                echo '<a href="index.php?action=printConfig" class="button" >'._DOWNLOAD.'</a>&nbsp;';
+                echo '<a href="index.php?action=printConfig" class="button" >'.DOWNLOAD.'</a>&nbsp;';
             }
             else{
-                echo '<a href="index.php?action=checkUserAdmin" class="button" >'._BACK.'</a>&nbsp;';
+                echo '<a href="index.php?action=checkUserAdmin" class="button" >'.BACK.'</a>&nbsp;';
             }
             if(isset($_SESSION['content_web'])){
-                echo '<a href="index.php?action=checkInstallSuccess" class="button" >' . _CONTINUE . '</a>
+                echo '<a href="index.php?action=checkInstallSuccess" class="button" >' . PROCEED . '</a>
                         </div>';
             }
         }
         
         private function checkInstallSuccess(){
             echo '<div style="text-align: center;margin:30px auto;">
-                        <h2>'._INSTALLSUCCESS.'</h2>
-                        <p>'._INFOPARTNERS.'</p>
-                        <div id="partners" ><img src="images/loading.gif" alt="" /><br/>'._WAIT.'</div>';
+                        <h2>'.INSTALLSUCCESS.'</h2>
+                        <p>'.INFOPARTNERS.'</p>
+                        <div id="partners" ><img src="images/loading.gif" alt="" /><br/>'.WAIT.'</div>';
             echo '<script type="text/javascript" >
                             function ajaxPartners(){
                                 $.ajax({
@@ -550,7 +550,7 @@
                             $(document).ready(ajaxPartners());
                         </script>';
                         
-            echo '<a href="index.php?action=deleteSession" class="button" >' . _ACCESS_SITE . '</a>
+            echo '<a href="index.php?action=deleteSession" class="button" >' . ACCESSSITE . '</a>
                     </div>';
         }
         
@@ -564,7 +564,7 @@
                 $i++;
             }
             if($i == 0){
-                echo _NOPARTNERS;
+                echo NOPARTNERS;
             }
         }
         
@@ -581,7 +581,7 @@
         }
         
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Méthodes de services, appelées pour effectuer une tâche précise
+        // METHODES DE SERVICES, APPELEES POUR EFFECTUER UNE TACHE PRECISE
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         
         private function importLang(){
@@ -645,14 +645,14 @@
 
         private function requirements(){
             $array_requirements = array();
-            $array_requirements['_PHPVERSION'] = version_compare(phpversion() > 0, '5.1') ? 1 : 3;
-            $array_requirements['_MYSQLEXT'] = extension_loaded('mysql') ? 1 : 3;
-            $array_requirements['_SESSIONSEXT'] = extension_loaded('session') ? 1 : 3;
-            $array_requirements['_ZIPEXT'] = extension_loaded('zip') ? 1 : 3;
-            $array_requirements['_FILEINFOEXT'] = extension_loaded('fileinfo') ? 1 : 2;
-            $array_requirements['_HASHEXT'] = function_exists('hash') ? 1 : 3;
-            $array_requirements['_GDEXT'] = extension_loaded('gd') ? 1 : 3;
-            $array_requirements['_TESTCHMOD'] = is_writable(dirname(dirname(__FILE__)).'/') ? 1 : 3;
+            $array_requirements['PHPVERSION'] = version_compare(phpversion() > 0, '5.1') ? 1 : 3;
+            $array_requirements['MYSQLEXT'] = extension_loaded('mysql') ? 1 : 3;
+            $array_requirements['SESSIONSEXT'] = extension_loaded('session') ? 1 : 3;
+            $array_requirements['ZIPEXT'] = extension_loaded('zip') ? 1 : 3;
+            $array_requirements['FILEINFOEXT'] = extension_loaded('fileinfo') ? 1 : 2;
+            $array_requirements['HASHEXT'] = function_exists('hash') ? 1 : 3;
+            $array_requirements['GDEXT'] = extension_loaded('gd') ? 1 : 3;
+            $array_requirements['TESTCHMOD'] = is_writable(dirname(dirname(__FILE__)).'/') ? 1 : 3;
             return $array_requirements;
         }
         
@@ -742,15 +742,15 @@
         }
         
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Méthodes d'affichage, appelées pour effectuer la mise en page
+        // METHODES D'AFFICHAGE, APPELEES POUR EFFECTUER LA MISE EN PAGE
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         
         static function viewTop(){
-            echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-                    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+            echo '<!DOCTYPE html>
+                    <html lang="fr">
                         <head>
-                            <title>Installation de Nuked-klan</title>
-                            <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+                            <title>'.DISCOVERY.'</title>
+                            <meta charset="UTF-8" />
                             <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
                             <script type="text/javascript" src="jquery-1.7-min.js" ></script>
                             <script type="text/javascript" src="script.js" ></script>
@@ -765,20 +765,20 @@
         
         private function navigation(){
             echo '<div id="navigation" >';
-            $array_menu = array('lang_install' => _SELECTLANG, 'type' => _SELECTTYPE, 'stats' => _SELECTSTATS, 'db_save' => _SELECTSAVE, 'assist' => _CHECKTYPEINSTALL, 'user_admin' => _CHECKUSERADMIN);
+            $array_menu = array('lang_install' => SELECTLANG, 'type' => SELECTTYPE, 'stats' => SELECTSTATS, 'db_save' => SELECTSAVE, 'assist' => CHECKTYPEINSTALL, 'user_admin' => CHECKUSERADMIN);
             if(isset($this->data)){
                 $i = 0;
                 foreach($this->data as $k => $v){
                     $a = isset($array_menu[$k]) ? $array_menu[$k] : null;
                     if($a !== null){
                         if($i > 0)  echo '<hr style="margin:0 auto;width:80%;" />';
-                        echo '<p style="margin:5px auto;"><span class="link_nav">'.$a.'</span><br/><span>'.constant('_'.strtoupper($this->data[$k])).'<span></p>';
+                        echo '<p style="margin:5px auto;"><span class="link_nav">'.$a.'</span><br/><span>'.constant(strtoupper($this->data[$k])).'</span></p>';
                         $i++;
                     }
                 }
                 if(isset($_REQUEST['action'])){
                     if($_REQUEST['action'] != 'checkInstallSuccess'){
-                        echo '<a href="index.php?action=resetSession" id="reset" class="button" >' . _RESETSESSION . '</a>';
+                        echo '<a href="index.php?action=resetSession" id="reset" class="button" >' . RESETSESSION . '</a>';
                     }
                 }
             }
@@ -795,23 +795,23 @@
                     <div style="width:580px;overflow:hidden;margin:auto;">';                    
                         switch($step){
                             case'1':
-                            $a = '_DISCOVERY';
+                            $a = 'DISCOVERY';
                             break;
                             case'2':
-                            $a = '_NEWSADMIN';
+                            $a = 'NEWSADMIN';
                             break;
                             case'3':
-                            $a = '_INSTALL_AND_UPDATE';
+                            $a = 'INSTALLANDUPDATE';
                             break;
                             case'4':
-                            $a = '_COMMUNAUTY_NK';
+                            $a = 'COMMUNAUTYNK';
                             break;
                         }                        
                         echo '<div id="slide'.$step.'" style="display:block;width:580px;">
                                     <h2>'.constant($a).'</h2>
                                     <p>
                                         <img src="images/img_slide_0'.$step.'.png" alt="" style=" float:right;" width="200" height="194" />
-                                        '.constant($a.'_DESCR').'
+                                        '.constant($a.'DESCR').'
                                     </p>
                                 </div>                        
                     </div>';

@@ -98,18 +98,17 @@ class NK_tpl {
         return $this->nkContentTag('div', $content, $classes, $id);
     }
 
-
     /**
      * Exit after a display error on a tag.
      * @param string $content : text to display 
      * @param string $url : url for back button
      * @ return string to display, back button and exit function
      */
-    public function nkExitAfterError($content, $url = null){
-        $return = $this->nkDisplayError($content, 'nkError', true);
-        $return .= $this->nkHistoryBack($url);
-        $return .= adminfoot();
-        exit($return);
+    public function nkExitAfterError($content, $class = 'nkCenter', $url = null){
+
+        echo $this->nkDisplayError($content, $class, true);
+        adminfoot();
+        exit();
     }
 
     /**
@@ -117,9 +116,9 @@ class NK_tpl {
      * @param string $url : url for back button
      * @ return informed that the member does not have the required level
      */
-    public function nkBadLevel($url) {
+    public function nkBadLevel($url=null) {
         $return = $this->nkDisplayError(NOENTRANCE, 'nkError', true);
-        $return .= $this->nkHistoryBack($url);
+        $return .= $GLOBALS['nkTpl']->nkContentTag('div', $GLOBALS['nkFunctions']->nkHistoryBack(), 'nkError nkCenter margin-bottom');
         return($return);
     }
 
@@ -131,19 +130,8 @@ class NK_tpl {
      */
     public function nkModuleOff($url) {
         $return = $this->nkDisplayError(MODULEOFF, 'nkError', true);
-        $return .= $this->nkHistoryBack($url);
+        $return .= $GLOBALS['nkFunctions']->nkHistoryBack($url);
         return($return);
-    }
-
-
-    /**
-     * Return to previous page.
-     * @param string $url : url for back button
-     * @ return back button
-     */
-    public function nkHistoryBack($url=null){ 
-        $referer = !isset($url) ? $_SERVER['HTTP_REFERER'] : $url;
-        return('<a href="'.$referer.'">'.BACK.'</a>');    
     }
 
 
@@ -157,45 +145,9 @@ class NK_tpl {
         $visiteur = $user ? $user[1] : 0;
 
         if ($visiteur == 0) {             
-            return($this->nkDisplayError('<h1>'.USERENTRANCE.'</h1><a href="index.php?file=User&amp;op=login_screen">'.TOLOG.'</a>&nbsp;'.$pipe.'&nbsp;<a href="index.php?file=User&amp;op=reg_screen">'.REGISTERUSER, 'error_nk', true));
+            return($this->nkDisplayError('<h1>'.USERENTRANCE.'</h1><a href="index.php?file=User&amp;op=login_screen">'.TOLOG.'</a>&nbsp;'.$pipe.'&nbsp;<a href="index.php?file=User&amp;op=reg_screen">'.REGISTERUSER, 'nkError', true));
         }
-    }
-
-
-    /**
-     * Fonction pour afficher le menu                               
-     * @param $arrayMenu    -> Liens du menu                        
-     * @param $module       -> Nom du module à interroger           
-     * @param $separator1   -> séparateur ouvrant ex: [  
-     * @param $separator2   -> séparateur fermant ex: ]   
-     * @param $pipe         -> séparateur entre lien ex: |  
-     * @ return a menu for module administration
-    **/
-    public function nkMenu($module, $arrayMenu, $separator1 = null, $separator2 = null, $pipe = null) {
-
-        echo'<nav id="'.$module.'_menuNav" class="globalMainNav">
-                <ul>'.$separator1.'&nbsp;';
-
-                $i = 0;
-                foreach($arrayMenu as $key => $arrayLink) {
-                    if($i>0) echo '&nbsp;'.$pipe.'&nbsp;';
-                    echo '<li>';
-                    if($arrayLink[2] == 'selected') {
-                        echo $arrayLink[0];
-                    }
-                    else{
-                        echo '<a href="'.$arrayLink[1].'" >'.$arrayLink[0].'</a>';
-                    }            
-                    echo '</li>';
-                    $i++;
-                }
-            
-        echo'   &nbsp;'.$separator2.'
-                </ul>
-            </nav>';
-    }
-
-    
+    }   
 }
 
 // Test generator

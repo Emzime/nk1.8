@@ -10,7 +10,7 @@
 
 if (!defined("INDEX_CHECK")) exit('You can\'t run this file alone.');
 
-//réglage captcha (auto | on | off)
+//rÃ©glage captcha (auto | on | off)
 define("NKCAPTCHA","auto");
 if (isset($_SESSION['captcha'])){
 	$GLOBALS['nkCaptchaCache'] = $_SESSION['captcha'];

@@ -11,66 +11,110 @@ if (!defined("INDEX_CHECK")){
 	exit('You can\'t run this file alone.');
 }
 
+
+
 function affich_block_login($blok){
-    global $user, $nuked, $bgcolor3, $bgcolor1 ;
+    global $user, $nuked;
 
     list($login, $messpv, $members, $online, $avatar) = explode('|', $blok['content']);
-    $blok['content'] = '';
+    
+ 
+    $blok['content'] = '<div class="nkBlockLogin">';
 
 	$c = 0;
 	
 	if($login != 'off'){
 		if (!$user){
-			$blok['content'] = '<form action="index.php?file=User&amp;nuked_nude=index&amp;op=login" method="post">'."\n"
-			. '<table style="margin-left: auto;margin-right: auto;text-align: left;">'."\n"
-			. '<tr><td>' . _NICK . ' :</td><td><input type="text" name="pseudo" size="10" maxlength="250" /></td></tr>'."\n"
-			. '<tr><td>' . _PASSWORD . ' :</td><td><input type="password" name="pass" size="10" maxlength="15" /></td></tr>'."\n"
-			. '<tr><td colspan="2"><input type="checkbox" class="checkbox" name="remember_me" value="ok" checked="checked" />&nbsp;' . _SAVE . '</td></tr>'."\n"
-			. '<tr><td colspan="2" align="center"><input type="submit" value="' . _BLOGIN . '" /></td></tr>'."\n"
-			. '<tr><td colspan="2"><a href="index.php?file=User&amp;op=reg_screen">' . _REGISTER . '</a><br />'."\n"
-			. '<a href="index.php?file=User&amp;op=oubli_pass">' . _FORGETPASS . '</a> ?</td></tr></table></form>'."\n";
+			$blok['content'] .= '<form action="index.php?file=User&amp;nuked_nude=index&amp;op=login" method="post">
+									<div>
+										<label for="BlockLoginPseudo">'.PSEUDO.' : </label>
+											<input id="BlockLoginPseudo" class="nkInput" type="text" name="pseudo" size="10" maxlength="250" />
+									</div>
+									<div>
+										<label for="BlockLoginPassword">'.PASSWORD.' : </label>
+											<input id="BlockLoginPassword" class="nkInput" type="password" name="pass" size="10" maxlength="15" />
+									</div>';																		
+			$blok['content'] .= 	$GLOBALS['nkFunctions']->nkCheckBox('remember_me', 'Remember', 'BlockLoginRememberId', 'BlockLoginRemember', REMEMBERME, 'ok', true);
+			$blok['content'] .= '		<input type="submit" class="nkButton" value="'.SEND.'" />										
+									<nav>
+										<small>
+											<a href="index.php?file=User&amp;op=reg_screen">'.REGISTER.'</a>&nbsp;/&nbsp;
+											<a href="index.php?file=User&amp;op=oubli_pass">'.PASSFORGET.' ?</a>
+										</small>
+									</nav>
+								</form>';
 		}
 		else{
-			$blok['content'] = '<div style="text-align: center;">' . _WELCOME . ', <b>' . $user[2] . '</b><br /><br />'."\n";
-			if ($avatar != 'off'){
-				$sql_avatar=mysql_query('SELECT avatar FROM ' . USER_TABLE . ' WHERE id = \'' . $user[0] . '\' ');
-				list($avatar_url) = mysql_fetch_array($sql_avatar);
-				if($avatar_url) $blok['content'] .= '<img src="' . $avatar_url . '" style="border:1px ' . $bgcolor3 . ' dashed; width:100px; background:' . $bgcolor1 . '; padding:2px;" alt="' . $user[2] . ' avatar" /><br /><br />';
+			$blok['content'] .= '
+									<h4>'.WELCOME.', <small>'.$user[2].'</small></h4>';
+
+									if ($avatar != 'off'){
+										$sql_avatar=mysql_query('SELECT avatar FROM ' . USER_TABLE . ' WHERE id = \'' . $user[0] . '\' ');
+										list($avatar_url) = mysql_fetch_array($sql_avatar);
+
+										if($avatar_url){
+											$blok['content'] .= '
+											<figure>
+												<img src="' . $avatar_url . '" alt="' . $user[2] . ' avatar" />
+											</figure>';
+										}else{										
+											$blok['content'] .= '
+											<figure>
+												<img src="images/noavatar.png" alt="" />
+											</figure>';
+										}
 			}
-			$blok['content'] .= '<a href="index.php?file=User">' . _ACCOUNT . '</a> / <a href="index.php?file=User&amp;nuked_nude=index&amp;op=logout">' . _LOGOUT . '</a></div>'."\n";
+			$blok['content'] .= '<nav>
+									<a href="index.php?file=User" class="nkButtonLink">'.ACCOUNT.'</a> / <a href="index.php?file=User&amp;nuked_nude=index&amp;op=logout" class="nkButtonLink">'.LOGOUT.'</a>
+								</nav>';
 		}
 		$c++;
 	}
 
     if($messpv != 'off' && $user[0] != ''){
-		if ($c > 0) $blok['content'] .= '<hr style="height: 1px;" />'."\n";
+		if ($c > 0) $blok['content'] .= '<div class="nkSeparator" /></div>';
 	
 		$sql2 = mysql_query('SELECT mid FROM ' . USERBOX_TABLE . ' WHERE user_for = \'' . $user[0] . '\' AND status = 1');
 		$nb_mess_lu = mysql_num_rows($sql2);
 	
-		$blok['content'] .= '&nbsp;<img width="14" height="12" src="images/message.gif" alt="" />&nbsp;<span style="text-decoration: underline"><b>' . _MESSPV . '</b></span><br />'."\n";
+		$blok['content'] .= '<h5>
+								<span class="nkIconMail"></span>'.MESSPV.'
+							</h5>
+							<ul>';
 	
 		if ($user[5] > 0){
-			$blok['content'] .= '&nbsp;<b><big>·</big></b>&nbsp;' . _NOTREAD . ' : <a href="index.php?file=Userbox"><b>' . $user[5] . '</b></a>'."\n";
+			$blok['content'] .= '<li>
+									<span class="nkIconMailReceive"></span>'.NOTREAD.' : <a href="index.php?file=Userbox">'.$user[5].'</a>
+								</li>';
 		}
 		else{
-			$blok['content'] .= '&nbsp;<b><big>·</big></b>&nbsp;' . _NOTREAD . ' : <b>' . $user[5] . '</b>'."\n";
+			$blok['content'] .= '<li>
+									<span class="nkIconMailReceive"></span>'.NOTREAD.' : '.$user[5].'
+								</li>';
 		}
 	
 		if ($nb_mess_lu > 0){
-			$blok['content'] .= '<br />&nbsp;<b><big>·</big></b>&nbsp;' . _READ . ' : <a href="index.php?file=Userbox"><b>' . $nb_mess_lu . '</b></a>'."\n";
+			$blok['content'] .= '<li>
+									<span class="nkIconMailLock"></span>'.READ.' : <a href="index.php?file=Userbox">'.$nb_mess_lu.'</a>
+								</li>';
 		}
 		else{
-			$blok['content'] .= '<br />&nbsp;<b><big>·</big></b>&nbsp;' . _READ . ' : <b>' . $nb_mess_lu . '</b>'."\n";
+			$blok['content'] .= '<li>
+									<span class="nkIconMailLock"></span>'.READ.' : '.$nb_mess_lu.'
+								</li>';
 		}
 	
+		$blok['content'] .='</ul>';
 		$c++;
     }
 
 	if ($members != 'off'){
-		if ($c > 0) $blok['content'] .= '<hr style="height: 1px;" />'."\n";
+		if ($c > 0) $blok['content'] .= '<div class="nkSeparator" /></div>';
 
-    	$blok['content'] .= '&nbsp;<img width="16" height="13" src="images/memberslist.gif" alt="" />&nbsp;<span style="text-decoration: underline"><b>' . _MEMBERS . '</b></span><br />'."\n";
+    	$blok['content'] .= '<h5>
+    							<span class="nkIconMembers"></span>'.MEMBERS.'
+							</h5>
+							<ul>';
 
     	$sql_users = mysql_query('SELECT id FROM ' . USER_TABLE . ' WHERE niveau < 3');
     	$nb_users = mysql_num_rows($sql_users);
@@ -81,55 +125,80 @@ function affich_block_login($blok){
     	$sql_lastmember = mysql_query('SELECT pseudo FROM ' . USER_TABLE . ' ORDER BY date DESC LIMIT 0, 1');
     	list($lastmember) = mysql_fetch_array($sql_lastmember);
 
-    	$blok['content'] .= '&nbsp;<b><big>·</big></b>&nbsp;' . _ADMINS . ' : <b>' . $nb_admin . '</b><br />&nbsp;<b><big>·</big></b>&nbsp;' . _MEMBERS . ' :'
-    	. '&nbsp;<b>' . $nb_users . '</b> [<a href="index.php?file=Members">' . _LIST . '</a>]<br />'."\n"
-		. '&nbsp;<b><big>·</big></b>&nbsp;' . _LASTMEMBER . ' : <a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($lastmember) . '"><b>' . $lastmember . '</b></a>'."\n";
+    	$blok['content'] .= '<li>
+								<span class="nkIconNext"></span>'.ADMINS.' : '.$nb_admin.'
+							</li>
+							<li>
+								<span class="nkIconNext"></span>'.MEMBERS.' : '.$nb_users.' [ <a href="index.php?file=Members">'.LISTING.'</a> ]
+							</li>
+							<li>
+								<span class="nkIconNext"></span>'.LASTMEMBER.' : <a href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($lastmember).'">'.$lastmember.'</a>
+							</li>
+						</ul>';
 
 		 $c++;
 	}
 
 	if ($online != 'off'){
-		if ($c > 0) $blok['content'] .= '<hr style="height: 1px;" />'."\n";
+		if ($c > 0) $blok['content'] .= '<div class="nkSeparator" /></div>';
 
-    	$blok['content'] .= '&nbsp;<img width="16" height="13" src="images/online.gif" alt="" />&nbsp;<span style="text-decoration: underline"><b>' . _WHOISONLINE . '</b></span><br />'."\n";
+    	$blok['content'] .= '<h5>
+								<span class="nkIconAutor"></span>'.WHOISONLINE.'
+							</h5>
+							<ul>';
 
-    	$nb = nbvisiteur();
+						    	$nb = nbvisiteur();
 
-    	if ($nb[1] > 0){
-			$sql4 = mysql_query('SELECT username FROM ' . NBCONNECTE_TABLE . ' WHERE type BETWEEN 1 AND 2 ORDER BY date');
-			while (list($nom) = mysql_fetch_array($sql4)){
-				   $user_online .= '&nbsp;<b><big>·</big></b>&nbsp;<b>' . $nom . '</b><br />';
-			}
+						    	if ($nb[1] > 0){
+									$user_online = '<ul>';
+									$sql4 = mysql_query('SELECT username FROM ' . NBCONNECTE_TABLE . ' WHERE type BETWEEN 1 AND 2 ORDER BY date');
+									while (list($nom) = mysql_fetch_array($sql4)){
+										   $user_online .= '<li>'.$nom.'</li>';
+									}
+									$user_online .= '</ul>';
+									// definition du tooltip
+									$user_list = $GLOBALS['nkFunctions']->nkTooltip($user_online, '#', '[ '.LISTING.' ]', 'left', 'center', '#025BAF', 'all-azure');
+								}
+						    	else{
+									$user_list = '';
+						    	}
+
+								if ($nb[2] > 0){
+									$admin_online = '<ul>';
+									$sql5 = mysql_query('SELECT username FROM ' . NBCONNECTE_TABLE . ' WHERE type > 2 ORDER BY date');
+									while (list($name) = mysql_fetch_array($sql5)){
+										   $admin_online .= '<li>'.$name.'</li>';
+									}
+									$admin_online .= '</ul>';
+									// definition du tooltip
+									$admin_list = $GLOBALS['nkFunctions']->nkTooltip($admin_online, '#', '[ '.LISTING.' ]', 'left', 'center', '#025BAF', 'all-azure');
+
+								}
+								else{
+									$admin_list = '';
+								}
 	
-			$user_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . _WHOISONLINE . '\', \'' . htmlentities(mysql_real_escape_string($user_online), ENT_NOQUOTES) . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
-			}
-    	else{
-			$user_list = '';
-    	}
+		$blok['content'] .= '	<li>
+									<span class="nkIconNext"></span>'.VISITOR;
+									if ($nb[0] > 1) $blok['content'] .= 's';
 
-		if ($nb[2] > 0){
-			$sql5 = mysql_query('SELECT username FROM ' . NBCONNECTE_TABLE . ' WHERE type > 2 ORDER BY date');
-			while (list($name) = mysql_fetch_array($sql5)){
-				   $admin_online .= '&nbsp;<b><big>·</big></b>&nbsp;<b>' . $name . '</b><br />';
-			}
-	
-			$admin_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . _WHOISONLINE . '\', \'' . htmlentities(mysql_real_escape_string($admin_online), ENT_NOQUOTES) . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
-		}
-		else{
-			$admin_list = '';
-		}
-	
-		$blok['content'] .= '&nbsp;<b><big>·</big></b>&nbsp;' . _VISITOR;
-		if ($nb[0] > 1) $blok['content'] .= 's';
-		$blok['content'] .= ' : <b>' . $nb[0] . '</b><br />&nbsp;<b><big>·</big></b>&nbsp;' . _MEMBER;
-		if ($nb[1] > 1) $blok['content'] .= 's';
-		$blok['content'] .= ' : <b>' . $nb[1] . '</b>' . $user_list . '<br />&nbsp;<b><big>·</big></b>&nbsp;' . _ADMIN;
-		if ($nb[2] > 1) $blok['content'] .= 's';
-		$blok['content'] .= ' : <b>' . $nb[2] . '</b>' . $admin_list . '<br />'."\n";
+		$blok['content'] .= ' : '.$nb[0].'</li>
+								<li>
+									<span class="nkIconNext"></span>'.MEMBER;
+									if ($nb[1] > 1) $blok['content'] .= 's';
+
+		$blok['content'] .= ' : ' . $nb[1] . ' ' . $user_list . '
+								</li>
+								<li>
+									<span class="nkIconNext"></span>'.ADMIN;
+									if ($nb[2] > 1) $blok['content'] .= 's';
+
+		$blok['content'] .= ' : ' . $nb[2] . ' ' . $admin_list . '</li>
+								</ul>';
 	
 		$c++;
    }
-
+	$blok['content'] .= "</div>";
    return $blok;
 }
 
@@ -150,60 +219,104 @@ function edit_block_login($bid){
     if ($members == 'off') $checked5 = 'selected="selected"'; else $checked5 = '';
     if ($online == 'off') $checked6 = 'selected="selected"'; else $checked6 = '';
 	if ($avatar == 'off') $checked7 = 'selected="selected"'; else $checked7 = '';
+	
+	?>
 
-    echo '<div class="content-box">',"\n" //<!-- Start Content Box -->
-			, '<div class="content-box-header"><h3>' , _BLOCKADMIN , '</h3>',"\n"
-			, '<a href="help/' , $language , '/block.html" rel="modal">',"\n"
-			, '<img style="border: 0;" src="help/help.gif" alt="" title="' , _HELP , '" /></a>',"\n"
-			, '</div>',"\n"
-			, '<div class="tab-content" id="tab2"><form method="post" action="index.php?file=Admin&amp;page=block&amp;op=modif_block">',"\n"
-			, '<table style="margin-left: auto;margin-right: auto;text-align: left;" cellspacing="0" cellpadding="2" border="0">',"\n"
-			, '<tr><td><b>' , _TITLE , '</b></td><td><b>' , _BLOCK , '</b></td><td><b>' , _POSITION , '</b></td><td><b>' , _LEVEL , '</b></td></tr>',"\n"
-			, '<tr><td align="center"><input type="text" name="titre" size="40" value="' , $titre , '" /></td>',"\n"
-			, '<td align="center"><select name="active">',"\n"
-			, '<option value="1" ' , $checked1 , '>' , _LEFT , '</option>',"\n"
-			, '<option value="2" ' , $checked2 , '>' , _RIGHT , '</option>',"\n"
-			, '<option value="0" ' , $checked0 , '>' , _OFF , '</option></select></td>',"\n"
-			, '<td align="center"><input type="text" name="position" size="2" value="' , $position , '" /></td>',"\n"
-			, '<td align="center"><select name="nivo"><option>' , $nivo , '</option>',"\n"
-			, '<option>0</option>',"\n"
-			, '<option>1</option>',"\n"
-			, '<option>2</option>',"\n"
-			, '<option>3</option>',"\n"
-			, '<option>4</option>',"\n"
-			, '<option>5</option>',"\n"
-			, '<option>6</option>',"\n"
-			, '<option>7</option>',"\n"
-			, '<option>8</option>',"\n"
-			, '<option>9</option></select></td></tr>',"\n"
-			, '<tr><td colspan="4">' , _LOGIN , ' : <select name="login">',"\n"
-			, '<option value="on">' , _YES , '</option>',"\n"
-			, '<option value="off" ' , $checked3 , '>' , _NO , '</option></select>',"\n"
-			, '&nbsp;' , _MESSPV , '  : <select name="messpv">',"\n"
-			, '<option value="on">' , _YES , '</option>',"\n"
-			, '<option value="off" ' , $checked4 , '>' , _NO , '</option></select>',"\n"
-			, '&nbsp;' , _MEMBERS , ' : <select name="members">',"\n"
-			, '<option value="on">' , _YES , '</option>',"\n"
-			, '<option value="off" ' , $checked5 , '>' , _NO , '</option></select>',"\n"
-			, '</td></tr><tr><td colspan="4">&nbsp;' , _WHOISONLINE , ' : <select name="online">',"\n"
-			, '<option value="on">' , _YES , '</option>',"\n"
-			, '<option value="off" ' , $checked6 , '>' , _NO , '</option></select>',"\n"
-			, '&nbsp;' , _SHOWAVATAR , ' : <select name="avatar">',"\n"
-			, '<option value="on">' , _YES , '</option>',"\n"
-			, '<option value="off" ' , $checked7 , '>' , _NO , '</option></select>',"\n"
-			, '</td></tr><tr><td colspan="4">&nbsp;</td></tr>',"\n"
-			, '<tr><td colspan="4" align="center"><b>' , _PAGESELECT , ' :</b></td></tr><tr><td colspan="4">&nbsp;</td></tr>',"\n"
-			, '<tr><td colspan="4" align="center"><select name="pages[]" size="8" multiple="multiple">',"\n";
+        <header>
+            <h3  class="width_3_quarter inline">
+            <?php echo ADMINBLOCK; ?>
+            </h3>
+            <h4  class="width_quarter inline float-right align-right">
+                <a href="help/<?php echo $language; ?>/block.php" rel="rightBox" data-name="<?php echo BLOCK; ?>"><img src="help/help.gif" alt="" title="<?php echo HELP; ?>" /></a>
+            </h4>
+        </header>
+        <article class="padding-left padding-right margin-bottom margin-top">
+			<form method="post" action="index.php?file=Admin&amp;page=block&amp;op=modif_block">
+			<div class="nkBoxcontainer padding-left">
+				<label for="blockLoginTitle" class="nkLabelSpacing"><?php echo TITLE; ?>&nbsp;:&nbsp;</label>
+					<input id="blockLoginTitle" type="text" name="titre" size="40" value="<?php echo $titre; ?>" />
+			</div>
 
-    select_mod2($pages);
 
-    echo '</select></td></tr><tr><td colspan="4" align="center"><br />',"\n"
-		, '<input type="hidden" name="type" value="' , $type , '" />',"\n"
-		, '<input type="hidden" name="bid" value="' , $bid , '" />',"\n"
-		, '<input type="submit" name="send" value="' , _MODIFBLOCK , '" />',"\n"
-		, '</td></tr></table>'
-		, '<div style="text-align: center;"><br />[ <a href="index.php?file=Admin&amp;page=block"><b>' , _BACK , '</b></a> ]</div></form><br /></div></div>',"\n";
 
+			<?php
+
+			/*** Position Options ***/
+			$activeValue = array(
+	                0 => LEFT,
+	                1 => RIGHT,
+	                2 => OFF
+	            );
+			echo $GLOBALS['nkFunctions']->nkRadioBox('active', 'nkLabelSpacing', BLOCK, 3, $activeValue, 'InputForTest', 'InputIdTest')
+
+			?>
+
+			<div class="nkBoxcontainer padding-left">
+				<label for="blockLoginPosition" class="nkLabelSpacing"><?php echo POSITION; ?> : </label>
+					<input id="blockLoginPosition" type="text" name="position" size="2" value="<?php echo $position; ?>" />
+			</div>
+
+			<div class="nkBoxcontainer padding-left">
+				<label for="nivo" class="nkLabelSpacing"><?php echo LEVEL; ?>&nbsp;:&nbsp;</label>
+					<?php 
+					echo $GLOBALS['nkFunctions']->nkLevelSelect('nivo', $nivo);
+					?>
+			</div>
+
+
+			<?php 
+			/*** Login options ***/
+			$loginValue = array(
+					ON => YES,
+					OFF => NO
+	            );
+			echo $GLOBALS['nkFunctions']->nkRadioBox('login', 'nkLabelSpacing', LOGIN.'&nbsp;:&nbsp;', 2, $loginValue, 'blockLoginLoginId');
+				
+			/*** Private message options ***/	
+			$messpvValue = array(
+					ON => YES,
+					OFF => NO
+	            );			
+			echo $GLOBALS['nkFunctions']->nkRadioBox('messpv', 'nkLabelSpacing', MESSPV.'&nbsp;:&nbsp;', 2, $messpvValue, 'blockLoginmesspvId');
+
+			/*** Members options ***/
+			$membersValue = array(
+					ON => YES,
+					OFF => NO
+	            );
+			echo $GLOBALS['nkFunctions']->nkRadioBox('members', 'nkLabelSpacing', MEMBERS.'&nbsp;:&nbsp;', 2, $membersValue, 'blockLoginmembersId');
+				
+			/*** Online options ***/
+			$onlineValue = array(
+					ON => YES,
+					OFF => NO
+	            );
+			echo $GLOBALS['nkFunctions']->nkRadioBox('online', 'nkLabelSpacing', WHOISONLINE.'&nbsp;:&nbsp;', 2, $onlineValue, 'blockLoginonlineId');
+				
+			/*** Avatar options ***/
+			$avatarValue = array(
+					ON => YES,
+					OFF => NO
+	            );
+			echo $GLOBALS['nkFunctions']->nkRadioBox('avatar', 'nkLabelSpacing', SHOWAVATAR.'&nbsp;:&nbsp;', 2, $avatarValue, 'blockLoginavatarId');			
+			?>
+
+
+			<div class="nkBoxcontainer padding-left">
+				<label for="blockLoginPages" class="nkLabelSpacing valign-top"><?php echo PAGESELECT; ?>&nbsp;:&nbsp;</label>
+					<select id="blockLoginPages" class="margin-top" name="pages[]" size="8" multiple="multiple">
+						<?php
+						select_mod2($pages);
+						?>
+					</select>
+			</div>
+			<div class="width_quarter align-center margin-top padding-bottom">
+				<input type="hidden" name="type" value="<?php echo $type; ?>" />
+				<input type="hidden" name="bid" value="<?php echo $bid; ?>" />
+				<input type="submit" name="send" class="nkButton" value="<?php echo SEND; ?>" />
+			</div>
+		</article>
+	<?php
 }
 
 function modif_advanced_login($data){

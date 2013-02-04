@@ -1,11 +1,7 @@
-    	<!--///////////////////////////////////////////////////
-        // En attendant que la function soit créée
-        ///////////////////////////////////////////////////-->
-
     <!-- AJOUT DU FICHIER CSS DU MODULE -->
     <link rel="stylesheet" type="text/css" href="css/nkResetCss.css" />
     <link rel="stylesheet" type="text/css" href="css/nkCSS.css" />
-    <link type="text/css" rel="stylesheet" href="modules/Download/css/style.css" media="screen" />
+    <link type="text/css" rel="stylesheet" href="modules/Downloads/css/Downloads.css" media="screen" />
 
     <!-- AJOUT DU FICHIER CSS DE LA POPUPBOX -->
     <link type="text/css" rel="stylesheet" href="media/css/nkPopupBox.css" media="screen" />

@@ -4,10 +4,20 @@
    HTML5 display definitions
    ========================================================================== */
 
+
+/*
+ * Reset Margin
+ */
+body, caption, div, figure, footer, header, hgroup, html, img, label, li, nav, section, small, span, strong, table, tbody, td, tfoot, th, thead, tr, ul  {
+  margin:  0;
+  padding:  0;
+  border:  0;
+  outline:  0;
+}
+
 /*
  * Corrects `block` display not defined in IE 8/9.
  */
-
 article,
 aside,
 details,

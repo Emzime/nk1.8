@@ -1,0 +1,89 @@
+.nkPersonalCssForDownloads > article > section,
+.nkPersonalCssForDownloadsDesc {
+    background:  #919191;
+    background:  -moz-linear-gradient(top, #919191 0%, #d1d1d1 0%);
+    background:  -webkit-gradient(linear, 0% 0%, 0% 0%, from(#919191), to(#d1d1d1));
+    background:     -ms-linear-gradient(center top, #919191, #d1d1d1);
+    background:      -o-linear-gradient(center top, #919191, #d1d1d1);
+    background:         linear-gradient(center top, #919191, #d1d1d1);
+    border-radius: 5px;
+    -moz-box-shadow:  0 2px 2px 0 rgba(0, 0, 0, 0.5) inset, 0 2px 2px 0 rgba(255, 255, 255, 0.5);
+    -webkit-box-shadow:  0 2px 2px 0 rgba(0, 0, 0, 0.5) inset, 0 2px 2px 0 rgba(255, 255, 255, 0.5);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.5) inset, 0 2px 2px 0 rgba(255, 255, 255, 0.5);
+}
+.nkPersonalCssForDownloads > article > section > header,
+.nkPersonalCssForDownloadsDesc > header {
+    background: #2C2C2C;
+    height: 30px;
+    border-radius: 4px 4px 0 0;
+}
+.nkPersonalCssForDownloads > article > section > header div:first-child,
+.nkPersonalCssForDownloadsDesc > header div:first-child {
+    width: 60%;
+}
+.nkPersonalCssForDownloads > article > section > header div:last-child,
+.nkPersonalCssForDownloadsDesc > header div:last-child {
+    width: 39%;
+}
+.nkPersonalCssForDownloads > article > section > header div > figure,
+.nkPersonalCssForDownloadsDesc header div > figure {
+    line-height: 33px;
+}
+.nkPersonalCssForDownloads > article > section > header div > h4,
+.nkPersonalCssForDownloadsDesc header > div > h4 {
+    color: #d1d1d1;
+}
+.nkPersonalCssForDownloads > article > section > article > ul {
+    width: 40%;
+}
+.nkPersonalCssForDownloads > article > section > article > aside,
+.nkPersonalCssForDownloadsDesc > article > aside {
+    width: 19%;
+}
+.nkPersonalCssForDownloads > article > section > article > aside img,
+.nkPersonalCssForDownloadsDesc > article > aside img {
+    width: 60%;
+}
+.nkPersonalCssForDownloads > article > section:last-child {
+    margin: 0 0 20px;
+}
+.nkPersonalCssForDownloads > article > section > article > h2{
+    color: #000;
+    margin: 4px auto 7px 0;
+    text-align: center;
+}
+.nkPersonalCat {
+    background:  #919191;
+    background:  -moz-linear-gradient(top, #919191 0%, #d1d1d1 0%);
+    background:  -webkit-gradient(linear, 0% 0%, 0% 0%, from(#919191), to(#d1d1d1));
+    background:     -ms-linear-gradient(center top, #919191, #d1d1d1);
+    background:      -o-linear-gradient(center top, #919191, #d1d1d1);
+    background:         linear-gradient(center top, #919191, #d1d1d1);
+    border-radius: 5px;
+    -moz-box-shadow:  0 2px 2px 0 rgba(0, 0, 0, 0.5) inset, 0 2px 2px 0 rgba(255, 255, 255, 0.5);
+    -webkit-box-shadow:  0 2px 2px 0 rgba(0, 0, 0, 0.5) inset, 0 2px 2px 0 rgba(255, 255, 255, 0.5);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.5) inset, 0 2px 2px 0 rgba(255, 255, 255, 0.5);
+    min-height: 70px;
+}
+.nkPersonalCat > div {
+    max-height: 50px;
+    overflow: auto;
+}
+.nkPersonalCat a, .nkPersonalCat h4, li.active{
+    font-weight: bold;
+}
+.nkPersonalCatMarginLeft15{
+    margin-left: 10px;
+}
+.nkPersonalCatMarginLeft15 a, .nkPersonalCatMarginLeft15 small {
+    color: #AFAFAF;
+}
+ol > li {
+    list-style-type: decimal;
+}
+ol{
+    padding-left: 40px;
+}
+#nkPersonalCss{
+    border-right: 1px groove #000;
+}

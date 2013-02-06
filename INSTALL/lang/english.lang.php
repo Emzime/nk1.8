@@ -198,7 +198,7 @@ define('CONF.INC', 'Please download the content above and place the file in the 
 define('CONF.INC2', 'Veuillez t?l?charger le contenu ci-dessus et placer le fichier ? la racine de votre site.');
 define('INFODLSAVECONFINC', 'Please download the content above and keep this file (it\'s a backup).');
 define('BADCHMOD', 'Can\'t write file <b> conf.inc.php </b>, check write permissions (CHMOD)!');
-define('DOWNLOAD', 'Download');
+define('DOWNLOADS', 'Download');
 define('CHMOD', 'Can\'t change CHMOD file rights conf.inc.php <br/> Please update manually CHMOD <strong> 0644 </strong> on this file.');
 define('COPY', 'Can not create file backup conf.inc.php <br/> Please download the file and save it manually.');
 ///////////////////////////////////////////////
@@ -216,7 +216,7 @@ define('NAV','Menu');
 define('NAVHOME','Home');
 define('NAVNEWS','News');
 define('NAVFORUM','Forum');
-define('NAVDOWNLOAD','Downloads');
+define('NAVDOWNLOADS','Downloads');
 define('NAVTEAM','Team');
 define('NAVMEMBERS','Members');
 define('NAVDEFY','Challenge Us');

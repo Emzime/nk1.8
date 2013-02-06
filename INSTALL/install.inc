@@ -312,6 +312,7 @@
                           `cid` int(11) NOT NULL auto_increment,
                           `parentid` int(11) NOT NULL default '0',
                           `titre` varchar(50) NOT NULL default '',
+                          `shortDescription` varchar(146) NOT NULL,
                           `description` text NOT NULL,
                           `level` int(1) NOT NULL default '0',
                           `position` int(2) unsigned NOT NULL default '0',
@@ -332,6 +333,7 @@
                         $req = mysql_query($sql) or die (mysql_error());
 
                          $sql = "INSERT INTO `" . $db_prefix . "_downloads_config` VALUES
+                            ('breadCrumbTheme', 'crumbs'),
                             ('hideDescription', 'off'),
                             ('fileHotTime', '9'),
                             ('fileMaxDownload', '5'),

@@ -450,7 +450,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         // Affichage du menu centrale
         if($cat == 0){
-            $menuAffView =  $GLOBALS['nkFunctions']->nkMenu($modName, $arrayMenu, $orderSelect, 'nkAlignCenter', null, 'nkInline', 'active', '[', ']', '|');
+            $menuAffView =  $GLOBALS['nkFunctions']->nkMenu($modName, $arrayMenu, $orderSelect, 'nkAlignCenter nkMarginBottom', null, 'nkInline', 'active', '[', ']', '|');
         }
         /* Requete d'affichage des fichiers selon la catégorie */
         $requestFile = 'SELECT D.id, D.titre, D.description, D.taille, D.type, D.count, D.date, D.url, D.screen, D.level, D.edit, D.autor, D.url_autor, D.comp, C.titre, avg( V.vote ) AS note

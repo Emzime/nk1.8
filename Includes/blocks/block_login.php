@@ -30,7 +30,7 @@ function affich_block_login($blok){
 										<label for="BlockLoginPassword">'.PASSWORD.' : </label>
 											<input id="BlockLoginPassword" class="nkInput" type="password" name="pass" size="10" maxlength="15" />
 									</div>';																		
-			$blok['content'] .= 	$GLOBALS['nkFunctions']->nkCheckBox('remember_me', 'Remember', 'BlockLoginRememberId', 'BlockLoginRemember', REMEMBERME, 'ok', true);
+			$blok['content'] .= 	$GLOBALS['nkFunctions']->nkCheckBox('remember_me', 'Remember', 'BlockLoginRememberId', 'BlockLoginRemember nkWidthHalf', REMEMBERME, 'ok', true);
 			$blok['content'] .= '		<input type="submit" class="nkButton" value="'.SEND.'" />										
 									<nav>
 										<small>

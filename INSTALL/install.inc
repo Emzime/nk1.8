@@ -48,7 +48,7 @@
                         
                         $sql = "INSERT INTO `" . $db_prefix . "_block` VALUES
                             (1, 2, 1, '', '" . mysql_real_escape_string(BLOKLOGIN) . "', '', 'login', 0, 'Tous'),
-                            (2, 1, 1, '', '" . mysql_real_escape_string(NAV) . "', '[News]|" . mysql_real_escape_string(NAVNEWS) . "||0|NEWLINE[Archives]|" . mysql_real_escape_string(NAVARCHIV) . "||0|NEWLINE[Forum]|" . mysql_real_escape_string(NAVFORUM) . "||0|NEWLINE[Download]|" . mysql_real_escape_string(NAVDOWNLOAD) . "||0|NEWLINE[Members]|" . mysql_real_escape_string(NAVMEMBERS) . "||0|NEWLINE[Team]|" . mysql_real_escape_string(NAVTEAM) . "||0|NEWLINE[Defy]|" . mysql_real_escape_string(NAVDEFY) . "||0|NEWLINE[Recruit]|" . mysql_real_escape_string(NAVRECRUIT) . "||0|NEWLINE[Sections]|" . mysql_real_escape_string(NAVART) . "||0|NEWLINE[Server]|" . mysql_real_escape_string(NAVSERVER) . "||0|NEWLINE[Links]|" . mysql_real_escape_string(NAVLINKS) . "||0|NEWLINE[Calendar]|" . mysql_real_escape_string(NAVCALENDAR) . "||0|NEWLINE[Gallery]|" . mysql_real_escape_string(NAVGALLERY) . "||0|NEWLINE[Wars]|" . mysql_real_escape_string(NAVMATCHS) . "||0|NEWLINE[Irc]|" . mysql_real_escape_string(NAVIRC) . "||0|NEWLINE[Guestbook]|" . mysql_real_escape_string(NAVGUESTBOOK) . "||0|NEWLINE[Search]|" . mysql_real_escape_string(NAVSEARCH) . "||0|NEWLINE|<b>" . mysql_real_escape_string(MEMBER) . "</b>||1|NEWLINE[User]|" . mysql_real_escape_string(NAVACCOUNT) . "||1|NEWLINE|<b>" . mysql_real_escape_string(ADMIN) . "</b>||2|NEWLINE[Admin]|" . mysql_real_escape_string(NAVADMIN) . "||2|', 'menu', 0, 'Tous'),
+                            (2, 1, 1, '', '" . mysql_real_escape_string(NAV) . "', '[News]|" . mysql_real_escape_string(NAVNEWS) . "||0|NEWLINE[Archives]|" . mysql_real_escape_string(NAVARCHIV) . "||0|NEWLINE[Forum]|" . mysql_real_escape_string(NAVFORUM) . "||0|NEWLINE[Downloads]|" . mysql_real_escape_string(NAVDOWNLOADS) . "||0|NEWLINE[Members]|" . mysql_real_escape_string(NAVMEMBERS) . "||0|NEWLINE[Team]|" . mysql_real_escape_string(NAVTEAM) . "||0|NEWLINE[Defy]|" . mysql_real_escape_string(NAVDEFY) . "||0|NEWLINE[Recruit]|" . mysql_real_escape_string(NAVRECRUIT) . "||0|NEWLINE[Sections]|" . mysql_real_escape_string(NAVART) . "||0|NEWLINE[Server]|" . mysql_real_escape_string(NAVSERVER) . "||0|NEWLINE[Links]|" . mysql_real_escape_string(NAVLINKS) . "||0|NEWLINE[Calendar]|" . mysql_real_escape_string(NAVCALENDAR) . "||0|NEWLINE[Gallery]|" . mysql_real_escape_string(NAVGALLERY) . "||0|NEWLINE[Wars]|" . mysql_real_escape_string(NAVMATCHS) . "||0|NEWLINE[Irc]|" . mysql_real_escape_string(NAVIRC) . "||0|NEWLINE[Guestbook]|" . mysql_real_escape_string(NAVGUESTBOOK) . "||0|NEWLINE[Search]|" . mysql_real_escape_string(NAVSEARCH) . "||0|NEWLINE|<b>" . mysql_real_escape_string(MEMBER) . "</b>||1|NEWLINE[User]|" . mysql_real_escape_string(NAVACCOUNT) . "||1|NEWLINE|<b>" . mysql_real_escape_string(ADMIN) . "</b>||2|NEWLINE[Admin]|" . mysql_real_escape_string(NAVADMIN) . "||2|', 'menu', 0, 'Tous'),
                             (3, 1, 2, 'Search', '" . mysql_real_escape_string(BLOKSEARCH) . "', '', 'module', 0, 'Tous'),
                             (4, 2, 2, '', '" . mysql_real_escape_string(POLL) . "', '', 'survey', 0, 'Tous'),
                             (5, 2, 3, 'Wars', '" . mysql_real_escape_string(NAVMATCHS) . "', '', 'module', 0, 'Tous'),
@@ -110,7 +110,7 @@
                         
                         $sql = "INSERT INTO `" . $db_prefix . "_comment_mod` VALUES
                             (1, 'news', 1),
-                            (2, 'download', 1),
+                            (2, 'downloads', 1),
                             (3, 'links', 1),
                             (4, 'survey', 1),
                             (5, 'wars', 1),
@@ -193,8 +193,6 @@
                             ('max_img_line', '2'),
                             ('max_img', '6'),
                             ('max_news', '5'),
-                            ('max_download', '10'),
-                            ('hide_download', 'on'),
                             ('max_liens', '10'),
                             ('max_sections', '10'),
                             ('max_wars', '30'),
@@ -296,7 +294,6 @@
                           `broke` int(11) NOT NULL default '0',
                           `url3` varchar(200) NOT NULL default '',
                           `level` int(1) NOT NULL default '0',
-                          `hit` int(11) NOT NULL default '0',
                           `edit` varchar(12) NOT NULL default '',
                           `screen` varchar(200) NOT NULL default '',
                           `autor` text NOT NULL,
@@ -315,12 +312,42 @@
                           `cid` int(11) NOT NULL auto_increment,
                           `parentid` int(11) NOT NULL default '0',
                           `titre` varchar(50) NOT NULL default '',
+                          `shortDescription` varchar(146) NOT NULL,
                           `description` text NOT NULL,
                           `level` int(1) NOT NULL default '0',
                           `position` int(2) unsigned NOT NULL default '0',
                           PRIMARY KEY  (`cid`),
                           KEY `parentid` (`parentid`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
+                        $req = mysql_query($sql) or die (mysql_error());
+                        echo 'OK';
+        break;
+        case'downloads_config':
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_downloads_config`";
+                        $req = mysql_query($sql) or die (mysql_error());                        
+                        $sql = "CREATE TABLE `" . $db_prefix . "_downloads_config` (
+                            `name` varchar(255) NOT NULL,
+                            `value` text NOT NULL,
+                          PRIMARY KEY  (`name`)
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
+                        $req = mysql_query($sql) or die (mysql_error());
+
+                         $sql = "INSERT INTO `" . $db_prefix . "_downloads_config` VALUES
+                            ('breadCrumbTheme', 'crumbs'),
+                            ('hideDescription', 'off'),
+                            ('fileHotTime', '9'),
+                            ('fileMaxDownload', '5'),
+                            ('fileNbComment', '2'),
+                            ('fileNbCommentCut', '130'),
+                            ('fileNbSubcat', '2'),
+                            ('fileNewTime', '604800'),
+                            ('nbFileHot', '10'),
+                            ('nbFileNew', '10'),
+                            ('tooltipTheme', 'tooltipster-nk'),
+                            ('tooltipPosition', 'left'),
+                            ('tooltipAnimation', 'grow'),
+                            ('tooltipArrowColor', ''),
+                            ('tooltipMaxWidth', 'null');";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -692,7 +719,7 @@
                             (6, 'Links', 0, 3),
                             (7, 'Sections', 0, 3),
                             (8, 'Server', 0, 3),
-                            (9, 'Download', 0, 3),
+                            (9, 'Downloads', 0, 3),
                             (10, 'Gallery', 0, 3),
                             (11, 'Guestbook', 0, 3),
                             (12, 'Suggest', 0, 3),
@@ -975,7 +1002,7 @@
                             ('Archives', 'pages', 0),
                             ('Calendar', 'pages', 0),
                             ('Defy', 'pages', 0),
-                            ('Download', 'pages', 0),
+                            ('Downloads', 'pages', 0),
                             ('Guestbook', 'pages', 0),
                             ('Irc', 'pages', 0),
                             ('Links', 'pages', 0),
@@ -1203,7 +1230,7 @@
 
                           $sql = "INSERT INTO `" . $db_prefix . "_vote_mod` VALUES
                                 (1, 'news', 1),
-                                (2, 'download', 1),
+                                (2, 'downloads', 1),
                                 (3, 'links', 1),
                                 (4, 'survey', 1),
                                 (5, 'wars', 1),

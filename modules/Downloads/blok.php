@@ -33,7 +33,7 @@ if ($active == 3 || $active == 4) {
             </header>
             <section id="nkPersonalCss" class="nkBlock nkWidthFully">
                 <nav>
-                    <ol class="nkInlineBlock">
+                    <ol class="downloadsOl nkInlineBlock">
                         <?php
                         $sql = mysql_query('SELECT id, titre, date, type, description FROM '.DOWNLOADS_TABLE.' WHERE '.$visiteur.' >= level ORDER BY id DESC LIMIT 0, 10');
                         while (list($idDownload, $title, $date, $cat, $description) = mysql_fetch_array($sql)) 
@@ -86,7 +86,7 @@ if ($active == 3 || $active == 4) {
             </header>
             <section class="nkBlock nkWidthFully">
                 <nav>
-                    <ol class="nkInlineBlock">
+                    <ol class="downloadsOl nkInlineBlock">
                         <?php
                         $sql3 = mysql_query('SELECT id, titre, count, type, description FROM '.DOWNLOADS_TABLE.' WHERE '.$visiteur.' >= level ORDER BY count DESC LIMIT 0, 10');
                         while (list($tidDownload, $ttitle, $tcount, $tcat, $tdesc) = mysql_fetch_array($sql3)) {
@@ -142,7 +142,7 @@ if ($active == 3 || $active == 4) {
 } else {
     $modulePref = $GLOBALS['nkFunctions']->nkModsPrefs('Downloads');
 ?>
-    <ol>
+    <ol class="downloadsOl">
         <?php
         $sql = mysql_query('SELECT dt.id, dt.titre, dt.date, dt.description, dct.titre FROM '.DOWNLOADS_TABLE.' AS dt LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS dct ON dt.type = dct.cid WHERE '.$visiteur.' >= dt.level ORDER BY dt.date DESC LIMIT 0, 10');
         while (list($idDownload, $title, $date, $description, $fileCatName) = mysql_fetch_array($sql)) {

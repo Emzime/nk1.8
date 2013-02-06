@@ -60,4 +60,11 @@ define('TOPDOWN','Le Top 10');
 define('LASTDOWN','Les nouveautés');
 define('MORETOP','la suite du classement');
 define('MORELAST','la suite des nouveautés');
+
+
+define("THEREIS","Il y a");
+define("NBCAT","Catégories");
+define("NBSUBCAT","Sous-catégories");
+define("INDATABASE","dans la base de données");
+define("FILES","Fichiers");
 ?>

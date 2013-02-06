@@ -63,6 +63,20 @@ if ($visiteur >= $level_access && $level_access > -1)
         $fileNbComment      = $modulePref['fileNbComment'];     // nombre de commentaire a afficher
         $fileNbCommentCut   = $modulePref['fileNbCommentCut'];  // nombre de lettres pour le découpe des mots
 
+        /* Requete pour statistique en bas de page */
+        $dbsFile = 'SELECT count( id ) , (
+                    SELECT count( cid )
+                    FROM nuked_downloads_cat
+                    WHERE parentid !=0
+                    ) AS subcat, (
+                    SELECT count( cid )
+                    FROM nuked_downloads_cat
+                    WHERE parentid =0
+                    ) AS cat
+                    FROM nuked_downloads';
+        $dbeFile = mysql_query($dbsFile);
+        list($statFile, $statSubCat, $statCat) = mysql_fetch_array($dbeFile);
+
     /* Affichage si clic sur les blocks */
     if($_REQUEST['idDownload']){
 
@@ -328,11 +342,13 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             /* Affichage si la catégorie est egal a 0 et absence de orderby*/
             if($cat == 0 && !$_REQUEST['orderby'] ){
+                
                 $sqlViewCat = '<nav class="nkMarginTop15 nkAlignCenter nkWidthFull"><ul class="nkMarginTop nkWidthFully nkMarginLRAuto">';
                 while(list($catId, $catTitle, $catShortDescription, $subCatId, $subCatTitle) = mysql_fetch_array($sqlCatExecute)){
 
+
                     /* Comptage des fichiers pour la catégorie appelée */
-                    $sqlFile = mysql_query('SELECT type FROM '.DOWNLOADS_TABLE.' WHERE type = "'.$catId.'"');
+                    $sqlFile = mysql_query('SELECT id FROM '.DOWNLOADS_TABLE.' WHERE type = "'.$catId.'"');
                     $nbFile = mysql_num_rows($sqlFile);
 
                     /* Affichage du nombre de fichier dans la catégorie */
@@ -346,13 +362,18 @@ if ($visiteur >= $level_access && $level_access > -1)
                         $sqlViewCat .= '<div class="nkAlignLeft nkMarginLRAuto">'.$catShortDescription.'</div>';
 
                     /* Affichage si sous catégorie existante */
+
                     if(!is_null($subCatId) AND !is_null($subCatTitle)){
+
                         $subId = explode('|', $subCatId);
                         $subTitle = explode('|', $subCatTitle);
                         $mergeSubCat = array_combine($subId, $subTitle);
-                        $sqlViewCat .= '<ul class="nkMarginLRAuto nkAlignLeft nkWidthFull nkValignTop">';
-                        foreach ($mergeSubCat as $keyId => $valueTitle) {
-                            $sqlnbFileSubCat = mysql_query('SELECT type FROM '.DOWNLOADS_TABLE.' WHERE type = "'.$keyId.'"');
+                        $sqlViewCat .= '<ul class="nkMarginLRAuto nkAlignCenter nkWidthFull nkValignTop">';
+
+                        $fileNbSubcatCount = 1;
+                        foreach ($mergeSubCat as $keyId => $valueTitle) {     
+                     
+                            $sqlnbFileSubCat = mysql_query('SELECT id FROM '.DOWNLOADS_TABLE.' WHERE type = "'.$keyId.'"');
                             $nbFileSub = mysql_num_rows($sqlnbFileSubCat);
 
                             if ($nbFileSub > 0) {
@@ -361,11 +382,12 @@ if ($visiteur >= $level_access && $level_access > -1)
                                 $nbFileSubView = '<small>&nbsp;(0)</small>';
                             }
 
-                            if ($nbFileSub > $fileNbSubcat) {
-                                $sqlViewCat .= '<li class="nkInlineBlock nkWidthHalf nkAlignCenter nkValignTop"><small><a href="index.php?file='.$modName.'&amp;cat='.$keyId.'">'.$valueTitle.'</a></small>'.$nbFileSubView.'</li>';
-                            }else{
-                                $sqlViewCat .= '<span>&hellip;</span>';
+                            if ($fileNbSubcatCount <= $fileNbSubcat) {
+                                $sqlViewCat .= '<li class="nkInlineBlock nkMarginRight nkMarginLeft nkValignTop"><small><a href="index.php?file='.$modName.'&amp;cat='.$keyId.'">'.$valueTitle.'</a></small>'.$nbFileSubView.'</li>';
+                            } else if ($fileNbSubcat != 0) {
+                                $sqlViewCat .= '<li class="nkInlineBlock nkMarginRight nkMarginLeft nkValignTop"><small><a href="index.php?file='.$modName.'&amp;cat='.$catId.'">&hellip;</a></small></li>';
                             }
+                            $fileNbSubcatCount++;
                         }
                         $sqlViewCat .= '</ul>';
                     }
@@ -380,6 +402,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                     $sqlViewCat = '<nav class="nkMarginTop15 nkAlignCenter nkWidthFull">';
 
                     while(list($catId, $catTitle, $catShortDescription, $subCatId, $subCatTitle) = mysql_fetch_array($sqlCatExecute)){
+
 
                         $sqlNbFile = 'SELECT type FROM '.DOWNLOADS_TABLE.' WHERE type = "'.$catId.'"';
                         $sqlNbFileExecute = mysql_query($sqlNbFile);
@@ -475,6 +498,8 @@ if ($visiteur >= $level_access && $level_access > -1)
                 ?>
                 <h1 class="nkMarginTop15 nkAlignCenter"><?php echo DOWNLOAD; ?></h1>
                 <?php
+
+                    //$catDesc = utf8_encode($catDesc);
 
                 echo'<div class="nkAlignCenter nkAlignLeft nkMarginLRAuto nkWidthHalf">'.$catDesc.'</div>';
                 // Affichage du menu
@@ -797,6 +822,9 @@ if ($visiteur >= $level_access && $level_access > -1)
                 }
                 ?>
             </article>
+            <footer class="nkAlignCenter">
+                <span><small>( <?php echo THEREIS,'&nbsp;',$statFile,'&nbsp;',FILES,'&nbsp;-&nbsp;',$statSubCat,'&nbsp;',NBSUBCAT,'&nbsp;&amp;&nbsp;',$statCat,'&nbsp;',NBCAT,'&nbsp;',INDATABASE; ?> )</small></span>   
+            </footer>
         </section>
 
     <?php

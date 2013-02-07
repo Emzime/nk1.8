@@ -83,7 +83,7 @@ if ($active == 3 || $active == 4) {
         </article>
         <article class="nkInlineBlock nkWidthHalf nkValignTop">
             <header>
-                <h2 class="nkAlignCenter"><a href="index.php?file=Downloads&amp;orderby=count"><?php echo TOPDOWN; ?></a><h2>
+                <h2 class="nkAlignCenter"><a href="index.php?file=Downloads&amp;orderby=count"><?php echo TOPDOWN; ?></a></h2>
             </header>
             <section class="nkBlock nkWidthFully">
                 <nav>

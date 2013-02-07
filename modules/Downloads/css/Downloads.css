@@ -78,10 +78,7 @@
 .nkPersonalCatMarginLeft15 a, .nkPersonalCatMarginLeft15 small {
     color: #AFAFAF;
 }
-ol > li {
-    list-style-type: decimal;
-}
-ol{
+.downloadsOl{
     padding-left: 40px;
 }
 #nkPersonalCss{

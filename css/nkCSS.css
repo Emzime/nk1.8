@@ -17,6 +17,9 @@ body{
 a, a:link, a:visited, a:hover {
     text-decoration: none;
 }
+ol > li {
+    list-style-type: decimal;
+}
 /* SUPPRESSION DES POINTS SUR LES LI */
 li {
     list-style: none outside none;

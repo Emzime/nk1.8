@@ -1,30 +1,41 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+*   Block of Downloads module
+*   Display the last/top 10 files
+*
+*   @version 1.8
+*   @link http://www.nuked-klan.org Clan Management System 4 Gamers NK CMS
+*   @license http://opensource.org/licenses/gpl-license.php GNU Public License
+*   @copyright 2001-2013 Nuked Klan 
+*/
+
 defined('INDEX_CHECK') or die ('<div style="text-align: center;">You cannot open this page directly</div>');
 global $language, $user;
 translate('modules/Downloads/lang/'.$language.'.lang.php');
 
-$visiteur = $user ? $user[1] : 0;
+if($user){
+    $visiteur = $user['1'];
+}else{
+    $visiteur = 0;
+}
 
-$sql2 = mysql_query('SELECT active FROM '.BLOCK_TABLE.' WHERE bid="'.$bid.'"');
-list($active) = mysql_fetch_array($sql2);
+$dbsActive = 'SELECT active FROM '.BLOCK_TABLE.' WHERE bid = '.$bid;
+$dbeActive = mysql_query($dbsActive);
+list($active) = mysql_fetch_array($dbeActive);
+
+$modulePref = $GLOBALS['nkFunctions']->nkModsPrefs('Downloads');
+
+$dbsLastBlock = 'SELECT dt.id, dt.titre, dt.date, dt.type, dt.description, dct.titre, dct.parentid, dct2.titre 
+            FROM '.DOWNLOADS_TABLE.' AS dt 
+            LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS dct ON dt.type = dct.cid 
+            LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS dct2 ON dct.parentid = dct2.cid 
+            WHERE '.$visiteur.' >= dt.level 
+            ORDER BY dt.date 
+            DESC LIMIT 0, 10';
+$dbeLastBlock = mysql_query($dbsLastBlock);
+
 if ($active == 3 || $active == 4) {
-
-    if (is_file('themes/'.$theme.'/images/files.gif')) {
-        $img = '<img src="themes/'.$theme.'/images/files.gif" alt="" />';
-    } else {
-        $img = '<img src="modules/Downloads/images/files.gif" alt="" />';
-    }
-
-    $modulePref = $GLOBALS['nkFunctions']->nkModsPrefs('Downloads');
-    ?>
+?>
 
     <article class="nkWidthFully nkMarginBottom15">
         <article class="nkInlineBlock nkWidthHalf nkValignTop">
@@ -33,47 +44,37 @@ if ($active == 3 || $active == 4) {
             </header>
             <section id="nkPersonalCss" class="nkBlock nkWidthFully">
                 <nav>
-                    <ol class="nkInlineBlock">
+                    <ol class="downloadsOl nkInlineBlock">
                         <?php
-                        $sql = mysql_query('SELECT id, titre, date, type, description FROM '.DOWNLOADS_TABLE.' WHERE '.$visiteur.' >= level ORDER BY id DESC LIMIT 0, 10');
-                        while (list($idDownload, $title, $date, $cat, $description) = mysql_fetch_array($sql)) 
+                        while (list($fileId, $fileTitle, $fileDate, $fileCatId, $fileDescription, $fileCatName, $fileParentId, $fileParentCatName) = mysql_fetch_array($dbeLastBlock)) 
                         {
-                            $title = printSecuTags($title);
-                            $date = nkDate($date);
+                            $fileTitle = printSecuTags($fileTitle);
+                            $fileDate = nkDate($fileDate);
+                            $fileCatName = printSecuTags($fileCatName);
+                            $fileParentCatName = printSecuTags($fileParentCatName);
 
-                            if(!$description){
-                                $description = NONEDESC;
+                            if(!$fileDescription){
+                                $fileDescription = NONEDESC;
                             }else{
-                                $description = $GLOBALS['nkFunctions']->nkCutText($description, '100');
+                                $fileDescription = $GLOBALS['nkFunctions']->nkCutText($fileDescription, '100');
                             }
 
-                            $sql4 = mysql_query('SELECT titre, parentid FROM '.DOWNLOADS_CAT_TABLE.' WHERE cid = "'.$cat.'"');
-                            list($cat_name, $parentid) = mysql_fetch_array($sql4);
-                            $cat_name = printSecuTags($cat_name);
-
-                            if ($cat == 0) {
-                                $category = '';
-                            } else if ($parentid > 0) {
-                                $sql5 = mysql_query('SELECT titre FROM '.DOWNLOADS_CAT_TABLE.' WHERE cid = "'.$parentid.'"');
-                                list($parent_name) = mysql_fetch_array($sql5);
-                                $parent_name = printSecuTags($parent_name);
-
-                                $category = '<a href="index.php?file=Downloads&amp;cat='.$parentid.'">'.$parent_name.'</a>&nbsp;-&nbsp;<a href="index.php?file=Downloads&amp;cat='.$cat.'">'.$cat_name.'</a>';
+                            if ($fileParentId == 0 && !is_null($fileParentId)) {
+                                $linkLastView = '<a href="index.php?file=Downloads&amp;cat='.$fileCatId.'">'.$fileCatName.'</a>';
+                            } else if ($fileParentId > 0) {
+                                $linkLastView = '<a href="index.php?file=Downloads&amp;cat='.$fileParentId.'">'.$fileParentCatName.'</a>&nbsp;-&nbsp;<a href="index.php?file=Downloads&amp;cat='.$fileCatId.'">'.$fileCatName.'</a>';
                             } else {
-                                $category = '<a href="index.php?file=Downloads&amp;cat='.$cat.'">'.$cat_name.'</a>';
+                                $linkLastView = NONECAT;
                             }
+
                             ?>
-                                <li class="nkPadding">
-                                    <?php
-                                        echo $GLOBALS['nkFunctions']->nkTooltip($description, 'index.php?file=Downloads&amp;nuked_nude=index&amp;idDownload='.$idDownload, $title, 'nkPopupBox', $modulePref['tooltipTheme'], $modulePref['tooltipPosition'], $modulePref['tooltipAnimation'], $modulePref['tooltipMaxWidth'], $modulePref['tooltipArrowColor']);
-                                    ?>
-                                </li>
-                            <?php
-                            if ($category != ''){
-                                echo'<span class="nkPersonalCatMarginLeft15"><small>'.$category.'</small></span>';
-                            }else{
-                                echo'<span class="nkPersonalCatMarginLeft15"><small>'.NONECAT.'</small></span>';
-                            }
+                            <li class="nkPadding">
+                                <?php
+                                    echo $GLOBALS['nkFunctions']->nkTooltip($fileDescription, 'index.php?file=Downloads&amp;nuked_nude=index&amp;idDownload='.$fileId, $fileTitle, 'nkPopupBox', $modulePref['tooltipTheme'], $modulePref['tooltipPosition'], $modulePref['tooltipAnimation'], $modulePref['tooltipMaxWidth'], $modulePref['tooltipArrowColor']);
+                                ?>
+                            </li>
+                            <span class="nkPersonalCatMarginLeft15"><small><?php echo $linkLastView ?></small></span> 
+                        <?php                               
                         }
                         ?>
                     </ol>
@@ -82,47 +83,49 @@ if ($active == 3 || $active == 4) {
         </article>
         <article class="nkInlineBlock nkWidthHalf nkValignTop">
             <header>
-                <h2 class="nkAlignCenter"><a href="index.php?file=Downloads&amp;orderby=count"><?php echo TOPDOWN; ?></a><h2>
+                <h2 class="nkAlignCenter"><a href="index.php?file=Downloads&amp;orderby=count"><?php echo TOPDOWN; ?></a></h2>
             </header>
             <section class="nkBlock nkWidthFully">
                 <nav>
-                    <ol class="nkInlineBlock">
+                    <ol class="downloadsOl nkInlineBlock">
                         <?php
-                        $sql3 = mysql_query('SELECT id, titre, count, type, description FROM '.DOWNLOADS_TABLE.' WHERE '.$visiteur.' >= level ORDER BY count DESC LIMIT 0, 10');
-                        while (list($tidDownload, $ttitle, $tcount, $tcat, $tdesc) = mysql_fetch_array($sql3)) {
-                            $sql4 = mysql_query('SELECT titre, parentid FROM '.DOWNLOADS_CAT_TABLE.' WHERE cid = "'.$tcat.'"');
-                            list($tcat_name, $tparentid) = mysql_fetch_array($sql4);
-                            $tcat_name = printSecuTags($tcat_name);
+                        $dbsTopBlock = 'SELECT dt.id, dt.titre, dt.date, dt.type, dt.description, dct.titre, dct.parentid, dct2.titre 
+                                    FROM '.DOWNLOADS_TABLE.' AS dt 
+                                    LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS dct ON dt.type = dct.cid 
+                                    LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS dct2 ON dct.parentid = dct2.cid 
+                                    WHERE '.$visiteur.' >= dt.level 
+                                    ORDER BY dt.count 
+                                    DESC LIMIT 0, 10';
+                        $dbeTopBlock = mysql_query($dbsTopBlock);
+                        while (list($fileTopId, $fileTopTitle, $fileTopDate, $fileTopCatId, $fileTopDescription, $fileTopCatName, $fileTopParentId, $fileTopParentCatName) = mysql_fetch_array($dbeTopBlock)) 
+                        {
+                            $fileTopTitle = printSecuTags($fileTopTitle);
+                            $fileTopDate = nkDate($fileTopDate);
+                            $fileTopCatName = printSecuTags($fileTopCatName);
+                            $fileTopParentCatName = printSecuTags($fileTopParentCatName);
 
-                            if(!$tdesc){
-                                $description = NONEDESC;
+                            if(!$fileTopDescription){
+                                $fileTopDescription = NONEDESC;
                             }else{
-                                $description = $GLOBALS['nkFunctions']->nkCutText($tdesc, '100');
+                                $fileTopDescription = $GLOBALS['nkFunctions']->nkCutText($fileTopDescription, '100');
                             }
 
-                            if ($tcat == 0) {
-                                $tcategory = '';
-                            } else if ($tparentid > 0) {
-                                $sql5 = mysql_query('SELECT titre FROM '.DOWNLOADS_CAT_TABLE.' WHERE cid = "'.$tparentid.'"');
-                                list($tparent_name) = mysql_fetch_array($sql5);
-                                $tparent_name = printSecuTags($tparent_name);
-
-                                $tcategory = '<a href="index.php?file=Downloads&amp;cat='.$tparentid.'">'.$tparent_name.'</a>&nbsp;-&nbsp;<a href="index.php?file=Downloads&amp;cat='.$tcat.'">'.$tcat_name.'</a>';
+                            if ($fileTopParentId == 0 && !is_null($fileTopParentId)) {
+                                $linkTopView = '<a href="index.php?file=Downloads&amp;cat='.$fileTopCatId.'">'.$fileTopCatName.'</a>';
+                            } else if ($fileTopParentId > 0) {
+                                $linkTopView = '<a href="index.php?file=Downloads&amp;cat='.$fileTopParentId.'">'.$fileTopParentCatName.'</a>&nbsp;-&nbsp;<a href="index.php?file=Downloads&amp;cat='.$fileTopCatId.'">'.$fileTopCatName.'</a>';
                             } else {
-                                $tcategory = '<a href="index.php?file=Downloads&amp;cat='.$tcat.'">'.$tcat_name.'</a>';
+                                $linkTopView = NONECAT;
                             }
+
                             ?>
-                                <li class="nkPadding">
-                                    <?php
-                                        echo $GLOBALS['nkFunctions']->nkTooltip($description, 'index.php?file=Downloads&amp;nuked_nude=index&amp;idDownload='.$tidDownload, $ttitle, 'nkPopupBox', $modulePref['tooltipTheme'], $modulePref['tooltipPosition'], $modulePref['tooltipAnimation'], $modulePref['tooltipMaxWidth'], $modulePref['tooltipArrowColor']);
-                                    ?>
-                                </li>
-                            <?php
-                            if ($tcategory != ''){
-                                echo'<span class="nkPersonalCatMarginLeft15"><small>'.$tcategory.'</small></span>';
-                            }else{
-                                echo'<span class="nkPersonalCatMarginLeft15"><small>'.NONECAT.'</small></span>';
-                            }
+                            <li class="nkPadding">
+                                <?php
+                                    echo $GLOBALS['nkFunctions']->nkTooltip($fileTopDescription, 'index.php?file=Downloads&amp;nuked_nude=index&amp;idDownload='.$fileTopId, $fileTopTitle, 'nkPopupBox', $modulePref['tooltipTheme'], $modulePref['tooltipPosition'], $modulePref['tooltipAnimation'], $modulePref['tooltipMaxWidth'], $modulePref['tooltipArrowColor']);
+                                ?>
+                            </li>
+                            <span class="nkPersonalCatMarginLeft15"><small><?php echo $linkTopView ?></small></span> 
+                        <?php       
                         }
                         ?>
                     </ol>
@@ -132,7 +135,7 @@ if ($active == 3 || $active == 4) {
         <footer class="nkAlignCenter nkWidthFully nkBlock nkMarginTop15">
             <nav>
                 <ul>
-                    <li class="nkInlineBlock nkMarginLRAuto nkWidthHalf"><a href="index.php?file=Downloads&amp;orderby=news"><small>+&nbsp;<?php echo MORELAST; ?></small></a></li>
+                    <li class="nkInlineBlock nkMarginLRAuto nkWidthHalf"><a href="index.php?file=Downloads&amp;orderby=newse"><small>+&nbsp;<?php echo MORELAST; ?></small></a></li>
                     <li class="nkInlineBlock nkMarginLRAuto nkWidthHalf"><a href="index.php?file=Downloads&amp;orderby=count"><small>+&nbsp;<?php echo MORETOP; ?></small></a></li>
                 </ul>
             </nav>
@@ -140,23 +143,21 @@ if ($active == 3 || $active == 4) {
     </article>
 <?php
 } else {
-    $modulePref = $GLOBALS['nkFunctions']->nkModsPrefs('Downloads');
 ?>
-    <ol>
+    <ol class="downloadsOl">
         <?php
-        $sql = mysql_query('SELECT dt.id, dt.titre, dt.date, dt.description, dct.titre FROM '.DOWNLOADS_TABLE.' AS dt LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS dct ON dt.type = dct.cid WHERE '.$visiteur.' >= dt.level ORDER BY dt.date DESC LIMIT 0, 10');
-        while (list($idDownload, $title, $date, $description, $fileCatName) = mysql_fetch_array($sql)) {
-            $titre = printSecuTags($title);
-            $date = nkDate($date);
+        while (list($fileId, $fileTitle, $fileDate, $fileCatId, $fileDescription, $fileCatName, $fileParentId, $fileParentCatName) = mysql_fetch_array($dbeLastBlock)) {
+            $fileTitle = printSecuTags($fileTitle);
+            $fileDate = nkDate($fileDate);
+            if(!$fileDescription){
+                $fileDescription = NONEDESC;
+            }else{
+                $fileDescription = $GLOBALS['nkFunctions']->nkCutText($fileDescription, '100');
+            }
             ?>
             <li>
                 <?php
-                if(!$description){
-                    $description = NONEDESC;
-                }else{
-                    $description = $GLOBALS['nkFunctions']->nkCutText($description, '100');
-                }
-                echo $GLOBALS['nkFunctions']->nkTooltip($description, 'index.php?file=Downloads&amp;nuked_nude=index&amp;idDownload='.$idDownload, $title.'<small>&nbsp;('.$date.')</small>', 'nkPopupBox', $modulePref['tooltipTheme'], $modulePref['tooltipPosition'], $modulePref['tooltipAnimation'], $modulePref['tooltipMaxWidth'], $modulePref['tooltipArrowColor']);
+                echo $GLOBALS['nkFunctions']->nkTooltip($fileDescription, 'index.php?file=Downloads&amp;nuked_nude=index&amp;idDownload='.$fileId, $fileTitle.'<small>&nbsp;('.$fileDate.')</small>', 'nkPopupBox', $modulePref['tooltipTheme'], $modulePref['tooltipPosition'], $modulePref['tooltipAnimation'], $modulePref['tooltipMaxWidth'], $modulePref['tooltipArrowColor']);
                 ?>                
             </li>
         <?php

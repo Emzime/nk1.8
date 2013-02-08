@@ -59,4 +59,6 @@ define('NBSUBCAT','Sous-catégories');
 define('INDATABASE','dans la base de données');
 define('FILES','Fichiers');
 define('CANTOPENPAGE','Vous ne pouvez pas ouvrir cette page directement');
+define('ISHOT', 'Hot !');
+define('ISNEW', 'New !');
 ?>

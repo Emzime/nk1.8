@@ -748,10 +748,11 @@ div[id^='globalVoteResult_'] {
 .nkTextCollapse{
     font-size: 0;
 }
-
-/* Global pour la reinitialisation */
 .nkBold{
     font-weight: bold;
+}
+.nkItalic{
+    font-style: italic;
 }
 .nkNnoWrap{
     white-space:nowrap;

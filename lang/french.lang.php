@@ -41,10 +41,10 @@ define("WHATAREYOUTRYTODO", "Que tentez vous de faire ?");
 define("HOME", "Accueil");
 
 /**** Commentaires ****/
-define("NOCOMMENTDB", 'Aucun commentaire.');
+define("NOCOMMENTDB", 'Aucun commentaire');
 define("COMMENTBY","Posté par");
 define("COMMENTTHE","le");
-define("FILECOMMENT","Avis");
+define("FILECOMMENT","Commentaires");
 define("LASTFILECOMMENT","Dernier avis");
 define("SEEALLCOMMENT","Plus d'avis");
 define("NEWCOMMENT","Donner votre avis");
@@ -109,5 +109,8 @@ define("EDIT", "Editer");
 define("DEL", "Supprimer");
 define("NONE", "Aucun enregistrement");
 define("NONECAT", "Aucune catégorie");
+
+define('CANTOPENPAGE','Vous ne pouvez pas ouvrir cette page directement');
+
 
 ?>

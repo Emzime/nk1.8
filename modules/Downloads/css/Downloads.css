@@ -84,3 +84,6 @@
 #nkPersonalCss{
     border-right: 1px groove #000;
 }
+.isNew, .isHot{
+    color: red;
+}

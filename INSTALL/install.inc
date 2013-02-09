@@ -347,7 +347,8 @@
                             ('tooltipPosition', 'left'),
                             ('tooltipAnimation', 'grow'),
                             ('tooltipArrowColor', ''),
-                            ('tooltipMaxWidth', 'null');";
+                            ('tooltipMaxWidth', 'null'),
+                            ('tooltipCutText', '150');";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;

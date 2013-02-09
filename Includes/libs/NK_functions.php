@@ -132,6 +132,7 @@ class NK_functions {
     * @param string $ending     -> Characters to add at the end
     * @param boolean $exact     -> exact cut
     * @return string
+    * exemple: $GLOBALS['nkFunctions']->nkCutText($description, '100');
     **/
     public function nkCutText($text, $length, $ending = '...', $exact = false) {
         if(strlen(preg_replace('/<.*?>/', '', $text)) <= $length) {
@@ -332,7 +333,7 @@ class NK_functions {
      **/
     public function nkModsPrefs($mods){
         $mods = strtoupper($mods);
-        $constantMods = constant($mods._CONFIG_TABLE);
+        $constantMods = constant($mods.'_CONFIG_TABLE');
         $sql = mysql_query('SELECT name, value FROM '.$constantMods);
         while($row = mysql_fetch_array($sql)){
             $return[$row['name']] = printSecuTags(htmlentities($row['value'], ENT_NOQUOTES));
@@ -341,10 +342,10 @@ class NK_functions {
     }
 
     /**
-    * Validation function links             
-    * @param $url -> link / file  to the page  
-    **/
-    function nkVerifyUrl($url, $check=null) {
+     * Validation function links             
+     * @param $url -> link / file  to the page  
+     **/
+    public function nkVerifyUrl($url, $check=null) {
         global $nuked;
 
         /* On verifie le format de l'url */
@@ -377,6 +378,18 @@ class NK_functions {
         }
 
         return $linkUrlVerify;
+    }
+
+    /**
+     * nkInitRequest initializes the elements of the array
+     * @param array $array 
+     */
+    public function nkInitRequest($array){
+        foreach ($array as $value) {
+            if(!isset($_REQUEST[$value])){
+                $_REQUEST[$value] = null;
+            }
+        }
     }
 }
 ?>

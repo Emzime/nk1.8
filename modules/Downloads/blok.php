@@ -64,7 +64,7 @@ if ($blockSide == 3 || $blockSide == 4) {
                             if (!$fileDescription) {
                                 $fileDescription = NONEDESC;
                             } else {
-                                $fileDescription = $GLOBALS['nkFunctions']->nkCutText($fileDescription, '100');
+                                $fileDescription = $GLOBALS['nkFunctions']->nkCutText($fileDescription, $modulePref['tooltipCutText']);
                             }
 
                             if ($fileParentId == 0 && !is_null($fileParentId)) {

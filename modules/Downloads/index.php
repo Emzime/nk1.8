@@ -8,10 +8,10 @@
 *   @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *   @copyright 2001-2013 Nuked Klan 
 */
-global $language, $user, $nuked;
+defined('INDEX_CHECK') or die ('<div style="text-align: center;">'.CANTOPENPAGE.'</div>');
 $modName = basename(dirname(__FILE__));
 
-defined('INDEX_CHECK') or die ('<div style="text-align: center;">'.CANTOPENPAGE.'</div>');
+global $language, $user, $nuked;
 
 $level_access = nivo_mod($modName);
 translate('modules/'.$modName.'/lang/'.$language.'.lang.php');
@@ -25,11 +25,22 @@ if ($user) {
 if ($visiteur >= $level_access && $level_access > -1) {
     compteur($modName);
 
+    // Vérification des variables
+    $requestArray = array(
+            'cat',
+            'requestedId',
+            'orderby',
+            'url',
+            'p',
+            'orderbycat'
+        );
+    $GLOBALS['nkFunctions']->nkInitRequest($requestArray);
+
     $arrayMenu = array(
         'index.php?file='.$modName                          =>  INDEX,
         'index.php?file='.$modName.'&amp;orderby=newse'     =>  NEWSFILE,
         'index.php?file='.$modName.'&amp;orderby=count'     =>  POPULAR,
-        'index.php?file=Suggest&amp;module='.$modName.''    =>  SUGGESTFILE
+        'index.php?file=Suggest&amp;module='.$modName       =>  SUGGESTFILE
     );
 
     $breadCrumbArray = array(
@@ -37,7 +48,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         'index.php?file='.$modName  => DOWNLOAD
     );
 
-    if ($_REQUEST['cat']) {
+    if (isset($_REQUEST['cat'])) {
         $orderByArray = array(
             'index.php?file='.$modName.'&amp;cat='.$_REQUEST['cat'].'&amp;orderbycat=news'     => DATE,
             'index.php?file='.$modName.'&amp;cat='.$_REQUEST['cat'].'&amp;orderbycat=count'    => TOPFILE,
@@ -53,11 +64,11 @@ if ($visiteur >= $level_access && $level_access > -1) {
         );
     }
 
-    function index($cat) {
+    function index($cat, $requestedId, $orderby, $orderbycat) {
         global $nuked, $arrayMenu, $breadCrumbArray, $orderByArray, $modName, $visiteur;
 
         $modulePref = $GLOBALS['nkFunctions']->nkModsPrefs($modName);
-
+/*
         $hideDescription  = $modulePref['hideDescription'];  // affichage ou non de la description des téléchargements
         $fileMaxDownload  = $modulePref['fileMaxDownload'];  // nombre de fichier par page
         $fileNbSubcat     = $modulePref['fileNbSubcat'];     // nombre de sous cat a afficher
@@ -67,8 +78,8 @@ if ($visiteur >= $level_access && $level_access > -1) {
         $nbFileHot        = $modulePref['nbFileHot'];        // nombre de telechargement pour qu'un fichier soit HOT
         $fileNbComment    = $modulePref['fileNbComment'];    // nombre de commentaire a afficher
         $fileNbCommentCut = $modulePref['fileNbCommentCut']; // nombre de lettres pour le découpe des mots
-
-       // Requete pour statistique en bas de page
+*/
+        // Requete pour statistique en bas de page
         $dbsFile = 'SELECT count( id ), 
                         (
                             SELECT count( cid )
@@ -85,16 +96,22 @@ if ($visiteur >= $level_access && $level_access > -1) {
         list($statFile, $statSubCat, $statCat) = mysql_fetch_array($dbeFile);
 
         // Affichage si clic sur les blocks 
-        if ($_REQUEST['requestedId']) {
+        if ($requestedId) {
 
             $dbsRequestFile = ' SELECT D.titre, D.description, D.taille, D.type, D.count, D.date, D.url, D.screen, D.level, D.edit, D.autor, D.url_autor, D.comp, C.titre, avg( V.vote ) AS note
                                 FROM '.DOWNLOADS_TABLE.' AS D
                                 LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS C ON C.cid = D.type
                                 LEFT JOIN '.VOTE_TABLE.' AS V ON D.id = V.vid AND V.module = \''.$modName.'\'
-                                WHERE D.id = '.$_REQUEST['requestedId'];
+                                WHERE D.id = '.$requestedId;
             $dbeRequestFile = mysql_query($dbsRequestFile);
             list($fileTitle, $fileDescription, $fileSize, $fileType, $fileCount, $fileDate, $fileUrl, $fileScreen, $fileLevel, $fileEdit, $fileAutor, $fileUrlAutor, $fileCompatibility, $fileCatTitle, $fileNote) = mysql_fetch_array($dbeRequestFile);
-
+            
+            // Affiche le nombre de commentaires 
+            $dbsComDl = 'SELECT id 
+                         FROM '.COMMENT_TABLE.' 
+                         WHERE im_id = '.$requestedId;
+            $dbeComDl = mysql_query($dbsComDl);
+            $dbcFileNbComment = mysql_num_rows($dbeComDl);
 
             // A ADAPTER AVEC LE FUNCTION VOTE 
             $fileNote = round($fileNote, 2);
@@ -120,7 +137,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
             }
 
             // Affichage de la description si option defini par l'administrateur 
-            if ($hideDescription == "off") {
+            if ($modulePref['hideDescription'] == "off") {
 
                 // Affichage d'un message si la description est vide 
                 if (empty($fileDescription)) {
@@ -164,13 +181,6 @@ if ($visiteur >= $level_access && $level_access > -1) {
             } else {
                 $fileAutor = $fileAutor;
             }
-            
-            // Affiche le nombre de commentaires 
-            $dbsComDl = 'SELECT id 
-                         FROM '.COMMENT_TABLE.' 
-                         WHERE im_id = '.$_REQUEST['requestedId'];
-            $dbeComDl = mysql_query($dbsComDl);
-            $dbcFileNbComment = mysql_num_rows($dbeComDl);
 
             // Affichage d'un message si catégorie null 
             if ($fileCatTitle == '') {
@@ -196,16 +206,10 @@ if ($visiteur >= $level_access && $level_access > -1) {
                 $fileExtension = $fileExtension;
             } 
 
-            $fileName = strrchr($fileUrl, '/');
-            $fileName = substr($fileName, 1);
-            if ($fileName != '' && !preg_match('`\?`i', $fileUrl) && !preg_match('`.html`i', $fileUrl) && !preg_match('`.htm`i', $fileUrl)) {
-                $filename = $fileName;
-            }
-
             // Condition d'affichage du bouton de téléchargement
             if ($visiteur >= $fileLevel) {
                 // Affichage du bouton télécharger si le visiteur a le niveau 
-                $filesButtonView = '<a href="index.php?file='.$modName.'>&amp;op=doDownload&amp;nuked_nude=index&amp;requestedId='.$_REQUEST['requestedId'].'" title="'.DOWNLOAD.' '.$fileTitle.'" class="nkButton">'.DOWNLOAD.'</a>';
+                $filesButtonView = '<a href="index.php?file='.$modName.'>&amp;op=doDownload&amp;nuked_nude=index&amp;requestedId='.$requestedId.'" title="'.DOWNLOAD.' '.$fileTitle.'" class="nkButton">'.DOWNLOAD.'</a>';
             } elseif ($visiteur == 0) {
                 // Affichage du bouton de demande d'itentification 
                 $filesButtonView = '<a href="index.php?file=User&amp;nuked_nude=index&amp;op=login_screen" title="" class="nkPopupBox nkButton">'.NEEDLOGIN.'</a>';
@@ -229,7 +233,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
                     <div class="nkInlineBlock">
                         <?php
                             // A COMPLETER QUAND LA LIBRAIRIE VOTE SERA FAITE 
-                            // rating($modName, $_REQUEST['requestedId']);
+                            // rating($modName, $requestedId);
                         ?>
                     </div>
                 </header>
@@ -258,14 +262,16 @@ if ($visiteur >= $level_access && $level_access > -1) {
                             </ul>
                         </div>
                         <?php
-                        echo $fileDescriptionView;
+                        if ($modulePref['hideDescription'] == "off") {
+                            echo $fileDescriptionView;
+                        }
                         ?>
                     </div>
                     <!-- Parti deporté pour le module commentaire -->
                     <aside class="nkInlineBlock nkMarginTop15 nkValignTop nkWidthQuarter nkAlignCenter">
                         <figure><?php echo $box; ?></figure>
                             <?php 
-                                viewComment($modName, $_REQUEST['requestedId'], $fileNbComment, $fileNbComment_cut);
+                                viewComment($modName, $requestedId, $modulePref['fileNbComment'], $modulePref['fileNbCommentCut']);
                             ?>
                     </aside>
                 </article>
@@ -283,13 +289,13 @@ if ($visiteur >= $level_access && $level_access > -1) {
             if (!$_REQUEST['p']) {
                 $_REQUEST['p'] = 1;
             }
-            $pageStart = $_REQUEST['p'] * $fileMaxDownload - $fileMaxDownload;
+            $pageStart = $_REQUEST['p'] * $modulePref['fileMaxDownload'] - $modulePref['fileMaxDownload'];
 
             // Requete pour les fichiers 
             if ($cat) {
                 $whereFileCat = 'WHERE type="'.$cat.'"';
                 $whereCat = 'WHERE cid="'.$cat.'"';
-            } elseif ($_REQUEST['orderby']) {
+            } elseif ($orderby) {
                 $whereFileCat = '';            
             } else {
                 $whereFileCat = 'WHERE type=0';
@@ -298,33 +304,33 @@ if ($visiteur >= $level_access && $level_access > -1) {
             }
 
             // Requete sur orderbycat 
-            if ($_REQUEST['orderbycat'] == 'name') {
+            if ($orderbycat == 'name') {
                 $order = 'ORDER BY D.titre';
                 $orderCatSelect = NAME;  
-            } elseif ($_REQUEST['orderbycat'] == 'count') {
+            } elseif ($orderbycat == 'count') {
                 $order = 'ORDER BY D.count DESC';
                 $orderCatSelect = TOPFILE; 
-            } elseif ($_REQUEST['orderbycat'] == 'note') {
+            } elseif ($orderbycat == 'note') {
                 $order = 'ORDER BY note DESC';  
                 $orderCatSelect = NOTE;  
-            } elseif (!isset($_REQUEST['orderbycat']) || $_REQUEST['orderbycat'] = 'news') {
+            } elseif (!$orderbycat || $orderbycat == 'news') {
                 $order = 'ORDER BY D.date DESC';
                 $orderCatSelect = DATE;
             }
 
             // Requete sur orderby 
-            if ($_REQUEST['orderby'] == 'count') {
+            if ($orderby == 'count') {
                 $order = 'ORDER BY D.count DESC'; 
                 $orderSelect = POPULAR;  
-            } elseif ($_REQUEST['orderby'] == 'newse') {
-                $order = 'ORDER BY D.date DESC LIMIT '.$nbFileNew;   
+            } elseif ($orderby == 'newse') {
+                $order = 'ORDER BY D.date DESC LIMIT '.$modulePref['nbFileNew'];   
                 $orderSelect = NEWSFILE;  
-            } elseif (!isset($_REQUEST['orderby'])) {
+            } elseif (!$orderby) {
                 $orderSelect = INDEX;  
             }
 
             // Affichage si orderby n'est pas present dans le lien 
-            if (!$_REQUEST['orderby']) {
+            if (!$orderby) {
                 // Requete pour la nav des catégories 
                 $sqlCat = ' SELECT a.cid, a.titre AS Cat, a.shortDescription,                
                             GROUP_CONCAT(b.cid SEPARATOR "|") AS subCatId, 
@@ -347,7 +353,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
                 list($catDesc, $catChildId) = mysql_fetch_array($sqlCatDescExecute);
 
                 // Affichage de la navigation des catégories à l'index
-                if ($cat == 0 && !$_REQUEST['orderby']) {                
+                if ($cat == 0 && !$orderby) {                
                     $sqlViewCat = '<nav class="nkMarginTop15 nkAlignCenter nkWidthFull"><ul class="nkMarginTop nkWidthFully nkMarginLRAuto">';
                     while (list($catId, $catTitle, $catShortDescription, $subCatId, $subCatTitle) = mysql_fetch_array($sqlCatExecute)) {
                         // Comptage des fichiers pour la catégorie appelée 
@@ -388,9 +394,9 @@ if ($visiteur >= $level_access && $level_access > -1) {
                                     $nbFileSubView = 0;
                                 }
 
-                                if ($fileNbSubcatCount <= $fileNbSubcat) {
+                                if ($fileNbSubcatCount <= $modulePref['fileNbSubcat']) {
                                     $sqlViewCat .= '<li class="nkInlineBlock nkMarginRight nkMarginLeft nkValignTop"><small><a href="index.php?file='.$modName.'&amp;cat='.$keyId.'">'.$valueTitle.'</a>&nbsp;('.$nbFileSubView.')</small></li>';
-                                } elseif ($fileNbSubcat != 0) {
+                                } elseif ($modulePref['fileNbSubcat'] != 0) {
                                     $sqlViewCat .= '<li class="nkInlineBlock nkMarginRight nkMarginLeft nkValignTop"><small><a href="index.php?file='.$modName.'&amp;cat='.$catId.'">&hellip;</a></small></li>';
                                 }
                                 $fileNbSubcatCount++;
@@ -402,7 +408,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
                     $sqlViewCat .= '</ul></nav>';
 
                 // Affichage si catégorie differente de 0 et absence de orderby 
-                } elseif ($cat != 0 && !$_REQUEST['orderby']) {
+                } elseif ($cat != 0 && !$orderby) {
                     // Affichage si pas de sous catégorie dans la catégorie appelée 
                     if (!is_null($catChildId)) {
                         $sqlViewCat = '<nav class="nkMarginTop15 nkAlignCenter nkWidthFull">';
@@ -467,13 +473,12 @@ if ($visiteur >= $level_access && $level_access > -1) {
                     $breadCrumbArray = array_merge($breadCrumbArray, $newbreadCrumbArray);
                 }
             }
-           // Affichage du breadcrumb
-            $breadCrumbView = $GLOBALS['nkFunctions']->nkBreadCrumb($breadCrumbArray, $breadCrumbTheme);
+            // Affichage du breadcrumb
+            $breadCrumbView = $GLOBALS['nkFunctions']->nkBreadCrumb($breadCrumbArray, $modulePref['breadCrumbTheme']);
 
-           // Affichage du menu centrale
-            if ($cat == 0) {
-                $menuAffView = $GLOBALS['nkFunctions']->nkMenu($modName, $arrayMenu, $orderSelect, 'nkAlignCenter nkMarginBottom', null, 'nkInline', 'active', '[', ']', '|');
-            }
+            // Affichage du menu centrale
+            $menuAffView = $GLOBALS['nkFunctions']->nkMenu($modName, $arrayMenu, $orderSelect, 'nkAlignCenter nkMarginBottom', null, 'nkInline', 'active', '[', ']', '|');
+
             //Requete d'affichage des fichiers selon la catégorie 
             $dbsRequestFile = ' SELECT D.id, D.titre, D.description, D.taille, D.type, D.count, D.date, D.url, D.screen, D.level, D.edit, D.autor, D.url_autor, D.comp, C.titre, avg( V.vote ) AS note
                                 FROM '.DOWNLOADS_TABLE.' AS D
@@ -499,19 +504,29 @@ if ($visiteur >= $level_access && $level_access > -1) {
                     echo $breadCrumbView;
                     ?>
                     <h1 class="nkMarginTop15 nkAlignCenter"><?php echo DOWNLOAD; ?></h1>
-                    <div class="nkAlignCenter nkAlignLeft nkMarginLRAuto nkWidthHalf"><?php echo $catDesc; ?></div>
+                    <?php 
+                    if (!$orderby) {
+                    ?>
+                    <div class="nkAlignCenter nkAlignLeft nkMarginLRAuto nkWidthHalf">
+                        <?php
+                            echo $catDesc; 
+                        ?>
+                    </div>
                     <?php
+                    }
                     //Affichage du menu des catégories 
-                    echo $menuAffView;
+                    if ($cat == 0) {
+                        echo $menuAffView;
+                    }
                     //Affichage des catérogies 
-                    if ($_REQUEST['orderby']) {
-                        if ($dbcNbPage > $fileMaxDownload) {
+                    if ($orderby) {
+                        if ($dbcNbPage > $modulePref['fileMaxDownload']) {
                             ?>
                             <div class="nkInlineBlock nkWidthFully nkAlignLeft nkMarginBottom">
                                 <nav id="globalPageNumber" class="nkInline">
                                     <?php
 
-                                    number($dbcNbPage, $fileMaxDownload, 'index.php?file='.$modName.'&amp;orderby='.$_REQUEST['orderby']);
+                                    number($dbcNbPage, $modulePref['fileMaxDownload'], 'index.php?file='.$modName.'&amp;orderby='.$orderby);
 
                                     ?>
                                 </nav>
@@ -519,20 +534,24 @@ if ($visiteur >= $level_access && $level_access > -1) {
                         <?php
                         }
                     } elseif ($nbCat > 0) {
-                       //Affichage du menu des catégories 
-                        echo $sqlViewCat;
+                       //Affichage du menu des sous catégories
+                        if (!is_null($catChildId) || ($cat == 0 && is_null($catChildId))) {
+                            echo $sqlViewCat;
+                        }
 
-                        if ($dbcNbPage > $fileMaxDownload) {
+                        if ($dbcNbPage > $modulePref['fileMaxDownload']) {
                         ?>
                             <div class="nkInlineBlock nkWidthHalf nkAlignLeft nkMarginLeft">
                                 <nav id="globalPageNumber" class="nkInline">
                                     <?php
 
-                                    if ($_REQUEST['orderbycat']) {
-                                        $setOrderByCat = '&amp;orderbycat='.$_REQUEST['orderbycat'];
+                                    if ($orderbycat) {
+                                        $setOrderByCat = '&amp;orderbycat='.$orderbycat;
+                                    }else{
+                                        $setOrderByCat = '';
                                     }
 
-                                    number($dbcNbPage, $fileMaxDownload, 'index.php?file='.$modName.'&amp;cat='.$cat.$setOrderByCat);
+                                    number($dbcNbPage, $modulePref['fileMaxDownload'], 'index.php?file='.$modName.'&amp;cat='.$cat.$setOrderByCat);
 
                                     ?>
                                 </nav>
@@ -558,9 +577,9 @@ if ($visiteur >= $level_access && $level_access > -1) {
                 <article>
                     <?php
                     // Affichage du contenu des fichiers 
-                    for ($i = 0;$i < $fileMaxDownload;$i++) {
+                    for ($i = 0;$i < $modulePref['fileMaxDownload'];$i++) {
                         if (list($fileId, $fileTitre, $fileDescription, $fileSize, $fileCat, $fileCount, $fileDate, $fileUrl, $fileScreen, $fileLevel, $fileEdit, $fileAutor, $fileUrlAutor, $fileCompatibility, $fileCatTitle, $fileNote) = mysql_fetch_array($dbeRequestFile)) {
-                            $newsdate = time() - $fileNewTime;
+                            $newsdate = time() - $modulePref['fileNewTime'];
                             $isNewHot = '';
 
                             // A ADAPTER AVEC LE FUNCTION VOTE 
@@ -569,17 +588,30 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
                             // Condition pour fichier NEW 
                             if ($fileDate != '' && $fileDate > $newsdate) {
-                                $isNewHot = '<span class="nkInline">'.ISNEW.'</span>';
+                                $isNewHot = '<span class="nkInline nkBold nkItalic isNew nkMarginLeft">'.ISNEW.'</span>';
                             }
 
                             // Condition pour fichier HOT 
                             $dbsSqlHot = '  SELECT id 
                                             FROM '.DOWNLOADS_TABLE.' 
-                                            ORDER BY count DESC LIMIT '.$nbFileHot;
+                                            ORDER BY count DESC LIMIT '.$modulePref['nbFileHot'];
                             $dbeSqlHot = mysql_query($dbsSqlHot);
                             mysql_data_seek($dbeSqlHot, 0);
                             while (list($idHot) = mysql_fetch_array($dbeSqlHot)) {
-                                if ($fileId == $idHot && $dbcNbFile > 1 && $fileCount > $nbFileHot) $isNewHot .= '<span class="nkInline">'.ISHOT.'</span>';
+                                if ($fileId == $idHot && $dbeSqlHot > 1 && $fileCount > $modulePref['nbFileHot']) $isNewHot .= '<span class="nkInline nkBold nkItalic isHot nkMarginLeft">'.ISHOT.'</span>';
+                            }
+                            
+                            // Affiche le nombre de commentaires 
+                            $dbsSqlComDl = 'SELECT id 
+                                            FROM '.COMMENT_TABLE.' 
+                                            WHERE im_id = '.$fileId;
+                            $dbeSqlComDl = mysql_query($dbsSqlComDl);
+                            $dbcFileNbComment = mysql_num_rows($dbeSqlComDl);
+
+                            if ($dbcFileNbComment == 0) {
+                                $dbcFileNbComments = NOCOMMENTDB;
+                            } else {
+                                $dbcFileNbComments = $dbcFileNbComment;
                             }
 
                             // Affichage de l'image correspondant a l'extension du fichier 
@@ -609,7 +641,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
                             }
 
                             // Affichage de la description si option defini par l'administrateur 
-                            if ($hideDescription == "off") {
+                            if ($modulePref['hideDescription'] == "off") {
 
                                 // Affichage d'un message si la description est vide 
                                 if (empty($fileDescription)) {
@@ -654,25 +686,12 @@ if ($visiteur >= $level_access && $level_access > -1) {
                             } else {
                                     $fileAutor = $fileAutor;
                             }
-                            
-                            // Affiche le nombre de commentaires 
-                            $dbsSqlComDl = 'SELECT id 
-                                            FROM '.COMMENT_TABLE.' 
-                                            WHERE im_id = '.$fileId;
-                            $dbeSqlComDl = mysql_query($dbsSqlComDl);
-                            $dbcFileNbComment = mysql_num_rows($dbeSqlComDl);
 
-                            if ($dbcFileNbComment == 0) {
-                                $dbcFileNbComments = NOCOMMENTDB;
-                            } else {
-                                $dbcFileNbComments = $dbcFileNbComment;
-                            }
-
-                            // Affichage d'un message si catégorie null 
-                            if ($catTitle == '') {
+                            /*// Affichage d'un message si catégorie null 
+                            if (isset($catTitle) && $catTitle == '') {
                                 $catTitle = NONE;
                             }
-                            
+                            */
                             // Affichage de l'image si existante sinon affichage image de substitution 
                             if ($fileScreen != '') {
                                 $box = '<a href="'.checkimg($fileScreen).'" rel="shadowbox"><img  src="'.checkimg($fileScreen).'" title="'.$fileTitre.'" alt="" /></a>';
@@ -680,16 +699,9 @@ if ($visiteur >= $level_access && $level_access > -1) {
                                 $box = '<img src="'.checkimg('images/noimage.png').'" title="'.$fileTitre.'" alt="" />';
                             }
 
-
                             // Récupération de l'extention 
                             if ($fileExtension != '' && !preg_match('`\?`i', $fileUrl) && !preg_match('`.html`i', $fileUrl) && !preg_match('`.htm`i', $fileUrl)) {
                                 $fileExtension = $fileExtension;
-                            }
-
-                            $fileName = strrchr($fileUrl, '/');
-                            $fileName = substr($fileName, 1);
-                            if ($fileName != '' && !preg_match('`\?`i', $fileUrl) && !preg_match('`.html`i', $fileUrl) && !preg_match('`.htm`i', $fileUrl)) {
-                                $filename = $fileName;
                             }
 
                             // Affichage de la date si fichier édité
@@ -758,7 +770,9 @@ if ($visiteur >= $level_access && $level_access > -1) {
                                             </ul>
                                         </div>
                                         <?php
-                                        echo $fileDescriptionView;
+                                        if ($modulePref['hideDescription'] == "off") {
+                                            echo $fileDescriptionView;
+                                        }
                                         ?>
                                     </div>
                                     <!-- Parti deporté pour le module commentaire -->
@@ -768,7 +782,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
                                         </figure>
                                         <?php 
                                         // Affichage des commentaires du fichier 
-                                        viewComment($modName, $fileId, $fileNbComment, $fileNbComment_cut);
+                                        viewComment($modName, $fileId, $modulePref['fileNbComment'], $modulePref['fileNbCommentCut']);
                                         ?>
                                     </aside>
                                 </article>
@@ -869,7 +883,6 @@ if ($visiteur >= $level_access && $level_access > -1) {
     }
 
 
-
     switch ($_REQUEST['op']) {
 
         case "doDownload":
@@ -897,7 +910,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
             break;
 
         default:
-            index($_REQUEST['cat']);
+            index($_REQUEST['cat'], $_REQUEST['requestedId'], $_REQUEST['orderby'], $_REQUEST['orderbycat']);
             break;
     }
 

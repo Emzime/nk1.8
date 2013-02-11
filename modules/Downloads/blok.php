@@ -8,23 +8,9 @@
 *   @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *   @copyright 2001-2013 Nuked Klan 
 */
-global $language, $user;
-$modName = basename(dirname(__FILE__));
 defined('INDEX_CHECK') or die ('<div style="text-align: center;">'.CANTOPENPAGE.'</div>');
-translate('modules/'.$modName.'/lang/'.$language.'.lang.php');
-
-if ($user) {
-    $visiteur = $user['1'];
-} else {
-    $visiteur = 0;
-}
-
-// Recherche de la position du block
-$dbsActive = '  SELECT active 
-                FROM '.BLOCK_TABLE.' 
-                WHERE bid = '.$bid;
-$dbeActive = mysql_query($dbsActive);
-list($blockSide) = mysql_fetch_array($dbeActive);
+global $visiteur, $user, $blockSide;
+$modName = basename(dirname(__FILE__));
 
 // Appel des préférences du module
 $modulePref = $GLOBALS['nkFunctions']->nkModsPrefs('Downloads');

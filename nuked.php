@@ -347,6 +347,22 @@ function getBlockData($activeSelected) {
 }
 
 /**
+ * Récupère les block actif et leur position
+ */
+function activeBlock() {
+
+        $dbsActiveBlock = ' SELECT module, active 
+                            FROM '.BLOCK_TABLE.' 
+                            WHERE active != 0 AND module != "" ';
+        $dbeActiveBlock = mysql_query($dbsActiveBlock);
+        $blockActive = '';
+        while ($row = mysql_fetch_assoc($dbeActiveBlock)){
+            $blockActive[$row['module']] = $row['active'];
+        }
+        return $blockActive;
+}
+
+/**
  * Display pictures if url is correct
  * @param string $url : url to check
  * @return string $url : secure url picture
@@ -1001,26 +1017,6 @@ function getModuleData() {
 
     return $data;
 }
-
-/**
- * Include a file of constants for translating.
- * @param string $fileLang the path of file to include
- * @todo suppress comment
- */
-function translate($fileLang){
-    include $fileLang;
-//    global $nuked;
-//
-//    ob_start();
-//    print eval(" include ('$file_lang'); ");
-//    $lang_define = ob_get_contents();
-//    $lang_define = htmlentities($lang_define, ENT_NOQUOTES);
-//    $lang_define = str_replace('&lt;', '<', $lang_define);
-//    $lang_define = str_replace('&gt;', '>', $lang_define);
-//    ob_end_clean();
-//    return $lang_define;
-}
-
 
 /**
  * Count the number of page views module for stats.

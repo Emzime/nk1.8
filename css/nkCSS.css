@@ -17,10 +17,15 @@ body{
 a, a:link, a:visited, a:hover {
     text-decoration: none;
 }
+
+ol > li {
+    list-style-type: decimal;
+}
 /* SUPPRESSION DES POINTS SUR LES LI */
 li {
     list-style: none outside none;
 }
+
 /******* AJOUT PAR MAXXI ********/
 #nkSiteClose {
     background: none repeat scroll 0 0 #ECEADB;
@@ -458,8 +463,8 @@ div[id^='globalVoteResult_'] {
     padding-left: 5px;
     text-shadow: 0 1px rgba(255, 255, 255, 0.25);
 }
- /* Global pour afficher une couleur sur 2 dans les ex <tr> */
-.nkBoxcontainer:nth-of-type(2n+1) {
+ /* Global pour afficher une couleur sur 2 dans les éléments */
+.nkAlternColor:nth-of-type(2n+1) {
     background: #F3F3F3;
 }
 
@@ -746,9 +751,11 @@ div[id^='globalVoteResult_'] {
     font-size: 0;
 }
 
-/* Global pour la reinitialisation */
 .nkBold{
     font-weight: bold;
+}
+.nkItalic{
+    font-style: italic;
 }
 .nkNnoWrap{
     white-space:nowrap;

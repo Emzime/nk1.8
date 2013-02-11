@@ -70,8 +70,8 @@ function nkDB_connect()
         }
         else {
             $GLOBALS['nkDB']['status_connection'][] = array( 'mysql_select_db', 'ok' );
-            // Force encoding latin1
-            mysql_query('SET NAMES "latin1"');
+            // Force encoding utf
+            mysql_query('SET NAMES "utf8"');
         }
     } else { // Otherwise add status and start nkDb error
         $GLOBALS['nkDB']['status_connection'][] = array( 'mysql_connect', htmlspecialchars( addslashes( mysql_error() ) ) );

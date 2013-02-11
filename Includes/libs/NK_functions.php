@@ -132,6 +132,7 @@ class NK_functions {
     * @param string $ending     -> Characters to add at the end
     * @param boolean $exact     -> exact cut
     * @return string
+    * exemple: $GLOBALS['nkFunctions']->nkCutText($description, '100');
     **/
     public function nkCutText($text, $length, $ending = '...', $exact = false) {
         if(strlen(preg_replace('/<.*?>/', '', $text)) <= $length) {
@@ -194,21 +195,26 @@ class NK_functions {
      * @param $content      ->  Content displayed in tooltip
      * @param $lien         ->  Url link  ex: index.php?file=Download
      * @param $text         ->  Text for button ex: [ '.LISTING.' ] ou MYTEXT
-     * @param $placement    ->  Placement of tooltip (top - left - right - bottom)
-     * @param $alignement   ->  Alignement of tooltip (center - left - right)
-     * @param $textColor    ->  Text color in tooltip (color # - rgb or use in administration of module)
-     * @param $themeUse     ->  Theme use for tooltip (see images/tooltip-themes/  or use in administration of module)
-     *       
-     * exemple: $GLOBALS['nkFunctions']->nkTooltip($admin_online, '#', '[ '.LISTING.' ]', 'top', 'left', '#025BAF', 'all-azure');
-     * exemple: $GLOBALS['nkFunctions']->nkTooltip($admin_online, '#', '[ '.LISTING.' ]', $tooltipPlacement, $tooltipAlign, $tooltipTextColor, $tooltipTheme);
+     * @param $class        ->  Class for href (exemple: nkPopupBox for open link in nkPopup) (optional)
+     * @param $themeUse     ->  Theme use for tooltip (see media/css/themes or use in administration of module) (optional)
+     * @param $placement    ->  Placement of tooltip (top - left - right - bottom) (optional)
+     * @param $animation    ->  Animation for tooltip (fade, grow, swing, slide, fall) (optional)
+     * @param $maxWidth     ->  Set a max width for the tooltip (optional)
+     * @param $arrowColor   ->  Color for arrow hex code / rgb (optional)
+     *
+     * http://calebjacob.com/tooltipster/#options   
+     * exemple: echo $GLOBALS['nkFunctions']->nkTooltip($description, 'index.php?file=Downloads&amp;op=description&amp;nuked_nude=index&amp;idDownload='.$idDownload, $title, 'nkPopupBox', $modulePref['tooltipTheme'], $modulePref['tooltipPosition'], $modulePref['tooltipAnimation'], $modulePref['tooltipMaxWidth'], $modulePref['tooltipArrowColor']);
      **/
-    public function nkTooltip($content, $lien='#', $text, $placement=null, $alignement=null, $textColor=null, $themeUse=null){
+    public function nkTooltip($content, $lien='#', $text, $class=null, $themeUse=null, $placement=null, $animation=null, $maxWidth=null, $arrowColor=null){
 
-        $placement  = !is_null($placement)  ? $placement    : '';
-        $alignement = !is_null($alignement) ? $alignement   : '';
-        $textColor  = !is_null($textColor)  ? $textColor    : '';
-        $themeUse   = !is_null($themeUse)   ? $themeUse     : '';
-        $return = '<a href="'.$link.'" data-api="tooltip" data-placement="'.$placement.'" data-alignement="'.$alignement.'" data-content="'.$content.'" data-themeUse="'.$themeUse.'" data-textColor="'.$textColor.'">'.$text.'</a>';
+        $class          = !is_null($class)          ? 'class="'.$class.'"'                  : ''; 
+        $placement      = !is_null($placement)      ? 'data-placement="'.$placement.'"'     : '';
+        $animation      = !is_null($animation)      ? 'data-animation="'.$animation.'"'     : ''; 
+        $themeUse       = !is_null($themeUse)       ? 'data-themeuse="'.$themeUse.'"'       : ''; 
+        $maxWidth       = !is_null($maxWidth)       ? 'data-maxwidth="'.$maxWidth.'"'       : ''; 
+        $arrowColor     = !is_null($arrowColor)     ? 'data-arrowcolor="'.$arrowColor.'"'   : ''; 
+        $content = str_replace('"', "'", $content);
+        $return = '<a '.$class.' href="'.$lien.'" data-api="tooltip" data-content="'.$content.'" '.$placement.' '.$animation.' '.$themeUse.' '.$maxWidth.' '.$arrowColor.'>'.$text.'</a>';
         return $return;
     }
 
@@ -327,7 +333,7 @@ class NK_functions {
      **/
     public function nkModsPrefs($mods){
         $mods = strtoupper($mods);
-        $constantMods = constant($mods._CONFIG_TABLE);
+        $constantMods = constant($mods.'_CONFIG_TABLE');
         $sql = mysql_query('SELECT name, value FROM '.$constantMods);
         while($row = mysql_fetch_array($sql)){
             $return[$row['name']] = printSecuTags(htmlentities($row['value'], ENT_NOQUOTES));
@@ -335,11 +341,11 @@ class NK_functions {
         return $return;
     }
 
-        /**
-    * Validation function links             
-    * @param $url -> link / file  to the page  
-    **/
-    function verifyUrl($url, $check=null) {
+    /**
+     * Validation function links             
+     * @param $url -> link / file  to the page  
+     **/
+    public function nkVerifyUrl($url, $check=null) {
         global $nuked;
 
         /* On verifie le format de l'url */
@@ -372,6 +378,18 @@ class NK_functions {
         }
 
         return $linkUrlVerify;
+    }
+
+    /**
+     * nkInitRequest initializes the elements of the array
+     * @param array $array 
+     */
+    public function nkInitRequest($array){
+        foreach ($array as $value) {
+            if(!isset($_REQUEST[$value])){
+                $_REQUEST[$value] = null;
+            }
+        }
     }
 }
 ?>

@@ -16,13 +16,9 @@ if (!defined("INDEX_CHECK")){
 function affich_block_login($blok){
     global $user, $nuked;
 
-    list($login, $messpv, $members, $online, $avatar) = explode('|', $blok['content']);
-    
- 
+    list($login, $messpv, $members, $online, $avatar) = explode('|', $blok['content']); 
     $blok['content'] = '<div class="nkBlockLogin">';
-
-	$c = 0;
-	
+	$c = 0;	
 	if($login != 'off'){
 		if (!$user){
 			$blok['content'] .= '<form action="index.php?file=User&amp;nuked_nude=index&amp;op=login" method="post">
@@ -34,7 +30,7 @@ function affich_block_login($blok){
 										<label for="BlockLoginPassword">'.PASSWORD.' : </label>
 											<input id="BlockLoginPassword" class="nkInput" type="password" name="pass" size="10" maxlength="15" />
 									</div>';																		
-			$blok['content'] .= 	$GLOBALS['nkFunctions']->nkCheckBox('remember_me', 'Remember', 'BlockLoginRememberId', 'BlockLoginRemember', REMEMBERME, 'ok', true);
+			$blok['content'] .= 	$GLOBALS['nkFunctions']->nkCheckBox('remember_me', 'Remember', 'BlockLoginRememberId', 'BlockLoginRemember nkWidthHalf', REMEMBERME, 'ok', true);
 			$blok['content'] .= '		<input type="submit" class="nkButton" value="'.SEND.'" />										
 									<nav>
 										<small>
@@ -46,23 +42,23 @@ function affich_block_login($blok){
 		}
 		else{
 			$blok['content'] .= '
-									<h4>'.WELCOME.', <small>'.$user[2].'</small></h4>';
+								<h4>'.WELCOME.', <small>'.$user[2].'</small></h4>';
 
-									if ($avatar != 'off'){
-										$sql_avatar=mysql_query('SELECT avatar FROM ' . USER_TABLE . ' WHERE id = \'' . $user[0] . '\' ');
-										list($avatar_url) = mysql_fetch_array($sql_avatar);
+								if ($avatar != 'off'){
+									$sqlAvatar=mysql_query('SELECT avatar FROM ' . USER_TABLE . ' WHERE id = \'' . $user[0] . '\' ');
+									list($avatarUrl) = mysql_fetch_array($sqlAvatar);
 
-										if($avatar_url){
-											$blok['content'] .= '
-											<figure>
-												<img src="' . $avatar_url . '" alt="' . $user[2] . ' avatar" />
-											</figure>';
-										}else{										
-											$blok['content'] .= '
-											<figure>
-												<img src="images/noavatar.png" alt="" />
-											</figure>';
-										}
+									if($avatarUrl){
+										$blok['content'] .= '
+										<figure>
+											<img src="' . $avatarUrl . '" alt="' . $user[2] . ' avatar" />
+										</figure>';
+									}else{										
+										$blok['content'] .= '
+										<figure>
+											<img src="images/noavatar.png" alt="" />
+										</figure>';
+									}
 			}
 			$blok['content'] .= '<nav>
 									<a href="index.php?file=User" class="nkButtonLink">'.ACCOUNT.'</a> / <a href="index.php?file=User&amp;nuked_nude=index&amp;op=logout" class="nkButtonLink">'.LOGOUT.'</a>
@@ -74,8 +70,8 @@ function affich_block_login($blok){
     if($messpv != 'off' && $user[0] != ''){
 		if ($c > 0) $blok['content'] .= '<div class="nkSeparator" /></div>';
 	
-		$sql2 = mysql_query('SELECT mid FROM ' . USERBOX_TABLE . ' WHERE user_for = \'' . $user[0] . '\' AND status = 1');
-		$nb_mess_lu = mysql_num_rows($sql2);
+		$sqlMid = mysql_query('SELECT mid FROM ' . USERBOX_TABLE . ' WHERE user_for = \'' . $user[0] . '\' AND status = 1');
+		$nbMessLu = mysql_num_rows($sqlMid);
 	
 		$blok['content'] .= '<h5>
 								<span class="nkIconMail"></span>'.MESSPV.'
@@ -93,14 +89,14 @@ function affich_block_login($blok){
 								</li>';
 		}
 	
-		if ($nb_mess_lu > 0){
+		if ($nbMessLu > 0){
 			$blok['content'] .= '<li>
-									<span class="nkIconMailLock"></span>'.READ.' : <a href="index.php?file=Userbox">'.$nb_mess_lu.'</a>
+									<span class="nkIconMailLock"></span>'.READ.' : <a href="index.php?file=Userbox">'.$nbMessLu.'</a>
 								</li>';
 		}
 		else{
 			$blok['content'] .= '<li>
-									<span class="nkIconMailLock"></span>'.READ.' : '.$nb_mess_lu.'
+									<span class="nkIconMailLock"></span>'.READ.' : '.$nbMessLu.'
 								</li>';
 		}
 	
@@ -116,23 +112,23 @@ function affich_block_login($blok){
 							</h5>
 							<ul>';
 
-    	$sql_users = mysql_query('SELECT id FROM ' . USER_TABLE . ' WHERE niveau < 3');
-    	$nb_users = mysql_num_rows($sql_users);
+    	$sqlUsers = mysql_query('SELECT id FROM ' . USER_TABLE . ' WHERE niveau < 3');
+    	$nbUsers = mysql_num_rows($sqlUsers);
 
-    	$sql_admin = mysql_query('SELECT id FROM ' . USER_TABLE . ' WHERE niveau > 2');
-    	$nb_admin = mysql_num_rows($sql_admin);
+    	$sqlAdmin = mysql_query('SELECT id FROM ' . USER_TABLE . ' WHERE niveau > 2');
+    	$nbAdmin = mysql_num_rows($sqlAdmin);
 
-    	$sql_lastmember = mysql_query('SELECT pseudo FROM ' . USER_TABLE . ' ORDER BY date DESC LIMIT 0, 1');
-    	list($lastmember) = mysql_fetch_array($sql_lastmember);
+    	$sqlLastMember = mysql_query('SELECT pseudo FROM ' . USER_TABLE . ' ORDER BY date DESC LIMIT 0, 1');
+    	list($LastMember) = mysql_fetch_array($sqlLastMember);
 
     	$blok['content'] .= '<li>
-								<span class="nkIconNext"></span>'.ADMINS.' : '.$nb_admin.'
+								<span class="nkIconNext"></span>'.ADMINS.' : '.$nbAdmin.'
 							</li>
 							<li>
-								<span class="nkIconNext"></span>'.MEMBERS.' : '.$nb_users.' [ <a href="index.php?file=Members">'.LISTING.'</a> ]
+								<span class="nkIconNext"></span>'.MEMBERS.' : '.$nbUsers.' [ <a href="index.php?file=Members">'.LISTING.'</a> ]
 							</li>
 							<li>
-								<span class="nkIconNext"></span>'.LASTMEMBER.' : <a href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($lastmember).'">'.$lastmember.'</a>
+								<span class="nkIconNext"></span>'.LASTMEMBER.' : <a href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($LastMember).'">'.$LastMember.'</a>
 							</li>
 						</ul>';
 
@@ -150,32 +146,33 @@ function affich_block_login($blok){
 						    	$nb = nbvisiteur();
 
 						    	if ($nb[1] > 0){
-									$user_online = '<ul>';
-									$sql4 = mysql_query('SELECT username FROM ' . NBCONNECTE_TABLE . ' WHERE type BETWEEN 1 AND 2 ORDER BY date');
-									while (list($nom) = mysql_fetch_array($sql4)){
-										   $user_online .= '<li>'.$nom.'</li>';
+									$userOnline = '<ul>';
+									$sqlUserOnline = mysql_query('SELECT username FROM ' . NBCONNECTE_TABLE . ' WHERE type BETWEEN 1 AND 2 ORDER BY date');
+									while (list($userOnlineName) = mysql_fetch_array($sqlUserOnline)){
+										   $userOnline .= '<li>'.$userOnlineName.'</li>';
 									}
-									$user_online .= '</ul>';
+									$userOnline .= '</ul>';
 									// definition du tooltip
-									$user_list = $GLOBALS['nkFunctions']->nkTooltip($user_online, '#', '[ '.LISTING.' ]', 'left', 'center', '#025BAF', 'all-azure');
+
+									$userList = $GLOBALS['nkFunctions']->nkTooltip($userOnline, '#', '[ '.LISTING.' ]');
 								}
 						    	else{
-									$user_list = '';
+									$userList = '';
 						    	}
 
 								if ($nb[2] > 0){
-									$admin_online = '<ul>';
-									$sql5 = mysql_query('SELECT username FROM ' . NBCONNECTE_TABLE . ' WHERE type > 2 ORDER BY date');
-									while (list($name) = mysql_fetch_array($sql5)){
-										   $admin_online .= '<li>'.$name.'</li>';
+									$adminOnline = '<ul>';
+									$sqlAdminOnline = mysql_query('SELECT username FROM ' . NBCONNECTE_TABLE . ' WHERE type > 2 ORDER BY date');
+									while (list($adminOnlineName) = mysql_fetch_array($sqlAdminOnline)){
+										   $adminOnline .= '<li>'.$adminOnlineName.'</li>';
 									}
-									$admin_online .= '</ul>';
+									$adminOnline .= '</ul>';
 									// definition du tooltip
-									$admin_list = $GLOBALS['nkFunctions']->nkTooltip($admin_online, '#', '[ '.LISTING.' ]', 'left', 'center', '#025BAF', 'all-azure');
+									$adminList = $GLOBALS['nkFunctions']->nkTooltip($adminOnline, '#', '[ '.LISTING.' ]');
 
 								}
 								else{
-									$admin_list = '';
+									$adminList = '';
 								}
 	
 		$blok['content'] .= '	<li>
@@ -187,13 +184,13 @@ function affich_block_login($blok){
 									<span class="nkIconNext"></span>'.MEMBER;
 									if ($nb[1] > 1) $blok['content'] .= 's';
 
-		$blok['content'] .= ' : ' . $nb[1] . ' ' . $user_list . '
+		$blok['content'] .= ' : ' . $nb[1] . ' ' . $userList . '
 								</li>
 								<li>
 									<span class="nkIconNext"></span>'.ADMIN;
 									if ($nb[2] > 1) $blok['content'] .= 's';
 
-		$blok['content'] .= ' : ' . $nb[2] . ' ' . $admin_list . '</li>
+		$blok['content'] .= ' : ' . $nb[2] . ' ' . $adminList . '</li>
 								</ul>';
 	
 		$c++;
@@ -205,13 +202,13 @@ function affich_block_login($blok){
 function edit_block_login($bid){
     global $nuked, $language;
 
-    $sql = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
-    list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
-    $titre = printSecuTags($titre);
-    list($login, $messpv, $members, $online, $avatar) = explode('|', $content);
+    $sqlBlock = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
+    list($activeBlock, $positionBlock, $titleBlock, $modulBlockBlock, $contentBlock, $typeBlock, $nivoBlock, $pagesBlock) = mysql_fetch_array($sqlBlock);
+    $titleBlock = printSecuTags($titleBlock);
+    list($login, $messpv, $members, $online, $avatar) = explode('|', $contentBlock);
 
-    if ($active == 1) $checked1 = 'selected="selected"';
-    else if ($active == 2) $checked2 = 'selected="selected"';
+    if ($activeBlock == 1) $checked1 = 'selected="selected"';
+    else if ($activeBlock == 2) $checked2 = 'selected="selected"';
     else $checked0 = 'selected="selected"';
 
     if ($login == 'off') $checked3 = 'selected="selected"'; else $checked3 = '';
@@ -234,36 +231,30 @@ function edit_block_login($bid){
 			<form method="post" action="index.php?file=Admin&amp;page=block&amp;op=modif_block">
 			<div class="nkBoxcontainer padding-left">
 				<label for="blockLoginTitle" class="nkLabelSpacing"><?php echo TITLE; ?>&nbsp;:&nbsp;</label>
-					<input id="blockLoginTitle" type="text" name="titre" size="40" value="<?php echo $titre; ?>" />
+					<input id="blockLoginTitle" type="text" name="titre" size="40" value="<?php echo $titleBlock; ?>" />
 			</div>
-
-
-
 			<?php
-
 			/*** Position Options ***/
-			$activeValue = array(
+			$activeBlockValue = array(
 	                0 => LEFT,
 	                1 => RIGHT,
 	                2 => OFF
 	            );
-			echo $GLOBALS['nkFunctions']->nkRadioBox('active', 'nkLabelSpacing', BLOCK, 3, $activeValue, 'InputForTest', 'InputIdTest')
+			echo $GLOBALS['nkFunctions']->nkRadioBox('active', 'nkLabelSpacing', BLOCK, 3, $activeBlockValue, 'InputForactive', 'InputIdactive')
 
 			?>
 
 			<div class="nkBoxcontainer padding-left">
 				<label for="blockLoginPosition" class="nkLabelSpacing"><?php echo POSITION; ?> : </label>
-					<input id="blockLoginPosition" type="text" name="position" size="2" value="<?php echo $position; ?>" />
+					<input id="blockLoginPosition" type="text" name="position" size="2" value="<?php echo $positionBlock; ?>" />
 			</div>
 
 			<div class="nkBoxcontainer padding-left">
 				<label for="nivo" class="nkLabelSpacing"><?php echo LEVEL; ?>&nbsp;:&nbsp;</label>
 					<?php 
-					echo $GLOBALS['nkFunctions']->nkLevelSelect('nivo', $nivo);
+					echo $GLOBALS['nkFunctions']->nkLevelSelect('nivo', $nivoBlock);
 					?>
 			</div>
-
-
 			<?php 
 			/*** Login options ***/
 			$loginValue = array(
@@ -300,18 +291,16 @@ function edit_block_login($bid){
 	            );
 			echo $GLOBALS['nkFunctions']->nkRadioBox('avatar', 'nkLabelSpacing', SHOWAVATAR.'&nbsp;:&nbsp;', 2, $avatarValue, 'blockLoginavatarId');			
 			?>
-
-
 			<div class="nkBoxcontainer padding-left">
 				<label for="blockLoginPages" class="nkLabelSpacing valign-top"><?php echo PAGESELECT; ?>&nbsp;:&nbsp;</label>
 					<select id="blockLoginPages" class="margin-top" name="pages[]" size="8" multiple="multiple">
 						<?php
-						select_mod2($pages);
+						select_mod2($pagesBlock);
 						?>
 					</select>
 			</div>
 			<div class="width_quarter align-center margin-top padding-bottom">
-				<input type="hidden" name="type" value="<?php echo $type; ?>" />
+				<input type="hidden" name="type" value="<?php echo $typeBlock; ?>" />
 				<input type="hidden" name="bid" value="<?php echo $bid; ?>" />
 				<input type="submit" name="send" class="nkButton" value="<?php echo SEND; ?>" />
 			</div>
@@ -319,8 +308,4 @@ function edit_block_login($bid){
 	<?php
 }
 
-function modif_advanced_login($data){
-	$data['content'] = $data['login'] . '|' . $data['messpv'] . '|' . $data['members'] . '|' . $data['online']. '|' . $data['avatar'];
-	return $data;
-}
 ?>

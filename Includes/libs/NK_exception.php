@@ -60,7 +60,7 @@ class NK_Exception extends Exception {
      * @return string custom message
      */
     public function showError() {
-        // Affichage personnalisé du message d'erreur
+        // Affichage personnalisÃ© du message d'erreur
         
         $errorMsg = printStyle('Error on line ' . $this->getLine() . '<br/> '.
                             ' in '.$this->getFile() . '<br/> '.
@@ -140,7 +140,7 @@ function nkErrorHandler($no, $str, $file, $line, $context) {
     if (!isset($GLOBALS['nk_error'])) {
         $GLOBALS['nk_error'] = array();
     }
-
+    
     switch ($no) {
         // Fatal error
         case E_USER_ERROR:

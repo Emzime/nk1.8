@@ -199,7 +199,7 @@ define('CONF.INC', 'Impossible d\'&eacute;crire le fichier conf.inc.php. (Probl&
 define('CONF.INC2', 'Veuillez t&eacute;l&eacute;charger le contenu ci-dessus et placer le fichier &agrave; la racine de votre site.');
 define('INFODLSAVECONFINC', 'Veuillez t&eacute;l&eacute;charger le contenu ci-dessus et conserver ce fichier (c\'est une sauvegarde).');
 define('BADCHMOD', 'Impossible d\'&eacute;crire dans le fichier <b>conf.inc.php</b>, v&eacute;rifiez les droits en &eacute;criture (CHMOD) !');
-define('DOWNLOAD', 'T&eacute;l&eacute;charger');
+define('DOWNLOADS', 'T&eacute;l&eacute;charger');
 define('CHMOD', 'Impossible de modifier les droits CHMOD du fichier conf.inc.php<br/>Veuillez mettre manuellement le CHMOD <strong>0644</strong> sur ce fichier.');
 define('COPY', 'Impossible de cr&eacute;er la sauvegarde du fichier conf.inc.php<br/>Veuillez t&eacute;l&eacute;charger le fichier et le sauvegarder manuellement.');
 ///////////////////////////////////////////////
@@ -217,7 +217,7 @@ define('NAV','Menu');
 define('NAVHOME','Accueil');
 define('NAVNEWS','News');
 define('NAVFORUM','Forum');
-define('NAVDOWNLOAD','T&eacute;l&eacute;chargements');
+define('NAVDOWNLOADS','T&eacute;l&eacute;chargements');
 define('NAVTEAM','Team');
 define('NAVMEMBERS','Membres');
 define('NAVDEFY','Nous D&eacute;fier');

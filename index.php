@@ -120,14 +120,67 @@ $lang = substr($language, 0, 2);
 // Check Ban
 //$check_ip = banip();
 
-if (!$user){
+if (!$user) {
     $visiteur = 0;
     $_SESSION['admin'] = false;
+} else {
+  $visiteur = $user[1];
 }
-else $visiteur = $user[1];
 
-//include ('themes/' . $theme . '/colors.php');
-translate('lang/' . $language . '.lang.php');
+// Define the text for erron on loading lang file
+define('UNKNOWGLOBALLANGFILEEN', 'Global lang file does not exist');
+define('UNKNOWGLOBALLANGFILEFR', 'Le fichier langue global n\'existe pas');
+
+define('UNKNOWMODULELANGFILEEN', 'Lang file of the module '.$_REQUEST['file'].' does not exist');
+define('UNKNOWMODULELANGFILEFR', 'Le fichier langue du module '.$_REQUEST['file'].' n\'existe pas');
+
+define('UNKNOWTHEMELANGFILEEN', 'Lang file of the theme '.$theme.' does not exist');
+define('UNKNOWTHEMELANGFILEFR', 'Le fichier langue du thème '.$theme.' n\'existe pas');
+
+// Appel du fichier langue si un block est affiché
+$activedBlock = activeBlock();
+if (!empty($activedBlock)) {
+    foreach ($activedBlock as $moduleBlockName => $moduleBlockSide) {
+        include_once 'modules/'.$moduleBlockName.'/lang/'.$language.'.lang.php';
+        $blockSide = $moduleBlockSide;
+    }
+}
+
+// Inclusion de fichier lang global nk
+if (is_file('lang/'.$language.'.lang.php')) {
+    include_once 'lang/'.$language.'.lang.php';
+    $loadLangGlobalFileError = '';
+} else {
+    $loadLangGlobalFileError = '';
+    $lang = strtoupper($lang);
+    $errorLangMessage = constant('UNKNOWGLOBALLANGFILE'.$lang);
+    $loadLangGlobalFileError = $GLOBALS['nkTpl']->nkDisplayError($errorLangMessage, 'nkAlignCenter');
+}
+
+// Inlusion des fichiers lang du module visualisé
+if (is_file('modules/'.$_REQUEST['file'].'/lang/'.$language.'.lang.php')) {
+    include_once 'modules/'.$_REQUEST['file'].'/lang/'.$language.'.lang.php';
+    $loadLangModuleFileError = '';
+} else {
+    $loadLangModuleFileError = '';
+    $lang = strtoupper($lang);
+    $errorLangMessage = constant('UNKNOWMODULELANGFILE'.$lang);
+    $loadLangModuleFileError = $GLOBALS['nkTpl']->nkDisplayError($errorLangMessage, 'nkAlignCenter');
+}
+
+// Inclusion des fichiers lang pour le theme defini par l'admin
+if (is_file('themes/'.$theme.'/lang/'.$language.'.lang.php')) {
+    include_once 'themes/'.$theme.'/lang/'.$language.'.lang.php';
+    $loadLangThemeFileError = '';
+} else {
+    $loadLangThemeFileError = '';
+    $lang = strtoupper($lang);
+    $errorLangMessage = constant('UNKNOWTHEMELANGFILE'.$lang);
+    $loadLangThemeFileError = $GLOBALS['nkTpl']->nkDisplayError($errorLangMessage, 'nkAlignCenter');
+}
+// Regroupement des mesaage d'erreur de langue
+$loadLangFileError = $loadLangGlobalFileError.$loadLangModuleFileError.$loadLangThemeFileError;
+
 
 
 if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login_screen' && $_REQUEST['op'] != 'login_message' && $_REQUEST['op'] != 'login'){

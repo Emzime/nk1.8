@@ -10,17 +10,8 @@
 */
 defined('INDEX_CHECK') or die ('<div style="text-align: center;">'.CANTOPENPAGE.'</div>');
 $modName = basename(dirname(__FILE__));
-
-global $language, $user, $nuked;
-
+global $user, $nuked, $blockSide, $visiteur;
 $level_access = nivo_mod($modName);
-translate('modules/'.$modName.'/lang/'.$language.'.lang.php');
-
-if ($user) {
-    $visiteur = $user['1'];
-} else {
-    $visiteur = 0;
-}
 
 if ($visiteur >= $level_access && $level_access > -1) {
     compteur($modName);

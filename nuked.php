@@ -264,12 +264,12 @@ function get_blok($side) {
     }
 
     if (!array_key_exists($side, $activeTranslation )) {
-        echo $GLOBALS['nkTpl']->nkDisplayError(UNKNOWN_BLOCK . ' : '. $side);
+        echo $GLOBALS['nkTpl']->nkDisplayError(UNKNOWNBLOCK . ' : '. $side);
         return;
     }
 
     if (!function_exists( $themeBlockName = 'block_' . $side )) {
-        echo $GLOBALS['nkTpl']->nkDisplayError(UNKNOWN_FUNCTION_BLOCK . ' : '. $themeBlockName);
+        echo $GLOBALS['nkTpl']->nkDisplayError(UNKNOWNFUNCTIONBLOCK . ' : '. $themeBlockName);
         return;
     }
 
@@ -294,7 +294,7 @@ function get_blok($side) {
                 if (function_exists($blockFunction = 'affich_block_'. $block['type'])) {
                     $block = $blockFunction( $block );
                 } else {
-                    echo $GLOBALS['nkTpl']->nkDisplayError(UNKNOWN_FUNCTION_DISPLAY_BLOCK . ' : '. $blockFunction);
+                    echo $GLOBALS['nkTpl']->nkDisplayError(UNKNOWNFUNCTIONBLOCK . ' : '. $blockFunction);
                     return;
                 }
 

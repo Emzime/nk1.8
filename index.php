@@ -8,6 +8,10 @@
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
 
+// define error load global lang
+define('LANGNOTFOUND', '<div class="nkMarginBottom15">Fichier de langue non chargé<br />Language file not loaded</div>');
+define('UNKNOWNBLOCK', 'Bloc non trouvé<br />Block not found');
+define('UNKNOWNFUNCTIONBLOCK', 'La fonction suivante n\'a pas été trouvée<br />The following function has not been found');
 
 /* ---------------------------------- */
 /* Start version fusion 1.8 */

@@ -219,6 +219,7 @@
                             ('nbc_timeout', '300'),
                             ('screen', 'on'),
                             ('contact_mail', ''),
+                            ('nkToTopTheme', 'nkToTopCube'),
                             ('contact_flood', '60');";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';

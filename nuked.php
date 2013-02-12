@@ -363,6 +363,25 @@ function activeBlock() {
 }
 
 /**
+ * [includeJsTheme Automatically insert the js files of the current theme ]
+ * @return [mixed]
+ */
+function includeJsTheme() {
+    $return = '';
+    $jsDir = dir('themes/' . $GLOBALS['theme'] . '/js');
+    while (false !== ($jsFile = $jsDir->read())) {
+        if (preg_match('/\.js$/i', $jsFile)) {
+            if(!preg_match('/^jquery.js$/i', $jsFile)) {
+                $return .= '<script type="text/javascript" src="' . $jsDir->path . '/'.$jsFile.'"></script>';
+            }
+        }
+    }
+    $jsDir->close();
+    return $return;
+}
+
+
+/**
  * Display pictures if url is correct
  * @param string $url : url to check
  * @return string $url : secure url picture

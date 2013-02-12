@@ -9,7 +9,7 @@
 *   @copyright 2001-2013 Nuked Klan 
 */
 defined('INDEX_CHECK') or die ('<div style="text-align: center;">'.CANTOPENPAGE.'</div>');
-global $visiteur, $user, $blockSide;
+global $language, $user, $visiteur, $blockSide;
 $modName = basename(dirname(__FILE__));
 
 // Appel des préférences du module

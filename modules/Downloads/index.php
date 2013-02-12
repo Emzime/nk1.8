@@ -9,11 +9,9 @@
 *   @copyright 2001-2013 Nuked Klan 
 */
 defined('INDEX_CHECK') or die ('<div style="text-align: center;">'.CANTOPENPAGE.'</div>');
+global $user, $visiteur;
 $modName = basename(dirname(__FILE__));
-global $user, $nuked, $blockSide, $visiteur;
-$level_access = nivo_mod($modName);
 
-if ($visiteur >= $level_access && $level_access > -1) {
     compteur($modName);
 
     // Vérification des variables
@@ -59,17 +57,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         global $nuked, $arrayMenu, $breadCrumbArray, $orderByArray, $modName, $visiteur;
 
         $modulePref = $GLOBALS['nkFunctions']->nkModsPrefs($modName);
-/*
-        $hideDescription  = $modulePref['hideDescription'];  // affichage ou non de la description des téléchargements
-        $fileMaxDownload  = $modulePref['fileMaxDownload'];  // nombre de fichier par page
-        $fileNbSubcat     = $modulePref['fileNbSubcat'];     // nombre de sous cat a afficher
-        $breadCrumbTheme  = $modulePref['breadCrumbTheme'];  // theme choisi pour le breadcrumb
-        $fileNewTime      = $modulePref['fileNewTime'];      // temps pour qu'un fichier reste en NEW
-        $nbFileNew        = $modulePref['nbFileNew'];        // Nombre de fichier pour le classement des fichiers New
-        $nbFileHot        = $modulePref['nbFileHot'];        // nombre de telechargement pour qu'un fichier soit HOT
-        $fileNbComment    = $modulePref['fileNbComment'];    // nombre de commentaire a afficher
-        $fileNbCommentCut = $modulePref['fileNbCommentCut']; // nombre de lettres pour le découpe des mots
-*/
+
         // Requete pour statistique en bas de page
         $dbsFile = 'SELECT count( id ), 
                         (
@@ -904,19 +892,5 @@ if ($visiteur >= $level_access && $level_access > -1) {
             index($_REQUEST['cat'], $_REQUEST['requestedId'], $_REQUEST['orderby'], $_REQUEST['orderbycat']);
             break;
     }
-
-} else if ($level_access == -1) {
-
-    echo $GLOBALS['nkTpl']->nkModuleOff();
-
-} else if ($level_access == 1 && $visiteur == 0) {
-
-    echo $GLOBALS['nkTpl']->nkNoLogged('|');
-
-} else {
-
-    echo $GLOBALS['nkTpl']->nkBadLevel();
-
-}
-    
+   
 ?>

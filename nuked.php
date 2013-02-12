@@ -971,17 +971,22 @@ function updateUserConnectData($user, $ipUser, $limite) {
             $valuesUserSet = array($limite, (int) $user[1], $ipUser, $user[2]);
             $rs = nkDB_update(NBCONNECTE_TABLE, $fieldsUserSet, $valuesUserSet, 'user_id = '. nkDB_escape($user[0]));
         } else {
-            $fields = array('date', 'type', 'user_id', 'username');
-            $values = array($limite, (int) $user[1], $user[0], $user[2]);
-            $rs = nkDB_update(NBCONNECTE_TABLE, $fieldsUserSet, $valuesUserSet, 'IP = '. nkDB_escape($ipUser));
+            $fields = array('date', 'type', 'IP', 'username', 'user_id');
+            $values = array($limite, 0, $ipUser, '', '');
+            $rs = nkDB_update(NBCONNECTE_TABLE, $fields, $values, 'IP = '. nkDB_escape($ipUser));
         }
     } else {  // If not, add IP address of user (delete this if it exists before)
+
         $rsDel = nkDB_delete(NBCONNECTE_TABLE, 'IP = ' . nkDB_escape($ipUser));
         
-        $fields = array('`IP`', '`type`', '`date`', '`user_id`', '`username`');
-        $values = array($ipUser, (int) $user[1], $limite, $user[0], $user[2]);
+        if ($user) {
+            $fields = array('date', 'type', 'IP', 'username', 'user_id');
+            $values = array($limite, (int) $user[1], $ipUser, $user[2], $user[0]);
+        } else {
+            $fields = array('date', 'type', 'IP');
+            $values = array($limite, 0, $ipUser);
+        }
         $rsIns = nkDB_insert(NBCONNECTE_TABLE, $fields, $values);
-        
     }
 }
 

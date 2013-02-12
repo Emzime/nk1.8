@@ -367,17 +367,19 @@ function activeBlock() {
  * @return [mixed]
  */
 function includeJsTheme() {
-    $return = '';
-    $jsDir = dir('themes/' . $GLOBALS['theme'] . '/js');
-    while (false !== ($jsFile = $jsDir->read())) {
-        if (preg_match('/\.js$/i', $jsFile)) {
-            if(!preg_match('/^jquery.js$/i', $jsFile)) {
-                $return .= '<script type="text/javascript" src="' . $jsDir->path . '/'.$jsFile.'"></script>';
+    if (is_dir('themes/' . $GLOBALS['theme'] . '/js')) {
+        $jsDir = dir('themes/' . $GLOBALS['theme'] . '/js');
+        $return = '';
+        while (false !== ($jsFile = $jsDir->read())) {
+            if (preg_match('/\.js$/i', $jsFile)) {
+                if(!preg_match('/^jquery.js$/i', $jsFile)) {
+                    $return .= '<script type="text/javascript" src="' . $jsDir->path . '/'.$jsFile.'"></script>';
+                }
             }
         }
+        $jsDir->close();
+        return $return;
     }
-    $jsDir->close();
-    return $return;
 }
 
 

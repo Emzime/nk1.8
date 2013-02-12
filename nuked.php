@@ -250,17 +250,12 @@ function get_blok($side) {
     
     // Array orientation
     $activeTranslation = array(
-        'gauche' => 1,
-        'droite' => 2,
-        'centre' => 3,
-        'bas' => 4
+        'left' => 1,
+        'right' => 2,
+        'center' => 3,
+        'bottom' => 4
     );
-    /**
-     * @todo to delete ?
-     */
-/*    if ($side == 'gauche' || $side == 'droite') {
-        $GLOBALS['nuked']['isBlock'] = TRUE;
-    }*/
+
      // Level of user
     if (!empty($GLOBALS['user'])) {
         $visiteur = $GLOBALS['user'][1];

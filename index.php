@@ -191,8 +191,8 @@ if (is_file(ROOT_PATH .'themes/'.$theme.'/css/modules/'.$_REQUEST['file'].'.css'
 }
 
 // Inclusion du Css du theme
-if (is_file(ROOT_PATH .'themes/'.$theme.'/css/style.css')) {
-    $loadCss .= '<link type="text/css" rel="stylesheet" href="themes/'.$theme.'/css/style.css" media="screen" />';
+if (is_file(ROOT_PATH .'themes/'.$theme.'/css/'.$theme.'.css')) {
+    $loadCss .= '<link type="text/css" rel="stylesheet" href="themes/'.$theme.'/css/'.$theme.'.css" media="screen" />';
 }
 
 // Si le site est fermé

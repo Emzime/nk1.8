@@ -67,7 +67,7 @@ function affich_block_login($blok){
 		$c++;
 	}
 
-    if($messpv != 'off' && $user[0] != ''){
+    if($messpv != 'off' && $user){
 		if ($c > 0) $blok['content'] .= '<div class="nkSeparator" /></div>';
 	
 		$sqlMid = mysql_query('SELECT mid FROM ' . USERBOX_TABLE . ' WHERE user_for = \'' . $user[0] . '\' AND status = 1');

@@ -138,8 +138,8 @@ define('UNKNOWTHEMELANGFILEFR', 'Le fichier langue du thème '.$theme.' n\'exist
 
 // Appel du fichier langue si un block est affiché
 $activedBlock = activeBlock();
+$loadCss = '';
 if (!empty($activedBlock)) {
-    $loadCss = '';
     foreach ($activedBlock as $moduleBlockName => $moduleBlockSide) {
         include_once ROOT_PATH .'modules/'.$moduleBlockName.'/lang/'.$language.'.lang.php';
         // Inclusion du Css personalisé pour le module actif            

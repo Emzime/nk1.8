@@ -136,18 +136,23 @@ define('UNKNOWMODULELANGFILEFR', 'Le fichier langue du module '.$_REQUEST['file'
 define('UNKNOWTHEMELANGFILEEN', 'Lang file of the theme '.$theme.' does not exist');
 define('UNKNOWTHEMELANGFILEFR', 'Le fichier langue du thème '.$theme.' n\'existe pas');
 
-// Appel du fichier langue si un block est affiché
-$activedBlock = activeBlock();
-if (!empty($activedBlock)) {
-    $loadCss = '';
-    foreach ($activedBlock as $moduleBlockName => $moduleBlockSide) {
-        include_once ROOT_PATH .'modules/'.$moduleBlockName.'/lang/'.$language.'.lang.php';
-        // Inclusion du Css personalisé pour le module actif            
-        if (is_file(ROOT_PATH .'themes/'.$theme.'/css/modules/'.$moduleBlockName.'.css')) {
-            $loadCss .= '<link type="text/css" rel="stylesheet" href="themes/'.$theme.'/css/modules/'.$moduleBlockName.'.css" media="screen" />';
-        }           
-        $blockSide = $moduleBlockSide;
-    }
+// on initialise le chargement des css
+$loadCss = '';
+if (!empty($activeCssBlock)) {
+    foreach ($activeCssBlock as $indexSide => $arraySide) {
+        foreach($arraySide as $keyActivedBlock){
+            if (!empty($keyActivedBlock['module'])) {
+                // Récupération du coté du block
+                $blockSide[$keyActivedBlock['module']] = $keyActivedBlock['active'];
+                // on inclu la langue du module
+                include_once ROOT_PATH .'modules/'.$keyActivedBlock['module'].'/lang/'.$language.'.lang.php';
+                // Inclusion du Css personalisé du module depuis le theme            
+                if (is_file(ROOT_PATH .'themes/'.$theme.'/css/modules/'.$keyActivedBlock['module'].'.css')) {
+                    $loadCss .= '<link type="text/css" rel="stylesheet" href="themes/'.$theme.'/css/modules/'.$keyActivedBlock['module'].'.css" media="screen" />';
+                }           
+            }
+        }
+    } 
 }
 
 // Inclusion de fichier lang global nk
@@ -191,8 +196,8 @@ if (is_file(ROOT_PATH .'themes/'.$theme.'/css/modules/'.$_REQUEST['file'].'.css'
 }
 
 // Inclusion du Css du theme
-if (is_file(ROOT_PATH .'themes/'.$theme.'/css/style.css')) {
-    $loadCss .= '<link type="text/css" rel="stylesheet" href="themes/'.$theme.'/css/style.css" media="screen" />';
+if (is_file(ROOT_PATH .'themes/'.$theme.'/css/'.$theme.'.css')) {
+    $loadCss .= '<link type="text/css" rel="stylesheet" href="themes/'.$theme.'/css/'.$theme.'.css" media="screen" />';
 }
 
 // Si le site est fermé

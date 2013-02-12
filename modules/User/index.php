@@ -9,11 +9,9 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-global $language, $user, $cookie_captcha;
-translate('modules/User/lang/' . $language . '.lang.php');
-translate('modules/Members/lang/' . $language . '.lang.php');
+global $language, $user, $cookie_captcha, $visiteur;
 
-// Inclusion système Captcha
+// Inclusion syst?me Captcha
 include_once('Includes/nkCaptcha.php');
 include_once('Includes/hash.php');
 

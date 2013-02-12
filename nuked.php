@@ -99,17 +99,12 @@ function nkConstructNuked($prefixDB) {
 /**
  * Convert date format.
  * @param string $timestamp timestamp
- * @param string $block : date format
+ * @param string $tinysize : true/false
  * @return string date converted 
  */
-function nkDate($timestamp, $block = false) {    
-    if ($block === false) {
-        $format = $GLOBALS['nuked']['isBlock']; // ? quoi correspond cette variable, voir function get_blok() ???
-    } else {
-        $format = $block;
-    }
+function nkDate($timestamp, $tinySize = false) {    
     
-    if ($format === true) {
+    if ($tinySize === true) {
         if ($GLOBALS['language'] == 'french') {
             $format = '%d/%m/%Y';
         } else {
@@ -120,8 +115,7 @@ function nkDate($timestamp, $block = false) {
     }
     
     // Format date, and convert it to ISO format
-    return iconv('UTF-8','ISO-8859-1',strftime($format, $timestamp));
-    //return iconv('UTF-8','ISO-8859-1',utf8_encode(strftime($format, $timestamp))); // For Windows servers
+    return strftime($format, $timestamp);
 }
 
 /**
@@ -241,27 +235,27 @@ function banip() {
     }
 }
 
+/**
+ * Initialisation des blocks
+ */
+$activeCssBlock = $GLOBALS['nkFunctions']->infoBlocks();
 
 /**
  * Display blocks.
  * @param string $side : side block to display
  */
 function get_blok($side) {
+
+    global $activeCssBlock;
     
     // Array orientation
     $activeTranslation = array(
-        'gauche' => 1,
-        'droite' => 2,
-        'centre' => 3,
-        'bas' => 4
+        'left' => 1,
+        'right' => 2,
+        'center' => 3,
+        'bottom' => 4
     );
-    /**
-     * @todo to delete ?
-     */
-    if ($side == 'gauche' || $side == 'droite') {
-        $GLOBALS['nuked']['isBlock'] = TRUE;
-    }
-    
+
      // Level of user
     if (!empty($GLOBALS['user'])) {
         $visiteur = $GLOBALS['user'][1];
@@ -279,71 +273,37 @@ function get_blok($side) {
         return;
     }
 
-    foreach (getBlockData( $activeTranslation[$side] ) as $block) {
-        $display = FALSE;
+    $BlockDisplay = $activeCssBlock[$activeTranslation[$side]];
 
-        $block['page'] = explode( '|', $block['page'] );
+    if(!is_null($BlockDisplay)) {
+        foreach ($BlockDisplay as $block) {
+            $display = FALSE;
 
-        // If we find a block page, a flag is set for including the associated block
-        if ((isset($_REQUEST['file']) && in_array($_REQUEST['file'], $block['page'])) || in_array('Tous', $block['page'])) {
-            $display = TRUE;
-        }
+            $block['page'] = explode( '|', $block['page'] );
 
-        if ($visiteur >= $block['nivo'] && $display) {
-            $block['titre'] = printSecuTags($block['titre']);
-
-            include_once 'Includes/blocks/block_'. $block['type'] .'.php';
-
-            if (function_exists($blockFunction = 'affich_block_'. $block['type'])) {
-                $block = $blockFunction( $block );
-            } else {
-                echo $GLOBALS['nkTpl']->nkDisplayError(UNKNOWN_FUNCTION_DISPLAY_BLOCK . ' : '. $blockFunction);
-                return;
+            // If we find a block page, a flag is set for including the associated block
+            if ((isset($_REQUEST['file']) && in_array($_REQUEST['file'], $block['page'])) || in_array('Tous', $block['page'])) {
+                $display = TRUE;
             }
 
-            if (!empty( $block['content'] )) {
-                $themeBlockName( $block );
+            if ($visiteur >= $block['nivo'] && $display) {
+                $block['titre'] = printSecuTags($block['titre']);
+
+                include_once 'Includes/blocks/block_'. $block['type'] .'.php';
+
+                if (function_exists($blockFunction = 'affich_block_'. $block['type'])) {
+                    $block = $blockFunction( $block );
+                } else {
+                    echo $GLOBALS['nkTpl']->nkDisplayError(UNKNOWN_FUNCTION_DISPLAY_BLOCK . ' : '. $blockFunction);
+                    return;
+                }
+
+                if (!empty( $block['content'] )) {
+                    $themeBlockName( $block );
+                }
             }
         }
     }
-    /**
-     * @todo to delete ?
-     */
-    $GLOBALS['nuked']['isBlock'] = FALSE;
-}
-
-/**
- * Get selected block to display (used like cache).
- * @staticvar array $data : list of blocks
- * @param type $activeSelected : key used to selected block
- * @return array : block selected
- */
-function getBlockData($activeSelected) {
-    static $data = array();
-
-    if (empty($data)) {
-        // Get list of blocks
-        $blockList = nkDB_select('SELECT bid, active, position, module, titre, content, type, nivo, page FROM ' .
-                                                    BLOCK_TABLE . ' ORDER BY position');
-        
-        foreach ($blockList as $block) {
-            $data[$block['active']][] = array(
-                    'bid'		=> $block['bid'],
-                    'position'	=> $block['position'],
-                    'module'	=> $block['module'],
-                    'titre'		=> $block['titre'],
-                    'content'	=> $block['content'],
-                    'type'		=> $block['type'],
-                    'nivo'		=> $block['nivo'],
-                    'page'		=> $block['page']
-            );
-        }
-    }
-
-    if (array_key_exists( $activeSelected, $data )) {
-        return $data[$activeSelected];
-    }
-    return array();
 }
 
 /**
@@ -367,17 +327,19 @@ function activeBlock() {
  * @return [mixed]
  */
 function includeJsTheme() {
-    $return = '';
-    $jsDir = dir('themes/' . $GLOBALS['theme'] . '/js');
-    while (false !== ($jsFile = $jsDir->read())) {
-        if (preg_match('/\.js$/i', $jsFile)) {
-            if(!preg_match('/^jquery.js$/i', $jsFile)) {
-                $return .= '<script type="text/javascript" src="' . $jsDir->path . '/'.$jsFile.'"></script>';
+    if (is_dir('themes/' . $GLOBALS['theme'] . '/js')) {
+        $jsDir = dir('themes/' . $GLOBALS['theme'] . '/js');
+        $return = '';
+        while (false !== ($jsFile = $jsDir->read())) {
+            if (preg_match('/\.js$/i', $jsFile)) {
+                if(!preg_match('/^jquery.js$/i', $jsFile)) {
+                    $return .= '<script type="text/javascript" src="' . $jsDir->path . '/'.$jsFile.'"></script>';
+                }
             }
         }
+        $jsDir->close();
+        return $return;
     }
-    $jsDir->close();
-    return $return;
 }
 
 
@@ -969,17 +931,22 @@ function updateUserConnectData($user, $ipUser, $limite) {
             $valuesUserSet = array($limite, (int) $user[1], $ipUser, $user[2]);
             $rs = nkDB_update(NBCONNECTE_TABLE, $fieldsUserSet, $valuesUserSet, 'user_id = '. nkDB_escape($user[0]));
         } else {
-            $fields = array('date', 'type', 'user_id', 'username');
-            $values = array($limite, (int) $user[1], $user[0], $user[2]);
-            $rs = nkDB_update(NBCONNECTE_TABLE, $fieldsUserSet, $valuesUserSet, 'IP = '. nkDB_escape($ipUser));
+            $fields = array('date', 'type', 'IP', 'username', 'user_id');
+            $values = array($limite, 0, $ipUser, '', '');
+            $rs = nkDB_update(NBCONNECTE_TABLE, $fields, $values, 'IP = '. nkDB_escape($ipUser));
         }
     } else {  // If not, add IP address of user (delete this if it exists before)
+
         $rsDel = nkDB_delete(NBCONNECTE_TABLE, 'IP = ' . nkDB_escape($ipUser));
         
-        $fields = array('`IP`', '`type`', '`date`', '`user_id`', '`username`');
-        $values = array($ipUser, (int) $user[1], $limite, $user[0], $user[2]);
+        if ($user) {
+            $fields = array('date', 'type', 'IP', 'username', 'user_id');
+            $values = array($limite, (int) $user[1], $ipUser, $user[2], $user[0]);
+        } else {
+            $fields = array('date', 'type', 'IP');
+            $values = array($limite, 0, $ipUser);
+        }
         $rsIns = nkDB_insert(NBCONNECTE_TABLE, $fields, $values);
-        
     }
 }
 

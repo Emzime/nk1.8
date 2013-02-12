@@ -25,7 +25,7 @@ $dbsLastBlock = '   SELECT dt.id, dt.titre, dt.date, dt.type, dt.description, dc
                     DESC LIMIT 0, 10';
 $dbeLastBlock = mysql_query($dbsLastBlock);
 
-if ($blockSide == 3 || $blockSide == 4) {
+if ($blockSide[$modName] == 3 || $blockSide[$modName] == 4) {
 ?>
 
     <article class="nkWidthFully nkMarginBottom15">
@@ -149,7 +149,7 @@ if ($blockSide == 3 || $blockSide == 4) {
         // Boucle sur les informations des fichiers
         while (list($fileId, $fileTitle, $fileDate, $fileCatId, $fileDescription, $fileCatName, $fileParentId, $fileParentCatName) = mysql_fetch_array($dbeLastBlock)) {
             $fileTitle = printSecuTags($fileTitle);
-            $fileDate = nkDate($fileDate);
+            $fileDate = nkDate($fileDate, true);
 
             if (!$fileDescription) {
                 $fileDescription = NONEDESC;

@@ -289,7 +289,7 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
         top();
 
         // on affiche les messages de suppression des INSTALL / UPDATE si level admin et en dehors de l'administration
-        if ($visiteur == 9) { 
+        if ($visiteur == 9 && defined('TESTLANGUE')) { 
             if (is_dir(ROOT_PATH .'INSTALL/')) {
                 echo $nkTpl->nkDisplayError(REMOVEDIRINST);            
             }
@@ -327,7 +327,7 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
         include_once ROOT_PATH .'Includes/copyleft.php';
 
         // on affichage le temps de génération des pages
-        if ($nuked['time_generate'] == 'on') {
+        if ($nuked['time_generate'] == 'on' && defined('TESTLANGUE')) {
             $mtime = microtime() - $mtime;
         ?>
             <p class="nkAlignCenter"><?php echo GENERATE.'&nbsp;'.$mtime.'&nbsp;'.SECONDE; ?></p>

@@ -424,9 +424,8 @@ class NK_functions {
                     }
                 }
             }
-        }else {
-            $infos = null;
         }
+
         return $infos;
     }
 }

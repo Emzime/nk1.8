@@ -1,6 +1,6 @@
 <?php
 /**
-*   Block of Search module
+*   Block of Downloads module
 *   Display the last/top 10 files
 *
 *   @version 1.8
@@ -12,53 +12,80 @@ defined('INDEX_CHECK') or die ('<div style="text-align: center;">'.CANTOPENPAGE.
 global $user, $visiteur, $blockSide;
 $modName = basename(dirname(__FILE__));
 
-if ($blockSide == 3 || $blockSide == 4) {
+// Bouton radio de sélection
+$arrayanswers = array(
+    'matchand' => MATCHAND.'<br />',
+    'matchexact' => MATCHEXACT.'<br />',
+    'matchor' => MATCHOR
+);                        
+$keyword = $GLOBALS['nkFunctions']->nkRadioBox('searchtype', 'nkWidthQuarter', '', '3', $arrayanswers, 'searchtype', 'nkWidth3Quarter');
+
+// Nombre de reponse a retrouner
+$arrayanswers = array(
+    '10' => 10,
+    '50' => 50,
+    '100' => 100
+);                        
+$numberOfResponse =  $GLOBALS['nkFunctions']->nkRadioBox('limit', 'nkLabelSpacing nkWidthQuarter nkMarginLRAuto', NBANSWERS.'&nbsp;:&nbsp;', '3', $arrayanswers, 'answers');
+
+
+if ($blockSide[$modName] == 3 || $blockSide[$modName] == 4) {
 ?>
-    <form method="post" action="index.php?file=Search&amp;op=mod_search">
-        <div class="nkAlignCenter nkMarginTop15 nkMarginBottom15">
-            <input type="text" name="main" size="30" />
+
+    <form method="post" action="index.php?file=Search&amp;op=seeResult" class="nkBorderDotted">
+        <div class="nkAlignCenter">
+            <h2>
+                <?php 
+                echo SEARCHFOR; 
+                ?>
+            </h2>
         </div>
-        <div class="nkAlignCenter nkMarginBottom15">
-            <input type="submit" class="nkButton" name="submit" value="<?php echo SEARCHFOR; ?>" />
+        <div class="nkWidth3Quarter  nkMarginLRAuto">
+            <label for="main" class="nkLabelSpacing nkWidthQuarter nkMarginLRAuto"><?php echo KEYWORDS; ?>&nbsp;:&nbsp;</label>
+                <input type="text" id="main" name="main" size="30" value="" />
         </div>
-        <div class="nkAlignCenter nkMarginBottom15">
-            <label for="module"><?php echo COLUMN; ?>&nbsp;:&nbsp;</label>
+        <div class="nkWidth3Quarter  nkMarginLRAuto">
+            <?php  
+            echo $keyword; 
+            ?>
+        </div>
+        <div class="nkWidth3Quarter  nkMarginLRAuto">
+            <label for="autor" class="nkLabelSpacing nkWidthQuarter nkMarginLRAuto"><?php echo AUTHOR; ?>&nbsp;:&nbsp;</label>
+                <input type="text" size="30" id="autor" name="autor"  value="" />
+        </div>
+        <div class="nkWidth3Quarter  nkMarginLRAuto">
+            <label for="module" class="nkLabelSpacing nkWidthQuarter nkMarginLRAuto"><?php echo COLUMN; ?>&nbsp;:&nbsp;</label>
                 <select id="module" name="module">
                     <option value=""><?php echo SALL; ?></option>
                     <?php
-                    $path = 'modules/Search/rubriques/';
-                    $modules = array();
-                    $handle = opendir($path);
-                    
-                    while ($mod = readdir($handle)){
-                        if ($mod != '.' && $mod != '..' && $mod != 'index.html'){
-                            $i++;
-                            $mod = str_replace('.php', '', $mod);
-                            $perm = nivo_mod($mod);
-                            if (!$perm) $perm = 0;
-                            
-                            if ($user[1] >= $perm && $perm > -1){
-                                $umod = strtoupper($mod);
-                                $modname = '_S' . $umod;
-                                if (defined($modname)) $modname = constant($modname);
-                                else $modname = $mod;
-                                array_push($modules, $modname.'|'.$mod);
-                            }
-                        }
-                    }                   
-                    natcasesort($modules);                  
-                    foreach($modules as $value){
-                        $temp = explode('|', $value);
-                        if ($temp[1] == $_REQUEST['file']) $selected = 'selected="selected"';
-                        else $selected = '';
+                        $dbsModule = '  SELECT nom 
+                                        FROM '.MODULES_TABLE.'
+                                        WHERE niveau <= '.$visiteur.'
+                                        AND niveau != -1
+                                        AND nom != "Stats"
+                                        AND nom != "Contact"';
+                        $dbeModule = mysql_query($dbsModule);
+                        while (list($listModule) = mysql_fetch_array($dbeModule)){
+                            $listModule = strtoupper($listModule);
+                            $listModule = constant($listModule);
+
                         ?>
-                        <option value="<?php echo $temp[1]; ?>" <?php echo $selected; ?>><?php echo $temp[0]; ?></option>
-                    <?php
-                    }
-                    ?>
+                        <option value="<?php echo $listModule; ?>"><?php echo $listModule; ?></option>
+                        <?php
+                        }
+                        ?>                  
                 </select>
         </div>
+        <div class="nkWidth3Quarter nkMarginLRAuto">
+            <?php   
+            echo $numberOfResponse;
+            ?>
+        </div>
+        <div class="nkAlignCenter nkMarginLRAuto nkMarginTop15 nkMarginBottom15">
+            <input type="submit" class="nkButton" name="submit" value="<?php echo SEARCHFOR; ?>" />
+        </div>
     </form>
+
 <?php
 }else{
 ?>

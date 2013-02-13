@@ -9,7 +9,7 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-function affich_block_survey($blok){
+function affichBlockSurvey($blok){
     global $file, $nuked;
 
     if ($file != 'Survey'){

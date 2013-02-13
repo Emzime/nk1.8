@@ -1,7 +1,5 @@
 <?php
-if (!defined("INDEX_CHECK")){
-	exit('You can\'t run this file alone.');
-}
+defined('INDEX_CHECK') or die ('<div class="align-center">You cannot open this page directly</div>');
 
 define("_NOENTRANCE","Sorry you haven no permission to access this page");
 define("_NICK","Nick");

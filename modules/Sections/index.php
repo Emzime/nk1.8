@@ -10,7 +10,6 @@
 if (!defined('INDEX_CHECK')) die('<div style="text-align:center;">You cannot open this page directly</div>');
 
 global $user, $nuked, $language;
-translate("modules/Sections/lang/" . $language . ".lang.php");
 
 $visiteur = (!$user) ? 0 : $user[1];
 $ModName = basename(dirname(__FILE__));
@@ -494,12 +493,12 @@ if ($visiteur >= $level_access && $level_access > -1){
 
         $text = str_replace("&quot;", "\"", $text);
         $text = str_replace("&#039;", "'", $text);
-        $text = str_replace("&agrave;", "à", $text);
-        $text = str_replace("&acirc;", "â", $text);
-        $text = str_replace("&eacute;", "é", $text);
-        $text = str_replace("&egrave;", "è", $text);
-        $text = str_replace("&ecirc;", "ê", $text);
-        $text = str_replace("&ucirc;", "û", $text);
+        $text = str_replace("&agrave;", "Ã ", $text);
+        $text = str_replace("&acirc;", "Ã¢", $text);
+        $text = str_replace("&eacute;", "Ã©", $text);
+        $text = str_replace("&egrave;", "Ã¨", $text);
+        $text = str_replace("&ecirc;", "Ãª", $text);
+        $text = str_replace("&ucirc;", "Ã»", $text);
 
         $text = preg_replace('#\r\n\t#', '', $text);
         $text = str_replace('<div style="page-break-after: always;"><span style="display: none;">&nbsp;</span></div>', '</page><page>', $text);

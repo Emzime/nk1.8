@@ -13,9 +13,8 @@ if (!defined("INDEX_CHECK"))
 }
 
 global $nuked, $language, $user, $cookie_captcha;
-translate("modules/Guestbook/lang/" . $language . ".lang.php");
 
-// Inclusion système Captcha
+// Inclusion syst?me Captcha
 include_once("Includes/nkCaptcha.php");
 
 // On determine si le captcha est actif ou non

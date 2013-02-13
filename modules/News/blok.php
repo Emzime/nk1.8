@@ -9,8 +9,6 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('<div style="text-align: center;">You cannot open this page directly</div>');
 
-translate("modules/News/lang/$language.lang.php");
-
 $day = time();
 
 $Str = mysql_query("SELECT active FROM " . BLOCK_TABLE . " WHERE bid = '$bid'");

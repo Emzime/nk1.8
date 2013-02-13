@@ -10,7 +10,6 @@
 defined('INDEX_CHECK') or die('<div style="text-align:center;">You cannot open this page directly</div>');
 
 global $language, $user;
-translate("modules/Calendar/lang/" . $language . ".lang.php");
 $visiteur = $user ? $user[1] : 0;
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
@@ -235,7 +234,7 @@ function index(){
 					for($j = 0 ; $j < $CountMonthData; $j++){
 						
 						$color1 = $bgcolor;
-						$theevent .= "&nbsp;<b><big>·</big></b>&nbsp;<a href=\"javascript:openWin('" . $this->month_data[$theday]['event_type'][$j] . "', '" . $this->month_data[$theday]['id'][$j] . "', '" . $theday . "', '" . $_REQUEST['m'] . "', '" . $_REQUEST['y'] . "')\">" . $this->month_data[$theday]['event_title'][$j] . "</a><br />";
+						$theevent .= "&nbsp;<b><big>?</big></b>&nbsp;<a href=\"javascript:openWin('" . $this->month_data[$theday]['event_type'][$j] . "', '" . $this->month_data[$theday]['id'][$j] . "', '" . $theday . "', '" . $_REQUEST['m'] . "', '" . $_REQUEST['y'] . "')\">" . $this->month_data[$theday]['event_title'][$j] . "</a><br />";
 					}
 					
 				}else{

@@ -13,9 +13,8 @@ if (!defined("INDEX_CHECK"))
 }
 
 global $nuked, $language, $user, $cookie_captcha;
-translate("modules/Forum/lang/" . $language . ".lang.php");
 
-// Inclusion système Captcha
+// Inclusion syst?me Captcha
 include_once("Includes/nkCaptcha.php");
 
 // On determine si le captcha est actif ou non
@@ -348,7 +347,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                     // Liste des threads de l'ancien forum
                     $SQL = "SELECT id FROM " . FORUM_THREADS_TABLE . " WHERE forum_id = " . (int) $_REQUEST['forum_id'] . " ";
                     $req = mysql_query($SQL);
-                    // On vérifie que tous les threads sont lus
+                    // On v?rifie que tous les threads sont lus
                     while ($data = mysql_fetch_assoc($req)) {
                          $oldTMP[$data['id']] = $data['id'];
                     }
@@ -357,7 +356,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                     // Liste des threads du nouveau forum
                     $SQL = "SELECT id FROM " . FORUM_THREADS_TABLE . " WHERE forum_id = " . (int) $_REQUEST['newforum'] . " ";
                     $req = mysql_query($SQL);
-                    // On vérifie que tous les threads sont lus
+                    // On v?rifie que tous les threads sont lus
                     while ($data = mysql_fetch_assoc($req)) {
                          $newTMP[$data['id']] = $data['id'];
                     }
@@ -389,7 +388,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                                    $read = false;
                          }
                          
-                         // Si tout n'est pas lu, et que le forum est présent dans la liste on le retire
+                         // Si tout n'est pas lu, et que le forum est pr?sent dans la liste on le retire
                          if ($read === false && strrpos($fid, ',' . $_REQUEST['newforum'] . ',') !== false) {
                               // Nouvelle liste des forums
                               $fid = preg_replace("#," . $_REQUEST['newforum'] . ",#is", ",", $fid);

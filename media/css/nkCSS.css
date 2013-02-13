@@ -43,7 +43,7 @@ li {
     text-decoration: none;
 }
 #nkSiteClose section {
-    background: url("../modules/Admin/images/bg-login.gif") repeat scroll 0 0 #222222;
+    background: url(../../modules/Admin/images/bg-login.gif) repeat scroll 0 0 #222222;
     border-radius: 10px;
     display: block;
     margin: 50px auto auto;
@@ -244,7 +244,7 @@ div[id^='globalVoteResult_'] {
 [class^="crumbsgreen"] li a,
 [class^="crumbsyellow"] li a,
 [class^="crumbsred"] li a,
-[class^="crumbspurple"] li a {background-image: url('../images/breadcrumbs/crumbsBackground.png');}
+[class^="crumbspurple"] li a {background-image: url(../../images/breadcrumbs/crumbsBackground.png);}
 
 [class^="crumbs"] li a { background-position: 100% 0; width: 480px; height: 144px; } 
 [class^="crumbsblue"] li a { background-position: 100% -149px; width: 480px; height: 144px; } 
@@ -255,7 +255,7 @@ div[id^='globalVoteResult_'] {
 
 /* Global pour l'affichage des icons "sprites" */
 [class^="nkIcon"], [class*="nkIcon"] {
-    background-image: url("../images/nkIconSprite.png");
+    background-image: url(../../images/nkIconSprite.png);
     background-repeat: no-repeat;
     width: 16px;
     height: 16px; 
@@ -593,29 +593,32 @@ div[id^='globalVoteResult_'] {
     display:none;
     text-decoration:none;
     position:fixed;
-    bottom:10px;
+    bottom:0px;
     right:10px;
     overflow:hidden;
     width:51px;
     height:51px;
     border:none;
     text-indent:-999px;
-    background:url(../images/ui.totop.png) no-repeat left top;
+    background: url(../../images/nkToTop.png) no-repeat top left;
 }
-#nkToTopHover {
-    background:url(../images/ui.totop.png) no-repeat left -51px;
-    width:51px;
-    height:51px;
-    display:block;
-    overflow:hidden;
-    float:left;
-    opacity: 0;
-    -moz-opacity: 0;
-    filter:alpha(opacity=0);
-}
-#nkToTop:active, #nkToTop:focus {
-    outline:none;
-}
+
+.nkToTopBlue{ background-position: 0 0 !important; } 
+.nkToTopBlue:hover{ background-position: 0 -51px !important; } 
+.nkToTopCircle{ background-position: -56px 0 !important; } 
+.nkToTopCircle:hover{ background-position: -56px -51px !important; } 
+.nkToTopCircle2{ background-position: -112px 0 !important; width: 52px !important; height: 52px !important;}
+.nkToTopCircle2:hover{ background-position: -112px -52px !important; width: 52px !important; height: 52px !important; } 
+.nkToTopCube{ background-position: -169px 0 !important; } 
+.nkToTopCube:hover{ background-position: -169px -51px !important; } 
+.nkToTopGreen{ background-position: -225px 0px !important; width: 52px !important; height: 47px !important; } 
+.nkToTopGreen:hover{ background-position: -225px -48px !important; width: 52px !important; height: 47px !important; } 
+.nkToTopGrey{ background-position: -282px 0 !important; } 
+.nkToTopGrey:hover{ background-position: -282px -51px !important; } 
+.nkToTopRound{ background-position: -338px 0 !important; } 
+.nkToTopRound:hover{ background-position: -338px -51px !important; } 
+.nkToTopBlack{ background-position: -394px 0 !important; } 
+.nkToTopBlack:hover{ background-position: -394px -51px !important; } 
 
 
 /* Global pour les Width */
@@ -760,48 +763,3 @@ div[id^='globalVoteResult_'] {
 .nkNnoWrap{
     white-space:nowrap;
 }
-
-/*  
-    Themes:
-
-    The plugin adds the class of the theme (for example ".jquerybubblepopup-azure") 
-    to the main <DIV> container, then you can edit the style of any element inside the 
-    Bubble Popup markup for each theme.
-    
-    The following code defines fonts and backgrounds of the "innerHtml" for each theme:
-*/
-.jquerybubblepopup{width:auto;height:auto;margin:0px;padding:0px;position:absolute;border:0px;z-index:100;text-align:center;background-color:transparent;font-size: 0px;}
-.jquerybubblepopup-ie{filter:progid:DXImageTransform.Microsoft.Shadow(color="#666666", Direction=135, Strength=3);} /* the plugin adds this class only if browser is IE; if IE9, it's added to main <DIV> else to <TABLE> */
-.jquerybubblepopup table{width:auto;height:auto;margin:0px;padding:0px;display:table;border-collapse:collapse;border-spacing:0px;border:0px;empty-cells:show;background-color:transparent;}
-.jquerybubblepopup tbody{display:table-row-group;vertical-align:middle;border:0px;background-color:transparent;}
-.jquerybubblepopup td{margin:0px;padding:0px;background-color:transparent;}
-.jquerybubblepopup-top-left,    .jquerybubblepopup-top-right,
-.jquerybubblepopup-bottom-left, .jquerybubblepopup-bottom-right{width:21px;height:21px;overflow:hidden;background-repeat:no-repeat;}
-.jquerybubblepopup-top-middle,  .jquerybubblepopup-bottom-middle{overflow:hidden;background-repeat:repeat-x;}
-.jquerybubblepopup-middle-left, .jquerybubblepopup-middle-right{overflow:hidden;background-repeat:repeat-y;}
-.jquerybubblepopup-tail{border:0px;margin:0px;padding:0px;display:inline;}
-
-.jquerybubblepopup-azure  .jquerybubblepopup-innerHtml,
-.jquerybubblepopup-black  .jquerybubblepopup-innerHtml,
-.jquerybubblepopup-blue   .jquerybubblepopup-innerHtml,
-.jquerybubblepopup-green  .jquerybubblepopup-innerHtml,
-.jquerybubblepopup-grey   .jquerybubblepopup-innerHtml,
-.jquerybubblepopup-orange .jquerybubblepopup-innerHtml,
-.jquerybubblepopup-violet .jquerybubblepopup-innerHtml, 
-.jquerybubblepopup-yellow .jquerybubblepopup-innerHtml{font-family:'Trebuchet MS',Arial;font-size:11px;font-weight:normal;color:#000000;background-color:#FFFFFF;}
-.jquerybubblepopup-all-azure  .jquerybubblepopup-innerHtml,
-.jquerybubblepopup-all-black  .jquerybubblepopup-innerHtml, 
-.jquerybubblepopup-all-blue   .jquerybubblepopup-innerHtml,
-.jquerybubblepopup-all-green  .jquerybubblepopup-innerHtml, 
-.jquerybubblepopup-all-grey   .jquerybubblepopup-innerHtml, 
-.jquerybubblepopup-all-orange .jquerybubblepopup-innerHtml,
-.jquerybubblepopup-all-violet .jquerybubblepopup-innerHtml, 
-.jquerybubblepopup-all-yellow .jquerybubblepopup-innerHtml{font-family:'Trebuchet MS',Arial;font-size:11px;font-weight:normal;color:#FFFFFF;}
-.jquerybubblepopup-all-azure  .jquerybubblepopup-innerHtml{background-color:#0099FF;}
-.jquerybubblepopup-all-black  .jquerybubblepopup-innerHtml{background-color:#000000;} 
-.jquerybubblepopup-all-blue   .jquerybubblepopup-innerHtml{background-color:#0066CC;}
-.jquerybubblepopup-all-green  .jquerybubblepopup-innerHtml{background-color:#66FF00;} 
-.jquerybubblepopup-all-grey   .jquerybubblepopup-innerHtml{background-color:#666666;}
-.jquerybubblepopup-all-orange .jquerybubblepopup-innerHtml{background-color:#FF9933;}
-.jquerybubblepopup-all-violet .jquerybubblepopup-innerHtml{background-color:#FF33FF;} 
-.jquerybubblepopup-all-yellow .jquerybubblepopup-innerHtml{background-color:#FFCC00;}

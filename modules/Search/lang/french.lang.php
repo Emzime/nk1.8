@@ -4,6 +4,7 @@ defined('INDEX_CHECK') or die ('<div class="align-center">You cannot open this p
 // Test si le fichier langue est chargé
 define('TESTLANGUEFILESEARCH', true);
 
+
 define('SEARCHFOR','Recherche');
 define('SEARCHRESULT','Résultats de la recherche');
 define('ADVANCEDSEARCH','Recherche avancée');

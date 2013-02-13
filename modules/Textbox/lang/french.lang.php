@@ -1,29 +1,30 @@
 <?php
-if (!defined("INDEX_CHECK"))
-{
-	exit('You can\'t run this file alone.');
-}
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
-define("_NONICKNAME","Vous n\'avez pas entré de pseudo !");
-define("_NOTEXT","Vous n\'avez pas entré de texte !");
-define("_PSEUDOEXIST","Ce pseudo est déjà réservé !");
+defined('INDEX_CHECK') or die ('<div class="align-center">You cannot open this page directly</div>');
+
+// Test si le fichier langue est chargÃ©
+define('TESTLANGUEFILETEXTBOX', true);
+
+define("_NOENTRANCE","D?sol? mais vous n'avez pas les droits pour acc?der ? cette page");
+define("_ZONEADMIN","Cette zone est r?serv?e a l'Admin, D?sol?...");
+define("_NONICKNAME","Vous n\'avez pas entr? de pseudo !");
+define("_NOTEXT","Vous n\'avez pas entr? de texte !");
+define("_PSEUDOEXIST","Ce pseudo est d?j? r?serv? !");
 define("_BANNEDNICK","Ce pseudo est banni");
 define("_SEND","Envoyer");
 define("_NICKNAME","Pseudo");
 define("_YOURMESS","Votre message");
-define("_REFRESH","Rafraîchir");
+define("_REFRESH","Rafra?chir");
 define("_SEEARCHIVES","Voir les archives");
 define("_SHOUTBOX","Tribune Libre");
-define("_SHOUTSUCCES","Message envoyé avec succès.");
+define("_SHOUTSUCCES","Message envoy? avec succ?s.");
 define("_NOFLOOD","Flood interdit ! veuillez patienter quelques instants...");
 define("_THE","le");
-define("_AT","à");
+define("_AT","?");
 define("_NOMESS","Il n'y a pas encore de message");
-define("_PREVIOUSPAGE","Page Précédente");
+define("_PREVIOUSPAGE","Page Pr?c?dente");
 define("_NEXTPAGE","Page Suivante");
 define("_THEREIS","Il y a");
-define("_SHOUTINDB","messages dans la base de données");
+define("_SHOUTINDB","messages dans la base de donn?es");
 define("_SMILEY","Smilies");
 define("_LISTSMILIES","Liste des smilies");
 define("_CODE","Code");
@@ -36,22 +37,22 @@ define("_EDIT","Editer");
 define("_DEL","Supprimer");
 define("_MODIF","Modifier");
 define("_SHOUT","Message");
-define("_DELETETEXT","Vous êtes sur le point de supprimer le message de");
-define("_DELETEALLTEXT","Vous êtes sur le point de supprimer tous les messages, continuer ?");
+define("_DELETETEXT","Vous ?tes sur le point de supprimer le message de");
+define("_DELETEALLTEXT","Vous ?tes sur le point de supprimer tous les messages, continuer ?");
 define("_CONFIRM","Continuer ?");
 define("_DELALLMESS","Supprimer tous les messages");
 define("_DELTHISMESS","Supprimer ce message");
 define("_EDITTHISMESS","Editer ce message");
-define("_MESSDEL","Message effacé avec succès.");
-define("_MESSEDIT","Message modifié avec succès.");
-define("_ALLMESSDEL","Tous les messages ont été effacés.");
+define("_MESSDEL","Message effac? avec succ?s.");
+define("_MESSEDIT","Message modifi? avec succ?s.");
+define("_ALLMESSDEL","Tous les messages ont ?t? effac?s.");
 define("_NUMBERSHOUT","Nombre de messages par page");
-define("_PREFUPDATED","Préférences modifiées avec succès");
+define("_PREFUPDATED","Pr?f?rences modifi?es avec succ?s");
 
-define("_ACTIONMODIFSHO","a modifié un message de la tribune libre");
-define("_ACTIONDELSHO","a supprimé un message de la tribune libre");
-define("_ACTIONALLDELSHO","a supprimé tous les messages de la tribune libre");
-define("_ACTIONCONFSHO","a modifié les préférences de la tribune libre");
+define("_ACTIONMODIFSHO","a modifi? un message de la tribune libre");
+define("_ACTIONDELSHO","a supprim? un message de la tribune libre");
+define("_ACTIONALLDELSHO","a supprim? tous les messages de la tribune libre");
+define("_ACTIONCONFSHO","a modifi? les pr?f?rences de la tribune libre");
 
 define("_FRANCE", "France");
 define("_BELGIUM", "Belgique");

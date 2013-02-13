@@ -24,7 +24,6 @@ if ($visiteur >= $level_access && $level_access > -1)
     {
         global $bgcolor1, $bgcolor2, $bgcolor3, $theme, $nuked;
 
-        opentable();
 
         echo '<br />';
 
@@ -199,7 +198,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $j = 0;
             $res = mysql_fetch_row($sql);
         }
-        closetable();
+    
     }
 
     function detail($autor)

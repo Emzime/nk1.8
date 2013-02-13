@@ -50,7 +50,7 @@ if ($nb_news > 0){
         $news_date = nkDate($news_date);
         $news_titre = htmlentities($news_titre);
         $tab['module'][] = $modname;
-        $tab['title'][] = "<b>" . $news_titre . "</b> - " . _BY . "&nbsp;" . $news_auteur . "&nbsp;" . _THE . "&nbsp;" . $news_date;
+        $tab['title'][] = "<b>" . $news_titre . "</b> - " . BY . "&nbsp;" . $news_auteur . "&nbsp;" . THE . "&nbsp;" . $news_date;
         $tab['link'][] = "index.php?file=News&amp;op=index_comment&amp;news_id=" . $news_id;
     }
 }

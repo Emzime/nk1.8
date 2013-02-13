@@ -13,8 +13,6 @@ if (!defined("INDEX_CHECK")){
 
 global $nuked, $user;
 
-$visiteur = !$user ? 0 : $user[1];
-
 $and = "";
 
 if ($autor != "" && $main != ""){
@@ -63,7 +61,7 @@ if ($nb_mess > 0){
         }
 
         $tab['module'][] = $modname;
-        $tab['title'][] = "<b>" . $subject . "</b> - " . _BY . "&nbsp;" . $author . "&nbsp;" . _THE . "&nbsp;" . $mess_date;
+        $tab['title'][] = "<b>" . $subject . "</b> - " . BY . "&nbsp;" . $author . "&nbsp;" . THE . "&nbsp;" . $mess_date;
         $tab['link'][] = $link_post;
     }
 }

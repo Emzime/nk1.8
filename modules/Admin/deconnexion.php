@@ -9,11 +9,8 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-global $user, $nuked, $language;
-translate('modules/Admin/lang/' . $language . '.lang.php');
+global $user, $nuked, $language, $visiteur;
 include('modules/Admin/design.php');
-
-$visiteur = $user ? $user[1] : 0;
 
 if ($visiteur >= 2)
 {

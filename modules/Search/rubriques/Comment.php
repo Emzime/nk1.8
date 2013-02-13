@@ -53,7 +53,7 @@ if ($nb_com > 0){
 
 			$com_date = nkDate($com_date);
 			$tab['module'][] = $modname;
-			$tab['title'][] = "<b>" . $com_titre . "</b> - " . _BY . "&nbsp;" . $com_autor . "&nbsp;" . _THE . "&nbsp;" . $com_date;
+			$tab['title'][] = "<b>" . $com_titre . "</b> - " . BY . "&nbsp;" . $com_autor . "&nbsp;" . THE . "&nbsp;" . $com_date;
 
             if ($com_module == "news"){
                 $tab['link'][] = "index.php?file=News&amp;op=index_comment&amp;news_id=" . $im_id;

@@ -1,16 +1,22 @@
 <?php
+defined('INDEX_CHECK') or die ('<div class="align-center">You cannot open this page directly</div>');
+
+// Test si le fichier langue est chargÃ©
+define('TESTLANGUEFILERECRUIT', true);
+
+
 define("_RECRUIT","Demande de Recrutement");
 define("_IAGREE","J'accepte");
 define("_IDESAGREE","Je refuse");
-define("_NONICK","Vous n\'avez pas entré votre pseudo !");
-define("_NOLASTNAME","Vous n\'avez pas entré votre prénom !");
-define("_NOAGE","Vous n\'avez pas entré votre age !");
+define("_NONICK","Vous n\'avez pas entr? votre pseudo !");
+define("_NOLASTNAME","Vous n\'avez pas entr? votre pr?nom !");
+define("_NOAGE","Vous n\'avez pas entr? votre age !");
 define("_BADAGE","Vous avez mal saisi votre age, veuillez saisir un nombre !");
 define("_BADMAIL","Adresse email non valide !");
-define("_NOICQ","Vous n\'avez pas entré votre messagerie instantanée !");
-define("_NOCITY","Vous n\'avez pas entré votre ville !");
+define("_NOICQ","Vous n\'avez pas entr? votre messagerie instantan?e !");
+define("_NOCITY","Vous n\'avez pas entr? votre ville !");
 define("_NICK","Pseudo");
-define("_FIRSTNAME","Prénom");
+define("_FIRSTNAME","Pr?nom");
 define("_AGE","Age");
 define("_MAIL","Email");
 define("_ICQMSN","Icq/Msn");
@@ -22,13 +28,13 @@ define("_NUMERIS","128K");
 define("_ADSL","Adsl");
 define("_CABLE","Cable");
 define("_T1","T1(+)");
-define("_EXPERIENCE","Expérience");
+define("_EXPERIENCE","Exp?rience");
 define("_LESS1MONTH","- d'un mois");
 define("_LESS6MONTH","- de 6 mois");
 define("_LESS1YEAR","- d'un ans");
 define("_MORE1YEAR","+ d'un ans");
 define("_MORE2YEAR","+ de deux ans");
-define("_AVAILABLE","Disponibilité");
+define("_AVAILABLE","Disponibilit?");
 define("_EVENING","Le soir");
 define("_WEEKEND","Les Week-ends");
 define("_HOLIDAY","Les vacances");
@@ -37,27 +43,27 @@ define("_OTHER","Autres");
 define("_COMMENT","Commentaire");
 define("_SEND","Envoyer");
 define("_BACK","Retour");
-define("_SENDRECRUIT","Votre demande de recrutement a été prise en compte");
-define("_NEWRECRUIT","a envoyé une demande de recrutement :");
-define("_RECRUITOFF","Désolé, le recrutement est terminé à l'heure actuelle.");
+define("_SENDRECRUIT","Votre demande de recrutement a ?t? prise en compte");
+define("_NEWRECRUIT","a envoy? une demande de recrutement :");
+define("_RECRUITOFF","D?sol?, le recrutement est termin? ? l'heure actuelle.");
 
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
+define("_NOENTRANCE","D?sol? mais vous n'avez pas les droits pour acc?der ? cette page");
+define("_ZONEADMIN","Cette zone est r?serv?e a l'Admin, D?sol?...");
 define("_DATE","Date");
-define("_DELETERECRUTE","Vous êtes sur le point de supprimer la demande de");
+define("_DELETERECRUTE","Vous ?tes sur le point de supprimer la demande de");
 define("_CONFIRM","Continuer ?");
 define("_REMOVE","Supprimer");
-define("_RECRUITDELETE","Demande de recrutement supprimée avec succès.");
-define("_EDITPREF","Modifier les Préférences");
+define("_RECRUITDELETE","Demande de recrutement supprim?e avec succ?s.");
+define("_EDITPREF","Modifier les Pr?f?rences");
 define("_RECRUTE","Recrutement");
 define("_OPEN","Ouvert");
-define("_CLOSE","Fermé");
+define("_CLOSE","Ferm?");
 define("_MAILAVERT","Etre averti par email");
-define("_INBOXAVERT","Etre averti par message privé");
+define("_INBOXAVERT","Etre averti par message priv?");
 define("_CHARTE","Charte");
-define("_PREFUPDATE","Préférences modifiées avec succès.");
-define("_NORECRUIT","Aucune demande de recrutement dans la base de données");
-define("_NOTDEM","Vous avez reçu une demande de recrutement");
-define("_ACTIONPREFREC","a modifié les préférences du module recrutement");
-define("_ACTIONDELREC","a supprimé une demande de recrutement");
+define("_PREFUPDATE","Pr?f?rences modifi?es avec succ?s.");
+define("_NORECRUIT","Aucune demande de recrutement dans la base de donn?es");
+define("_NOTDEM","Vous avez re?u une demande de recrutement");
+define("_ACTIONPREFREC","a modifi? les pr?f?rences du module recrutement");
+define("_ACTIONDELREC","a supprim? une demande de recrutement");
 ?>

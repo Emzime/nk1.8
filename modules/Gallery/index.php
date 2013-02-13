@@ -9,11 +9,9 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-global $nuked, $language, $user;
-translate('modules/Gallery/lang/' . $language . '.lang.php');
+global $nuked, $language, $user, $visiteur;
 include('modules/Gallery/config.php');
 
-$visiteur = $user ? $user[1] : 0;
 
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
@@ -74,14 +72,14 @@ if ($visiteur >= $level_access && $level_access > -1)
                     $thb->doImg($name, $org, $dest);
                     // Config des parametres
                     // prefix
-                    // taille du + grd coté
-                    // qualité
+                    // taille du + grd cot?
+                    // qualit?
                     $thb->SetParam('_tmb', $img_screen1, 90);
-                    // pour connaitre le nom et chemin de l'image réduite
-                    // résultat: ./image_thb.jpeg
+                    // pour connaitre le nom et chemin de l'image r?duite
+                    // r?sultat: ./image_thb.jpeg
                     $thumb = $thb->GetThbName();
                     // pour connaitre le nom et chemin de l'image d'origine
-                    // résultat: ./image.jpeg
+                    // r?sultat: ./image.jpeg
                     $source = $thb->GetOrigine();
                     // Lance le redimensionenemt
                     $thb->doThb();

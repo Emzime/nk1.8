@@ -1,16 +1,16 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
-	die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-}
+/**
+*   Block of Team module
+*   Display the last/top 10 files
+*
+*   @version 1.8
+*   @link http://www.nuked-klan.org Clan Management System 4 Gamers NK CMS
+*   @license http://opensource.org/licenses/gpl-license.php GNU Public License
+*   @copyright 2001-2013 Nuked Klan 
+*/
+defined('INDEX_CHECK') or die ('<div style="text-align: center;">'.CANTOPENPAGE.'</div>');
+global $language, $user, $visiteur, $blockSide;
+$modName = basename(dirname(__FILE__));
 
 global $nuked, $theme, $language, $bgcolor3;
 

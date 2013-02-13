@@ -35,6 +35,7 @@ define('LINKS','Liens Web');
 define('MEMBERS','Membres');
 define('NEWS','News');
 define('RECRUIT','Recrutement');
+define('SEARCH','Recherche');
 define('SECTIONS','Articles');
 define('SERVER','Serveurs');
 define('STATS','Statistiques');
@@ -140,6 +141,7 @@ define('NONE', 'Aucun enregistrement');
 define('NONECAT', 'Aucune catégorie');
 
 define('CANTOPENPAGE','Vous ne pouvez pas ouvrir cette page directement');
+define('CANTOPENBLOCK','Le block est introuvable');
 
 define('BY','Par');
 define('THE','le');

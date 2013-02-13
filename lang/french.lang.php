@@ -147,4 +147,7 @@ define('BY','Par');
 define('THE','le');
 define('AT','à');
 
+define('TOVOTE','Voter');
+define('RESULT','Résultat');
+define('OTHERPOLL','Autres sondages');
 ?>

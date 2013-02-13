@@ -9,8 +9,8 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 ?>
-<div style="text-align: center; width: 100%">
+<div class="nkAlignCenter nkWidthFully">
     <a href="http://www.nuked-klan.org" onclick="window.open(this.href); return false;">
-        <img width="80" height="15" style="border:none" src="images/nk_powered.gif" alt="" title="Powered by Nuked-Klan <?php echo $nuked['version']; ?>© 2001, 2011" />
+        <img width="80" height="15" style="border:none" src="images/nk_powered.gif" alt="" title="<?php echo POWERED ?> Nuked-KlaN <?php echo $nuked['version']; ?> &copy; 2001, <?php echo date('Y'); ?>" />
     </a>
 </div>

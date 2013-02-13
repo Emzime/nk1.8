@@ -4,8 +4,6 @@ defined('INDEX_CHECK') or die ('<div class="align-center">You cannot open this p
 // Test si le fichier langue est chargé
 define('TESTLANGUEFILEWARS', true);
 
-define("_NOENTRANCE","D?sol? mais vous n'avez pas les droits pour acc?der ? cette page");
-define("_ZONEADMIN","Cette zone est r?serv?e a l'Admin, D?sol?...");
 define("_WIN","Victoire(s)");
 define("_LOST","D?faite(s)");
 define("_DRAW","Nul(s)");
@@ -71,7 +69,6 @@ define("_ADDMODFILE","Ajouter/Editer des fichiers joints");
 define("_IMG","Screenshot");
 define("_DEMO","D?mo");
 define("_CANCEL","Annuler");
-define("_CLOSEWINDOW","Fermer la fen?tre");
 define("_FILEADD","Fichier ajout? avec succ?s.");
 define("_FILEDEL","Fichier supprim? avec succ?s.");
 define("_FILEMODIF","Fichier modifi? avec succ?s.");
@@ -86,4 +83,5 @@ define("_ACTIONADDWAR","a ajout? un match");
 define("_ACTIONDELWAR","a supprim? un match");
 define("_ACTIONMODIFWAR","a modifi? un match");
 define("_ACTIONCONFWAR","a modifi? les pr?f?rences du module wars");
+define("_LATESTWAR","Derniers matches");
 ?>

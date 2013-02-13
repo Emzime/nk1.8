@@ -49,7 +49,7 @@ function SecureVar($value){
 		return str_replace(array('&', '<', '>', '0x'), array('&amp;', '&lt;', '&gt;', '0&#120;'), $value);
 	}
 }
-error_reporting (E_ERROR | E_WARNING | E_PARSE);
+//error_reporting (E_ERROR | E_WARNING | E_PARSE);
 //@set_magic_quotes_runtime(false);
 
 // ANTI INJECTION SQL (UNION) et XSS/CSS

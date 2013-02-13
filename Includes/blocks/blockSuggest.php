@@ -12,7 +12,7 @@ defined('INDEX_CHECK') or die ('<div style="text-align: center;">'.CANTOPENPAGE.
 
 if(defined('TESTLANGUE')) { 
     
-    function affich_block_suggest($blok){
+    function affichBlockSuggest($blok){
         global $user, $nuked, $visiteur;
 
         $module = activeMods();
@@ -20,7 +20,9 @@ if(defined('TESTLANGUE')) {
 
         $blok['content'] = '<nav><ul>';
         foreach ($module as $key) {
-            $dbsNbId = 'SELECT id FROM '.SUGGEST_TABLE.' WHERE module = \''.$key['module'].'\'';
+            $dbsNbId = 'SELECT id 
+                        FROM '.SUGGEST_TABLE.' 
+                        WHERE module = \''.$key['module'].'\'';
             $dbeNbId = mysql_query($dbsNbId);
             $dbcNbId = mysql_num_rows($dbeNbId);
 
@@ -56,16 +58,22 @@ if(defined('TESTLANGUE')) {
 }
 
     function edit_block_suggest($bid){
-        global $nuked, $language;
+        global $nuked, $language, $activeCssBlock;
+
+        varDump($activeCssBlock);
 
         $sql = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
         list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
         
         $titre = printSecuTags($titre);
 
-        if ($active == 1) $checked1 = 'selected="selected"';
-        else if ($active == 2) $checked2 = 'selected="selected"';
-        else $checked0 = 'selected="selected"';
+        if ($active == 1) {
+            $checked1 = 'selected="selected"';
+        } elseif ($active == 2) {
+            $checked2 = 'selected="selected"';
+        } else {
+            $checked0 = 'selected="selected"';
+        }
 
         echo '<div class="content-box">',"\n" //<!-- Start Content Box -->
                 , '<div class="content-box-header"><h3>' , _BLOCKADMIN , '</h3>',"\n"

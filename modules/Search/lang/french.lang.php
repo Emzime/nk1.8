@@ -1,7 +1,9 @@
 <?php
-if (!defined('INDEX_CHECK')){
-	exit('You can\'t run this file alone.');
-}
+defined('INDEX_CHECK') or die ('<div class="align-center">You cannot open this page directly</div>');
+
+// Test si le fichier langue est chargé
+define('TESTLANGUEFILESEARCH', true);
+
 define('SEARCHFOR','Recherche');
 define('SEARCHRESULT','Résultats de la recherche');
 define('ADVANCEDSEARCH','Recherche avancée');

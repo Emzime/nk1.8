@@ -107,7 +107,6 @@ class NK_tpl {
     public function nkExitAfterError($content, $class = 'nkCenter', $url = null){
 
         echo $this->nkDisplayError($content, $class, true);
-        adminfoot();
         exit();
     }
 
@@ -128,7 +127,8 @@ class NK_tpl {
      * @param string $url : url for back button
      * @ return informs that the module is disabled
      */
-    public function nkModuleOff($url) {
+    public function nkModuleOff($url=null) {
+        $referer = is_null($url) ? 'index.php' : $url;
         $return = $this->nkDisplayError(MODULEOFF, 'nkError', true);
         $return .= $GLOBALS['nkFunctions']->nkHistoryBack($url);
         return($return);

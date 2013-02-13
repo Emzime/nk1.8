@@ -244,16 +244,16 @@ $activeCssBlock = $GLOBALS['nkFunctions']->infoBlocks();
  * Display blocks.
  * @param string $side : side block to display
  */
-function get_blok($side) {
+function getBlok($side) {
 
     global $activeCssBlock;
     
     // Array orientation
     $activeTranslation = array(
-        'left' => 1,
-        'right' => 2,
-        'center' => 3,
-        'bottom' => 4
+        'Left' => 1,
+        'Right' => 2,
+        'Center' => 3,
+        'Bottom' => 4
     );
 
      // Level of user
@@ -268,7 +268,7 @@ function get_blok($side) {
         return;
     }
 
-    if (!function_exists( $themeBlockName = 'block_' . $side )) {
+    if (!function_exists( $themeBlockName = 'block' . $side )) {
         echo $GLOBALS['nkTpl']->nkDisplayError(UNKNOWNFUNCTIONBLOCK . ' : '. $themeBlockName);
         return;
     }
@@ -289,9 +289,9 @@ function get_blok($side) {
             if ($visiteur >= $block['nivo'] && $display) {
                 $block['titre'] = printSecuTags($block['titre']);
 
-                include_once 'Includes/blocks/block_'. $block['type'] .'.php';
+                include_once 'Includes/blocks/block'. $block['type'] .'.php';
 
-                if (function_exists($blockFunction = 'affich_block_'. $block['type'])) {
+                if (function_exists($blockFunction = 'affichBlock'. $block['type'])) {
                     $block = $blockFunction( $block );
                 } else {
                     echo $GLOBALS['nkTpl']->nkDisplayError(UNKNOWNFUNCTIONBLOCK . ' : '. $blockFunction);

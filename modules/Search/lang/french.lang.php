@@ -1,37 +1,37 @@
 <?php
-if (!defined("INDEX_CHECK")){
+if (!defined('INDEX_CHECK')){
 	exit('You can\'t run this file alone.');
 }
-define("_SEARCHFOR","Recherche");
-define("_SEARCHRESULT","Résultats de la recherche");
-define("_ADVANCEDSEARCH","Recherche avancée");
-define("_NBANSWERS","Nombre de réponses");
-define("_COLUMN","Rubrique");
-define("_AUTHOR","Auteur");
-define("_SALL","Toutes");
-define("_SNEWS","News");
-define("_SFORUM","Forum");
-define("_SSECTIONS","Articles");
-define("_SDOWNLOAD","Téléchargements");
-define("_SLINKS","Liens");
-define("_SGALLERY","Galerie");
-define("_SMEMBERS","Membres");
-define("_SCOMMENT","Commentaires");
-define("_3CHARSMIN","Vous devez entrer plus de 2 caractères");
-define("_NOWORDS","Vous devez entrer un mot ou une expression à rechercher");
-define("_ANSWERFIND","réponse(s) trouvée(s)");
-define("_NOANSWERFOR","Aucune réponse pour");
-define("_SEND","Envoyer");
-define("_ADDED","ajouté le");
-define("_BY","Par");
-define("_THE","le");
-define("_AT","à");
-define("_READS","lectures");
-define("_KEYWORDS","Mots clés");
-define("_MATCHOR","Rechercher n'importe lequel de ces termes");
-define("_MATCHAND","Rechercher tous les termes");
-define("_MATCHEXACT","Rechercher l'expression");
-define("_RETURN","La recherche a retourné");
-define("_RESULTS","réponse(s)");
-define("_MEMBERREG","enregistré le");
+define('SEARCHFOR','Recherche');
+define('SEARCHRESULT','RÃ©sultats de la recherche');
+define('ADVANCEDSEARCH','Recherche avancÃ©e');
+define('NBANSWERS','Nombre de rÃ©ponses');
+define('COLUMN','Rubrique');
+define('SALL','Toutes');
+
+
+define('SNEWS','News');
+define('SFORUM','Forum');
+define('SSECTIONS','Articles');
+define('SDOWNLOADS','TÃ©lÃ©chargements');
+define('SLINKS','Liens');
+define('SGALLERY','Galerie');
+define('SMEMBERS','Membres');
+define('SCOMMENT','Commentaires');
+define('MEMBERREG','enregistrÃ© le');
+define('ADDED','ajoutÃ© le');
+define('AUTHOR','Auteur');
+
+
+define('CHARSMIN','Vous devez entrer plus de 2 caractÃ¨res');
+define('NOWORDS','Vous devez entrer un mot ou une expression Ã  rechercher');
+define('ANSWERFIND','rÃ©ponse(s) trouvÃ©e(s)');
+define('NOANSWERFOR','Aucune rÃ©ponse pour');
+define('READS','lectures');
+define('KEYWORDS','Mots clÃ©s');
+define('MATCHOR','Rechercher n\'importe lequel de ces termes');
+define('MATCHAND','Rechercher tous les termes');
+define('MATCHEXACT','Rechercher l\'expression');
+define('RETURNS','La recherche a retournÃ©');
+define('RESULTS','rÃ©ponse(s)');
 ?>

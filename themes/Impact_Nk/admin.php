@@ -1,16 +1,19 @@
 <?php
 /************************************************
-*	Thème Impact_Nk pour Nuked Klan	*
+*	Th?me Impact_Nk pour Nuked Klan	*
 *	Design :  djGrim (http://www.impact-design.fr/)	*
 *	Codage : fce & huge (http://www.impact-design.fr/)			*
 ************************************************/
 defined("INDEX_CHECK") or die ("<div style=\"text-align: center;\">Access deny</div>");
+    // Initialisation des variables $_REQUEST
+    $requestArray = array(
+            'action',
+            'sub'
+        );
+    $GLOBALS['nkFunctions']->nkInitRequest($requestArray);
 
-include('themes/Impact_Nk/block-best.php');
-global $language;
-translate("themes/Impact_Nk/lang/" . $language . ".lang.php");
 if ($user[1] < 9){
-	echo '<div style="text-align: center;margin:30px 0;">'._INWARNINGMODTHEME.'</div>';
+	echo '<div style="text-align: center;margin:30px 0;">'.INWARNINGMODTHEME.'</div>';
 }
 else{
 	function index() {
@@ -25,9 +28,6 @@ else{
 			<a style="display:block;" href="index.php?file=Admin&amp;page=theme&amp;sub=logo">
 				<img src="themes/Impact_Nk/admin/images/logo.png" alt="logo"/>
 			</a>
-			<a style="display:block;" href="index.php?file=Admin&amp;page=theme&amp;sub=couleur">
-				<img src="themes/Impact_Nk/admin/images/couleur.png" alt="logo"/>
-			</a>
 		</div>
 <?php
 	}
@@ -37,26 +37,25 @@ else{
 		<div style="width:80%; margin:auto;">
 			<div class="notification attention png_bg">
 				<div>
-					<?php echo _ALERTENOT; ?>. <?php echo _CHOOSEADMIN;?>
+					<?php echo ALERTENOT; ?>. <?php echo CHOOSEADMIN;?>
 				</div>
 			</div>
 		</div>
 		<div style="text-align: center;margin: 20px 0;">
-			<a style="display:block;font-size: 16px;margin-bottom:15px;" href="index.php?file=Admin&amp;page=theme&amp;sub=module_complet" ><?php echo _INMODULEAT; ?> 100%</a>
-			<a style="display:block;font-size: 16px;" href="index.php?file=Admin&amp;page=theme&amp;sub=module_gauche" ><?php echo _INMODULEAT; ?> 75%</a>
+			<a style="display:block;font-size: 16px;margin-bottom:15px;" href="index.php?file=Admin&amp;page=theme&amp;sub=module_complet" ><?php echo INMODULEAT; ?> 100%</a>
+			<a style="display:block;font-size: 16px;" href="index.php?file=Admin&amp;page=theme&amp;sub=module_gauche" ><?php echo INMODULEAT; ?> 75%</a>
 		</div>		
 <?php
-		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
+		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . BACK . '</b></a> ]</div>';
 	}
 	
 	function menu(){
-		global $nbr_menu;
-
-		if($_GET['action'] == 'save'){		
+        $nbr_menu = 4;
+		if($_REQUEST['action'] == 'save'){		
 			$ecriretexte = '<?php';
 			$nbr = 1;
 			while ($nbr <= $nbr_menu){		
-				$ecriretexte .= "\n".'$menu['.$nbr.'] = "'.$_POST['menu'.$nbr].'";'."\n".'$menu1['.$nbr.'] = "'.$_POST['menu1'.$nbr].'";';
+				$ecriretexte .= "\n".'$menu['.$nbr.'] = "'.$_REQUEST['menu'.$nbr].'";'."\n".'$menu1['.$nbr.'] = "'.$_REQUEST['menu1'.$nbr].'";';
 				$nbr++;
 			}
 		
@@ -65,7 +64,7 @@ else{
 			fwrite($ecrire, $ecriretexte."\n?>");
 			fclose($ecrire);
 			
-			echo '<div style="text-align: center;margin:20px 0;">'. _INSAVEMOD .'</div>';
+			echo '<div style="text-align: center;margin:20px 0;">'. INSAVEMOD .'</div>';
 			redirect ("index.php?file=Admin&page=theme".$iframe, 2);
 
 		}
@@ -73,14 +72,14 @@ else{
 			include('themes/Impact_Nk/admin/menu.php');
 ?>
 			<div style="text-align: center;margin:20px 0;">
-				<h3><?php echo _INMANAGEMENU;?></h3>
+				<h3><?php echo INMANAGEMENU;?></h3>
 				<form method="post" action="index.php?file=Admin&amp;page=theme&amp;sub=menu&amp;action=save<?php echo $iframe ;?>">
                 <fieldset>
 <?php
 			$nbr = 1;
 			while ($nbr <= $nbr_menu){
 ?>		
-					<p style="font-weight: bold; text-decoration: underline;">Menu n°<?php echo $nbr ;?></p>
+					<p style="font-weight: bold; text-decoration: underline;">Menu nÂ°<?php echo $nbr ;?></p>
 					<div style="margin-bottom:10px;">
 						<label for="lmenu<?php echo $nbr; ?>">
 							Titre : 
@@ -95,67 +94,21 @@ else{
 				$nbr++;
 			}
 ?>
-					<input type="submit" value="<?php echo _INSAVEMOD; ?>" />
+					<input type="submit" value="<?php echo INSAVEMOD; ?>" />
                 </fieldset>
 				</form>
 			</div>
 <?php
 		}		
-		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
-	}
-
-	function couleur(){
-		global $nbr_couleur;
-		
-		if($_GET['action'] == 'save'){		
-			$ecriretexte = '<?php';
-			$nbr = 1;
-			while ($nbr <= $nbr_couleur){			
-				$ecriretexte .= "\n".'$couleur['.$nbr.'] = \''.$_POST['couleur'.$nbr].'\';';				
-				$nbr++;
-			}
-
-			$fichier = 'themes/Impact_Nk/admin/couleur.php';
-			$ecrire = fopen($fichier, "w+");
-			fwrite($ecrire, $ecriretexte."\n?>");
-			fclose($ecrire);
-			
-			echo '<div style="text-align: center;margin:20px 0;">'._INMODSUCESS.'</div>';
-			redirect ("index.php?file=Admin&page=theme".$iframe, 2);
-		}
-		else{
-			include('themes/Impact_Nk/admin/couleur.php');
-?>
-			<div style="text-align: center;margin:20px 0;">
-				<h3><?php echo _INMANAGECOLOR; ?></h3>
-				<form method="post" name="couleur" action="index.php?file=Admin&amp;page=theme&amp;sub=couleur&amp;action=save<?php echo $iframe ;?>">
-					<div style="margin:20px 0;">
-<?php
-			$nbr = 1;
-			while ($nbr <= $nbr_couleur){
-?>
-						<label for="ccouleur<?php echo $nbr; ?>" ><?php echo _INCOLOR; ?> n°<?php echo $nbr ;?>
-							<input type="text" id="ccouleur<?php echo $nbr; ?>" name="couleur<?php echo $nbr ;?>" value="<?php echo stripslashes($couleur[$nbr]) ;?>" />
-						</label>
-<?php
-				$nbr++;
-			}
-?>
-					</div>
-					<input type="submit" value="<?php echo _INSAVEMOD; ?>" />
-				</form>
-				</div>
-<?php
-		}
-		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
+		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . BACK . '</b></a> ]</div>';
 	}
 	
 	function module_gauche(){
 		global $theme, $user, $module_aff_unique;
 
-		if($_GET['action'] == 'save'){
-			if($_POST['droite'] != ''){
-				foreach ($_POST['droite'] as $module2){
+		if($_REQUEST['action'] == 'save'){
+			if($_REQUEST['droite'] != ''){
+				foreach ($_REQUEST['droite'] as $module2){
 					$module_droite .= $module2.'|';
 				}
 			}
@@ -166,7 +119,7 @@ else{
 			fwrite($ecrire, $ecriretexte);
 			fclose($ecrire);
 	
-			echo '<div style="text-align: center;margin:20px 0;">'._INWARNINGMODTHEME.'</div>';
+			echo '<div style="text-align: center;margin:20px 0;">'.INWARNINGMODTHEME.'</div>';
 			redirect ("index.php?file=Admin&page=theme".$iframe, 2);
 		}
 		else{
@@ -189,16 +142,16 @@ else{
 				}
 			</script>
 			<div style="text-align: center; margin:20px 0;">
-				<h3><?php echo _INMANAGECOLUMNBLOCS; ?></h3>
+				<h3><?php echo INMANAGECOLUMNBLOCS; ?></h3>
 				<form method="post" name="block_aff" action="index.php?file=Admin&amp;page=theme&amp;sub=module_gauche&amp;action=save">			
 					<table style="margin:20px auto;">
 						<tr>
 							<td></td>
-							<td colspan="2"><?php echo _INDISPLAYAT;?></td>
+							<td colspan="2"><?php echo INDISPLAYAT;?></td>
 						</tr>
 						<tr>
 							<td style="text-align: left; width: 150px; padding-left: 20px;">
-								<u><?php echo _INBLOCS;?></u>
+								<u><?php echo INBLOCS;?></u>
 							</td>
 							<td style="width: 100px;">
 								unique
@@ -219,29 +172,29 @@ else{
 ?>
 						<tr>
 							<td>
-								<?php echo _INSELECTAT; ?>
+								<?php echo INSELECTAT; ?>
 							</td>
 							<td>
-								<?php echo _INFULLPAGE; ?>
+								<?php echo INFULLPAGE; ?>
 								<br/>
-								<a href="javascript:check(document.forms.block_aff.elements['droite[]'])"><?php echo _INALLNONE; ?></a>
+								<a href="javascript:check(document.forms.block_aff.elements['droite[]'])"><?php echo INALLNONE; ?></a>
 							</td>
 						</tr>
 					</table>
-					<input type="submit" value="<?php echo _INSAVEMOD; ?>" /><br/><br/><br/><br/>
+					<input type="submit" value="<?php echo INSAVEMOD; ?>" /><br/><br/><br/><br/>
 				</form>
 			</div>
 <?php
 		}
-		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
+		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . BACK . '</b></a> ]</div>';
 	}
 	
 	function module_complet(){
 		global $theme, $user, $complet;
 
-		if($_GET['action'] == 'save'){
-			if($_POST['droite'] != ''){
-				foreach ($_POST['droite'] as $module2){
+		if($_REQUEST['action'] == 'save'){
+			if($_REQUEST['droite'] != ''){
+				foreach ($_REQUEST['droite'] as $module2){
 					$module_droite .= $module2.'|';
 				}
 			}
@@ -252,7 +205,7 @@ else{
 			fwrite($ecrire, $ecriretexte);
 			fclose($ecrire);
 			
-			echo '<div style="text-align: center;margin:20px 0;">'._INMODSUCESS.'</div>';
+			echo '<div style="text-align: center;margin:20px 0;">'.INMODSUCESS.'</div>';
 			redirect ("index.php?file=Admin&page=theme".$iframe, 2);
 		}
 		else{
@@ -275,18 +228,18 @@ else{
 				}
 			</script>
 			<div style="text-align: center;margin:20px 0;">
-				<h3><?php echo _INMANAGECOLUMNBLOCS;?></h3>
+				<h3><?php echo INMANAGECOLUMNBLOCS;?></h3>
 				<form method="post" name="block_aff" action="index.php?file=Admin&amp;page=theme&amp;sub=module_complet&amp;action=save">			
 					<table style="margin: 20px auto;">
 						<tr>
 							<td></td>
 							<td colspan="2">
-								<?php echo _INDISPLAYAT;?>
+								<?php echo INDISPLAYAT;?>
 							</td>
 						</tr>
 						<tr>
 							<td style="text-align: left; width: 150px; padding-left: 20px;">
-								<u><?php echo _INBLOCS;?></u>
+								<u><?php echo INBLOCS;?></u>
 							</td>
 							<td style="width: 100px;">
 								unique
@@ -308,43 +261,43 @@ else{
 ?>
 						<tr>
 							<td>
-								<?php echo _INSELECTAT; ?>
+								<?php echo INSELECTAT; ?>
 							</td>
 							<td>
-								<?php echo _INFULLPAGE; ?>
+								<?php echo INFULLPAGE; ?>
 								<br/>
-								<a href="javascript:check(document.forms.block_aff.elements['droite[]'])"><?php echo _INALLNONE; ?></a>
+								<a href="javascript:check(document.forms.block_aff.elements['droite[]'])"><?php echo INALLNONE; ?></a>
 							</td>
 						</tr>
 					</table>
-					<input type="submit" value="<?php echo _INSAVEMOD; ?>" /><br/><br/><br/><br/>
+					<input type="submit" value="<?php echo INSAVEMOD; ?>" /><br/><br/><br/><br/>
 				</form>
 			</div>
 <?php
 		}
-		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
+		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . BACK . '</b></a> ]</div>';
 	}
 	
 	function logo(){
 		global $theme;
 
-		if($_GET['action'] == 'save'){
+		if($_REQUEST['action'] == 'save'){
 			$ecriretexte = '<?php';
-			$ecriretexte .= "\n".'$logo = "'.$_POST['logo'.$nbr].'";';
+			$ecriretexte .= "\n".'$logo = "'.$_REQUEST['logo'.$nbr].'";';
 			$fichier = 'themes/Impact_Nk/admin/logo.php';
 			$ecrire = fopen($fichier, "w+");
 			fwrite($ecrire, $ecriretexte."\n?>");
 			fclose($ecrire);
-			echo '<div style="text-align: center;margin:20px 0;">'._INMODSUCESS.'</div>';
+			echo '<div style="text-align: center;margin:20px 0;">'.INMODSUCESS.'</div>';
 			redirect ("index.php?file=Admin&page=theme".$iframe, 2);
 		}
 		else{
 			include('themes/Impact_Nk/admin/logo.php');
 ?>
 			<div style="text-align: center;margin:20px 0;">
-				<h3><?php echo _INMANAGELOGO; ?></h3>
+				<h3><?php echo INMANAGELOGO; ?></h3>
 				<p>
-					<i><?php echo _INSIZEDESC; ?></i>
+					<i><?php echo INSIZEDESC; ?></i>
 				</p>
 				<form method="post" name="logo" action="index.php?file=Admin&amp;page=theme&amp;sub=logo&amp;action=save<?php echo $iframe ;?>">
                 <fieldset>
@@ -352,13 +305,13 @@ else{
 						Url du logo:
 						<input type="text" id="llogo" name="logo" value="<?php echo stripslashes($logo) ;?>" />
 					</label>
-					<input type="submit" value="<?php echo _INSAVEMOD; ?>" />
+					<input type="submit" value="<?php echo INSAVEMOD; ?>" />
                 </fieldset>
 				</form>
 			</div>
 <?php
 		}
-		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
+		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . BACK . '</b></a> ]</div>';
 	}
 	
 	switch ($_REQUEST['sub']){
@@ -379,9 +332,6 @@ else{
 			break;
 		case"logo":
 			logo();
-			break;
-		case"couleur":
-			couleur();
 			break;
 		default:
 			index();

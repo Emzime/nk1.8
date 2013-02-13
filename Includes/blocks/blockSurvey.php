@@ -35,9 +35,9 @@ function affichBlockSurvey($blok){
         }
 
         $blok['content'] .= '</p><p style="text-align: center"><input type="hidden" name="poll_id" value="' . $poll_id . '" />'."\n"
-                                    . '<br /><input type="submit" value="' . _TOVOTE . '" />&nbsp;'
-                                    . '<input type="button" value="' . _RESULT . '" onclick="document.location=\'index.php?file=Survey&amp;op=affich_res&amp;poll_id=' . $poll_id . '\'" />'."\n"
-                                    . '<br /><a href="index.php?file=Survey"><b>' . _OTHERPOLL . '</b></a></p></div></form>'."\n";
+                                    . '<br /><input type="submit" value="' . TOVOTE . '" />&nbsp;'
+                                    . '<input type="button" value="' . RESULT . '" onclick="document.location=\'index.php?file=Survey&amp;op=affich_res&amp;poll_id=' . $poll_id . '\'" />'."\n"
+                                    . '<br /><a href="index.php?file=Survey"><b>' . OTHERPOLL . '</b></a></p></div></form>'."\n";
         }
     return $blok;
 }

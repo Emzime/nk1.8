@@ -285,9 +285,9 @@ function getBlok($side) {
             if ($visiteur >= $block['nivo'] && $display) {
                 $block['titre'] = printSecuTags($block['titre']);
 
-                include_once 'Includes/blocks/block'. $block['type'] .'.php';
+                include_once 'Includes/blocks/block'. ucfirst($block['type']) .'.php';
 
-                if (function_exists($blockFunction = 'affichBlock'. $block['type'])) {
+                if (function_exists($blockFunction = 'affichBlock'. ucfirst($block['type']))) {
                     $block = $blockFunction( $block );
                 } else {
                     echo $GLOBALS['nkTpl']->nkDisplayError(UNKNOWNFUNCTIONBLOCK . ' : '. $blockFunction);

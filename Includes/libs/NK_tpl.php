@@ -78,7 +78,7 @@ class NK_tpl {
      */
     public function nkDisplayError($content, $classes = 'nkError', $center = true, $id = false) {
         if ($center) {
-            $classes .= ' nkCenter';  
+            $classes .= ' nkCenter'; 
         }
         return $this->nkContentTag('div', $content, $classes, $id);
     }
@@ -135,6 +135,8 @@ class NK_tpl {
     }
 
 
+
+
     /**
      * Return identification required.
      * @param string $pipe : display a selector
@@ -145,7 +147,7 @@ class NK_tpl {
         $visiteur = $user ? $user[1] : 0;
 
         if ($visiteur == 0) {             
-            return($this->nkDisplayError('<h1>'.USERENTRANCE.'</h1><a href="index.php?file=User&amp;op=login_screen">'.TOLOG.'</a>&nbsp;'.$pipe.'&nbsp;<a href="index.php?file=User&amp;op=reg_screen">'.REGISTERUSER, 'nkError', true));
+            return($this->nkDisplayError('<h1>'.USERENTRANCE.'</h1><a href="index.php?file=User&amp;op=login_screen">'.TOLOG.'</a>&nbsp;'.$pipe.'&nbsp;<a href="index.php?file=User&amp;op=reg_screen">'.REGISTERUSER.'</a>', 'nkError', true));
         }
     }   
 }

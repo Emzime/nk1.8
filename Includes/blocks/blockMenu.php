@@ -11,7 +11,7 @@
 if (!defined('INDEX_CHECK')){ exit('<div style="text-align: center;">'.CANTOPENPAGE.'</div>'); }
 
 function affichBlockMenu($blok){
-    $blok['content'] = block_link($blok['content']);
+    $blok['content'] = blockLink($blok['content']);
     return $blok;
 }
 

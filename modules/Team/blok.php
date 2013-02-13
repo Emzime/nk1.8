@@ -13,7 +13,6 @@ if (!defined("INDEX_CHECK"))
 }
 
 global $nuked, $theme, $language, $bgcolor3;
-translate("modules/Team/lang/" . $language . ".lang.php");
 
 $sql2 = mysql_query("SELECT active FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
 list($active) = mysql_fetch_array($sql2);

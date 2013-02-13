@@ -10,7 +10,6 @@
 if (!defined('INDEX_CHECK')) die('<div style="text-align:center;">You cannot open this page directly</div>');
 
 global $nuked, $language, $theme;
-translate("modules/Sections/lang/" . $language . ".lang.php");
 
 $sql2 = mysql_query("SELECT active FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
 list($active) = mysql_fetch_array($sql2);

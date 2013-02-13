@@ -13,7 +13,6 @@ if (!defined("INDEX_CHECK"))
 } 
 
 global $user, $nuked, $language;
-translate("modules/Textbox/lang/" . $language . ".lang.php");
 
 $level_access = nivo_mod("Textbox");
 $level_admin = admin_mod("Textbox");

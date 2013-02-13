@@ -10,9 +10,8 @@
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $nuked, $language, $user, $cookie_captcha;
-translate('modules/Recruit/lang/' . $language . '.lang.php');
 
-// Inclusion système Captcha
+// Inclusion syst?me Captcha
 include_once('Includes/nkCaptcha.php');
 
 // On determine si le captcha est actif ou non

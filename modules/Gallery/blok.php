@@ -14,7 +14,6 @@ if (!defined("INDEX_CHECK"))
 
 
 global $language, $nuked, $bgcolor1, $bgcolor3;
-translate("modules/Gallery/lang/" . $language . ".lang.php");
 include("modules/Gallery/config.php");
 
 echo '<script type="text/javascript"><!--'."\n"

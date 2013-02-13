@@ -12,7 +12,6 @@ if (!defined("INDEX_CHECK")){
 } 
 
 global $language, $user;
-translate("modules/Members/lang/" . $language . ".lang.php");
 
 $visiteur = !$user ? 0 : $user[1];
 
@@ -282,7 +281,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 			echo "&nbsp;</div>\n";
 			} 
 
-            $a = "ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ";
+            $a = "?????????????????????????????????????????????????????";
             $b = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
             $flash_autor = @html_entity_decode($autor);
             $flash_autor = strtr($flash_autor, $a, $b);
@@ -299,21 +298,21 @@ if ($visiteur >= $level_access && $level_access > -1){
 			echo "<table style=\"background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
 					."<tr style=\"background: " . $bgcolor3 . ";\"><td style=\"height: 20px\" colspan=\"2\" align=\"center\"><big><b>" . _INFOPERSO . "</b></big></td></tr>\n"
 					."<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"width: 100%\"><table cellpadding=\"1\" cellspacing=\"1\">\n"
-					."<tr><td><b>&nbsp;&nbsp;» " . _NICK . "&nbsp;:&nbsp;</b></td><td><img src=\"images/flags/" . $country . "\" alt=\"" . $pays . "\" />&nbsp;" . $autor . "</td></tr>\n";
+					."<tr><td><b>&nbsp;&nbsp;? " . _NICK . "&nbsp;:&nbsp;</b></td><td><img src=\"images/flags/" . $country . "\" alt=\"" . $pays . "\" />&nbsp;" . $autor . "</td></tr>\n";
 			
-			if ($prenom) echo "<tr><td><b>&nbsp;&nbsp;» " . _LASTNAME . "&nbsp;:&nbsp;</b></td><td>" . $prenom . "</td></tr>\n";
-			if ($age) echo "<tr><td><b>&nbsp;&nbsp;» " . _AGE . "&nbsp;:&nbsp;</b></td><td>" . $age . "</td></tr>\n";
-			if ($sex) echo "<tr><td><b>&nbsp;&nbsp;» " . _SEXE . "&nbsp;:&nbsp;</b></td><td>" . $sex . "</td></tr>\n";
-			if ($ville) echo "<tr><td><b>&nbsp;&nbsp;» " . _CITY . "&nbsp;:&nbsp;</b></td><td>" . $ville . "</td></tr>\n";
-			if ($pays) echo "<tr><td><b>&nbsp;&nbsp;» " . _COUNTRY . "&nbsp;:&nbsp;</b></td><td>" . $pays . "</td></tr>\n";
-			if ($mail) echo "<tr><td><b>&nbsp;&nbsp;» " . _MAIL . "&nbsp;:&nbsp;</b></td><td>" . $mail . "</td></tr>\n";
-			if ($url && preg_match("`http://`i", $url)) echo "<tr><td><b>&nbsp;&nbsp;» " . _URL . "&nbsp;:&nbsp;</b></td><td><a href=\"" . $url . "\" onclick=\"window.open(this.href); return false;\">" . $url . "</a></td></tr>\n";
-			if ($icq) echo "<tr><td><b>&nbsp;&nbsp;» " . _ICQ . "&nbsp;:&nbsp;</b></td><td><a href=\"http://web.icq.com/whitepages/add_me?uin=" . $icq . "&amp;action=add\">" . $icq . "</a></td></tr>"; 
-			if ($msn) echo "<tr><td><b>&nbsp;&nbsp;» " . _MSN . "&nbsp;:&nbsp;</b></td><td><a href=\"mailto:" . $msn . "\">" . $msn . "</a></td></tr>";
-			if ($aim) echo "<tr><td><b>&nbsp;&nbsp;» " . _AIM . "&nbsp;:&nbsp;</b></td><td><a href=\"aim:goim?screenname=" . $aim . "&amp;message=Hi+" . $aim . "+Are+you+there+?\">" . $aim . "</a></td></tr>";                
-			if ($yim) echo "<tr><td><b>&nbsp;&nbsp;» " . _YIM . "&nbsp;:&nbsp;</b></td><td><a href=\"http://edit.yahoo.com/config/send_webmesg?.target=" . $yim . "&amp;.src=pg\">" . $yim . "</a></td></tr>";
-			if ($date) echo "<tr><td><b>&nbsp;&nbsp;» " . _DATEUSER . "&nbsp;:&nbsp;</b></td><td>" . $date . "</td></tr>";
-			if ($last_used) echo "<tr><td><b>&nbsp;&nbsp;» " . _LASTVISIT . "&nbsp;:&nbsp;</b></td><td>" . $last_used . "</td></tr>";
+			if ($prenom) echo "<tr><td><b>&nbsp;&nbsp;? " . _LASTNAME . "&nbsp;:&nbsp;</b></td><td>" . $prenom . "</td></tr>\n";
+			if ($age) echo "<tr><td><b>&nbsp;&nbsp;? " . _AGE . "&nbsp;:&nbsp;</b></td><td>" . $age . "</td></tr>\n";
+			if ($sex) echo "<tr><td><b>&nbsp;&nbsp;? " . _SEXE . "&nbsp;:&nbsp;</b></td><td>" . $sex . "</td></tr>\n";
+			if ($ville) echo "<tr><td><b>&nbsp;&nbsp;? " . _CITY . "&nbsp;:&nbsp;</b></td><td>" . $ville . "</td></tr>\n";
+			if ($pays) echo "<tr><td><b>&nbsp;&nbsp;? " . _COUNTRY . "&nbsp;:&nbsp;</b></td><td>" . $pays . "</td></tr>\n";
+			if ($mail) echo "<tr><td><b>&nbsp;&nbsp;? " . _MAIL . "&nbsp;:&nbsp;</b></td><td>" . $mail . "</td></tr>\n";
+			if ($url && preg_match("`http://`i", $url)) echo "<tr><td><b>&nbsp;&nbsp;? " . _URL . "&nbsp;:&nbsp;</b></td><td><a href=\"" . $url . "\" onclick=\"window.open(this.href); return false;\">" . $url . "</a></td></tr>\n";
+			if ($icq) echo "<tr><td><b>&nbsp;&nbsp;? " . _ICQ . "&nbsp;:&nbsp;</b></td><td><a href=\"http://web.icq.com/whitepages/add_me?uin=" . $icq . "&amp;action=add\">" . $icq . "</a></td></tr>"; 
+			if ($msn) echo "<tr><td><b>&nbsp;&nbsp;? " . _MSN . "&nbsp;:&nbsp;</b></td><td><a href=\"mailto:" . $msn . "\">" . $msn . "</a></td></tr>";
+			if ($aim) echo "<tr><td><b>&nbsp;&nbsp;? " . _AIM . "&nbsp;:&nbsp;</b></td><td><a href=\"aim:goim?screenname=" . $aim . "&amp;message=Hi+" . $aim . "+Are+you+there+?\">" . $aim . "</a></td></tr>";                
+			if ($yim) echo "<tr><td><b>&nbsp;&nbsp;? " . _YIM . "&nbsp;:&nbsp;</b></td><td><a href=\"http://edit.yahoo.com/config/send_webmesg?.target=" . $yim . "&amp;.src=pg\">" . $yim . "</a></td></tr>";
+			if ($date) echo "<tr><td><b>&nbsp;&nbsp;? " . _DATEUSER . "&nbsp;:&nbsp;</b></td><td>" . $date . "</td></tr>";
+			if ($last_used) echo "<tr><td><b>&nbsp;&nbsp;? " . _LASTVISIT . "&nbsp;:&nbsp;</b></td><td>" . $last_used . "</td></tr>";
 			
 			echo "</table></td><td style=\"padding: 5px;\" align=\"right\">\n";
 			
@@ -330,17 +329,17 @@ if ($visiteur >= $level_access && $level_access > -1){
 				echo "<tr style=\"background: " . $bgcolor3 . ";\"><td colspan=\"2\" style=\"height: 20px\" align=\"center\"><big><b>" . _HARDCONFIG . "</b></big></td></tr>\n"
 						."<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"width: 100%\" colspan=\"2\"><table cellpadding=\"1\" cellspacing=\"1\">\n";
 				
-				if ($cpu) echo "<tr><td><b>&nbsp;&nbsp;» " . _PROCESSOR . "&nbsp;:&nbsp;</b></td><td>" . $cpu . "</td></tr>\n";
-				if ($ram) echo "<tr><td><b>&nbsp;&nbsp;» " . _MEMORY . "&nbsp;:&nbsp;</b></td><td>" . $ram . "</td></tr>\n";
-				if ($motherboard) echo "<tr><td><b>&nbsp;&nbsp;» " . _MOTHERBOARD . "&nbsp;:&nbsp;</b></td><td>" . $motherboard . "</td></tr>\n";
-				if ($video) echo "<tr><td><b>&nbsp;&nbsp;» " . _VIDEOCARD . "&nbsp;:&nbsp;</b></td><td>" . $video . "</td></tr>\n";
-				if ($resolution) echo "<tr><td><b>&nbsp;&nbsp;» " . _RESOLUTION . "&nbsp;:&nbsp;</b></td><td>" . $resolution . "</td></tr>\n";
-				if ($sons) echo "<tr><td><b>&nbsp;&nbsp;» " . _SOUNDCARD . "&nbsp;:&nbsp;</b></td><td>" . $sons . "</td></tr>\n";
-				if ($souris) echo "<tr><td><b>&nbsp;&nbsp;» " . _MOUSE . "&nbsp;:&nbsp;</b></td><td>" . $souris . "</td></tr>\n";
-				if ($clavier) echo "<tr><td><b>&nbsp;&nbsp;» " . _KEYBOARD . "&nbsp;:&nbsp;</b></td><td>" . $clavier . "</td></tr>\n";
-				if ($ecran) echo "<tr><td><b>&nbsp;&nbsp;» " . _MONITOR . "&nbsp;:&nbsp;</b></td><td>" . $ecran . "</td></tr>\n";
-				if ($osystem) echo "<tr><td><b>&nbsp;&nbsp;» " . _SYSTEMOS . "&nbsp;:&nbsp;</b></td><td>" . $osystem . "</td></tr>\n";
-				if ($connexion) echo "<tr><td><b>&nbsp;&nbsp;» " . _CONNECT . "&nbsp;:&nbsp;</b></td><td>" . $connexion . "</td></tr>\n";
+				if ($cpu) echo "<tr><td><b>&nbsp;&nbsp;? " . _PROCESSOR . "&nbsp;:&nbsp;</b></td><td>" . $cpu . "</td></tr>\n";
+				if ($ram) echo "<tr><td><b>&nbsp;&nbsp;? " . _MEMORY . "&nbsp;:&nbsp;</b></td><td>" . $ram . "</td></tr>\n";
+				if ($motherboard) echo "<tr><td><b>&nbsp;&nbsp;? " . _MOTHERBOARD . "&nbsp;:&nbsp;</b></td><td>" . $motherboard . "</td></tr>\n";
+				if ($video) echo "<tr><td><b>&nbsp;&nbsp;? " . _VIDEOCARD . "&nbsp;:&nbsp;</b></td><td>" . $video . "</td></tr>\n";
+				if ($resolution) echo "<tr><td><b>&nbsp;&nbsp;? " . _RESOLUTION . "&nbsp;:&nbsp;</b></td><td>" . $resolution . "</td></tr>\n";
+				if ($sons) echo "<tr><td><b>&nbsp;&nbsp;? " . _SOUNDCARD . "&nbsp;:&nbsp;</b></td><td>" . $sons . "</td></tr>\n";
+				if ($souris) echo "<tr><td><b>&nbsp;&nbsp;? " . _MOUSE . "&nbsp;:&nbsp;</b></td><td>" . $souris . "</td></tr>\n";
+				if ($clavier) echo "<tr><td><b>&nbsp;&nbsp;? " . _KEYBOARD . "&nbsp;:&nbsp;</b></td><td>" . $clavier . "</td></tr>\n";
+				if ($ecran) echo "<tr><td><b>&nbsp;&nbsp;? " . _MONITOR . "&nbsp;:&nbsp;</b></td><td>" . $ecran . "</td></tr>\n";
+				if ($osystem) echo "<tr><td><b>&nbsp;&nbsp;? " . _SYSTEMOS . "&nbsp;:&nbsp;</b></td><td>" . $osystem . "</td></tr>\n";
+				if ($connexion) echo "<tr><td><b>&nbsp;&nbsp;? " . _CONNECT . "&nbsp;:&nbsp;</b></td><td>" . $connexion . "</td></tr>\n";
 				
 				echo "</table></td></tr>\n";
 			}
@@ -349,11 +348,11 @@ if ($visiteur >= $level_access && $level_access > -1){
 				echo "<tr style=\"background: " . $bgcolor3 . ";\"><td colspan=\"2\" style=\"height: 20px\" align=\"center\"><big><b>" . $titre . " :</b></big></td></tr>\n";
 				echo "<tr style=\"background: " . $bgcolor1 . ";\"><td colspan=\"2\"><table cellpadding=\"1\" cellspacing=\"1\">\n";
 				
-				if ($pref1) echo "<tr><td><b>&nbsp;&nbsp;» " . $pref_1 . "&nbsp;:&nbsp;</b></td><td>" . $pref1 . "</td></tr>\n";
-				if ($pref2) echo "<tr><td><b>&nbsp;&nbsp;» " . $pref_2 . "&nbsp;:&nbsp;</b></td><td>" . $pref2 . "</td></tr>\n";
-				if ($pref3) echo "<tr><td><b>&nbsp;&nbsp;» " . $pref_3 . "&nbsp;:&nbsp;</b></td><td>" . $pref3 . "</td></tr>\n";
-				if ($pref4) echo "<tr><td><b>&nbsp;&nbsp;» " . $pref_4 . "&nbsp;:&nbsp;</b></td><td>" . $pref4 . "</td></tr>\n";
-				if ($pref5) echo "<tr><td><b>&nbsp;&nbsp;» " . $pref_5 . "&nbsp;:&nbsp;</b></td><td>" . $pref5 . "</td></tr>\n";
+				if ($pref1) echo "<tr><td><b>&nbsp;&nbsp;? " . $pref_1 . "&nbsp;:&nbsp;</b></td><td>" . $pref1 . "</td></tr>\n";
+				if ($pref2) echo "<tr><td><b>&nbsp;&nbsp;? " . $pref_2 . "&nbsp;:&nbsp;</b></td><td>" . $pref2 . "</td></tr>\n";
+				if ($pref3) echo "<tr><td><b>&nbsp;&nbsp;? " . $pref_3 . "&nbsp;:&nbsp;</b></td><td>" . $pref3 . "</td></tr>\n";
+				if ($pref4) echo "<tr><td><b>&nbsp;&nbsp;? " . $pref_4 . "&nbsp;:&nbsp;</b></td><td>" . $pref4 . "</td></tr>\n";
+				if ($pref5) echo "<tr><td><b>&nbsp;&nbsp;? " . $pref_5 . "&nbsp;:&nbsp;</b></td><td>" . $pref5 . "</td></tr>\n";
 				
 				echo "</table>";
 			}

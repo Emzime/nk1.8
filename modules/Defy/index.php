@@ -9,9 +9,8 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('<div style="text-align: center;">You cannot open this page directly</div>');
 
-translate('modules/Defy/lang/' . $language . '.lang.php');
 
-// Inclusion système Captcha
+// Inclusion syst?me Captcha
 include_once 'Includes/nkCaptcha.php';
 
 // On determine si le captcha est actif ou non

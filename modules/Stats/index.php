@@ -10,7 +10,6 @@
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $nuked, $user, $language, $bgcolor3, $bgcolor2, $bgcolor1;
-translate('modules/Stats/lang/' . $language . '.lang.php');
 
 $level_access = nivo_mod('Stats');
 $visiteur = ($user) ? $user[1] : 0;

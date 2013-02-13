@@ -9,7 +9,6 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('<div style="text-align: center;">You cannot open this page directly</div>'); 
 
-translate('modules/Server/lang/' . $language . '.lang.php');
 opentable();
 $visiteur = ($user) ? $user[1] : 0; 
 $ModName = basename(dirname(__FILE__));

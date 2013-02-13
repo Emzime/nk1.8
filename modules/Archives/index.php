@@ -13,7 +13,6 @@ if (!defined("INDEX_CHECK")){
 
 global $language;
 
-translate("modules/Archives/lang/" . $language . ".lang.php");
 
 compteur("Archives");
 

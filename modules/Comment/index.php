@@ -10,7 +10,6 @@
 defined('INDEX_CHECK') or die;
 
 global $language, $user, $cookie_captcha;
-translate("modules/Comment/lang/$language.lang.php");
 include_once('Includes/nkCaptcha.php');
 if (_NKCAPTCHA == "off") $captcha = 0;
 else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;

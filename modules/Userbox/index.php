@@ -10,7 +10,6 @@
 defined('INDEX_CHECK') or die('<div style="text-align:center;">You cannot open this page directly</div>');
 
 global $language, $user;
-translate('modules/Userbox/lang/'.$language.'.lang.php');
 
 function select_user(){
 	global $nuked;

@@ -10,7 +10,6 @@
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $language, $nuked, $theme;
-translate('modules/Links/lang/' . $language . '.lang.php');
 
 $sql2 = mysql_query('SELECT active FROM ' . BLOCK_TABLE . ' WHERE bid = ' . $bid);
 list($active) = mysql_fetch_array($sql2);

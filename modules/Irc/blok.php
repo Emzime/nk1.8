@@ -10,7 +10,6 @@
 if (!defined("INDEX_CHECK")) die ('<div style="text-align: center;">You cannot open this page directly</div>');
 
 global $nuked, $language;
-translate("modules/Irc/lang/" . $language . ".lang.php");
 
 $sql = mysql_query("SELECT date, text FROM " . IRC_AWARDS_TABLE . " ORDER BY id DESC LIMIT 0, 1");
 list($date, $txt) = mysql_fetch_array($sql);

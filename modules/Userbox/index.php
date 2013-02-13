@@ -40,12 +40,23 @@ function post_message(){
 		if (!preg_match("/\bRE:\b/i", $_REQUEST['titre'])) $title = "RE:" . $_REQUEST['titre'];
 		else $title = $_REQUEST['titre'];
 	}
+
+        if (!empty($_REQUEST['autotitre'])){
+        $_REQUEST['autotitre'] = stripslashes($_REQUEST['autotitre']);
+        $title = $_REQUEST['autotitre'];
+    }
 	
 	if (!empty($_REQUEST['message'])){
 		$_REQUEST['message'] = secu_html(html_entity_decode($_REQUEST['message']));
 		$_REQUEST['message'] = stripslashes($_REQUEST['message']);
 		$reply = '<br /><table style="background:'.$bgcolor3.';" cellpadding="3" cellspacing="1" width="100%" border="0"><tr><td style="background: #FFF;color: #000"><b>'.$pseudo.' :</b><br />'.$_REQUEST['message'].'</td></tr></table><br />';
 	}
+
+    if (!empty($_REQUEST['automessage'])){
+        $_REQUEST['automessage'] = secu_html(html_entity_decode($_REQUEST['automessage']));
+        $_REQUEST['automessage'] = stripslashes($_REQUEST['automessage']);
+        $reply = $_REQUEST['automessage'];
+    }
 	
 	echo '<br /><form method="post" action="index.php?file=Userbox&amp;op=send_message">
             <table style="margin: auto;text-align:left;width: 98%">
@@ -211,7 +222,7 @@ function del_message_form($mid, $del_oui){
 				$sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '{$row['user_from']}'");
                 list($pseudo) = mysql_fetch_array($sql_member);
 				
-				echo '<b><big>·</big></b>&nbsp;'._OF.'&nbsp;'.$pseudo.' ( '.$row['date'].' )<br />
+				echo '<b><big>?</big></b>&nbsp;'._OF.'&nbsp;'.$pseudo.' ( '.$row['date'].' )<br />
 				<input type="hidden" name="mid[]" value="'.$titi.'" />';
 			}
 		}

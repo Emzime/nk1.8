@@ -9,8 +9,7 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-global $user, $language;
-translate('modules/Suggest/lang/' . $language . '.lang.php');
+global $user, $language, $visiteur;
 include('modules/Admin/design.php');
 admintop();
 

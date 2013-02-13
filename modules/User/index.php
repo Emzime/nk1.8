@@ -9,7 +9,7 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-global $language, $user, $cookie_captcha, $visiteur;
+global $user, $cookie_captcha;
 
 // Inclusion syst?me Captcha
 include_once('Includes/nkCaptcha.php');

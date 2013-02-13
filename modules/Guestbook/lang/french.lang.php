@@ -1,10 +1,11 @@
 <?php
-if (!defined("INDEX_CHECK"))
-{
-	exit('You can\'t run this file alone.');
-}
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
+defined('INDEX_CHECK') or die ('<div class="align-center">You cannot open this page directly</div>');
+
+// Test si le fichier langue est chargÃ©
+define('TESTLANGUEFILEGUESTBOOK', true);
+
+define("_NOENTRANCE","D?sol? mais vous n'avez pas les droits pour acc?der ? cette page");
+define("_ZONEADMIN","Cette zone est r?serv?e a l'Admin, D?sol?...");
 define("_GUESTBOOK","Livre d'or");
 define("_AUTHOR","Auteur");
 define("_MAIL","Email");
@@ -14,39 +15,39 @@ define("_SEND","Envoyer");
 define("_CANCEL","Annuler");
 define("_BACK","Retour");
 define("_MODIF","Modifier");
-define("_NONICK","Vous n'avez pas entré votre pseudo !");
-define("_NOTEXT","Vous n\'avez pas entré votre texte !");
-define("_RESERVNICK","Ce pseudo est déjà réservé");
+define("_NONICK","Vous n'avez pas entr? votre pseudo !");
+define("_NOTEXT","Vous n\'avez pas entr? votre texte !");
+define("_RESERVNICK","Ce pseudo est d?j? r?serv?");
 define("_BANNEDNICK","Ce pseudo est banni");
 define("_BANNEDEMAIL","Ce mail est banni");
 define("_ERRORMAIL","Votre Email n'est pas correct");
-define("_POSTADD","Votre message a bien été ajouté");
-define("_POSTEDIT","Message modifié avec succès.");
+define("_POSTADD","Votre message a bien ?t? ajout?");
+define("_POSTEDIT","Message modifi? avec succ?s.");
 define("_SIGNGUESTBOOK","Signer le Livre d'Or");
-define("_POSTED","Posté");
+define("_POSTED","Post?");
 define("_EDIT","Editer");
 define("_DEL","Supprimer");
 define("_THEREIS","Il y a");
 define("_SIGNINDB","signatures dans le livre d'or");
-define("_PREVIOUSPAGE","Page Précédente");
+define("_PREVIOUSPAGE","Page Pr?c?dente");
 define("_NEXTPAGE","Page Suivante");
 define("_NOSIGN","Il n'y a pas encore de message");
 define("_NOFLOOD","Flood interdit ! veuillez patienter quelques instants...");
 
 define("_ADMINGUESTBOOK","Administration Livre D'or");
 define("_HELP","Aides");
-define("_POSTDELETE","Message supprimé avec succès.");
-define("_SIGNDELETE","Vous êtes sur le point de supprimer le message de");
+define("_POSTDELETE","Message supprim? avec succ?s.");
+define("_SIGNDELETE","Vous ?tes sur le point de supprimer le message de");
 define("_CONFIRM","Continuer ?");
 define("_DATE","Date");
 define("_IP","Ip");
 define("_EDITTHISPOST","Editer ce message");
 define("_DELTHISPOST","Supprimer ce message");
 define("_GUESTBOOKPG","Nombre de messages par page");
-define("_PREFUPDATED","Préférences modifiées avec succès");
+define("_PREFUPDATED","Pr?f?rences modifi?es avec succ?s");
 
-define("_ACTIONMODIFBOOK","a modifié une signature du livre d\'or");
-define("_ACTIONDELBOOK","a supprimé une signature du livre d\'or");
-define("_ACTIONPREFBOOK","a modifié les préférences du livre d\'or");
+define("_ACTIONMODIFBOOK","a modifi? une signature du livre d\'or");
+define("_ACTIONDELBOOK","a supprim? une signature du livre d\'or");
+define("_ACTIONPREFBOOK","a modifi? les pr?f?rences du livre d\'or");
 
 ?>

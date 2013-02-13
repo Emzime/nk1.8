@@ -1,7 +1,10 @@
 <?php
-defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
+defined('INDEX_CHECK') or die ('<div class="align-center">You cannot open this page directly</div>');
 
-define('_NOEXIST','La page demandée n\'existe pas ou n\'existe plus...<br />Si le problème persiste, veuillez contacter l\'administrateur du site via <a href="index.php?file=Contact">le formulaire de contact</a>');
+// Test si le fichier langue est chargÃ©
+define('TESTLANGUEFILE', true);
+
+define('_NOEXIST','La page demand?e n\'existe pas ou n\'existe plus...<br />Si le probl?me persiste, veuillez contacter l\'administrateur du site via <a href="index.php?file=Contact">le formulaire de contact</a>');
 define('_BACK','Retour');
-define('_ERROR404SQL','Veuillez nous excuser, la page demandée est temporairement indisponible, l\'administrateur a été averti ! Merci');
+define('_ERROR404SQL','Veuillez nous excuser, la page demand?e est temporairement indisponible, l\'administrateur a ?t? averti ! Merci');
 ?>

@@ -9,12 +9,10 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-global $language, $user, $nuked;
+global $language, $user, $nuked, $visiteur;
 
-translate('modules/Admin/lang/' . $language . '.lang.php');
 include('modules/Admin/design.php');
 
-$visiteur = $user ? $user[1] : 0;
 
 if ($visiteur >= 2)
 {
@@ -81,6 +79,12 @@ if ($visiteur >= 2)
             <li>
                 <a class="shortcut-button" rel="modal" href="index.php?file=Stats&amp;nuked_nude=admin">
                     <span><img src="modules/Admin/images/icons/statistiques.png" alt="icon" /><br /><br /><?php echo _STATS; ?></span>
+                </a>
+            </li>
+
+            <li>
+                <a class="shortcut-button" href="index.php?file=Admin&amp;page=erreursql">
+                    <span><img src="modules/Admin/images/icons/erreur.png" alt="icon" /><br /><?php if($language=='english'){echo '<br/>';} echo _SQL; ?></span>
                 </a>
             </li>
 

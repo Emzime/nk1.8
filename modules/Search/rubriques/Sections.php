@@ -48,7 +48,7 @@ if ($nb_art > 0){
         $art_titre = htmlentities($art_titre);
         $art_date = nkDate($art_date);
         $tab['module'][] = $modname;
-        $tab['title'][] = "<b>" . $art_titre . "</b> - " . _ADDED . "&nbsp;" . $art_date;
+        $tab['title'][] = "<b>" . $art_titre . "</b> - " . ADDED . "&nbsp;" . $art_date;
         $tab['link'][] = "index.php?file=Sections&amp;op=article&amp;artid=" . $art_id;
     }
 }

@@ -1,28 +1,28 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
-
-defined('INDEX_CHECK') or die('<div style="text-align:center;">You cannot open this page directly</div>');
-
-
-translate('modules/News/lang/' . $language . '.lang.php');
-
+/**
+*   News module
+*   Display files on database
+*
+*   @version 1.8
+*   @link http://www.nuked-klan.org Clan Management System 4 Gamers NK CMS
+*   @license http://opensource.org/licenses/gpl-license.php GNU Public License
+*   @copyright 2001-2013 Nuked Klan 
+*/
+defined('INDEX_CHECK') or die ('<div style="text-align: center;">'.CANTOPENPAGE.'</div>');
+global $user, $visiteur;
+$modName = basename(dirname(__FILE__));
+$level_access = nivo_mod($modName);
 include_once 'Includes/nkCaptcha.php';
 
-if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0) $captcha = 0;
+if (NKCAPTCHA == 'off') $captcha = 0;
+else if ((NKCAPTCHA == 'auto' OR NKCAPTCHA == 'on') && (!empty($user) && $user[1] > 0)) $captcha = 0;
 else $captcha = 1;
 
-$visiteur = $user ? $user[1] : 0;
-
-$ModName = basename(dirname(__FILE__));
-$level_access = nivo_mod($ModName);
+    // VÃ©rification des variables
+    $requestArray = array(
+            'p'
+        );
+    $GLOBALS['nkFunctions']->nkInitRequest($requestArray);
 
 if ($visiteur >= $level_access && $level_access > -1) {
     compteur('News');
@@ -59,7 +59,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         $sql = mysql_query("SELECT id, auteur, auteur_id, date, titre, texte, suite, cat FROM ".NEWS_TABLE." $WhereNews");
         
         if (mysql_num_rows($sql) <= 0) {
-            echo '<p style="text-align: center">' . _NONEWSINDB . '</p>';
+            echo '<p style="text-align: center">'.NONEWSINDB . '</p>';
         }
         
         while ($TabNews = mysql_fetch_assoc($sql)) {
@@ -87,18 +87,18 @@ if ($visiteur >= $level_access && $level_access > -1) {
             $data['titre'] = printSecuTags($TabNews['titre']);
             $data['auteur'] = $auteur;
             $data['nb_comment'] = $nb_comment;
-            $data['printpage'] = '<a title="'._PDF.'" href="index.php?file=News&amp;nuked_nude=index&amp;op=pdf&amp;news_id='.$TabNews['id'].'" onclick="window.open(this.href); return false;"><img style="border:none;" src="images/pdf.gif" alt="'._PDF.'" title="'._PDF.'" width="16" height="16" /></a>';
-            $data['friend'] = '<a title="'._FSEND.'" href="index.php?file=News&amp;op=sendfriend&amp;news_id='.$TabNews['id'].'"><img style="border:none;" src="images/friend.gif" alt="'._FSEND.'" title="'._FSEND.'" width="16" height="16" /></a>';
+            $data['printpage'] = '<a title="'.PDF.'" href="index.php?file=News&amp;nuked_nude=index&amp;op=pdf&amp;news_id='.$TabNews['id'].'" onclick="window.open(this.href); return false;"><img style="border:none;" src="images/pdf.gif" alt="'.PDF.'" title="'.PDF.'" width="16" height="16" /></a>';
+            $data['friend'] = '<a title="'.FSEND.'" href="index.php?file=News&amp;op=sendfriend&amp;news_id='.$TabNews['id'].'"><img style="border:none;" src="images/friend.gif" alt="'.FSEND.'" title="'.FSEND.'" width="16" height="16" /></a>';
  
             $data['image'] = (!empty($TabCat['image'])) ? '<a title="'.$TabCat['titre'].'" href="index.php?file=Archives&amp;op=sujet&amp;cat_id='.$TabNews['cat'].'"><img style="float:right;border:0;" src="'.$TabCat['image'].'" alt="'.$TabCat['titre'].'" title="'.$TabCat['titre'].'" /></a>' : '';
 
             if ($_REQUEST['op'] == 'suite' || $_REQUEST['op'] == 'index_comment' && !empty($TabNews['suite'])) {
                 $data['texte'] = $TabNews['texte'].'<br /><br />'.$TabNews['suite'];
             } elseif (!empty($TabNews['suite'])) {
-                // Bouton lire la suite du thème ou texte par défaut
-                $data['bouton'] = (is_file('themes/' . $theme . '/images/readmore.png')) ? '<img src="themes/' . $theme . '/images/readmore.png" alt="" title="' . _READMORE . '" />' : _READMORE;
+                // Bouton lire la suite du thÃ¨me ou texte par dÃ©faut
+                $data['bouton'] = (is_file('themes/' . $theme . '/images/readmore.png')) ? '<img src="themes/' . $theme . '/images/readmore.png" alt="" title="'.READMORE . '" />' : READMORE;
 
-                $data['texte'] = $TabNews['texte'].'<div style="text-align:right;"><a title="'._READMORE.'" href="index.php?file=News&amp;op=suite&amp;news_id='.$TabNews['id'].'">' . $data['bouton'] . '</a></div>';
+                $data['texte'] = $TabNews['texte'].'<div style="text-align:right;"><a title="'.READMORE.'" href="index.php?file=News&amp;op=suite&amp;news_id='.$TabNews['id'].'">' . $data['bouton'] . '</a></div>';
             } else {
                 $data['texte'] = $TabNews['texte'];
             }
@@ -106,6 +106,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
             news($data);
 
         }
+
         
         $url = ($_REQUEST['op'] == 'categorie') ? 'index.php?file=News&amp;op=categorie&amp;cat_id='.$_REQUEST['cat_id'] : 'index.php?file=News';
 
@@ -121,25 +122,23 @@ if ($visiteur >= $level_access && $level_access > -1) {
         global $user, $visiteur, $nuked;
 
         if( $visiteur >= admin_mod("News")){
-            echo '<script type="text/javascript">function delnews(id){if(confirm(\''._DELTHISNEWS.' ?\')){document.location.href = \'index.php?file=News&page=admin&op=do_del&news_id=\'+id;}}</script>
+            echo '<script type="text/javascript">function delnews(id){if(confirm(\''.DELTHISNEWS.' ?\')){document.location.href = \'index.php?file=News&page=admin&op=do_del&news_id=\'+id;}}</script>
                   <div style="text-align:right;">
                     <a href="index.php?file=News&amp;page=admin&amp;op=edit&amp;news_id='.$news_id.'">
-                        <img style="border:none;" src="images/edition.gif" alt="" title="'._EDIT.'" />
+                        <img style="border:none;" src="images/edition.gif" alt="" title="'.EDIT.'" />
                     </a>&nbsp;
                     <a href="javascript:delnews(\''.$news_id.'\');">
-                        <img style="border:none;" src="images/delete.gif" alt="" title="'._DEL.'" />
+                        <img style="border:none;" src="images/delete.gif" alt="" title="'.DEL.'" />
                     </a>
                   </div>';
         }
         
         index();
         
-        $sql = mysql_query("SELECT active FROM ".$nuked['prefix']."_comment_mod WHERE module = 'news'");
-        $row = mysql_fetch_array($sql);
 
-        if ($row['active'] == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1) {
-            include ('modules/Comment/index.php');
-            com_index('news', $news_id);
+        if ($visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1) {
+           
+            viewComment('news', $news_id, 4);
         }
     }
 
@@ -147,13 +146,13 @@ if ($visiteur >= $level_access && $level_access > -1) {
         global $user, $visiteur, $nuked;
 
         if ($visiteur >= admin_mod("News")) {
-            echo '<script type="text/javascript">function delnews(id){if(confirm(\''._DELTHISNEWS.' ?\')){document.location.href = \'index.php?file=News&page=admin&op=do_del&news_id=\'+id;}}</script>
+            echo '<script type="text/javascript">function delnews(id){if(confirm(\''.DELTHISNEWS.' ?\')){document.location.href = \'index.php?file=News&page=admin&op=do_del&news_id=\'+id;}}</script>
                   <div style="text-align:right;">
                     <a href="index.php?file=News&amp;page=admin&amp;op=edit&amp;news_id='.$news_id.'">
-                        <img style="border:none;" src="images/edition.gif" alt="" title="'._EDIT.'" />
+                        <img style="border:none;" src="images/edition.gif" alt="" title="'.EDIT.'" />
                     </a>&nbsp;
                     <a href="javascript:delnews(\''.$news_id.'\');">
-                        <img style="border:none;" src="images/delete.gif" alt="" title="'._DEL.'" />
+                        <img style="border:none;" src="images/delete.gif" alt="" title="'.DEL.'" />
                     </a>
                   </div>';
         }
@@ -177,9 +176,9 @@ if ($visiteur >= $level_access && $level_access > -1) {
     function sujet(){
         global $nuked;
 
-        opentable();
+        //opentable();
 
-        echo '<br /><div style="text-align:center;"><big><b>'._SUBJECTNEWS.'</b></big></div><br /><br />
+        echo '<br /><div style="text-align:center;"><big><b>'.SUBJECTNEWS.'</b></big></div><br /><br />
               <table cellspacing="0" cellpadding="3" border="0">';
 
         $sql = mysql_query("SELECT nid, titre, description, image FROM ".NEWS_CAT_TABLE." ORDER BY titre");
@@ -191,15 +190,15 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
             if (!empty($row['image'])) {
                 echo '<td><a href="index.php?file=News&amp;op=categorie&amp;cat_id='.$row['nid'].'">
-                      <img style="border:none;" src="'.$row['image'].'" align="left" alt="" title="'._SEENEWS.'&nbsp;'.$row['titre'].'" /></a></td>';
+                      <img style="border:none;" src="'.$row['image'].'" align="left" alt="" title="'.SEENEWS.'&nbsp;'.$row['titre'].'" /></a></td>';
             }
 
             echo '<td><b>'.$row['titre'].' :</b><br />'.$row['description'].'</td></tr><tr><td colspan="2">&nbsp;</td></tr>';
         }
         
-        echo '</table><br /><br /><div style="text-align:center;"><small><i>( '._CLICSCREEN.' )</i></small></div><br />';
+        echo '</table><br /><br /><div style="text-align:center;"><small><i>( '.CLICSCREEN.' )</i></small></div><br />';
 
-        closetable();
+       // closetable();
     }
 
     function pdf($news_id) {
@@ -230,7 +229,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
         $date = nkDate($row['date']);
 
-        $posted = '<font size="1">'._NEWSPOSTBY.' <a href="'.$nuked['url'].'/index.php?file=Members&op=detail&autor='.$auteur.'">'.$auteur.'</a> '.$date.'</font><br><br>';
+        $posted = '<font size="1">'.NEWSPOSTBY.' <a href="'.$nuked['url'].'/index.php?file=Members&op=detail&autor='.$auteur.'">'.$auteur.'</a> '.$date.'</font><br><br>';
 
         $texte = $posted.$text;
 
@@ -255,38 +254,38 @@ if ($visiteur >= $level_access && $level_access > -1) {
     function sendfriend($news_id) {
         global $nuked, $user, $captcha;
 
-        opentable();
+        //opentable();
 
-        echo '<script type="text/javascript">function verifchamps(){if(document.REQUESTElementById(\'sf_pseudo\').value.length == 0){alert(\''._NONICK.'\');return false;}if(document.REQUESTElementById(\'sf_mail\').value.indexOf(\'@\') == -1){alert(\''._BADMAIL.'\');return false;}return true;}</script>';
+        echo '<script type="text/javascript">function verifchamps(){if(document.REQUESTElementById(\'sf_pseudo\').value.length == 0){alert(\''.NONICK.'\');return false;}if(document.REQUESTElementById(\'sf_mail\').value.indexOf(\'@\') == -1){alert(\''.BADMAIL.'\');return false;}return true;}</script>';
 
         $sql = mysql_query("SELECT titre FROM ".NEWS_TABLE." WHERE id = '$news_id'");
         list($title) = mysql_fetch_array($sql);
 
         echo '<form method="post" action="index.php?file=News" onsubmit="return verifchamps()">
               <table style="margin:0 auto;text-align:left;" width="60%" cellspacing="1" cellpadding="1" border="0">
-              <tr><td align="center"><br /><big><b>'._FSEND.'</b></big><br /><br />'._YOUSUBMIT.' :<br /><br />
+              <tr><td align="center"><br /><big><b>'.FSEND.'</b></big><br /><br />'.YOUSUBMIT.' :<br /><br />
               <b>'.$title.'</b><br /><br /></td></tr><tr><td align="left">
-              <b>'._YNICK.' : </b>&nbsp;<input type="text" id="sf_pseudo" name="pseudo" value=""'.$user[2].'" size="20" /></td></tr>
-              <tr><td><b>'._FMAIL.' : </b>&nbsp;<input type="text" id="sf_mail" name="mail" value="mail@gmail.com" size="25" /></td></tr>
-              <tr><td><b>'._YCOMMENT.' : </b><br /><textarea name="comment" style="width:100%;" rows="10"></textarea></td></tr>';
+              <b>'.YNICK.' : </b>&nbsp;<input type="text" id="sf_pseudo" name="pseudo" value=""'.$user[2].'" size="20" /></td></tr>
+              <tr><td><b>'.FMAIL.' : </b>&nbsp;<input type="text" id="sf_mail" name="mail" value="mail@gmail.com" size="25" /></td></tr>
+              <tr><td><b>'.YCOMMENT.' : </b><br /><textarea name="comment" style="width:100%;" rows="10"></textarea></td></tr>';
 
         if ($captcha == 1) create_captcha(1);
 
         echo '<tr><td align="center"><input type="hidden" name="op" value="sendnews" />
               <input type="hidden" name="news_id" value="'.$news_id.'" />
               <input type="hidden" name="title" value="'.$title.'" />
-              <input type="submit" value="'._SEND.'" /></td></tr></table></form><br />';
+              <input type="submit" value="'.SEND.'" /></td></tr></table></form><br />';
 
-        closetable();
+       // closetable();
     }
 
     function sendnews($title, $news_id, $comment, $mail, $pseudo) {
         global $nuked, $captcha,$user_ip;
 
-        opentable();
+        //opentable();
 
         if ($captcha == 1 && !ValidCaptchaCode($_POST['code_confirm'])) {
-            echo '<div style="text-align:center;"><br /><br />'._BADCODECONFIRM.'<br /><br /><a href="javascript:history.back()">[ <b>'._BACK.'</b> ]</a></div>';
+            echo '<div style="text-align:center;"><br /><br />'.BADCODECONFIRM.'<br /><br /><a href="javascript:history.back()">[ <b>'.BACK.'</b> ]</a></div>';
         } else {
             $date2 = time();
             $date2 = nkDate($date2);
@@ -294,7 +293,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
             $pseudo = trim($pseudo);
 
             $subject = $nuked['name'].', '.$date2;
-            $corps = $pseudo." (IP : $user_ip) "._READNEWS." $title, "._NEWSURL."\r\n{$nuked['url']}/index.php?file=News&op=index_comment&news_id=$news_id\r\n\r\n"._YCOMMENT." : $comment\r\n\r\n\r\n{$nuked['name']} - {$nuked['slogan']}";
+            $corps = $pseudo." (IP : $user_ip) ".READNEWS." $title, ".NEWSURL."\r\n{$nuked['url']}/index.php?file=News&op=index_comment&news_id=$news_id\r\n\r\n".YCOMMENT." : $comment\r\n\r\n\r\n{$nuked['name']} - {$nuked['slogan']}";
             $from = "From: {$nuked['name']} <{$nuked['mail']}>\r\nReply-To: ".$nuked['mail'];
 
             $subject = @html_entity_decode($subject);
@@ -303,11 +302,11 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
             mail($mail, $subject, $corps, $from);
 
-            echo '<div style="text-align:center;"><br />'._SENDFMAIL.'<br /><br /></div>';
+            echo '<div style="text-align:center;"><br />'.SENDFMAIL.'<br /><br /></div>';
             redirect('index.php?file=News', 2);
         }
 
-        closetable();
+        //closetable();
     }
 
     switch ($_REQUEST['op']) {
@@ -351,17 +350,16 @@ if ($visiteur >= $level_access && $level_access > -1) {
     }
 
 } else if ($level_access == -1) {
-    opentable();
-    echo '<br /><br /><div style="text-align:center;">'._MODULEOFF.'<br /><br /><a href="javascript:history.back()"><b>'._BACK.'</b></a><br /><br /></div>';
-    closetable();
-} else if ($level_access == 1 && $visiteur == 0) {
-    opentable();
-    echo '<br /><br /><div style="text-align:center;">'._USERENTRANCE.'<br /><br /><b><a href="index.php?file=User&amp;op=login_screen">'._LOGINUSER.'</a> | <a href="index.php?file=User&amp;op=reg_screen">'._REGISTERUSER.'</a></b><br /><br /></div>';
-    closetable();
-} else {
-    opentable();
-    echo '<br /><br /><div style="text-align: center;">'._NOENTRANCE.'<br /><br /><a href="javascript:history.back()"><b>'._BACK.'</b></a><br /><br /></div>';
-    closetable();
-}
 
+    echo $GLOBALS['nkTpl']->nkModuleOff();
+
+} else if ($level_access == 1 && $visiteur == 0) {
+
+    echo $GLOBALS['nkTpl']->nkNoLogged('|');
+
+} else {
+
+    echo $GLOBALS['nkTpl']->nkBadLevel();
+
+}
 ?>

@@ -8,16 +8,13 @@
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
-global $user, $nuked, $language;
+global $user, $nuked, $language, $visiteur;
 
-translate('modules/Admin/lang/' . $language . '.lang.php');
-translate('modules/User/lang/' . $language . '.lang.php');
 include_once(dirname(__FILE__) . '/../../Includes/hash.php');
 
 $url = 'index.php';
 $message = '';
 
-$visiteur = ($user) ? $user[1] : 0;
 
 function open_admin(){
     global $nuked;
@@ -46,6 +43,7 @@ function close_admin(){
         </body>
     </html>';
 }
+
 
 if ($visiteur >= 2)
 {
@@ -92,10 +90,15 @@ if ($visiteur >= 2)
     }
     else
     {
-        if (!$user) redirect('index.php?file=User&op=login_screen', 0);
-        else if ($_REQUEST['nuked_nude']) redirect('index.php?file=Admin', 0);
-        else
-        {
+        if (!$user) {
+
+            redirect('index.php?file=User&op=login_screen', 0);
+
+        } elseif ($_REQUEST['nuked_nude']) {
+
+            redirect('index.php?file=Admin', 0);
+
+        } else {
             $check = $_POST ? 1 : 0;
 
             open_admin();

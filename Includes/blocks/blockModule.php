@@ -1,4 +1,4 @@
-<?php 
+<?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
 // http://www.nuked-klan.org                                                //
@@ -7,62 +7,38 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (preg_match("`block_roster.php`i", $_SERVER['PHP_SELF'])){
-    die ("You cannot open this page directly");
-} 
+if (!defined("INDEX_CHECK")){
+	exit('You can\'t run this file alone.');
+}
 
-function affich_block_roster($blok){
-    global $nuked;
-
-    $team_id = $blok['content'];
-    $blok['content'] = '';
-
-    if ($team_id != ''){
-        $where = 'WHERE team = \'' . $team_id . '\' OR team2 = \'' . $team_id . '\' OR team3 = \'' . $team_id . '\' ';
-    }
-    else{
-		$sql_team = mysql_query("SELECT cid FROM " . TEAM_TABLE);
-		$nb_team = mysql_num_rows($sql_team);
-		
-		if ($nb_team > 0) $where = 'WHERE team > 0 OR team2 > 0 OR team3 > 0'; 
-		else $where = 'WHERE niveau > 1'; 
-    }
-
-    $blok['content'] .= '<table style="width:100%;" cellspacing="0" cellpadding="1">'."\n";
-
-    $sql = mysql_query('SELECT pseudo, mail, country FROM ' . USER_TABLE . ' ' . $where . ' ORDER BY ordre, pseudo');
-    while (list($pseudo, $mail, $country) = mysql_fetch_array($sql)){
-        list ($pays, $ext) = explode ('.', $country);
-
-        $nick_team = $nuked['tag_pre'] . $pseudo . $nuked['tag_suf'];
-
-        if (is_file('themes/' . $theme . '/images/mail.gif')){
-            $img = 'themes/' . $theme . '/images/mail.gif';
-        } 
-        else{
-            $img = 'modules/Team/images/mail.gif';
-        } 
-
-        $blok['content'] .= '<tr><td style="width: 20%;text-align:center;" ><img src="images/flags/' . $country . '" alt="" title="' . $pays . '" /></td>'."\n"
-								. '<td style="width: 60%;"><a href="index.php?file=Team&amp;op=detail&amp;autor=' . urlencode($pseudo) . '"><b>' . $nick_team . '</b></a></td>'."\n"
-								. '<td style="width: 20%;text-align:center;" ><a href="mailto:' . $mail . '"><img style="border: 0;" src="' . $img . '" alt="" title="' . $mail . '" /></a></td></tr>'."\n";
-	} 
-
-    $blok['content'] .= '</table>'."\n";
+function affichBlockModule($blok){
+    $blok['content'] = inc_bl($blok['module'], $blok['bid']);
     return $blok;
-} 
+}
 
-function edit_block_roster($bid){
+function edit_block_module($bid){
     global $nuked, $language;
 
     $sql = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
-    
+    //check des modules
+    $handle = opendir('modules/');
+	
+    while ($mod = readdir($handle)){
+        if($mod != 'index.html' && file_exists('modules/'.$mod.'/blok.php')) $autorized_modules[] = $mod;             
+    }
+	
+    if (false===array_search($modul, $autorized_modules)){
+         die('<br /><br /><div style="text-align: center;"><big>Blok corrupted, lease delete it!</big></div><br /><br />');
+    }
+	
     $titre = printSecuTags($titre);
 
-    if ($active == 1) $checked1 = "selected=\"selected\"";
-    else if ($active == 2) $checked2 = "selected=\"selected\"";
-    else $checked0 = "selected=\"selected\"";
+    if ($active == 1) $checked1 = 'selected="selected"';
+    else if ($active == 2) $checked2 = 'selected="selected"';
+    else if ($active == 3) $checked3 = 'selected="selected"';
+    else if ($active == 4) $checked4 = 'selected="selected"';
+    else $checked0 = 'selected="selected"';
 
     echo '<div class="content-box">',"\n" //<!-- Start Content Box -->
 			, '<div class="content-box-header"><h3>' , _BLOCKADMIN , '</h3>',"\n"
@@ -76,6 +52,8 @@ function edit_block_roster($bid){
 			, '<td align="center"><select name="active">',"\n"
 			, '<option value="1" ' , $checked1 , '>' , _LEFT , '</option>',"\n"
 			, '<option value="2" ' , $checked2 , '>' , _RIGHT , '</option>',"\n"
+			, '<option value="3" ' , $checked3 , '>' , _CENTERBLOCK , '</option>',"\n"
+			, '<option value="4" ' , $checked4 , '>' , _FOOTERBLOCK , '</option>',"\n"
 			, '<option value="0" ' , $checked0 , '>' , _OFF , '</option></select></td>',"\n"
 			, '<td align="center"><input type="text" name="position" size="2" value="' , $position , '" /></td>',"\n"
 			, '<td align="center"><select name="nivo"><option>' , $nivo , '</option>',"\n"
@@ -88,21 +66,14 @@ function edit_block_roster($bid){
 			, '<option>6</option>',"\n"
 			, '<option>7</option>',"\n"
 			, '<option>8</option>',"\n"
-			, '<option>9</option></select></td></tr><tr><td colspan="4"><b>' , _TEAM , ' :</b>&nbsp;<select name="content"><option value="">' , _INFOALL , '</option>',"\n";
+			, '<option>9</option></select></td></tr>',"\n"
+			, '<tr><td colspan="4"><b>' , _TYPE , ' : </b> ' , _MODBLOCK , '</td></tr><tr><td colspan="4"><select name="module">',"\n";
 
-    $sql2 = mysql_query('SELECT cid, titre FROM ' . TEAM_TABLE . ' ORDER BY ordre, titre');
-    while (list($team_id, $team) = mysql_fetch_array($sql2)){
-        $team = printSecuTags($team);
+    select_mod($modul);
 
-        if ($team_id == $content) $checked3 = 'selected="selected"';
-        else $checked3 = '';
-
-        echo '<option value="' . $team_id . '" ' . $checked3 . '>' . $team . '</option>'."\n";
-    }
-
-    echo '</select></td></tr><tr><td colspan="4">&nbsp;</td></tr>'."\n"
-			. '<tr><td colspan="4" style="text-align:center;"><b>' . _PAGESELECT . ' :</b></td></tr><tr><td colspan="4">&nbsp;</td></tr>'."\n"
-			. '<tr><td colspan="4" style="text-align:center;"><select name="pages[]" size="8" multiple="multiple">'."\n";
+    echo '</select></td></tr><tr><td colspan="4">&nbsp;</td></tr>',"\n"
+		, '<tr><td colspan="4" align="center"><b>' , _PAGESELECT , ' :</b></td></tr><tr><td colspan="4">&nbsp;</td></tr>',"\n"
+		, '<tr><td colspan="4" align="center"><select name="pages[]" size="8" multiple="multiple">',"\n";
 
     select_mod2($pages);
 
@@ -113,5 +84,26 @@ function edit_block_roster($bid){
 		, '</td></tr></table>',"\n"
 		, '<div style="text-align: center;"><br />[ <a href="index.php?file=Admin&amp;page=block"><b>' , _BACK , '</b></a> ]</div></form><br /></div></div>',"\n";
 
+}
+
+function inc_bl($modul, $bid){
+    //check des modules
+    $handle = opendir('modules/');
+	
+    while ($mod = readdir($handle)){
+        if($mod != 'index.html' && file_exists('modules/'.$mod.'/blok.php')) $autorized_modules[] = $mod;             
+    }
+	
+    if (false===array_search($modul, $autorized_modules)){
+         $blok_content = '';
+    }
+    else{
+        ob_start();
+        print eval("\$bid = \"$bid\";");
+        print eval(' include ("modules/" . $modul . "/blok.php"); ');
+        $blok_content = ob_get_contents();
+        ob_end_clean();
+    }
+    return $blok_content;
 }
 ?>

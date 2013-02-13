@@ -10,7 +10,6 @@
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $user, $language;
-translate('modules/Admin/lang/' . $language . '.lang.php');
 include('modules/Admin/design.php');
 
 $visiteur = $user ? $user[1] : 0;

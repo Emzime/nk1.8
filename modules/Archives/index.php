@@ -11,12 +11,15 @@ if (!defined("INDEX_CHECK")){
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 }
 
-global $visiteur;
+global $language;
+
+translate("modules/Archives/lang/" . $language . ".lang.php");
 
 compteur("Archives");
 
 opentable();
  
+$visiteur = (!$user) ? 0 : $user[1];
 $level_access = nivo_mod("News");
 if ($visiteur >= $level_access && $level_access > -1)
 {

@@ -11,7 +11,7 @@ if (!defined("INDEX_CHECK")){
 	exit('You can\'t run this file alone.');
 }
 
-function affich_block_language($blok){
+function affichBlockLanguage($blok){
     global $cookie_langue;
 
     $blok['content'] .= "<form method=\"post\" action=\"index.php?file=User&amp;nuked_nude=index&amp;op=modif_langue\">\n"

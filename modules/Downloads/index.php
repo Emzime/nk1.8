@@ -9,11 +9,13 @@
 *   @copyright 2001-2013 Nuked Klan 
 */
 defined('INDEX_CHECK') or die ('<div style="text-align: center;">'.CANTOPENPAGE.'</div>');
-//defined('INDEX') or die ('<div style="text-align: center;">'.LANGNOTFOUND.'</div>');
-if(defined('TESTLANGUEFILE')) { 
+global $user, $visiteur;
+$modName = basename(dirname(__FILE__));
 
-    global $user, $visiteur;
-    $modName = basename(dirname(__FILE__));
+// Veridication du chargement du fichier langue
+$langTest = strtoupper($modName);
+$langTest = constant('TESTLANGUEFILE'.$langTest);
+if($langTest == true) { 
 
         compteur($modName);
 

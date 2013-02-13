@@ -48,7 +48,7 @@ if ($nb_lk > 0){
         $link_titre = htmlentities($link_titre);
         $lk_date = nkDate($lk_date);
         $tab['module'][] = $modname;
-        $tab['title'][] = "<b>" . $link_titre . "</b> - " . _ADDED . "&nbsp;" . $lk_date;
+        $tab['title'][] = "<b>" . $link_titre . "</b> - " . ADDED . "&nbsp;" . $lk_date;
         $tab['link'][] = "index.php?file=Links&amp;op=description&amp;link_id=" . $link_id;
     }
 }

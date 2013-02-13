@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
@@ -225,8 +225,8 @@ class NK_functions {
      * return back button
      */
     public function nkHistoryBack($url=null, $class = null){ 
-        $referer = !is_null($url) ? $_SERVER['HTTP_REFERER'] : $url;
-        $class = !is_null($class) ? 'class="'.$class.'"' : '';
+        $referer = is_null($url) ? $_SERVER['HTTP_REFERER'] : $url;
+        $class = !is_null($class) ? 'class="'.$class.'"' : 'nkAlignCenter';
         return('<a href="'.$referer.'" '.$class.' >'.BACK.'</a>');    
     }
 
@@ -392,12 +392,12 @@ class NK_functions {
         }
     }
 
-
     /**
      * infoBlocks display block
      */
     public function infoBlocks()
     {
+
         $dbsActiveBlock = ' SELECT bid, active, position, module, titre, content, type, nivo, page 
                             FROM '.BLOCK_TABLE.' 
                             WHERE active != 0 ORDER BY active';
@@ -424,9 +424,8 @@ class NK_functions {
                     }
                 }
             }
-        }else {
-            $infos = null;
         }
+
         return $infos;
     }
 }

@@ -13,15 +13,14 @@ global $user, $nuked, $language;
 
 function admintop(){
     
-    global $user, $nuked, $language;
-    translate("modules/Admin/lang/$language.lang.php");
+    global $user, $nuked, $language, $visiteur;
 
     $visiteur = $user ? $user[1] : 0;
     $condition_js = ($nuked['screen']) == 'off' ? 1 : 0;
     if($visiteur < 2) redirect('index.php?file=404', 0);
     
-    // Tableau associé au condition sur la class du menu de navigation
-    $a = array('setting','maj','phpinfo','mysql','action'   );
+    // Tableau associ? au condition sur la class du menu de navigation
+    $a = array('setting','maj','phpinfo','mysql','action','erreursql');
     $b = array('user','theme','modules','block','menu','smilies','games');
     
     // Condition sur la class du menu de navigation
@@ -31,7 +30,7 @@ function admintop(){
     $SubMenuParameters2 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'mysql') ? 'class="current"' : '';
     $SubMenuParameters3 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'phpinfo') ? 'class="current"' : '';
     $SubMenuParameters4 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'action') ? 'class="current"' : '';
-    $SubMenuParameters5 = ($_REQUEST['file'] == 'Admin') ? 'class="current"' : '';
+    $SubMenuParameters5 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'erreursql') ? 'class="current"' : '';
     $MenuGestion = ($_REQUEST['file'] == 'Admin' and in_array($_REQUEST['page'], $b)) ? ' current' : '';
     $SubMenuGestion = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'user') ? 'class="current"' : '';
     $SubMenuGestion2 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'theme') ? 'class="current"' : '';
@@ -113,6 +112,7 @@ function admintop(){
                             <li><a <?php echo $SubMenuParameters2; ?> href="index.php?file=Admin&amp;page=mysql"><?php echo _GMYSQL; ?></a></li>
                             <li><a <?php echo $SubMenuParameters3; ?> href="index.php?file=Admin&amp;page=phpinfo"><?php echo _ADMINPHPINFO; ?></a></li>
                             <li><a <?php echo $SubMenuParameters4; ?> href="index.php?file=Admin&amp;page=action"><?php echo _ACTIONM; ?></a></li>
+                            <li><a <?php echo $SubMenuParameters5; ?> href="index.php?file=Admin&amp;page=erreursql"><?php echo _ERRORBDD; ?></a></li>
                         </ul>
                     </li>
                     
@@ -280,7 +280,7 @@ function adminfoot(){
                         echo 'CKEDITOR.config.autoParagraph = false;
                         CKEDITOR.config.enterMode = CKEDITOR.ENTER_BR;';
                     }
-                    echo configSmiliesCKEditor();
+                    echo ConfigSmileyCkeditor();
                     $Video = ($nuked['video_editeur'] == 'on') ? ',Video' : '';
                     echo 'CKEDITOR.config.extraPlugins = \'syntaxhighlight'.$Video.'\';';
                     ?>

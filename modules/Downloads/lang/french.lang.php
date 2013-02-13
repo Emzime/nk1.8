@@ -1,6 +1,9 @@
 <?php
 defined('INDEX_CHECK') or die ('<div class="align-center">You cannot open this page directly</div>');
 
+// Test si le fichier langue est chargé
+define('TESTLANGUEFILEDOWNLOADS', true);
+
 // Ajout convertion 1.8
 define('INFO', 'Informations');
 define('NOTKNOW','Non renseigné');
@@ -60,4 +63,5 @@ define('INDATABASE','dans la base de données');
 define('FILES','Fichiers');
 define('ISHOT', 'Hot !');
 define('ISNEW', 'New !');
+
 ?>

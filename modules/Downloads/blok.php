@@ -9,10 +9,13 @@
 *   @copyright 2001-2013 Nuked Klan 
 */
 defined('INDEX_CHECK') or die ('<div style="text-align: center;">'.CANTOPENPAGE.'</div>');
-if(defined('TESTLANGUEFILE')) { 
+global $language, $user, $visiteur, $blockSide;
+$modName = basename(dirname(__FILE__));
 
-    global $language, $user, $visiteur, $blockSide;
-    $modName = basename(dirname(__FILE__));
+// Veridication du chargement du fichier langue
+$langTest = strtoupper($modName);
+$langTest = constant('TESTLANGUEFILE'.$langTest);
+if($langTest == true) { 
 
     // Appel des préférences du module
     $modulePref = $GLOBALS['nkFunctions']->nkModsPrefs('Downloads');

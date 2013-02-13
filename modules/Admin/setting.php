@@ -11,7 +11,6 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $user, $language;
 
-translate('modules/Admin/lang/' . $language . '.lang.php');
 include('modules/Admin/design.php');
 
 $visiteur = ($user) ? $user[1] : 0;
@@ -117,7 +116,7 @@ if ($visiteur == 9)
                 $checked = ($tft == $key) ? 'selected="selected"' : '';
                 $day = time();
                 date_default_timezone_set($nuked['datezone']);
-                // iconv pour éviter les caractère spéciaux dans la date
+                // iconv pour ?viter les caract?re sp?ciaux dans la date
                 $echo = iconv('UTF-8','ISO-8859-1',strftime($key, $day));
                 echo "<option value=\"" . $key . "\" " . $checked . ">" . $echo . "</option>\n";
             }
@@ -176,11 +175,11 @@ if ($visiteur == 9)
         ?>
         <script type="text/javascript">
         <!--
-        // Interdire les caractères spéciaux (pour le nom des cookies)
+        // Interdire les caract?res sp?ciaux (pour le nom des cookies)
         function special_caract(evt) {
             var keyCode = evt.which ? evt.which : evt.keyCode;
             if (keyCode==9) return true;
-            var interdit = 'ààâäãçéèêëìîïòôöõµùûüñ &\?!:\.;,\t#~"^¨@%\$£?²¤§%\*()[]{}-_=+<>|\\/`\'';
+            var interdit = '?????????????????????? &\?!:\.;,\t#~"^?@%\$?????%\*()[]{}-_=+<>|\\/`\'';
             if (interdit.indexOf(String.fromCharCode(keyCode)) >= 0) {
                 alert('<?php echo _SPECCNOTALLOW; ?>');
                 return false;

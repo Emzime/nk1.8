@@ -28,7 +28,6 @@ require ROOT_PATH . 'Includes/libs/NK_functions.php';
 require ROOT_PATH . 'Includes/libs/NK_' . $db_type .'.php';
 require ROOT_PATH . 'Includes/nkSessions.php';
 
-
 // Connection to DB.
 nkTryConnect();
 
@@ -44,8 +43,6 @@ include ROOT_PATH . 'Includes/constants.php';
 
 // Initialize session
 nkSessionInit();
-
-
 
 /******** REQUIRE AJOUT PAR MAXXI *******/
 require ROOT_PATH . 'Includes/libs/NK_comment.php';
@@ -117,7 +114,6 @@ function nkDate($timestamp, $tinySize = false) {
     // Format date, and convert it to ISO format
     return strftime($format, $timestamp);
 }
-
 /**
  * Fix printing tags.
  * @param string $value : text to display before filter
@@ -125,6 +121,7 @@ function nkDate($timestamp, $tinySize = false) {
  */
 function printSecuTags($value){
     $value = htmlentities(html_entity_decode(html_entity_decode($value)));
+
     return $value;
 }
 
@@ -244,16 +241,15 @@ $activeCssBlock = $GLOBALS['nkFunctions']->infoBlocks();
  * Display blocks.
  * @param string $side : side block to display
  */
-function get_blok($side) {
-
+function getBlok($side) {
     global $activeCssBlock;
     
     // Array orientation
     $activeTranslation = array(
-        'left' => 1,
-        'right' => 2,
-        'center' => 3,
-        'bottom' => 4
+        'Left' => 1,
+        'Right' => 2,
+        'Center' => 3,
+        'Bottom' => 4
     );
 
      // Level of user
@@ -268,14 +264,14 @@ function get_blok($side) {
         return;
     }
 
-    if (!function_exists( $themeBlockName = 'block_' . $side )) {
+    if (!function_exists( $themeBlockName = 'block' . $side )) {
         echo $GLOBALS['nkTpl']->nkDisplayError(UNKNOWNFUNCTIONBLOCK . ' : '. $themeBlockName);
         return;
     }
 
     $BlockDisplay = $activeCssBlock[$activeTranslation[$side]];
 
-    if(!is_null($BlockDisplay)) {
+    if (!is_null($BlockDisplay)) {
         foreach ($BlockDisplay as $block) {
             $display = FALSE;
 
@@ -289,9 +285,9 @@ function get_blok($side) {
             if ($visiteur >= $block['nivo'] && $display) {
                 $block['titre'] = printSecuTags($block['titre']);
 
-                include_once 'Includes/blocks/block_'. $block['type'] .'.php';
+                include_once 'Includes/blocks/block'. $block['type'] .'.php';
 
-                if (function_exists($blockFunction = 'affich_block_'. $block['type'])) {
+                if (function_exists($blockFunction = 'affichBlock'. $block['type'])) {
                     $block = $blockFunction( $block );
                 } else {
                     echo $GLOBALS['nkTpl']->nkDisplayError(UNKNOWNFUNCTIONBLOCK . ' : '. $blockFunction);
@@ -304,22 +300,6 @@ function get_blok($side) {
             }
         }
     }
-}
-
-/**
- * Récupère les block actif et leur position
- */
-function activeBlock() {
-
-        $dbsActiveBlock = ' SELECT module, active 
-                            FROM '.BLOCK_TABLE.' 
-                            WHERE active != 0 AND module != "" ';
-        $dbeActiveBlock = mysql_query($dbsActiveBlock);
-        $blockActive = '';
-        while ($row = mysql_fetch_assoc($dbeActiveBlock)){
-            $blockActive[$row['module']] = $row['active'];
-        }
-        return $blockActive;
 }
 
 /**
@@ -342,7 +322,6 @@ function includeJsTheme() {
     }
 }
 
-
 /**
  * Display pictures if url is correct
  * @param string $url : url to check
@@ -351,7 +330,7 @@ function includeJsTheme() {
 function checkimg($url){
     $url = rtrim($url);
     if (!in_array( pathinfo( $url, PATHINFO_EXTENSION ), array( 'jpg', 'jpeg', 'gif', 'png', 'bmp' ))) {
-        $url = 'images/noimagefile.gif';
+        $url = 'images/noimage.png';
     }
     return $url;
 }
@@ -830,25 +809,25 @@ function number($total, $limit, $url) {
         // Number of pages
         $nbPages = ceil($total / intval($limit));
         // Start string to output display
-        $output = '<div class="pages-links"><b class="pgtitle">' . _PAGE . ' :</b>&nbsp;';
+        $output = '<ul><li class="nkInline nkBold">'.PAGE.'</li>&nbsp;:&nbsp;';
         
         // Build links for each page
         for ($i = 1; $i <= $nbPages; $i++) {
             // Current page
             if ($i == $currentPage){
-                $output .= sprintf('<b class="pgactuel">[%d]</b> ',$i);
+                $output .= sprintf('[%d]&nbsp;',$i);
                 // Links near current page
             } elseif (abs($i - $currentPage) <= 4) {
-                $output .= sprintf('<a href="' . $url . '&amp;p=%d" class="pgnumber">%d</a> ',$i, $i);
+                $output .= sprintf('<li class="nkInline"><a href="' . $url . '&amp;p=%d">%d</a></li>&nbsp;',$i, $i);
                 // Display text before forget unnecessary pages
             } else{
                 // Before current page
                 if (!isset($firstDone) && $i < $currentPage) {
-                    $output .= sprintf('...<a href="' . $url . '&amp;p=%d" title="' . _PREVIOUSPAGE . '" class="pgback">&laquo;</a> ',$currentPage-1);
+                    $output .= sprintf('...<li class="nkInline"><a href="'.$url.'&amp;p=%d" title="'.PREVIOUSPAGE.'">&laquo;</a></li>&nbsp;',$currentPage-1);
                     $firstDone = true;
                     // After current page
                 } elseif (!isset($lastDone) && $i > $currentPage) {
-                    $output .= sprintf('<a href="' . $url . '&amp;p=%d" title="' . _NEXTPAGE . '" class="pgnext">&raquo;</a>... ',$currentPage+1);
+                    $output .= sprintf('<li class="nkInline"><a href="'.$url.'&amp;p=%d" title="'.NEXTPAGE.'">&raquo;</a></li>... ',$currentPage+1);
                     $lastDone = true;
                     // Exceed interesting pages : we stop
                 } elseif ($i > $currentPage) {
@@ -856,7 +835,7 @@ function number($total, $limit, $url) {
                 }
             }
         }
-        $output .= '</div>';
+        $output .= '</ul>';
         
         echo $output;
     }
@@ -1003,6 +982,40 @@ function getModuleData() {
 
     return $data;
 }
+
+/**
+ * activeMods liste les modules actifs
+ */
+function activeMods() {
+        $dbsActiveMods = ' SELECT nom, niveau, admin 
+                            FROM '.MODULES_TABLE.' 
+                            WHERE niveau != -1';
+        $dbeActiveMods = mysql_query($dbsActiveMods);
+        $modsActive = '';
+        while ($row = mysql_fetch_assoc($dbeActiveMods)){
+            $modsActive[] = array('module' => $row['nom'], 'niveau' => $row['niveau'], 'admin' => $row['admin']);
+        }
+        return $modsActive;
+}
+/*/**
+ * Include a file of constants for translating.
+ * @param string $fileLang the path of file to include
+ * @todo suppress comment
+ */
+//function translate($fileLang){
+    //require_once $fileLang;
+//    global $nuked;
+//
+//    ob_start();
+//    print eval(" include ('$file_lang'); ");
+//    $lang_define = ob_get_contents();
+//    $lang_define = htmlentities($lang_define, ENT_NOQUOTES);
+//    $lang_define = str_replace('&lt;', '<', $lang_define);
+//    $lang_define = str_replace('&gt;', '>', $lang_define);
+//    ob_end_clean();
+//    return $lang_define;
+//}*/
+
 
 /**
  * Count the number of page views module for stats.
@@ -1569,7 +1582,7 @@ function erreursql($errno, $errstr, $errfile, $errline, $errcontext){
             exit();
             break;
     }
-    // Ne pas ex?cuter le gestionnaire interne de PHP
+    // Ne pas exécuter le gestionnaire interne de PHP
     return true;
 }
  * */

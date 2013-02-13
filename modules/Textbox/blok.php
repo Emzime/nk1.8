@@ -12,9 +12,11 @@ if (!defined("INDEX_CHECK"))
 	die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 }
 
-global $nuked, $theme, $language, $bgcolor1, $bgcolor2, $bgcolor3, $user, $cookie_captcha;
-translate("modules/Textbox/lang/" . $language . ".lang.php");
+global $nuked, $theme, $language, $bgcolor1, $bgcolor2, $bgcolor3, $user, $cookie_captcha, $blockSide, $blockI;
 include("modules/Textbox/config.php");
+
+
+echo $blockSide .'<br>'.$blockI;
 
 // Inclusion système Captcha
 include_once("Includes/nkCaptcha.php");
@@ -140,7 +142,7 @@ if ($visiteur >= 2)
 		. "// -->\n"
 		. "</script>\n";
 		}
-if ($active == 3 || $active == 4)
+if ($blockSide == 3 || $blockSide == 4)
 {
     $width = $mbox_width;
     $height = $mbox_height;
@@ -166,7 +168,7 @@ echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" wi
 . "</p></div></td></tr></table>\n"
 . "<script type=\"text/javascript\">maj_shoutbox();</script>\n";
 echo "<div id=\"affichetextbox\"></div><div>\n";
-if ($active == 3 || $active == 4)
+if ($blockSide == 3 || $blockSide == 4)
 {
     if ($visiteur >= nivo_mod("Textbox"))
     {

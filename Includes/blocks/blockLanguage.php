@@ -23,8 +23,8 @@ if (defined('TESTLANGUE')) {
         if ($rep = @opendir('lang/')) {
             while (false !== ($f = readdir($rep))) {
                 if ($f != '..' && $f != '.' && $f != 'index.html') {
-                    list($langfile, ,) = explode ('.', $f);
-                    
+    				list($langfile, ,) = explode ('.', $f);
+    				
                     if ($cookie_langue == $langfile) {
                         $checked = 'selected="selected"';
                     } else {
@@ -45,7 +45,6 @@ if (defined('TESTLANGUE')) {
 } else {
     echo $GLOBALS['nkTpl']->nkDisplayError(LANGNOTFOUND , 'nkAlignCenter');
 }
-
 
     function edit_block_language($bid){
         global $nuked, $language;

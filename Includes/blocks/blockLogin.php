@@ -28,7 +28,7 @@ if (defined('TESTLANGUE')) {
                                         <div>
                                             <label for="BlockLoginPassword">'.PASSWORD.' : </label>
                                                 <input id="BlockLoginPassword" class="nkInput" type="password" name="pass" size="10" maxlength="15" />
-    									</div>';																		
+                                        </div>';																		
                 $blok['content'] .=     $GLOBALS['nkFunctions']->nkCheckBox('remember_me', 'Remember', 'BlockLoginRememberId', 'BlockLoginRemember nkWidth3Quarter', REMEMBERME, 'ok', true);
                 $blok['content'] .= '           <input type="submit" class="nkButton" value="'.SEND.'" />										
                                         <nav>
@@ -39,7 +39,7 @@ if (defined('TESTLANGUE')) {
                                         </nav>
                                     </form>';
             } else {
-    			$blok['content'] .= '
+                $blok['content'] .= '
                                     <h4>'.WELCOME.', <small>'.$user[2].'</small></h4>';
                                 if ($avatar != 'off') {
                                     $dbsAvatar = '  SELECT avatar 
@@ -73,12 +73,12 @@ if (defined('TESTLANGUE')) {
                 $blok['content'] .= '
                                     <div class="nkSeparator"></div>';
             }
-    		$dbsMessPvIdRead = 'SELECT mid 
+            $dbsMessPvIdRead = 'SELECT mid 
                                 FROM '.USERBOX_TABLE.' 
                                 WHERE user_for = \''.$user[0].'\' 
                                 AND status = 1';
             $dbeMessPvIdRead = mysql_query($dbsMessPvIdRead);
-    		$dbcMessPvIdRead = mysql_num_rows($dbeMessPvIdRead);    	
+            $dbcMessPvIdRead = mysql_num_rows($dbeMessPvIdRead);    	
             $blok['content'] .= '   <h5>
                                         <span class="nkIconMail"></span>'.MESSPV.'
                                     </h5>
@@ -92,11 +92,11 @@ if (defined('TESTLANGUE')) {
                                             <span class="nkIconMailReceive"></span>'.NOTREAD.' : '.$user[5].'
                                         </li>';
             }    	
-    		if ($dbcMessPvIdRead > 0) {
+            if ($dbcMessPvIdRead > 0) {
                 $blok['content'] .= '   <li>
                                             <span class="nkIconMailLock"></span>'.READ.' : <a href="index.php?file=Userbox">'.$dbcMessPvIdRead.'</a>
                                         </li>';
-    		} else {
+            } else {
                 $blok['content'] .= '   <li>
                                             <span class="nkIconMailLock"></span>'.READ.' : '.$dbcMessPvIdRead.'
                                         </li>';
@@ -192,8 +192,8 @@ if (defined('TESTLANGUE')) {
                                             }
             $blok['content'] .= '           : '.$nb[0].'
                                         </li>
-    								    <li>
-    									   <span class="nkIconNext"></span>'.MEMBER;
+                                        <li>
+                                            <span class="nkIconNext"></span>'.MEMBER;
                                             if ($nb[1] > 1) {
                                                 $blok['content'] .= 's';
                                             }
@@ -221,18 +221,39 @@ if (defined('TESTLANGUE')) {
         $titleBlock = printSecuTags($titleBlock);
         list($login, $messpv, $members, $online, $avatar) = explode('|', $contentBlock);
 
-        if ($activeBlock == 1) $checked1 = 'selected="selected"';
-        else if ($activeBlock == 2) $checked2 = 'selected="selected"';
-        else $checked0 = 'selected="selected"';
-
-        if ($login == 'off') $checked3 = 'selected="selected"'; else $checked3 = '';
-        if ($messpv == 'off') $checked4 = 'selected="selected"'; else $checked4 = '';
-        if ($members == 'off') $checked5 = 'selected="selected"'; else $checked5 = '';
-        if ($online == 'off') $checked6 = 'selected="selected"'; else $checked6 = '';
-    	if ($avatar == 'off') $checked7 = 'selected="selected"'; else $checked7 = '';
-    	
-    	?>
-
+        if ($activeBlock == 1) {
+            $checked1 = 'selected="selected"';
+        } elseif ($activeBlock == 2) {
+            $checked2 = 'selected="selected"';
+        } else {
+            $checked0 = 'selected="selected"';
+        }
+        if ($login == 'off') {
+            $checked3 = 'selected="selected"'; 
+        } else {
+            $checked3 = '';
+        }
+        if ($messpv == 'off') {
+            $checked4 = 'selected="selected"'; 
+        } else {
+            $checked4 = '';
+        }
+        if ($members == 'off') {
+            $checked5 = 'selected="selected"'; 
+        } else {
+            $checked5 = '';
+        }
+        if ($online == 'off') {
+            $checked6 = 'selected="selected"'; 
+        } else {
+            $checked6 = '';
+        }
+        if ($avatar == 'off') {
+            $checked7 = 'selected="selected"'; 
+        } else {
+            $checked7 = '';
+        }
+        ?>
             <header>
                 <h3  class="width_3_quarter inline">
                 <?php echo ADMINBLOCK; ?>
@@ -242,85 +263,79 @@ if (defined('TESTLANGUE')) {
                 </h4>
             </header>
             <article class="padding-left padding-right margin-bottom margin-top">
-    			<form method="post" action="index.php?file=Admin&amp;page=block&amp;op=modif_block">
-        			<div class="nkBoxcontainer padding-left">
-        				<label for="blockLoginTitle" class="nkLabelSpacing"><?php echo TITLE; ?>&nbsp;:&nbsp;</label>
-        					<input id="blockLoginTitle" type="text" name="titre" size="40" value="<?php echo $titleBlock; ?>" />
-        			</div>
-        			<?php
-        			/*** Position Options ***/
-        			$activeBlockValue = array(
-        	                0 => LEFT,
+                <form method="post" action="index.php?file=Admin&amp;page=block&amp;op=modif_block">
+                    <div class="nkBoxcontainer padding-left">
+                        <label for="blockLoginTitle" class="nkLabelSpacing"><?php echo TITLE; ?>&nbsp;:&nbsp;</label>
+                            <input id="blockLoginTitle" type="text" name="titre" size="40" value="<?php echo $titleBlock; ?>" />
+                    </div>
+                    <?php
+                    /*** Position Options ***/
+                    $activeBlockValue = array(
+                            0 => LEFT,
         	                1 => RIGHT,
-        	                2 => OFF
-        	            );
-        			echo $GLOBALS['nkFunctions']->nkRadioBox('active', 'nkLabelSpacing', BLOCK, 3, $activeBlockValue, 'InputForactive', 'InputIdactive')
+                            2 => OFF
+                        );
+                    echo $GLOBALS['nkFunctions']->nkRadioBox('active', 'nkLabelSpacing', BLOCK, 3, $activeBlockValue, 'InputForactive', 'InputIdactive')
+                    ?>
+                    <div class="nkBoxcontainer padding-left">
+                        <label for="blockLoginPosition" class="nkLabelSpacing"><?php echo POSITION; ?> : </label>
+                            <input id="blockLoginPosition" type="text" name="position" size="2" value="<?php echo $positionBlock; ?>" />
+                    </div>
 
-        			?>
-
-        			<div class="nkBoxcontainer padding-left">
-        				<label for="blockLoginPosition" class="nkLabelSpacing"><?php echo POSITION; ?> : </label>
-        					<input id="blockLoginPosition" type="text" name="position" size="2" value="<?php echo $positionBlock; ?>" />
-        			</div>
-
-        			<div class="nkBoxcontainer padding-left">
-        				<label for="nivo" class="nkLabelSpacing"><?php echo LEVEL; ?>&nbsp;:&nbsp;</label>
-        					<?php 
-        					echo $GLOBALS['nkFunctions']->nkLevelSelect('nivo', $nivoBlock);
-        					?>
-        			</div>
-        			<?php 
-        			/*** Login options ***/
-        			$loginValue = array(
-        					ON => YES,
-        					OFF => NO
-        	            );
-        			echo $GLOBALS['nkFunctions']->nkRadioBox('login', 'nkLabelSpacing', LOGIN.'&nbsp;:&nbsp;', 2, $loginValue, 'blockLoginLoginId');
-        				
+                    <div class="nkBoxcontainer padding-left">
+                        <label for="nivo" class="nkLabelSpacing"><?php echo LEVEL; ?>&nbsp;:&nbsp;</label>
+                            <?php 
+                            echo $GLOBALS['nkFunctions']->nkLevelSelect('nivo', $nivoBlock);
+                            ?>
+                    </div>
+                    <?php 
+                    /*** Login options ***/
+                    $loginValue = array(
+                            ON => YES,
+                            OFF => NO
+                        );
+                    echo $GLOBALS['nkFunctions']->nkRadioBox('login', 'nkLabelSpacing', LOGIN.'&nbsp;:&nbsp;', 2, $loginValue, 'blockLoginLoginId');
         			/*** Private message options ***/	
-        			$messpvValue = array(
-        					ON => YES,
-        					OFF => NO
-        	            );			
-        			echo $GLOBALS['nkFunctions']->nkRadioBox('messpv', 'nkLabelSpacing', MESSPV.'&nbsp;:&nbsp;', 2, $messpvValue, 'blockLoginmesspvId');
-
-        			/*** Members options ***/
-        			$membersValue = array(
-        					ON => YES,
-        					OFF => NO
-        	            );
-        			echo $GLOBALS['nkFunctions']->nkRadioBox('members', 'nkLabelSpacing', MEMBERS.'&nbsp;:&nbsp;', 2, $membersValue, 'blockLoginmembersId');
-        				
-        			/*** Online options ***/
-        			$onlineValue = array(
-        					ON => YES,
-        					OFF => NO
-        	            );
-        			echo $GLOBALS['nkFunctions']->nkRadioBox('online', 'nkLabelSpacing', WHOISONLINE.'&nbsp;:&nbsp;', 2, $onlineValue, 'blockLoginonlineId');
-        				
+                    $messpvValue = array(
+                            ON => YES,
+                            OFF => NO
+                        );			
+                    echo $GLOBALS['nkFunctions']->nkRadioBox('messpv', 'nkLabelSpacing', MESSPV.'&nbsp;:&nbsp;', 2, $messpvValue, 'blockLoginmesspvId');
+                    /*** Members options ***/
+                    $membersValue = array(
+                            ON => YES,
+                            OFF => NO
+                        );
+                    echo $GLOBALS['nkFunctions']->nkRadioBox('members', 'nkLabelSpacing', MEMBERS.'&nbsp;:&nbsp;', 2, $membersValue, 'blockLoginmembersId');
+                    /*** Online options ***/
+                    $onlineValue = array(
+                            ON => YES,
+                            OFF => NO
+                        );
+                    echo $GLOBALS['nkFunctions']->nkRadioBox('online', 'nkLabelSpacing', WHOISONLINE.'&nbsp;:&nbsp;', 2, $onlineValue, 'blockLoginonlineId');
         			/*** Avatar options ***/
-        			$avatarValue = array(
-        					ON => YES,
-        					OFF => NO
-        	            );
-        			echo $GLOBALS['nkFunctions']->nkRadioBox('avatar', 'nkLabelSpacing', SHOWAVATAR.'&nbsp;:&nbsp;', 2, $avatarValue, 'blockLoginavatarId');			
-        			?>
-        			<div class="nkBoxcontainer padding-left">
-        				<label for="blockLoginPages" class="nkLabelSpacing valign-top"><?php echo PAGESELECT; ?>&nbsp;:&nbsp;</label>
-        					<select id="blockLoginPages" class="margin-top" name="pages[]" size="8" multiple="multiple">
-        						<?php
-        						select_mod2($pagesBlock);
-        						?>
-        					</select>
-        			</div>
-        			<div class="width_quarter align-center margin-top padding-bottom">
-        				<input type="hidden" name="type" value="<?php echo $typeBlock; ?>" />
-        				<input type="hidden" name="bid" value="<?php echo $bid; ?>" />
-        				<input type="submit" name="send" class="nkButton" value="<?php echo SEND; ?>" />
-        			</div>
+                    $avatarValue = array(
+                            ON => YES,
+                            OFF => NO
+                        );
+                    echo $GLOBALS['nkFunctions']->nkRadioBox('avatar', 'nkLabelSpacing', SHOWAVATAR.'&nbsp;:&nbsp;', 2, $avatarValue, 'blockLoginavatarId');			
+                    ?>
+                    <div class="nkBoxcontainer padding-left">
+                        <label for="blockLoginPages" class="nkLabelSpacing valign-top"><?php echo PAGESELECT; ?>&nbsp;:&nbsp;</label>
+                            <select id="blockLoginPages" class="margin-top" name="pages[]" size="8" multiple="multiple">
+                                <?php
+                                select_mod2($pagesBlock);
+                                ?>
+                            </select>
+                    </div>
+                    <div class="width_quarter align-center margin-top padding-bottom">
+                        <input type="hidden" name="type" value="<?php echo $typeBlock; ?>" />
+                        <input type="hidden" name="bid" value="<?php echo $bid; ?>" />
+                        <input type="submit" name="send" class="nkButton" value="<?php echo SEND; ?>" />
+                    </div>
                 </form>
-    		</article>
-    	<?php
+            </article>
+        <?php
     }
 } else {
     echo $GLOBALS['nkTpl']->nkDisplayError(LANGNOTFOUND , 'nkAlignCenter');

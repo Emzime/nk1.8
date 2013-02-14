@@ -27,7 +27,7 @@ if ($visiteur == 9)
             {
                 if (substr($blok, -3, 3) == 'php')
                 {
-                    $blok = substr($blok, 6, -4);
+                    $blok = substr($blok, 5, -4);
 
                     if ($blok == 'survey') $blokname = _NAMESURVEY;
                     else if ($blok == 'menu') $blokname = _NAV;

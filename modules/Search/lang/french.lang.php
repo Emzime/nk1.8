@@ -37,4 +37,5 @@ define('MATCHAND','Rechercher tous les termes');
 define('MATCHEXACT','Rechercher l\'expression');
 define('RETURNS','La recherche a retourné');
 define('RESULTS','réponse(s)');
+define('TYPEOFSEARCH','Type de recherche:');
 ?>

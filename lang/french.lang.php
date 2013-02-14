@@ -150,4 +150,8 @@ define('AT','à');
 define('TOVOTE','Voter');
 define('RESULT','Résultat');
 define('OTHERPOLL','Autres sondages');
+
+define('BTHEMESELECT', 'Choix du thème');
+
+define('ERROROPENRSS', 'Echec lors de l\'ouverture du fichier');
 ?>

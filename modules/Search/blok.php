@@ -13,20 +13,21 @@ global $user, $visiteur, $blockSide;
 $modName = basename(dirname(__FILE__));
 
 // Bouton radio de sélection
-$arrayanswers = array(
+$arrayanswer = array(
     'matchand' => MATCHAND.'<br />',
     'matchexact' => MATCHEXACT.'<br />',
     'matchor' => MATCHOR
 );                        
-$keyword = $GLOBALS['nkFunctions']->nkRadioBox('searchtype', 'nkWidthQuarter', '', '3', $arrayanswers, 'searchtype', 'nkWidth3Quarter');
+                                 //$typeTag, $tagContent, $numberRadio, $inputName, $inputValue, $inputFor=null, $tagClass=null, $divClass=null, $labelClass=null
+$keyword = $GLOBALS['nkFunctions']->nkRadioBox('label', TYPEOFSEARCH, '3', 'searchtype', $arrayanswer, 'searchtype',  'nkLabelSpacing nkWidthQuarter nkMarginLRAuto nkValignTop');
 
 // Nombre de reponse a retrouner
 $arrayanswers = array(
     '10' => 10,
     '50' => 50,
     '100' => 100
-);                        
-$numberOfResponse =  $GLOBALS['nkFunctions']->nkRadioBox('limit', 'nkLabelSpacing nkWidthQuarter nkMarginLRAuto', NBANSWERS.'&nbsp;:&nbsp;', '3', $arrayanswers, 'answers');
+);                      
+$numberOfResponse =  $GLOBALS['nkFunctions']->nkRadioBox( 'label',NBANSWERS.'&nbsp;:&nbsp;', '3', 'limit', $arrayanswers, 'answers', 'nkLabelSpacing nkWidthQuarter nkMarginLRAuto');
 
 
 if ($blockSide[$modName] == 3 || $blockSide[$modName] == 4) {

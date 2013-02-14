@@ -135,7 +135,7 @@ class NK_functions {
     * exemple: $GLOBALS['nkFunctions']->nkCutText($description, '100');
     **/
     public function nkCutText($text, $length, $ending = '...', $exact = false) {
-        if(strlen(preg_replace('/<.*?>/', '', $text)) <= $length) {
+        if (strlen(preg_replace('/<.*?>/', '', $text)) <= $length) {
             return $text;
         }
         preg_match_all('/(<.+?>)?([^<>]*)/is', $text, $matches, PREG_SET_ORDER);
@@ -143,21 +143,21 @@ class NK_functions {
         $arr_elements = array();
         $truncate = '';
         foreach($matches as $element) {
-            if(!empty($element[1])) {
+            if (!empty($element[1])) {
                 if(preg_match('/^<\s*.+?\/\s*>$/s', $element[1])) {
-                } else if(preg_match('/^<\s*\/([^\s]+?)\s*>$/s', $element[1], $element2)) {
+                } elseif(preg_match('/^<\s*\/([^\s]+?)\s*>$/s', $element[1], $element2)) {
                     $pos = array_search($element2[1], $arr_elements);
                     if($pos !== false) {
                         unset($arr_elements[$pos]);
                     }
-                } else if(preg_match('/^<\s*([^\s>!]+).*?>$/s', $element[1], $element2)) {
+                } elseif(preg_match('/^<\s*([^\s>!]+).*?>$/s', $element[1], $element2)) {
                     array_unshift($arr_elements,
                     strtolower($element2[1]));
                 }
                 $truncate .= $element[1];
             }
             $content_length = strlen(preg_replace('/(&[a-z]{1,6};|&#[0-9]+;)/i', ' ', $element[2]));
-            if($total_length >= $length) {
+            if ($total_length >= $length) {
                 break;
             } elseif ($total_length+$content_length > $length) {
                 $left = $total_length>$length?$total_length-$length:$length-$total_length;
@@ -177,9 +177,9 @@ class NK_functions {
                 $total_length += $content_length;
             }
         }
-        if(!$exact) {
+        if (!$exact) {
             $spacepos = strrpos($truncate, ' ');
-            if(isset($spacepos)) {
+            if (isset($spacepos)) {
                 $truncate = substr($truncate, 0, $spacepos);
             }
         }
@@ -205,7 +205,7 @@ class NK_functions {
      * http://calebjacob.com/tooltipster/#options   
      * exemple: echo $GLOBALS['nkFunctions']->nkTooltip($description, 'index.php?file=Downloads&amp;op=description&amp;nuked_nude=index&amp;idDownload='.$idDownload, $title, 'nkPopupBox', $modulePref['tooltipTheme'], $modulePref['tooltipPosition'], $modulePref['tooltipAnimation'], $modulePref['tooltipMaxWidth'], $modulePref['tooltipArrowColor']);
      **/
-    public function nkTooltip($content, $lien='#', $text, $class=null, $themeUse=null, $placement=null, $animation=null, $maxWidth=null, $arrowColor=null){
+    public function nkTooltip($content, $lien='#', $text, $class=null, $themeUse=null, $placement=null, $animation=null, $maxWidth=null, $arrowColor=null) {
 
         $class          = !is_null($class)          ? 'class="'.$class.'"'                  : ''; 
         $placement      = !is_null($placement)      ? 'data-placement="'.$placement.'"'     : '';
@@ -224,7 +224,7 @@ class NK_functions {
      *
      * return back button
      */
-    public function nkHistoryBack($url=null, $class = null){ 
+    public function nkHistoryBack($url=null, $class = null) { 
         $referer = is_null($url) ? $_SERVER['HTTP_REFERER'] : $url;
         $class = !is_null($class) ? 'class="'.$class.'"' : 'nkAlignCenter';
         return('<a href="'.$referer.'" '.$class.' >'.BACK.'</a>');    
@@ -237,14 +237,14 @@ class NK_functions {
      *
      * Exemple: $GLOBAL['nkFunctions']->nkLevelSelect(‘level’, $level);
      **/
-    public function nkLevelSelect($name, $checked = null){
+    public function nkLevelSelect($name, $checked = null) {
     ?>
         <select id="<?php echo $name; ?>" name="<?php echo $name; ?>">        
             <?php
             for ($i = 0; $i <= 9; $i++) {
                 if (!is_null($checked) && $checked==$i) {
                     echo '<option value="' . $i . '" selected="selected">' . $i . '</option>';
-                }else{
+                } else {
                     echo '<option value="' . $i . '" >' . $i . '</option>';
                 }
             }
@@ -267,9 +267,9 @@ class NK_functions {
     *
     * Exemple: $GLOBALS['nkFunctions']->nkCheckBox('remember_me', 'Remember', 'BlockLoginRememberId', 'BlockLoginRemember', REMEMBERME, 'ok', true);
     **/
-    public function nkCheckBox($inputName, $inputClass, $inputId, $labelClass, $labelContent, $inputValue, $check=null){
+    public function nkCheckBox($inputName, $inputClass, $inputId, $labelClass, $labelContent, $inputValue, $check=null) {
     
-        if(!is_null($check)){
+        if (!is_null($check)) {
             $checked = 'checked="checked"';
         }
         $return = ' <div class="nkCheckBox">
@@ -296,7 +296,7 @@ class NK_functions {
      * @param  string $labelClass  class for label
      * @return mixed
      */
-    public function nkRadioBox($typeTag, $tagContent, $numberRadio, $inputName, $inputValue, $inputFor=null, $tagClass=null, $divClass=null, $labelClass=null){
+    public function nkRadioBox($typeTag, $tagContent, $numberRadio, $inputName, $inputValue, $inputFor=null, $tagClass=null, $divClass=null, $labelClass=null) {
         foreach($inputValue as $key => $arrayValue) {
 
                 $value[] = $arrayValue;
@@ -320,7 +320,7 @@ class NK_functions {
      *  @param 
      *
      **/
-    public function nkTextAction($content){
+    public function nkTextAction($content) {
         $acdate = time();
         $sqlaction = mysql_query('INSERT INTO '.ACTION_TABLE.' (`date`, `pseudo`, `action`) VALUES ("'.$acdate.'", "'.$user[0].'", "'.$content.'")');
     }
@@ -332,11 +332,11 @@ class NK_functions {
      *
      *  Appel de la fonction $GLOBALS['nkFunctions']->nkModsPrefs($modName); (modName defini par $modName = basename(dirname(__FILE__)); dans le module)
      **/
-    public function nkModsPrefs($mods){
+    public function nkModsPrefs($mods) {
         $mods = strtoupper($mods);
         $constantMods = constant($mods.'_CONFIG_TABLE');
         $sql = mysql_query('SELECT name, value FROM '.$constantMods);
-        while($row = mysql_fetch_array($sql)){
+        while($row = mysql_fetch_array($sql)) {
             $return[$row['name']] = printSecuTags(htmlentities($row['value'], ENT_NOQUOTES));
         }
         return $return;
@@ -350,31 +350,31 @@ class NK_functions {
         global $nuked;
 
         /* On verifie le format de l'url */
-        if (version_compare(PHP_VERSION, '5.2.0', '>')){
-            if(filter_var($url, FILTER_VALIDATE_URL)){               
+        if (version_compare(PHP_VERSION, '5.2.0', '>')) {
+            if (filter_var($url, FILTER_VALIDATE_URL)) {               
                 $urlVerify = $url;
-            }else{
+            } else {
                 $urlVerify = $nuked['url'].'/'. $url;
             }
-        }else{
+        } else {
             $regex = "#((http|https|ftp)://(\S*?\.\S*?))(\s|\;|\)|\]|\[|\{|\}|,|\"|'|:|\<|$|\.\s)#ie";   
-            if(preg_match($regex, $url)){
+            if (preg_match($regex, $url)) {
                 $urlVerify = $url;
-            }else{
+            } else {
                 $urlVerify = $nuked['url'].'/'. $url;
             }
         }
 
-        if(!is_null($check)){
+        if (!is_null($check)) {
             $urlReturn = @get_headers($urlVerify);
 
-            if(strpos($urlReturn[0],'200') !== false) {
+            if (strpos($urlReturn[0],'200') !== false) {
                 $linkUrlVerify = $urlVerify;
-            }else{
+            } else {
                 echo $GLOBALS['nkTpl']-> nkDisplayError(URLNOTFOUND);
                 echo $GLOBALS['nkFunctions']->nkHistoryBack();
             }
-        }else{
+        } else {
             $linkUrlVerify = $urlVerify;
         }
 
@@ -385,9 +385,9 @@ class NK_functions {
      * nkInitRequest initializes the elements of the array
      * @param array $array 
      */
-    public function nkInitRequest($array){
+    public function nkInitRequest($array) {
         foreach ($array as $value) {
-            if(!isset($_REQUEST[$value])){
+            if (!isset($_REQUEST[$value])) {
                 $_REQUEST[$value] = null;
             }
         }
@@ -396,8 +396,7 @@ class NK_functions {
     /**
      * infoBlocks display block
      */
-    public function infoBlocks()
-    {
+    public function infoBlocks() {
 
         $dbsActiveBlock = ' SELECT bid, active, position, module, titre, content, type, nivo, page 
                             FROM '.BLOCK_TABLE.' 
@@ -419,14 +418,13 @@ class NK_functions {
                         'page'     => $row['page'] 
                     );
 
-                for($i=1;$i<=4;$i++){
-                    if($i == $row['active']){
+                for($i=1;$i<=4;$i++) {
+                    if($i == $row['active']) {
                         $infos[$i][] = $blockArray;
                     }
                 }
             }
         }
-
         return $infos;
     }
 }

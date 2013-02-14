@@ -150,4 +150,5 @@ define('AT','à');
 define('TOVOTE','Voter');
 define('RESULT','Résultat');
 define('OTHERPOLL','Autres sondages');
+define('BTHEMESELECT', 'Choix du thème');
 ?>

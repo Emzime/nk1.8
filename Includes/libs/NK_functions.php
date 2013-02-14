@@ -283,30 +283,31 @@ class NK_functions {
     }
 
 
-    /** 
-     * Create Radio box simply
-     * @param inputName      -> Name of select
-     * @param labelClass     -> Class for label (optional)
-     * @param labelContent   -> Content for label (lang Name)
-     * @param numberRadio    -> Number of radiobox you want
-     * @param inputValue1    -> Array Value for Input (lang: ON - YES - ENABLE ...)
-     * @param inputFor       -> name for label for="" (optional)
-     * @param inputClass     -> Class for input (optional)
-     *
-     * Exemple: $GLOBALS['nkFunctions']->nkRadioBox('login', 'maclasseperso', LOGIN.'&nbsp;:&nbsp;', 2, $loginValue, 'blockLoginLoginId', null);
-    **/
-    public function nkRadioBox($inputName, $labelClass, $labelContent, $numberRadio, $inputValue, $inputFor=null, $inputClass=null){
+    /**
+     * nkRadioBox display bouton radio
+     * @param  string $typeTag     specify type of tag
+     * @param  string $tagContent  content for typeTag
+     * @param  integer $numberRadio number option for radio button
+     * @param  string $inputName   name for input
+     * @param  string $inputValue  value for input
+     * @param  string $inputFor    id for input
+     * @param  string $tagClass    class for typeTag
+     * @param  string $divClass    class for div
+     * @param  string $labelClass  class for label
+     * @return mixed
+     */
+    public function nkRadioBox($typeTag, $tagContent, $numberRadio, $inputName, $inputValue, $inputFor=null, $tagClass=null, $divClass=null, $labelClass=null){
         foreach($inputValue as $key => $arrayValue) {
+
                 $value[] = $arrayValue;
                 $keyValue[] = $key;
         }
-
-        $return = ' <label for="'.$inputFor.'0" class="nkLabelSpacing '.$labelClass.'">'.$labelContent.'</label>
-                        <div class="nkRadioBox">';
+        $return = ' <'.$typeTag.' class="'.$tagClass.'">'.$tagContent.'</'.$typeTag.'>
+                        <div class="nkRadioBox '.$divClass.'">';
                             $i = 0;
                             for ($i = 0; $i < $numberRadio; $i++) {
-                                $return .= '<input type="radio" class="nkRadioBoxInput '.$inputClass.'" name="'.$inputName.'" value="'.$keyValue[$i].'" id="'.$inputFor.$i.'" checked>
-                                                <label for="'.$inputFor.$i.'" class="nkRadioBoxLabel nkRadioBoxLabel-off nkWidthFull">'.$value[$i].'</label>';                               
+                                $return .= '<input type="radio" class="nkRadioBoxInput" name="'.$inputName.'" value="'.$keyValue[$i].'" id="'.$inputFor.$i.'" checked>
+                                                <label for="'.$inputFor.$i.'" class="nkRadioBoxLabel nkRadioBoxLabel-off '.$labelClass.'">'.$value[$i].'</label>';                               
                             }
         $return .= '        <span class="nkRadioBoxSelection"></span>
                         </div>';

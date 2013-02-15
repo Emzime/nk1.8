@@ -284,24 +284,24 @@
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_downloads` (
                           `id` int(11) NOT NULL auto_increment,
-                          `date` varchar(12) NOT NULL default '',
-                          `taille` varchar(6) NOT NULL default '0',
-                          `titre` text NOT NULL,
-                          `description` text NOT NULL,
-                          `type` int(11) NOT NULL default '0',
+                          `size` varchar(6) NOT NULL default '0',
+                          `title` text NOT NULL,
+                          `content` text NOT NULL,
+                          `category` int(11) NOT NULL default '0',
                           `count` int(10) NOT NULL default '0',
                           `url` varchar(200) NOT NULL default '',
                           `url2` varchar(200) NOT NULL default '',
-                          `broke` int(11) NOT NULL default '0',
                           `url3` varchar(200) NOT NULL default '',
+                          `broke` int(11) NOT NULL default '0',
                           `level` int(1) NOT NULL default '0',
-                          `edit` varchar(12) NOT NULL default '',
-                          `screen` varchar(200) NOT NULL default '',
+                          `created` varchar(12) NOT NULL default '',
+                          `edited` varchar(12) NOT NULL default '',
+                          `urlScreen` varchar(200) NOT NULL default '',
                           `autor` text NOT NULL,
-                          `url_autor` varchar(200) NOT NULL default '',
-                          `comp` text NOT NULL,
+                          `urlAutor` varchar(200) NOT NULL default '',
+                          `compatibility` text NOT NULL,
                           PRIMARY KEY  (`id`),
-                          KEY `type` (`type`)
+                          KEY `type` (`category`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
@@ -310,14 +310,14 @@
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_downloads_cat`";
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_downloads_cat` (
-                          `cid` int(11) NOT NULL auto_increment,
+                          `id` int(11) NOT NULL auto_increment,
                           `parentid` int(11) NOT NULL default '0',
-                          `titre` varchar(50) NOT NULL default '',
-                          `shortDescription` varchar(146) NOT NULL,
-                          `description` text NOT NULL,
+                          `title` varchar(50) NOT NULL default '',
+                          `shortContent` varchar(255) NOT NULL,
+                          `content` text NOT NULL,
                           `level` int(1) NOT NULL default '0',
-                          `position` int(2) unsigned NOT NULL default '0',
-                          PRIMARY KEY  (`cid`),
+                          `order` int(2) unsigned NOT NULL default '0',
+                          PRIMARY KEY  (`id`),
                           KEY `parentid` (`parentid`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());

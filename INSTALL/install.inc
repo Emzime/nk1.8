@@ -358,17 +358,17 @@
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_forums` (
                           `id` int(5) NOT NULL auto_increment,
-                          `cat` int(11) NOT NULL default '0',
-                          `nom` text NOT NULL,
-                          `comment` text NOT NULL,
-                          `moderateurs` text NOT NULL,
-                          `niveau` int(1) NOT NULL default '0',
+                          `category` int(11) NOT NULL default '0',
+                          `name` text NOT NULL,
+                          `content` text NOT NULL,
+                          `moderators` text NOT NULL,
+                          `access` int(1) NOT NULL default '0',
                           `level` int(1) NOT NULL default '0',
-                          `ordre` int(5) NOT NULL default '0',
-                          `level_poll` int(1) NOT NULL default '0',
-                          `level_vote` int(1) NOT NULL default '0',
+                          `placing` int(5) NOT NULL default '0',
+                          `levelPoll` int(1) NOT NULL default '0',
+                          `levelVote` int(1) NOT NULL default '0',
                           PRIMARY KEY  (`id`),
-                          KEY `cat` (`cat`)
+                          KEY `category` (`category`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
@@ -381,9 +381,9 @@
                         $req = mysql_query($sql) or die (mysql_error());                    
                         $sql = "CREATE TABLE `" . $db_prefix . "_forums_cat` (
                           `id` int(11) NOT NULL auto_increment,
-                          `nom` varchar(100) default NULL,
-                          `ordre` int(5) NOT NULL default '0',
-                          `niveau` int(1) NOT NULL default '0',
+                          `name` varchar(100) default NULL,
+                          `placing` int(5) NOT NULL default '0',
+                          `access` int(1) NOT NULL default '0',
                           PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
@@ -397,25 +397,25 @@
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_forums_messages` (
                           `id` int(5) NOT NULL auto_increment,
-                          `titre` text NOT NULL,
-                          `txt` text NOT NULL,
-                          `date` varchar(12) NOT NULL default '',
-                          `edition` text NOT NULL,
-                          `auteur` text NOT NULL,
-                          `auteur_id` varchar(20) NOT NULL default '',
-                          `auteur_ip` varchar(20) NOT NULL default '',
+                          `title` text NOT NULL,
+                          `content` text NOT NULL,
+                          `created` varchar(12) NOT NULL,
+                          `edited` text NOT NULL,
+                          `autor` text NOT NULL,
+                          `autorId` varchar(20) NOT NULL,
+                          `autorIp` varchar(20) NOT NULL,
                           `bbcodeoff` int(1) NOT NULL default '0',
                           `smileyoff` int(1) NOT NULL default '0',
                           `cssoff` int(1) NOT NULL default '0',
-                          `usersig` int(1) NOT NULL default '0',
-                          `emailnotify` int(1) NOT NULL default '0',
-                          `thread_id` int(5) NOT NULL default '0',
-                          `forum_id` mediumint(10) NOT NULL default '0',
-                          `file` varchar(200) NOT NULL default '',
+                          `userSigning` int(1) NOT NULL default '0',
+                          `emailNotify` int(1) NOT NULL default '0',
+                          `threadId` int(5) NOT NULL default '0',
+                          `forumId` mediumint(10) NOT NULL default '0',
+                          `attachment` varchar(200) NOT NULL,
                           PRIMARY KEY  (`id`),
-                          KEY `auteur_id` (`auteur_id`),
-                          KEY `thread_id` (`thread_id`),
-                          KEY `forum_id` (`forum_id`)
+                          KEY `auteurId` (`auteurId`),
+                          KEY `threadId` (`threadId`),
+                          KEY `forumId` (`forumId`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
@@ -425,19 +425,19 @@
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_forums_threads` (
                           `id` int(5) NOT NULL auto_increment,
-                          `titre` text NOT NULL,
-                          `date` varchar(10) default NULL,
+                          `title` text NOT NULL,
+                          `created` varchar(10) default NULL,
                           `closed` int(1) NOT NULL default '0',
-                          `auteur` text NOT NULL,
-                          `auteur_id` varchar(20) NOT NULL default '',
-                          `forum_id` int(5) NOT NULL default '0',
-                          `last_post` varchar(20) NOT NULL default '',
+                          `autor` text NOT NULL,
+                          `autorId` varchar(20) NOT NULL default '',
+                          `forumId` int(5) NOT NULL default '0',
+                          `lastPost` varchar(20) NOT NULL default '',
                           `view` int(10) NOT NULL default '0',
                           `annonce` int(1) NOT NULL default '0',
                           `sondage` int(1) NOT NULL default '0',
                           PRIMARY KEY  (`id`),
-                          KEY `auteur_id` (`auteur_id`),
-                          KEY `forum_id` (`forum_id`)
+                          KEY `auteurId` (`auteurId`),
+                          KEY `forumId` (`forumId`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
@@ -447,10 +447,10 @@
                         $req = mysql_query($sql) or die(mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_forums_rank` (
                           `id` int(10) NOT NULL auto_increment,
-                          `nom` varchar(100) NOT NULL default '',
+                          `name` varchar(100) NOT NULL,
                           `type` int(1) NOT NULL default '0',
-                          `post` int(4) NOT NULL default '0',
-                          `image` varchar(200) NOT NULL default '',
+                          `nbPost` int(4) NOT NULL default '0',
+                          `image` varchar(200) NOT NULL,
                           PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
@@ -470,10 +470,10 @@
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_forums_read`";
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_forums_read` (
-                          `user_id` varchar(20) NOT NULL default '',
-                          `thread_id` text NOT NULL,
-                          `forum_id` text NOT NULL,
-                          PRIMARY KEY  (`user_id`)
+                          `userId` varchar(20) NOT NULL,
+                          `threadId` text NOT NULL,
+                          `forumId` text NOT NULL,
+                          PRIMARY KEY  (`userId`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
@@ -483,10 +483,10 @@
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_forums_poll` (
                           `id` int(11) NOT NULL auto_increment,
-                          `thread_id` int(11) NOT NULL default '0',
-                          `titre` varchar(255) NOT NULL default '',
+                          `threadId` int(11) NOT NULL default '0',
+                          `title` varchar(255) NOT NULL,
                           PRIMARY KEY  (`id`),
-                          KEY `thread_id` (`thread_id`)
+                          KEY `threadId` (`threadId`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
@@ -496,10 +496,10 @@
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_forums_options` (
                           `id` int(11) NOT NULL default '0',
-                          `poll_id` int(11) NOT NULL default '0',
-                          `option_text` varchar(255) NOT NULL default '',
-                          `option_vote` int(11) NOT NULL default '0',
-                          KEY `poll_id` (`poll_id`)
+                          `pollId` int(11) NOT NULL default '0',
+                          `optionText` varchar(255) NOT NULL,
+                          `optionVote` int(11) NOT NULL default '0',
+                          KEY `pollId` (`pollId`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
@@ -508,10 +508,10 @@
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_forums_vote`";
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_forums_vote` (
-                          `poll_id` int(11) NOT NULL default '0',
-                          `auteur_id` varchar(20) NOT NULL default '',
-                          `auteur_ip` varchar(20) NOT NULL default '',
-                          KEY `poll_id` (`poll_id`)
+                          `pollId` int(11) NOT NULL default '0',
+                          `autorId` varchar(20) NOT NULL default '',
+                          `autorIp` varchar(20) NOT NULL default '',
+                          KEY `pollId` (`pollId`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';

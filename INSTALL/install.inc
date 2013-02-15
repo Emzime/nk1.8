@@ -316,7 +316,7 @@
                           `shortContent` varchar(255) NOT NULL,
                           `content` text NOT NULL,
                           `level` int(1) NOT NULL default '0',
-                          `order` int(2) unsigned NOT NULL default '0',
+                          `placing` int(2) unsigned NOT NULL default '0',
                           PRIMARY KEY  (`id`),
                           KEY `parentid` (`parentid`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";

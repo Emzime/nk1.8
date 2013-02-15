@@ -66,13 +66,13 @@
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_calendar` (
                           `id` int(11) NOT NULL auto_increment,
-                          `titre` text NOT NULL,
-                          `description` text NOT NULL,
-                          `date_jour` int(2) default NULL,
-                          `date_mois` int(2) default NULL,
-                          `date_an` int(4) default NULL,
-                          `heure` varchar(5) NOT NULL default '',
-                          `auteur` text NOT NULL,
+                          `title` text NOT NULL,
+                          `content` text NOT NULL,
+                          `created_jour` int(2) default NULL,
+                          `created_mois` int(2) default NULL,
+                          `created_an` int(4) default NULL,
+                          `hour` varchar(5) NOT NULL,
+                          `autor` text NOT NULL,
                           PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());

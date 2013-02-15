@@ -271,9 +271,9 @@
                         $req= mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_discussion` (
                           `id` int(11) NOT NULL auto_increment,
-                          `date` varchar(30) NOT NULL default '0',
+                          `created` varchar(30) NOT NULL,
                           `pseudo`  text NOT NULL,
-                          `texte`  text NOT NULL,
+                          `content`  text NOT NULL,
                           PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());

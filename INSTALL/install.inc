@@ -707,35 +707,35 @@
                         $sql = "CREATE TABLE `" . $db_prefix . "_modules` (
                           `id` int(2) NOT NULL auto_increment,
                           `nom` varchar(50) NOT NULL default '',
-                          `newName` varchar(50) NOT NULL,
+                          `newName` varchar(50) NOT NULL default '',
                           `niveau` int(1) NOT NULL default '0',
                           `admin` int(1) NOT NULL default '0',
                           PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
-                        $sql = "INSERT INTO `" . $db_prefix . "_modules` VALUES (1, 'News', 0, 2),
-                            (2, 'Forum', 0, 2),
-                            (3, 'Wars', 0, 2),
-                            (4, 'Irc', 0, 2),
-                            (5, 'Survey', 0, 3),
-                            (6, 'Links', 0, 3),
-                            (7, 'Sections', 0, 3),
-                            (8, 'Server', 0, 3),
-                            (9, 'Downloads', 0, 3),
-                            (10, 'Gallery', 0, 3),
-                            (11, 'Guestbook', 0, 3),
-                            (12, 'Suggest', 0, 3),
-                            (13, 'Textbox', 0, 9),
-                            (14, 'Calendar', 0, 2),
-                            (15, 'Members', 0, 9),
-                            (16, 'Team', 0, 9),
-                            (17, 'Defy', 0, 3),
-                            (18, 'Recruit', 0, 3),
-                            (19, 'Comment', 0, 9),
-                            (20, 'Vote', 0, 9),
-                            (21, 'Stats', 0, 2),
-                            (22, 'Contact', 0, 3);";
+                        $sql = "INSERT INTO `" . $db_prefix . "_modules` VALUES (1, 'News', '', 0, 2),
+                            (2, 'Forum', '', 0, 2),
+                            (3, 'Wars', '', 0, 2),
+                            (4, 'Irc', '', 0, 2),
+                            (5, 'Survey', '', 0, 3),
+                            (6, 'Links', '', 0, 3),
+                            (7, 'Sections', '', 0, 3),
+                            (8, 'Server', '', 0, 3),
+                            (9, 'Downloads', '', 0, 3),
+                            (10, 'Gallery', '', 0, 3),
+                            (11, 'Guestbook', '', 0, 3),
+                            (12, 'Suggest', '', 0, 3),
+                            (13, 'Textbox', '', 0, 9),
+                            (14, 'Calendar', '', 0, 2),
+                            (15, 'Members', '', 0, 9),
+                            (16, 'Team', '', 0, 9),
+                            (17, 'Defy', '', 0, 3),
+                            (18, 'Recruit', '', 0, 3),
+                            (19, 'Comment', '', 0, 9),
+                            (20, 'Vote', '', 0, 9),
+                            (21, 'Stats', '', 0, 2),
+                            (22, 'Contact', '', 0, 3);";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;

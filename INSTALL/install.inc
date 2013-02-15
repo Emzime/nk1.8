@@ -229,14 +229,14 @@
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_contact` (
                           `id` int(11) NOT NULL auto_increment,
-                          `titre` varchar(200) NOT NULL default '',
+                          `title` varchar(200) NOT NULL,
                           `message` text NOT NULL,
-                          `email` varchar(80) NOT NULL default '',
-                          `nom` varchar(200) NOT NULL default '',
-                          `ip` varchar(50) NOT NULL default '',
-                          `date` varchar(30) NOT NULL default '',
+                          `email` varchar(80) NOT NULL,
+                          `name` varchar(200) NOT NULL,
+                          `ip` varchar(50) NOT NULL,
+                          `created` varchar(30) NOT NULL,
                           PRIMARY KEY  (`id`),
-                          KEY `titre` (`titre`)
+                          KEY `title` (`title`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';

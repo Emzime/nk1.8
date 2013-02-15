@@ -84,15 +84,15 @@
                         $sql = "CREATE TABLE `" . $db_prefix . "_comment` (
                           `id` int(10) NOT NULL auto_increment,
                           `module` varchar(30) NOT NULL default '0',
-                          `im_id` int(100) default NULL,
+                          `itemId` int(100) default NULL,
                           `autor` text,
-                          `autor_id` varchar(20) NOT NULL default '',
-                          `titre` text NOT NULL,
-                          `comment` text,
-                          `date` varchar(12) default NULL,
-                          `autor_ip` varchar(20) default NULL,
+                          `autorId` varchar(20) NOT NULL,
+                          `title` text NOT NULL,
+                          `content` text,
+                          `created` varchar(12) default NULL,
+                          `autorIp` varchar(20) default NULL,
                           PRIMARY KEY  (`id`),
-                          KEY `im_id` (`im_id`)
+                          KEY `im_id` (`itemId`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
@@ -109,13 +109,13 @@
                         $req = mysql_query($sql) or die (mysql_error());                        
                         
                         $sql = "INSERT INTO `" . $db_prefix . "_comment_mod` VALUES
-                            (1, 'news', 1),
-                            (2, 'downloads', 1),
-                            (3, 'links', 1),
-                            (4, 'survey', 1),
-                            (5, 'wars', 1),
-                            (6, 'gallery', 1),
-                            (7, 'sections', 1);";
+                            (1, 'News', 1),
+                            (2, 'Downloads', 1),
+                            (3, 'Links', 1),
+                            (4, 'Survey', 1),
+                            (5, 'Wars', 1),
+                            (6, 'Gallery', 1),
+                            (7, 'Sections', 1);";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;

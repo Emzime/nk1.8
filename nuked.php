@@ -1107,9 +1107,9 @@ function visits() {
     } else {
         // Get month, year, day and hour actual
         $month = strftime( '%m', $time );
-        $year = strftime( '%Y', $time );
-        $day    = strftime( '%d', $time );
-        $hour = strftime( '%H', $time );
+        $year  = strftime( '%Y', $time );
+        $day   = strftime( '%d', $time );
+        $hour  = strftime( '%H', $time );
         
         // Get http referer if exists
         if (isset($_SERVER['HTTP_REFERER'])) {

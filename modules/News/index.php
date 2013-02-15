@@ -9,9 +9,9 @@
 *   @copyright 2001-2013 Nuked Klan 
 */
 defined('INDEX_CHECK') or die ('<div style="text-align: center;">'.CANTOPENPAGE.'</div>');
-global $user, $visiteur;
+global $user, $visiteur, $levelMod;
 $modName = basename(dirname(__FILE__));
-$level_access = nivo_mod($modName);
+
 include_once 'Includes/nkCaptcha.php';
 
 if (NKCAPTCHA == 'off') $captcha = 0;
@@ -24,7 +24,6 @@ else $captcha = 1;
         );
     $GLOBALS['nkFunctions']->nkInitRequest($requestArray);
 
-if ($visiteur >= $level_access && $level_access > -1) {
     compteur('News');
 
     function index(){
@@ -119,9 +118,9 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
     function index_comment($news_id) {
 
-        global $user, $visiteur, $nuked;
+        global $user, $visiteur, $nuked, $adminMod;
 
-        if( $visiteur >= admin_mod("News")){
+        if( $visiteur >= $adminMod){
             echo '<script type="text/javascript">function delnews(id){if(confirm(\''.DELTHISNEWS.' ?\')){document.location.href = \'index.php?file=News&page=admin&op=do_del&news_id=\'+id;}}</script>
                   <div style="text-align:right;">
                     <a href="index.php?file=News&amp;page=admin&amp;op=edit&amp;news_id='.$news_id.'">
@@ -145,7 +144,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
     function suite($news_id) {
         global $user, $visiteur, $nuked;
 
-        if ($visiteur >= admin_mod("News")) {
+        if ($visiteur >= $adminMod) {
             echo '<script type="text/javascript">function delnews(id){if(confirm(\''.DELTHISNEWS.' ?\')){document.location.href = \'index.php?file=News&page=admin&op=do_del&news_id=\'+id;}}</script>
                   <div style="text-align:right;">
                     <a href="index.php?file=News&amp;page=admin&amp;op=edit&amp;news_id='.$news_id.'">
@@ -245,7 +244,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         $_REQUEST['file'] .= '.pdf';
         
         $pdf = new HTML2PDF('P','A4','fr');
-	$pdf->setDefaultFont('dejavusans');
+    $pdf->setDefaultFont('dejavusans');
         $pdf->WriteHTML(utf8_encode($texte));
         $pdf->Output($_REQUEST['file']);
     }
@@ -349,17 +348,4 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
     }
 
-} else if ($level_access == -1) {
-
-    echo $GLOBALS['nkTpl']->nkModuleOff();
-
-} else if ($level_access == 1 && $visiteur == 0) {
-
-    echo $GLOBALS['nkTpl']->nkNoLogged('|');
-
-} else {
-
-    echo $GLOBALS['nkTpl']->nkBadLevel();
-
-}
 ?>

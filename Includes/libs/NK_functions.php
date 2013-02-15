@@ -396,7 +396,7 @@ class NK_functions {
     /**
      * infoBlocks display block
      */
-    public function infoBlocks() {
+    function infoBlocks() {
 
         $dbsActiveBlock = ' SELECT bid, active, position, module, titre, content, type, nivo, page 
                             FROM '.BLOCK_TABLE.' 
@@ -426,6 +426,48 @@ class NK_functions {
             }
         }
         return $infos;
+    }
+
+    /**
+     * infoModules return all information on modules
+     * @return array array of all informations
+     */
+    function infoModules() {
+        $dbsActiveModule = 'SELECT id, nom, newName, niveau, admin 
+                            FROM '. MODULES_TABLE;
+        $dbeActiveModule = mysql_query($dbsActiveModule)or die(mysql_error());
+        while($row = mysql_fetch_assoc($dbeActiveModule)) {
+            $moduleArray[$row['nom']] = array(
+                    'id'      => $row['id'],
+                    'name'    => $row['nom'],
+                    'newName' => $row['newName'],
+                    'level'   => $row['niveau'],
+                    'admin'   => $row['admin']
+                );
+        }
+        return $moduleArray;
+    }
+
+    /**
+     * nkSeeModule list module actived
+     * @param  array $blackListMods list blacklisted module
+     * @return mixed option for select list module where module doesn't blacklisted
+     */
+    public function nkSeeModule($blackListMods) {
+        $activMods = activatedModules($blackListMods);
+        $return = '';
+        foreach ($activMods as $key => $value) {
+            $nameModule = strtoupper($key);
+            $nameModule = constant($nameModule);
+
+            if (!empty($value['newName']) && @constant($value['newName'])) {
+                $nameModule = constant($value['newName']);
+            } elseif (!empty($value['newName'])) {
+                $nameModule = $value['newName'];
+            }
+            $return .= '<option value="'.$key.'">'.$nameModule.'</option>';
+        }
+        return $return;
     }
 }
 ?>

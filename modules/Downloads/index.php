@@ -8,8 +8,8 @@
 *   @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *   @copyright 2001-2013 Nuked Klan 
 */
-defined('INDEX_CHECK') or die ('<div style="text-align: center;">'.CANTOPENPAGE.'</div>');
-global $user, $visiteur;
+defined('INDEX_CHECK') or die ('<div class="nkAlignCenter">'.CANTOPENPAGE.'</div>');
+global $user, $visiteur, $levelMod;
 $modName = basename(dirname(__FILE__));
 
 // Veridication du chargement du fichier langue
@@ -67,12 +67,12 @@ if($langTest == true) {
             // Requete pour statistique en bas de page
             $dbsFile = 'SELECT count( id ), 
                             (
-                                SELECT count( cid )
+                                SELECT count( id )
                                 FROM '.DOWNLOADS_CAT_TABLE.'
                                 WHERE parentid !=0
                             ) AS subcat, 
                             (
-                                SELECT count( cid )
+                                SELECT count( id )
                                 FROM '.DOWNLOADS_CAT_TABLE.'
                                 WHERE parentid =0
                             ) AS cat
@@ -83,9 +83,9 @@ if($langTest == true) {
             // Affichage si clic sur les blocks 
             if ($requestedId) {
 
-                $dbsRequestFile = ' SELECT D.titre, D.description, D.taille, D.type, D.count, D.date, D.url, D.screen, D.level, D.edit, D.autor, D.url_autor, D.comp, C.titre, avg( V.vote ) AS note
+                $dbsRequestFile = ' SELECT D.title, D.content, D.size, D.category, D.count, D.created, D.url, D.urlScreen, D.level, D.edited, D.autor, D.urlAutor, D.compatibility, C.title, avg( V.vote ) AS note
                                     FROM '.DOWNLOADS_TABLE.' AS D
-                                    LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS C ON C.cid = D.type
+                                    LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS C ON C.id = D.category
                                     LEFT JOIN '.VOTE_TABLE.' AS V ON D.id = V.vid AND V.module = \''.$modName.'\'
                                     WHERE D.id = '.$requestedId;
                 $dbeRequestFile = mysql_query($dbsRequestFile);
@@ -278,19 +278,19 @@ if($langTest == true) {
 
                 // Requete pour les fichiers 
                 if ($cat) {
-                    $whereFileCat = 'WHERE type="'.$cat.'"';
-                    $whereCat = 'WHERE cid="'.$cat.'"';
+                    $whereFileCat = 'WHERE category="'.$cat.'"';
+                    $whereCat = 'WHERE id="'.$cat.'"';
                 } elseif ($orderby) {
                     $whereFileCat = '';            
                 } else {
-                    $whereFileCat = 'WHERE type=0';
-                    $whereCat = 'WHERE cid=0';
+                    $whereFileCat = 'WHERE category=0';
+                    $whereCat = 'WHERE id=0';
                     $cat = 0;
                 }
 
                 // Requete sur orderbycat 
                 if ($orderbycat == 'name') {
-                    $order = 'ORDER BY D.titre';
+                    $order = 'ORDER BY D.title';
                     $orderCatSelect = NAME;  
                 } elseif ($orderbycat == 'count') {
                     $order = 'ORDER BY D.count DESC';
@@ -299,7 +299,7 @@ if($langTest == true) {
                     $order = 'ORDER BY note DESC';  
                     $orderCatSelect = NOTE;  
                 } elseif (!$orderbycat || $orderbycat == 'news') {
-                    $order = 'ORDER BY D.date DESC';
+                    $order = 'ORDER BY D.created DESC';
                     $orderCatSelect = DATE;
                 }
 
@@ -308,7 +308,7 @@ if($langTest == true) {
                     $order = 'ORDER BY D.count DESC'; 
                     $orderSelect = POPULAR;  
                 } elseif ($orderby == 'newse') {
-                    $order = 'ORDER BY D.date DESC LIMIT '.$modulePref['nbFileNew'];   
+                    $order = 'ORDER BY D.created DESC LIMIT '.$modulePref['nbFileNew'];   
                     $orderSelect = NEWSFILE;  
                 } elseif (!$orderby) {
                     $orderSelect = INDEX;  
@@ -317,23 +317,23 @@ if($langTest == true) {
                 // Affichage si orderby n'est pas present dans le lien 
                 if (!$orderby) {
                     // Requete pour la nav des catégories 
-                    $sqlCat = ' SELECT a.cid, a.titre AS Cat, a.shortDescription,                
-                                GROUP_CONCAT(b.cid SEPARATOR "|") AS subCatId, 
-                                GROUP_CONCAT(b.titre SEPARATOR "|") AS subCatTitle
+                    $sqlCat = ' SELECT a.id, a.title AS Cat, a.shortContent,                
+                                GROUP_CONCAT(b.id SEPARATOR "|") AS subCatId, 
+                                GROUP_CONCAT(b.title SEPARATOR "|") AS subCatTitle
                                 FROM '.DOWNLOADS_CAT_TABLE.' AS a
-                                LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS b ON a.cid = b.parentid
+                                LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS b ON a.id = b.parentid
                                 WHERE a.parentid = 0 
                                 GROUP BY Cat';
                     $sqlCatExecute = mysql_query($sqlCat);
                     $nbCat = mysql_num_rows($sqlCatExecute);
 
                     // Requete pour les informations de catégories 
-                    $sqlCatDesc = ' SELECT a.description,
-                                    GROUP_CONCAT(b.cid SEPARATOR "|") AS subCatId
+                    $sqlCatDesc = ' SELECT a.content,
+                                    GROUP_CONCAT(b.id SEPARATOR "|") AS subCatId
                                     FROM '.DOWNLOADS_CAT_TABLE.' AS a
-                                    LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS b ON a.cid = b.parentid
-                                    WHERE a.cid = '.$cat.'
-                                    GROUP BY a.cid';
+                                    LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS b ON a.id = b.parentid
+                                    WHERE a.id = '.$cat.'
+                                    GROUP BY a.id';
                     $sqlCatDescExecute = mysql_query($sqlCatDesc);
                     list($catDesc, $catChildId) = mysql_fetch_array($sqlCatDescExecute);
 
@@ -344,7 +344,7 @@ if($langTest == true) {
                             // Comptage des fichiers pour la catégorie appelée 
                             $dbsSqlFile = ' SELECT id 
                                             FROM '.DOWNLOADS_TABLE.' 
-                                            WHERE type = '.$catId;
+                                            WHERE category = '.$catId;
                             $dbeSqlFile = mysql_query($dbsSqlFile);
                             $dbcNbFile  = mysql_num_rows($dbeSqlFile);
 
@@ -369,7 +369,7 @@ if($langTest == true) {
                              
                                     $dbsSqlNbFileSubCat = ' SELECT id 
                                                             FROM '.DOWNLOADS_TABLE.' 
-                                                            WHERE type = '.$keyId;
+                                                            WHERE category = '.$keyId;
                                     $dbeSqlNbFileSubCat = mysql_query($dbsSqlNbFileSubCat);
                                     $dbcNbFileSub       = mysql_num_rows($dbeSqlNbFileSubCat);
 
@@ -407,14 +407,14 @@ if($langTest == true) {
                                         $sqlViewCat .= '<ul class="nkAlignCenter">';
                                         foreach ($mergeSubCat as $keyId => $valueTitle) {
                                             // Selection des sous catégories + affichage du nombre de fichiers dans celle-ci
-                                            $dbsSqlSubCatDesc = 'SELECT dct.shortDescription, 
+                                            $dbsSqlSubCatDesc = 'SELECT dct.shortContent, 
                                                                     (
                                                                         SELECT count( id )
                                                                         FROM '.DOWNLOADS_TABLE.'
-                                                                        WHERE TYPE = dct.cid
+                                                                        WHERE category = dct.id
                                                                     ) AS countFile
                                                                 FROM '.DOWNLOADS_CAT_TABLE.' AS dct
-                                                                WHERE cid = '.$keyId;
+                                                                WHERE id = '.$keyId;
                                             $dbeSqlSubCatDesc = mysql_query($dbsSqlSubCatDesc);
                                             list($subCatDesc, $dbcNbFileSub) = mysql_fetch_array($dbeSqlSubCatDesc);
 
@@ -438,10 +438,10 @@ if($langTest == true) {
 
                 // Recupération de la catégorie et sous catégorie pour le breadcrumb 
                 if ($cat != 0) {
-                    $dbsBreadCrumb = '  SELECT cat.cid, cat.titre AS Cat, subcat.cid AS subId,subcat.titre AS subCat
+                    $dbsBreadCrumb = '  SELECT cat.id, cat.title AS Cat, subcat.id AS subId,subcat.title AS subCat
                                         FROM '.DOWNLOADS_CAT_TABLE.' AS cat
-                                        LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS subcat ON subcat.cid = cat.parentid
-                                        WHERE cat.cid = '.$cat;
+                                        LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS subcat ON subcat.id = cat.parentid
+                                        WHERE cat.id = '.$cat;
                     $dbeBreadCrumb = mysql_query($dbsBreadCrumb);
                     list($idCat, $nameCat, $parentId, $parentName) = mysql_fetch_array($dbeBreadCrumb);
 
@@ -465,10 +465,10 @@ if($langTest == true) {
                 $menuAffView = $GLOBALS['nkFunctions']->nkMenu($modName, $arrayMenu, $orderSelect, 'nkAlignCenter nkMarginBottom', null, 'nkInline', 'active', '[', ']', '|');
 
                 //Requete d'affichage des fichiers selon la catégorie 
-                $dbsRequestFile = ' SELECT D.id, D.titre, D.description, D.taille, D.type, D.count, D.date, D.url, D.screen, D.level, D.edit, D.autor, D.url_autor, D.comp, C.titre, avg( V.vote ) AS note
+                $dbsRequestFile = ' SELECT D.id, D.title, D.content, D.size, D.category, D.count, D.created, D.url, D.urlScreen, D.level, D.edited, D.autor, D.urlAutor, D.compatibility, C.title, avg( V.vote ) AS note
                                     FROM '.DOWNLOADS_TABLE.' AS D
-                                    LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS C ON C.cid = D.type
-                                    LEFT JOIN '.VOTE_TABLE.' AS V ON D.id = V.vid AND V.module = \''.$modName.'\'
+                                    LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS C ON C.id = D.category
+                                    LEFT JOIN '.VOTE_TABLE.' AS V ON D.id = V.vid AND V.module = "'.$modName.'"
                                     '.$whereFileCat.' 
                                     GROUP BY D.id '.$order;
                 $dbeRequestFile = mysql_query($dbsRequestFile);

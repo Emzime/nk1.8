@@ -46,7 +46,6 @@ define('TEXTBOX','Tribune libre');
 define('VOTE','Vote');
 define('WARS','Matches');
 
-
 /**** Index.php */
 define('SITECLOSED','Ce site est actuellement fermé et accessible uniquement aux administrateurs.<br />En cas de déconnexion, veuillez vous identifiez.');
 define('TOLOG', 'S\'identifier');
@@ -146,12 +145,15 @@ define('CANTOPENBLOCK','Le block est introuvable');
 define('BY','Par');
 define('THE','le');
 define('AT','à');
+define('AUTHOR','Auteur');
 
 define('TOVOTE','Voter');
 define('RESULT','Résultat');
 define('OTHERPOLL','Autres sondages');
 
 define('BTHEMESELECT', 'Choix du thème');
-
 define('ERROROPENRSS', 'Echec lors de l\'ouverture du fichier');
+
+define('MEMBERREG','enregistré le');
+define('ADDED','ajouté le');
 ?>

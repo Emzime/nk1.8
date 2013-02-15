@@ -8,7 +8,7 @@
 *   @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *   @copyright 2001-2013 Nuked Klan 
 */
-defined('INDEX_CHECK') or die ('<div style="text-align: center;">'.CANTOPENPAGE.'</div>');
+defined('INDEX_CHECK') or die ('<div class="nkAlignCenter">'.CANTOPENPAGE.'</div>');
 global $user, $visiteur, $blockSide;
 $modName = basename(dirname(__FILE__));
 
@@ -18,8 +18,7 @@ $arrayanswer = array(
     'matchexact' => MATCHEXACT.'<br />',
     'matchor' => MATCHOR
 );                        
-                                 //$typeTag, $tagContent, $numberRadio, $inputName, $inputValue, $inputFor=null, $tagClass=null, $divClass=null, $labelClass=null
-$keyword = $GLOBALS['nkFunctions']->nkRadioBox('label', TYPEOFSEARCH, '3', 'searchtype', $arrayanswer, 'searchtype',  'nkLabelSpacing nkWidthQuarter nkMarginLRAuto nkValignTop');
+$keyword = $GLOBALS['nkFunctions']->nkRadioBox('label', TYPEOFSEARCH, '3', 'searchtype', $arrayanswer, 'searchtype', 'nkWidthQuarter nkValignTop nkInlineBlock', null, 'nkBlock');
 
 // Nombre de reponse a retrouner
 $arrayanswers = array(

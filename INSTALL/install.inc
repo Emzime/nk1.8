@@ -939,15 +939,15 @@
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
-        case'sondage':
-                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_sondage`";
+        case'survey':
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_survey`";
                         $req = mysql_query($sql) or die (mysql_error());
-                        $sql = "CREATE TABLE `" . $db_prefix . "_sondage` (
-                            `sid` int(11) NOT NULL auto_increment,
-                            `titre` varchar(100) NOT NULL default '',
-                            `date` varchar(15) NOT NULL default '0',
-                            `niveau` int(1) NOT NULL default '0',
-                            PRIMARY KEY  (`sid`)
+                        $sql = "CREATE TABLE `" . $db_prefix . "_survey` (
+                            `id` int(11) NOT NULL auto_increment,
+                            `title` varchar(100) NOT NULL,
+                            `created` varchar(15) NOT NULL default '0',
+                            `level` int(1) NOT NULL default '0',
+                            PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
@@ -956,28 +956,28 @@
                         $req = mysql_query($sql);
                         echo 'OK';
         break;
-        case'sondage_check':
-                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_sondage_check`";
+        case'survey_check':
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_survey_check`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE `" . $db_prefix . "_sondage_check` (
-                          `ip` varchar(20) NOT NULL default '',
-                          `pseudo` varchar(50) NOT NULL default '',
-                          `heurelimite` int(14) NOT NULL default '0',
-                          `sid` varchar(30) NOT NULL default '',
-                          KEY `sid` (`sid`)
+                        $sql = "CREATE TABLE `" . $db_prefix . "_survey_check` (
+                          `ip` varchar(20) NOT NULL,
+                          `pseudo` varchar(50) NOT NULL,
+                          `deadline` int(14) NOT NULL,
+                          `id` varchar(30) NOT NULL,
+                          KEY `id` (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
-        case'sondage_data':
-                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_sondage_data`";
+        case'survey_data':
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_survey_data`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE `" . $db_prefix . "_sondage_data` (
-                          `sid` int(11) NOT NULL default '0',
-                          `optionText` char(50) NOT NULL default '',
+                        $sql = "CREATE TABLE `" . $db_prefix . "_survey_data` (
+                          `id` int(11) NOT NULL default '0',
+                          `optionText` char(50) NOT NULL,
                           `optionCount` int(11) NOT NULL default '0',
                           `voteID` int(11) NOT NULL default '0',
-                          KEY `sid` (`sid`)
+                          KEY `id` (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
@@ -993,10 +993,10 @@
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_stats`";
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql="CREATE TABLE `" . $db_prefix . "_stats` (
-                          `nom` varchar(50) NOT NULL default '',
-                          `type` varchar(50) NOT NULL default '',
+                          `name` varchar(50) NOT NULL,
+                          `type` varchar(50) NOT NULL,
                           `count` int(11) NOT NULL default '0',
-                          PRIMARY KEY  (`nom`,`type`)
+                          PRIMARY KEY  (`name`,`type`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
@@ -1026,19 +1026,19 @@
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_stats_visitor` (
                             `id` int(11) NOT NULL auto_increment,
-                            `user_id` varchar(20) NOT NULL default '',
-                            `ip` varchar(15) NOT NULL default '',
-                            `host` varchar(100) NOT NULL default '',
-                            `browser` varchar(50) NOT NULL default '',
-                            `os` varchar(50) NOT NULL default '',
-                            `referer` varchar(200) NOT NULL default '',
+                            `userId` varchar(20) NOT NULL,
+                            `ip` varchar(15) NOT NULL,
+                            `host` varchar(100) NOT NULL,
+                            `browser` varchar(50) NOT NULL,
+                            `os` varchar(50) NOT NULL,
+                            `referer` varchar(200) NOT NULL,
                             `day` int(2) NOT NULL default '0',
                             `month` int(2) NOT NULL default '0',
                             `year` int(4) NOT NULL default '0',
                             `hour` int(2) NOT NULL default '0',
-                            `date` varchar(30) NOT NULL default '',
+                            `created` varchar(30) NOT NULL,
                             PRIMARY KEY  (`id`),
-                            KEY `user_id` (`user_id`),
+                            KEY `userId` (`userId`),
                             KEY `host` (`host`),
                             KEY `browser` (`browser`),
                             KEY `os` (`os`),
@@ -1053,11 +1053,11 @@
                         $sql = "CREATE TABLE `" . $db_prefix . "_suggest` (
                           `id` int(11) NOT NULL auto_increment,
                           `module` mediumtext NOT NULL,
-                          `user_id` varchar(20) NOT NULL default '',
+                          `userId` varchar(20) NOT NULL,
                           `proposition` longtext NOT NULL,
-                          `date` varchar(14) NOT NULL default '',
+                          `created` varchar(14) NOT NULL,
                           PRIMARY KEY  (`id`),
-                          KEY `user_id` (`user_id`)
+                          KEY `userId` (`userId`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
@@ -1067,10 +1067,10 @@
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_shoutbox` (
                           `id` int(11) NOT NULL auto_increment,
-                          `auteur` text,
-                          `ip` varchar(20) NOT NULL default '',
-                          `texte` text,
-                          `date` varchar(30) NOT NULL default '',
+                          `autor` text,
+                          `ip` varchar(20) NOT NULL,
+                          `content` text,
+                          `created` varchar(30) NOT NULL,
                           PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
@@ -1080,13 +1080,13 @@
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_team`";
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_team` (
-                          `cid` int(11) NOT NULL auto_increment,
-                          `titre` varchar(50) NOT NULL default '',
-                          `tag` text NOT NULL,
-                          `tag2` text NOT NULL,
-                          `ordre` int(5) NOT NULL default '0',
+                          `id` int(11) NOT NULL auto_increment,
+                          `title` varchar(50) NOT NULL,
+                          `firstTag` text NOT NULL,
+                          `secondTag` text NOT NULL,
+                          `placing` int(5) NOT NULL default '0',
                           `game` int(11) NOT NULL default '0',
-                          PRIMARY KEY  (`cid`)
+                          PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
@@ -1096,8 +1096,8 @@
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_team_rank` (
                           `id` int(11) NOT NULL auto_increment,
-                          `titre` varchar(80) NOT NULL default '',
-                          `ordre` int(5) NOT NULL default '0',
+                          `title` varchar(80) NOT NULL,
+                          `placing` int(5) NOT NULL default '0',
                           PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
@@ -1119,16 +1119,16 @@
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_userbox`";
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_userbox` (
-                          `mid` int(50) NOT NULL auto_increment,
-                          `user_from` varchar(30) NOT NULL default '',
-                          `user_for` varchar(30) NOT NULL default '',
-                          `titre` varchar(50) NOT NULL default '',
-                          `message` text NOT NULL,
-                          `date` varchar(30) NOT NULL default '',
+                          `id` int(50) NOT NULL auto_increment,
+                          `userFrom` varchar(30) NOT NULL,
+                          `userFor` varchar(30) NOT NULL,
+                          `title` varchar(50) NOT NULL,
+                          `content` text NOT NULL,
+                          `created` varchar(30) NOT NULL,
                           `status` int(1) NOT NULL default '0',
-                          PRIMARY KEY  (`mid`),
-                          KEY `user_from` (`user_from`),
-                          KEY `user_for` (`user_for`)
+                          PRIMARY KEY  (`id`),
+                          KEY `userFrom` (`userFrom`),
+                          KEY `userFor` (`userFor`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
@@ -1137,38 +1137,38 @@
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_users`";
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_users` (
-                          `id` varchar(20) NOT NULL default '',
-                          `team` varchar(80) NOT NULL default '',
-                          `team2` varchar(80) NOT NULL default '',
-                          `team3` varchar(80) NOT NULL default '',
-                          `rang` int(11) NOT NULL default '0',
-                          `ordre` int(5) NOT NULL default '0',
+                          `id` varchar(20) NOT NULL,
+                          `teamOne` varchar(80) NOT NULL,
+                          `teamTwo` varchar(80) NOT NULL,
+                          `teamThree` varchar(80) NOT NULL,
+                          `rank` int(11) NOT NULL default '0',
+                          `placing` int(5) NOT NULL default '0',
                           `pseudo` text NOT NULL,
-                          `mail` varchar(80) NOT NULL default '',
-                          `email` varchar(80) NOT NULL default '',
-                          `icq` varchar(50) NOT NULL default '',
-                          `msn` varchar(80) NOT NULL default '',
-                          `aim` varchar(50) NOT NULL default '',
-                          `yim` varchar(50) NOT NULL default '',
-                          `url` varchar(150) NOT NULL default '',
-                          `pass` varchar(80) NOT NULL default '',
-                          `niveau` int(1) NOT NULL default '0',
-                          `date` varchar(30) NOT NULL default '',
-                          `avatar` varchar(100) NOT NULL default '',
-                          `signature` text NOT NULL,
-                          `user_theme` varchar(30) NOT NULL default '',
-                          `user_langue` varchar(30) NOT NULL default '',
+                          `mail` varchar(80) NOT NULL,
+                          `email` varchar(80) NOT NULL,
+                          `icq` varchar(50) NOT NULL,
+                          `msn` varchar(80) NOT NULL,
+                          `aim` varchar(50) NOT NULL,
+                          `yim` varchar(50) NOT NULL,
+                          `url` varchar(150) NOT NULL,
+                          `pass` varchar(80) NOT NULL,
+                          `level` int(1) NOT NULL default '0',
+                          `created` varchar(30) NOT NULL,
+                          `avatar` varchar(100) NOT NULL,
+                          `signing` text NOT NULL,
+                          `userTheme` varchar(30) NOT NULL,
+                          `userLanguage` varchar(30) NOT NULL,
                           `game` int(11) NOT NULL default '0',
-                          `country` varchar(50) NOT NULL default '',
+                          `country` varchar(50) NOT NULL,
                           `count` int(10) NOT NULL default '0',
-                          `erreur` INT(10) NOT NULL default '0',
+                          `error` INT(10) NOT NULL default '0',
                           `token` varchar(13)  DEFAULT NULL,
-                          `token_time` varchar(10) NOT NULL DEFAULT '0',
+                          `tokenTime` varchar(10) NOT NULL DEFAULT '0',
                           PRIMARY KEY  (`id`),
-                          KEY `team` (`team`),
-                          KEY `team2` (`team2`),
-                          KEY `team3` (`team3`),
-                          KEY `rang` (`rang`),
+                          KEY `team` (`teamOne`),
+                          KEY `team2` (`teamTwo`),
+                          KEY `team3` (`teamThree`),
+                          KEY `rank` (`rank`),
                           KEY `game` (`game`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
@@ -1178,29 +1178,29 @@
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_users_detail`";
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_users_detail` (
-                          `user_id` varchar(20) NOT NULL default '0',
-                          `prenom` text,
-                          `age` varchar(10) NOT NULL default '',
-                          `sexe` varchar(20) NOT NULL default '',
-                          `ville` text,
-                          `photo` varchar(150) NOT NULL default '',
-                          `motherboard` text,
+                          `userId` varchar(20) NOT NULL default '0',
+                          `firstName` text,
+                          `age` varchar(10) default NULL,
+                          `sex` varchar(20) default NULL,
+                          `city` text default NULL,
+                          `picture` varchar(150) default NULL,
+                          `motherboard` text default NULL,
                           `cpu` varchar(50) default NULL,
-                          `ram` varchar(10) NOT NULL default '',
-                          `video` text,
-                          `resolution` text,
-                          `son` text,
-                          `ecran` text,
-                          `souris` text,
-                          `clavier` text,
-                          `connexion` text,
-                          `system` text,
-                          `pref_1` text NOT NULL,
-                          `pref_2` text NOT NULL,
-                          `pref_3` text NOT NULL,
-                          `pref_4` text NOT NULL,
-                          `pref_5` text NOT NULL,
-                          PRIMARY KEY  (`user_id`)
+                          `ram` varchar(10) default NULL,
+                          `video` text default NULL,
+                          `resolution` text default NULL,
+                          `sound` text default NULL,
+                          `screen` text default NULL,
+                          `mouse` text default NULL,
+                          `keyboard` text default NULL,
+                          `connection` text default NULL,
+                          `system` text default NULL,
+                          `prefOne` text default NULL,
+                          `prefTwo` text default NULL,
+                          `prefThree` text default NULL,
+                          `prefFour` text default NULL,
+                          `prefFive` text default NULL,
+                          PRIMARY KEY  (`userId`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
@@ -1232,13 +1232,13 @@
                           $req = mysql_query($sql) or die (mysql_error());
 
                           $sql = "INSERT INTO `" . $db_prefix . "_vote_mod` VALUES
-                                (1, 'news', 1),
-                                (2, 'downloads', 1),
-                                (3, 'links', 1),
-                                (4, 'survey', 1),
-                                (5, 'wars', 1),
-                                (6, 'gallery', 1),
-                                (7, 'sections', 1);";
+                                (1, 'News', 1),
+                                (2, 'Downloads', 1),
+                                (3, 'Links', 1),
+                                (4, 'Survey', 1),
+                                (5, 'Wars', 1),
+                                (6, 'Gallery', 1),
+                                (7, 'Sections', 1);";
                           $req = mysql_query($sql) or die (mysql_error());
                           echo 'OK';
         break;

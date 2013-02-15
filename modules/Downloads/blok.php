@@ -8,7 +8,7 @@
 *   @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *   @copyright 2001-2013 Nuked Klan 
 */
-defined('INDEX_CHECK') or die ('<div style="text-align: center;">'.CANTOPENPAGE.'</div>');
+defined('INDEX_CHECK') or die ('<div class="nkAlignCenter">'.CANTOPENPAGE.'</div>');
 global $language, $user, $visiteur, $blockSide;
 $modName = basename(dirname(__FILE__));
 
@@ -21,12 +21,12 @@ if($langTest == true) {
     $modulePref = $GLOBALS['nkFunctions']->nkModsPrefs('Downloads');
 
     // Recherche des informations sur les fichiers
-    $dbsLastBlock = '   SELECT dt.id, dt.titre, dt.date, dt.type, dt.description, dct.titre, dct.parentid, dct2.titre 
+    $dbsLastBlock = '   SELECT dt.id, dt.title, dt.created, dt.category, dt.content, dct.title, dct.parentid, dct2.title 
                         FROM '.DOWNLOADS_TABLE.' AS dt 
-                        LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS dct ON dt.type = dct.cid 
-                        LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS dct2 ON dct.parentid = dct2.cid 
+                        LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS dct ON dt.category = dct.id 
+                        LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS dct2 ON dct.parentid = dct2.id 
                         WHERE '.$visiteur.' >= dt.level 
-                        ORDER BY dt.date 
+                        ORDER BY dt.created 
                         DESC LIMIT 0, 10';
     $dbeLastBlock = mysql_query($dbsLastBlock);
 
@@ -92,10 +92,10 @@ if($langTest == true) {
                         <ol class="downloadsOl nkInlineBlock">
                             <?php
                             // Recherche des informations de catégories
-                            $dbsTopBlock = 'SELECT dt.id, dt.titre, dt.date, dt.type, dt.description, dct.titre, dct.parentid, dct2.titre 
+                            $dbsTopBlock = 'SELECT dt.id, dt.title, dt.created, dt.category, dt.content, dct.title, dct.parentid, dct2.title 
                                             FROM '.DOWNLOADS_TABLE.' AS dt 
-                                            LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS dct ON dt.type = dct.cid 
-                                            LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS dct2 ON dct.parentid = dct2.cid 
+                                            LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS dct ON dt.type = dct.id 
+                                            LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS dct2 ON dct.parentid = dct2.id 
                                             WHERE '.$visiteur.' >= dt.level 
                                             ORDER BY dt.count 
                                             DESC LIMIT 0, 10';

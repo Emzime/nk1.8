@@ -1211,7 +1211,7 @@
                         $sql="CREATE TABLE `" . $db_prefix . "_vote` (
                           `id` int(11) NOT NULL auto_increment,
                           `module` varchar(30) NOT NULL default '0',
-                          `vid` int(100) default NULL,
+                          `itemId` int(100) default NULL,
                           `ip` varchar(20) NOT NULL default '',
                           `vote` int(2) default NULL,
                           PRIMARY KEY  (`id`),

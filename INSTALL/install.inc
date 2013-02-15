@@ -36,7 +36,7 @@
                           `id` int(10) NOT NULL auto_increment,
                           `side` int(1) NOT NULL default '0',
                           `placing` int(2) NOT NULL default '0',
-                          `module` varchar(100) NOT NULL default '',
+                          `module` varchar(100) NOT NULL,
                           `title` text NOT NULL,
                           `content` text NOT NULL,
                           `type` varchar(30) NOT NULL default '0',
@@ -68,9 +68,9 @@
                           `id` int(11) NOT NULL auto_increment,
                           `title` text NOT NULL,
                           `content` text NOT NULL,
-                          `created_jour` int(2) default NULL,
-                          `created_mois` int(2) default NULL,
-                          `created_an` int(4) default NULL,
+                          `createdDay` int(2) default NULL,
+                          `createdMonth` int(2) default NULL,
+                          `createdYear` int(4) default NULL,
                           `hour` varchar(5) NOT NULL,
                           `autor` text NOT NULL,
                           PRIMARY KEY  (`id`)
@@ -92,7 +92,7 @@
                           `created` varchar(12) default NULL,
                           `autorIp` varchar(20) default NULL,
                           PRIMARY KEY  (`id`),
-                          KEY `im_id` (`itemId`)
+                          KEY `itemId` (`itemId`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
@@ -241,7 +241,7 @@
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
-        case'defie':
+        case'defy':
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_defy`";
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_defy` (
@@ -520,18 +520,18 @@
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_gallery`";
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_gallery` (
-                          `sid` int(11) NOT NULL auto_increment,
-                          `titre` text NOT NULL,
-                          `description` text NOT NULL,
-                          `url` varchar(200) NOT NULL default '',
-                          `url2` varchar(200) NOT NULL default '',
-                          `url_file` varchar(200) NOT NULL default '',
-                          `cat` int(11) NOT NULL default '0',
-                          `date` varchar(12) NOT NULL default '',
+                          `id` int(11) NOT NULL auto_increment,
+                          `title` text NOT NULL,
+                          `content` text NOT NULL,
+                          `url` varchar(200) NOT NULL,
+                          `url2` varchar(200) NOT NULL,
+                          `urlFile` varchar(200) NOT NULL,
+                          `category` int(11) NOT NULL default '0',
+                          `created` varchar(12) NOT NULL,
                           `count` int(10) NOT NULL default '0',
                           `autor` text NOT NULL,
-                          PRIMARY KEY  (`sid`),
-                          KEY `cat` (`cat`)
+                          PRIMARY KEY  (`id`),
+                          KEY `category` (`category`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
@@ -540,12 +540,12 @@
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_gallery_cat`";
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_gallery_cat` (
-                          `cid` int(11) NOT NULL auto_increment,
+                          `id` int(11) NOT NULL auto_increment,
                           `parentid` int(11) NOT NULL default '0',
-                          `titre` varchar(50) NOT NULL default '',
-                          `description` text NOT NULL,
-                          `position` int(2) unsigned NOT NULL default '0',
-                          PRIMARY KEY  (`cid`),
+                          `title` varchar(50) NOT NULL,
+                          `content` text NOT NULL,
+                          `placing` int(2) unsigned NOT NULL default '0',
+                          PRIMARY KEY  (`id`),
                           KEY `parentid` (`parentid`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
@@ -556,14 +556,14 @@
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_games` (
                           `id` int(11) NOT NULL auto_increment,
-                          `name` varchar(50) NOT NULL default '',
-                          `titre` varchar(50) NOT NULL default '',
-                          `icon` varchar(150) NOT NULL default '',
-                          `pref_1` varchar(50) NOT NULL default '',
-                          `pref_2` varchar(50) NOT NULL default '',
-                          `pref_3` varchar(50) NOT NULL default '',
-                          `pref_4` varchar(50) NOT NULL default '',
-                          `pref_5` varchar(50) NOT NULL default '',
+                          `name` varchar(50) NOT NULL,
+                          `title` varchar(50) NOT NULL,
+                          `icon` varchar(150) NOT NULL,
+                          `prefOne` varchar(50) NOT NULL,
+                          `prefTwo` varchar(50) NOT NULL,
+                          `prefThree` varchar(50) NOT NULL,
+                          `prefFour` varchar(50) NOT NULL,
+                          `prefFive` varchar(50) NOT NULL,
                           `map` TEXT NOT NULL,
                           PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
@@ -580,12 +580,12 @@
                         $sql = "CREATE TABLE `" . $db_prefix . "_games_prefs` (
                           `id` int(11) NOT NULL auto_increment,
                           `game` int(11) NOT NULL default '0',
-                          `user_id` varchar(20) NOT NULL default '',
-                          `pref_1` text NOT NULL,
-                          `pref_2` text NOT NULL,
-                          `pref_3` text NOT NULL,
-                          `pref_4` text NOT NULL,
-                          `pref_5` text NOT NULL,
+                          `userId` varchar(20) NOT NULL,
+                          `prefOne` varchar(50) NOT NULL,
+                          `prefTwo` varchar(50) NOT NULL,
+                          `prefThree` varchar(50) NOT NULL,
+                          `prefFour` varchar(50) NOT NULL,
+                          `prefFive` varchar(50) NOT NULL,
                           PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
@@ -596,12 +596,12 @@
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_guestbook` (
                           `id` int(9) NOT NULL auto_increment,
-                          `name` varchar(50) NOT NULL default '',
-                          `email` varchar(60) NOT NULL default '',
-                          `url` varchar(70) NOT NULL default '',
-                          `date` int(11) NOT NULL default '0',
-                          `host` varchar(60) NOT NULL default '',
-                          `comment` text NOT NULL,
+                          `name` varchar(50) NOT NULL,
+                          `email` varchar(60) NOT NULL,
+                          `url` varchar(70) NOT NULL,
+                          `created` int(11) NOT NULL default '0',
+                          `host` varchar(60) NOT NULL,
+                          `content` text NOT NULL,
                           PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
@@ -612,43 +612,43 @@
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_irc_awards` (
                           `id` int(20) NOT NULL auto_increment,
-                          `text` text NOT NULL,
-                          `date` varchar(30) NOT NULL default '',
+                          `content` text NOT NULL,
+                          `created` varchar(30) NOT NULL,
                           PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
-        case'liens':
-                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_liens`";
+        case'links':
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_links`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE `" . $db_prefix . "_liens` (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_links` (
                           `id` int(10) NOT NULL auto_increment,
-                          `date` varchar(12) NOT NULL default '',
-                          `titre` text NOT NULL,
-                          `description` text NOT NULL,
-                          `url` varchar(200) NOT NULL default '',
-                          `cat` int(11) NOT NULL default '0',
+                          `created` varchar(12) NOT NULL,
+                          `title` text NOT NULL,
+                          `content` text NOT NULL,
+                          `url` varchar(200) NOT NULL,
+                          `category` int(11) NOT NULL default '0',
                           `webmaster` text NOT NULL,
-                          `country` varchar(50) NOT NULL default '',
+                          `country` varchar(50) NOT NULL,
                           `count` int(11) NOT NULL default '0',
                           `broke` int(11) NOT NULL default '0',
                           PRIMARY KEY  (`id`),
-                          KEY `cat` (`cat`)
+                          KEY `category` (`category`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
-        case'liens_cat':
-                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_liens_cat`";
+        case'links_cat':
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_links_cat`";
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_liens_cat` (
-                          `cid` int(11) NOT NULL auto_increment,
+                          `id` int(11) NOT NULL auto_increment,
                           `parentid` int(11) NOT NULL default '0',
-                          `titre` varchar(50) NOT NULL default '',
-                          `description` text NOT NULL,
-                          `position` int(2) unsigned NOT NULL default '0',
-                          PRIMARY KEY  (`cid`),
+                          `title` varchar(50) NOT NULL,
+                          `content` text NOT NULL,
+                          `placing` int(2) unsigned NOT NULL default '0',
+                          PRIMARY KEY  (`id`),
                           KEY `parentid` (`parentid`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
@@ -658,29 +658,29 @@
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_match`";
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_match` (
-                          `warid` int(10) NOT NULL auto_increment,
-                          `etat` int(1) NOT NULL default '0',
+                          `id` int(10) NOT NULL auto_increment,
+                          `status` int(1) NOT NULL default '0',
                           `team` int(11) NOT NULL default '0',
                           `game` int(11) NOT NULL default '0',
-                          `adversaire` text,
-                          `url_adv` varchar(60) default NULL,
-                          `pays_adv` varchar(50) NOT NULL default '',
+                          `adversary` text,
+                          `urlAdversary` varchar(60) default NULL,
+                          `paysAdversary` varchar(50) NOT NULL,
                           `type` varchar(100) default NULL,
-                          `style` varchar(100) NOT NULL default '',
-                          `date_jour` int(2) default NULL,
-                          `date_mois` int(2) default NULL,
-                          `date_an` int(4) default NULL,
-                          `heure` varchar(10) NOT NULL default '',
+                          `style` varchar(100) NOT NULL,
+                          `createdDay` int(2) default NULL,
+                          `createdMonth` int(2) default NULL,
+                          `createdYear` int(4) default NULL,
+                          `hour` varchar(10) NOT NULL,
                           `map` text,
-                          `tscore_team` float default NULL,
-                          `tscore_adv` float default NULL,
-                          `score_team` text NOT NULL,
-                          `score_adv` text NOT NULL,
+                          `tscoreTeam` float default NULL,
+                          `tscoreAdversary` float default NULL,
+                          `scoreTeam` text NOT NULL,
+                          `scoreAdversary` text NOT NULL,
                           `report` text,
-                          `auteur` varchar(50) default NULL,
-                          `url_league` varchar(100) default NULL,
-                          `dispo` text,
-                          `pas_dispo` text,
+                          `autor` varchar(50) default NULL,
+                          `urlLeague` varchar(100) default NULL,
+                          `available` text,
+                          `unavailable` text,
                           PRIMARY KEY  (`warid`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req  =mysql_query($sql) or die (mysql_error());
@@ -692,11 +692,11 @@
                         $sql = "CREATE TABLE `" . $db_prefix . "_match_files` (
                           `id` int(10) NOT NULL auto_increment,
                           `module` varchar(30) NOT NULL default '',
-                          `im_id` int(10) NOT NULL default '0',
+                          `itemId` int(10) NOT NULL default '0',
                           `type` varchar(30) NOT NULL default '',
                           `url` varchar(200) NOT NULL default '',
                           PRIMARY KEY  (`id`),
-                          KEY `im_id` (`im_id`)
+                          KEY `itemId` (`itemId`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
@@ -734,7 +734,6 @@
                             (17, 'Defy', '', 0, 3),
                             (18, 'Recruit', '', 0, 3),
                             (19, 'Comment', '', 0, 9),
-                            (20, 'Vote', '', 0, 9),
                             (21, 'Stats', '', 0, 2),
                             (22, 'Contact', '', 0, 3);";
                         $req = mysql_query($sql) or die (mysql_error());
@@ -744,12 +743,12 @@
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_nbconnecte`";
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_nbconnecte` (
-                          `IP` varchar(30) NOT NULL default '',
+                          `IP` varchar(30) NOT NULL,
                           `type` int(10) NOT NULL default '0',
-                          `date` int(14) NOT NULL default '0',
-                          `user_id` varchar(20) NOT NULL default '',
-                          `username` varchar(40) NOT NULL default '',
-                          PRIMARY KEY  ( `IP` , `user_id` )
+                          `created` int(14) NOT NULL,
+                          `userId` varchar(20) NOT NULL,
+                          `userName` varchar(40) NOT NULL,
+                          PRIMARY KEY  ( `IP` , `userId` )
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
@@ -759,17 +758,17 @@
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_news` (
                           `id` int(11) NOT NULL auto_increment,
-                          `cat` varchar(30) NOT NULL default '',
-                          `titre` text,
-                          `auteur` text,
-                          `auteur_id` varchar(20) NOT NULL default '',
-                          `texte` text,
-                          `suite` text,
-                          `date` varchar(30) NOT NULL default '',
+                          `category` varchar(30) NOT NULL,
+                          `title` text,
+                          `autor` text,
+                          `autorId` varchar(20) NOT NULL,
+                          `content` text,
+                          `continuation` text,
+                          `created` varchar(30) NOT NULL,
                           `bbcodeoff` int(1) NOT NULL default '0',
                           `smileyoff` int(1) NOT NULL default '0',
                           PRIMARY KEY  (`id`),
-                          KEY `cat` (`cat`)
+                          KEY `category` (`category`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die(mysql_error());
                         echo 'OK';
@@ -778,11 +777,11 @@
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_news_cat`";
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_news_cat` (
-                          `nid` int(11) NOT NULL auto_increment,
-                          `titre` text,
-                          `description` text,
+                          `id` int(11) NOT NULL auto_increment,
+                          `title` text,
+                          `content` text,
                           `image` text,
-                          PRIMARY KEY  (`nid`)
+                          PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
@@ -810,23 +809,23 @@
                         }
                         echo 'OK';
         break;
-        case'recrute':
-                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_recrute`";
+        case'recruit':
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_recruit`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE `" . $db_prefix . "_recrute` (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_recruit` (
                           `id` int(11) NOT NULL auto_increment,
-                          `date` varchar(12) NOT NULL default '',
+                          `created` varchar(12) NOT NULL,
                           `pseudo` text NOT NULL,
-                          `prenom` text NOT NULL,
+                          `firstName` text NOT NULL,
                           `age` int(3) NOT NULL default '0',
-                          `mail` varchar(80) NOT NULL default '',
-                          `icq` varchar(50) NOT NULL default '',
+                          `mail` varchar(80) NOT NULL,
+                          `icq` varchar(50) NOT NULL,
                           `country` text NOT NULL,
                           `game` int(11) NOT NULL default '0',
                           `connection` text NOT NULL,
                           `experience` text NOT NULL,
-                          `dispo` text NOT NULL,
-                          `comment` text NOT NULL,
+                          `available` text NOT NULL,
+                          `content` text NOT NULL,
                           PRIMARY KEY  (`id`),
                           KEY `game` (`game`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
@@ -837,18 +836,18 @@
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_sections`";
                         $req = mysql_query($sql) or die (mysql_error());  
                         $sql = "CREATE TABLE `" . $db_prefix . "_sections` (
-                        `artid` int(11) NOT NULL auto_increment,
-                        `secid` int(11) NOT NULL default '0',
+                        `id` int(11) NOT NULL auto_increment,
+                        `categoryId` int(11) NOT NULL default '0',
                         `title` text NOT NULL,
                         `content` text NOT NULL,
                         `autor` text NOT NULL,
-                        `autor_id` varchar(20) NOT NULL default '',
+                        `autorId` varchar(20) NOT NULL,
                         `counter` int(11) NOT NULL default '0',
                         `bbcodeoff` int(1) NOT NULL default '0',
                         `smileyoff` int(1) NOT NULL default '0',
-                        `date` varchar(12) NOT NULL default '',
-                        PRIMARY KEY  (`artid`),
-                        KEY `secid` (`secid`)
+                        `created` varchar(12) NOT NULL,
+                        PRIMARY KEY  (`id`),
+                        KEY `categoryId` (`categoryId`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
@@ -857,42 +856,42 @@
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_sections_cat`";
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_sections_cat` (
-                          `secid` int(11) NOT NULL auto_increment,
+                          `id` int(11) NOT NULL auto_increment,
                           `parentid` int(11) NOT NULL default '0',
-                          `secname` varchar(40) NOT NULL default '',
-                          `description` text NOT NULL,
-                          `position` int(2) unsigned NOT NULL default '0',
-                          PRIMARY KEY  (`secid`),
+                          `categoryName` varchar(40) NOT NULL,
+                          `content` text NOT NULL,
+                          `placing` int(2) unsigned NOT NULL default '0',
+                          PRIMARY KEY  (`id`),
                           KEY `parentid` (`parentid`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
-        case'serveur':
-                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_serveur`";
+        case'server':
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_server`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE `" . $db_prefix . "_serveur` (
-                          `sid` int(30) NOT NULL auto_increment,
-                          `game` varchar(30) NOT NULL default '',
-                          `ip` varchar(30) NOT NULL default '',
-                          `port` varchar(10) NOT NULL default '',
-                          `pass` varchar(10) NOT NULL default '',
-                          `cat` varchar(30) NOT NULL default '',
-                          PRIMARY KEY  (`sid`),
+                        $sql = "CREATE TABLE `" . $db_prefix . "_server` (
+                          `id` int(30) NOT NULL auto_increment,
+                          `game` varchar(30) NOT NULL,
+                          `ip` varchar(30) NOT NULL,
+                          `port` varchar(10) NOT NULL,
+                          `pass` varchar(10) NOT NULL,
+                          `category` varchar(30) NOT NULL default '0',
+                          PRIMARY KEY  (`id`),
                           KEY `game` (`game`),
-                          KEY `cat` (`cat`)
+                          KEY `category` (`category`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
-        case'serveur_cat':
-                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_serveur_cat`";
+        case'server_cat':
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_server_cat`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE `" . $db_prefix . "_serveur_cat` (
-                          `cid` int(30) NOT NULL auto_increment,
-                          `titre` varchar(30) NOT NULL default '',
-                          `description` text NOT NULL,
-                          PRIMARY KEY  (`cid`)
+                        $sql = "CREATE TABLE `" . $db_prefix . "_server_cat` (
+                          `id` int(30) NOT NULL auto_increment,
+                          `title` varchar(30) NOT NULL,
+                          `content` text NOT NULL,
+                          PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
@@ -902,13 +901,13 @@
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_sessions` (
                           `id` varchar(50) NOT NULL default '0',
-                          `user_id` varchar(20) NOT NULL default '0',
-                          `date` varchar(30) NOT NULL default '',
-                          `last_used` varchar(30) NOT NULL default '',
-                          `ip` varchar(50) NOT NULL default '',
+                          `userId` varchar(20) NOT NULL default '0',
+                          `created` varchar(30) NOT NULL,
+                          `lastUsed` varchar(30) NOT NULL,
+                          `ip` varchar(50) NOT NULL,
                           `vars` blob NOT NULL,
                           PRIMARY KEY  (`id`),
-                          KEY `user_id` (`user_id`)
+                          KEY `userId` (`userId`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
@@ -918,9 +917,9 @@
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_smilies` (
                           `id` int(5) NOT NULL auto_increment,
-                          `code` varchar(50) NOT NULL default '',
-                          `url` varchar(100) NOT NULL default '',
-                          `name` varchar(100) NOT NULL default '',
+                          `code` varchar(50) NOT NULL,
+                          `url` varchar(100) NOT NULL,
+                          `name` varchar(100) NOT NULL,
                           PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());

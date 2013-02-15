@@ -99,8 +99,12 @@ function nkConstructNuked($prefixDB) {
  * @param string $tinysize : true/false
  * @return string date converted 
  */
-function nkDate($timestamp, $tinySize = false) {    
-    
+function nkDate($timestamp, $tinySize = false, $convert = false) {    
+
+    if ($convert === true) {
+        $timestamp = strtotime($timestamp);
+    } 
+
     if ($tinySize === true) {
         if ($GLOBALS['language'] == 'french') {
             $format = '%d/%m/%Y';
@@ -236,6 +240,7 @@ function banip() {
  * Initialisation des blocks
  */
 $activeCssBlock = $GLOBALS['nkFunctions']->infoBlocks();
+
 
 /**
  * Display blocks.
@@ -392,6 +397,12 @@ function getSmiliesData() {
     }
 
     return $smileyData;
+}
+
+function debug($content) {
+    echo'<pre>';
+    var_dump($content);
+    echo'</pre>';
 }
 
 /**
@@ -997,24 +1008,6 @@ function activeMods() {
         }
         return $modsActive;
 }
-/*/**
- * Include a file of constants for translating.
- * @param string $fileLang the path of file to include
- * @todo suppress comment
- */
-//function translate($fileLang){
-    //require_once $fileLang;
-//    global $nuked;
-//
-//    ob_start();
-//    print eval(" include ('$file_lang'); ");
-//    $lang_define = ob_get_contents();
-//    $lang_define = htmlentities($lang_define, ENT_NOQUOTES);
-//    $lang_define = str_replace('&lt;', '<', $lang_define);
-//    $lang_define = str_replace('&gt;', '>', $lang_define);
-//    ob_end_clean();
-//    return $lang_define;
-//}*/
 
 
 /**
@@ -1115,7 +1108,7 @@ function visits() {
         // Get month, year, day and hour actual
         $month = strftime( '%m', $time );
         $year = strftime( '%Y', $time );
-        $day	= strftime( '%d', $time );
+        $day    = strftime( '%d', $time );
         $hour = strftime( '%H', $time );
         
         // Get http referer if exists
@@ -1417,10 +1410,54 @@ if (empty($_REQUEST['file'])) {
 if (empty($_REQUEST['op'])) {
     $_REQUEST['op'] = 'index';
 }
+
+
+/**
+ * Initialisation des modules
+ */
+$allModules = $GLOBALS['nkFunctions']->infoModules();
+
+/**
+ * request information for module
+ */
+if(array_key_exists($_REQUEST['file'], $allModules)) {
+    foreach ($allModules as $key) {        
+        if($_REQUEST['file'] == $key['name']) {
+            $levelMod = $key['level'];
+            $adminMod = $key['admin'];
+        }
+    }
+} else {
+    $levelMod = 0;
+    $adminMod = 9;
+}
+/**
+ * activatedModules return informations on module activate
+ * @return array return module activate
+ */
+function activatedModules($blackArray = null) {
+    global $allModules;
+    foreach ($allModules as $k) {
+        if ($k['level'] == -1) {
+            $kname[] = $k['name'];        
+        }
+    }
+    if (!is_null($blackArray)) {
+        $kname = array_merge($kname, $blackArray);
+    }
+
+    $activeModules = $allModules;
+    foreach ($kname as $key) {
+        unset($activeModules[$key]);
+    }
+
+
+    return $activeModules;
+}
+
 /**
  * Set theme
  */
-
 // SELECT THEME, USER THEME OR NOT FOUND THEME : ERROR
 if (isset($_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_theme'])
         && is_file(ROOT_PATH . 'themes/' . $GLOBALS['nuked']['user_theme'] . '/theme.php')) {

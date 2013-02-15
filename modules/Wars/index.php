@@ -22,14 +22,14 @@ if ($visiteur >= $level_access && $level_access > -1){
 
         opentable();
 
-        $sql = mysql_query('SELECT warid FROM '.WARS_TABLE.' WHERE etat = 1');
+        $sql = mysql_query('SELECT id FROM '.WARS_TABLE.' WHERE status = 1');
         $nb_matchs = mysql_num_rows($sql);
 
         if ($nb_matchs > 0){
-            $sql_victory = mysql_query('SELECT warid FROM '.WARS_TABLE.' WHERE etat = 1 AND tscore_team > tscore_adv');
+            $sql_victory = mysql_query('SELECT id FROM '.WARS_TABLE.' WHERE status = 1 AND tscoreTeam > tscoreAdversary');
             $nb_victory = mysql_num_rows($sql_victory);
     
-            $sql_defeat = mysql_query('SELECT warid FROM '.WARS_TABLE.' WHERE etat = 1 AND tscore_adv > tscore_team');
+            $sql_defeat = mysql_query('SELECT id FROM '.WARS_TABLE.' WHERE status = 1 AND tscoreAdversary > tscoreTeam');
             $nb_defeat = mysql_num_rows($sql_defeat);
     
             $nb_nul = $nb_matchs - ($nb_victory + $nb_defeat);
@@ -51,7 +51,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                     <br /><div style="text-align: center;">'._NOMATCH.'</div><br />';
         } 
         else{
-            $sql2 = mysql_query('SELECT A.titre, B.team FROM '.TEAM_TABLE.' AS A LEFT JOIN '.WARS_TABLE.' AS B ON A.cid = B.team WHERE B.etat = 1 GROUP BY B.team ORDER BY A.ordre, A.titre');
+            $sql2 = mysql_query('SELECT A.title, B.team FROM '.TEAM_TABLE.' AS A LEFT JOIN '.WARS_TABLE.' AS B ON A.id = B.team WHERE B.status = 1 GROUP BY B.team ORDER BY A.placing, A.title');
             $nb_team = mysql_num_rows($sql2);
 
             if (!$_REQUEST['tid'] && $nb_team > 1){
@@ -74,10 +74,10 @@ if ($visiteur >= $level_access && $level_access > -1){
                             <td style="width: 15%;text-align:center;"><b>'._RESULT.'</b></td>
                             <td style="width: 10%;text-align:center;"><b>'._DETAILS.'</b></td></tr>';
 
-                    $sql6 = mysql_query('SELECT warid FROM '.WARS_TABLE.' WHERE etat = 1 AND team = \''.$team.'\' ');
+                    $sql6 = mysql_query('SELECT id FROM '.WARS_TABLE.' WHERE status = 1 AND team = \''.$team.'\' ');
                     $count = mysql_num_rows($sql6);
 
-                    $sql4 = mysql_query('SELECT warid, adversaire, url_adv, pays_adv, type, style, game, date_jour, date_mois, date_an, tscore_team, tscore_adv FROM '.WARS_TABLE.' WHERE etat = 1 AND team = '.$team.' ORDER BY date_an DESC, date_mois DESC, date_jour DESC LIMIT 0, 10');
+                    $sql4 = mysql_query('SELECT id, adversary, urlAdversary, paysAdversary, type, style, game, createdDay, createdMonth, createdYear, tscoreTeam, tscoreAdversary FROM '.WARS_TABLE.' WHERE status = 1 AND team = '.$team.' ORDER BY createdYear DESC, createdMonth DESC, createdDay DESC LIMIT 0, 10');
                     while (list($war_id, $adv_name, $adv_url, $pays_adv, $type, $style, $game, $jour, $mois, $an, $score_team, $score_adv) = mysql_fetch_array($sql4)){
                         $adv_name = printSecuTags($adv_name);
                         $type = printSecuTags($type);
@@ -166,11 +166,11 @@ if ($visiteur >= $level_access && $level_access > -1){
                 } 
 
                 if ($_REQUEST['tid'] != ''){
-                    $sql6 = mysql_query('SELECT titre FROM ' . TEAM_TABLE . ' WHERE cid = \'' . $_REQUEST['tid'] . '\' ');
+                    $sql6 = mysql_query('SELECT title FROM ' . TEAM_TABLE . ' WHERE id = \'' . $_REQUEST['tid'] . '\' ');
                     list($team_name, $team) = mysql_fetch_array($sql6);
                     $team_name = printSecuTags($team_name);
                     $and = 'AND team = \'' . $_REQUEST['tid'] . '\' ';
-                    $sql7 = mysql_query('SELECT warid FROM ' . WARS_TABLE . ' WHERE etat = 1 AND team = \'' . $_REQUEST['tid'] . '\' ');
+                    $sql7 = mysql_query('SELECT id FROM ' . WARS_TABLE . ' WHERE status = 1 AND team = \'' . $_REQUEST['tid'] . '\' ');
                     $count = mysql_num_rows($sql7);
                 } 
                 else{
@@ -182,14 +182,14 @@ if ($visiteur >= $level_access && $level_access > -1){
                 echo '<br /><div style="text-align: center;"><big><b>' . _MATCHES . ' - ' . $team_name . '</b></big></div>';
 
                 if (!$_REQUEST['orderby']){
-                    $_REQUEST['orderby'] = 'date';
+                    $_REQUEST['orderby'] = 'created';
                 } 
 
-                if ($_REQUEST['orderby'] == 'date'){
-                    $order = 'ORDER BY date_an DESC, date_mois DESC, date_jour DESC';
+                if ($_REQUEST['orderby'] == 'created'){
+                    $order = 'ORDER BY createdYear DESC, createdMonth DESC, createdDay DESC';
                 } 
                 else if ($_REQUEST['orderby'] == 'adver'){
-                    $order = 'ORDER BY adversaire';
+                    $order = 'ORDER BY adversary';
                 } 
                 else if ($_REQUEST['orderby'] == 'game'){
                     $order = 'ORDER BY game';
@@ -201,7 +201,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                     $order = 'ORDER BY style';
                 } 
                 else{
-                    $order = 'ORDER BY date_an DESC, date_mois DESC, date_jour DESC';
+                    $order = 'ORDER BY createdYear DESC, createdMonth DESC, createdDay DESC';
                 } 
 
                 if ($count > 1){
@@ -260,7 +260,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                 <td style="width: 15%;text-align:center;"><b>' . _RESULT . '</b></td>
                 <td style="width: 10%;text-align:center;"><b>' . _DETAILS . '</b></td></tr>';
 
-                $sql4 = mysql_query('SELECT warid, adversaire, url_adv, pays_adv, type, style, game, date_jour, date_mois, date_an, tscore_team, tscore_adv FROM ' . WARS_TABLE . ' WHERE etat = 1 ' . $and . $order . ' LIMIT ' . $start . ',' . $nb_wars.' ');
+                $sql4 = mysql_query('SELECT id, adversary, urlAdversary, paysAdversary, type, style, game, createdDay, createdMonth, createdYear, tscoreTeam, tscoreAdversary FROM ' . WARS_TABLE . ' WHERE status = 1 ' . $and . $order . ' LIMIT ' . $start . ',' . $nb_wars.' ');
                 while (list($war_id, $adv_name, $adv_url, $pays_adv, $type, $style, $game, $jour, $mois, $an, $score_team, $score_adv) = mysql_fetch_array($sql4)){
                     $adv_name = printSecuTags($adv_name);
                     $type = printSecuTags($type);
@@ -345,7 +345,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         }
 
         if ($_REQUEST['p'] == 1 OR !isset($_REQUEST['p'])){
-            $sqlx = mysql_query("SELECT warid FROM " . WARS_TABLE . " WHERE etat = 0");
+            $sqlx = mysql_query("SELECT id FROM " . WARS_TABLE . " WHERE status = 0");
             $nb_matchs2 = mysql_num_rows($sqlx);
 
             if ($nb_matchs2 > 0){
@@ -360,7 +360,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                         <td style="width: 20%;text-align:center;"><b>' . _STYLE . '</b></td>
                         <td style="width: 15%;text-align:center;"><b>' . _DETAILS2 . '</b></td>';
 
-                $sql4x = mysql_query('SELECT warid, adversaire, url_adv, pays_adv, type, style, game, date_jour, date_mois, date_an, tscore_team, tscore_adv FROM ' . WARS_TABLE . ' WHERE etat = 0 ' . $and . $order . ' LIMIT ' . $start . ',' . $nb_wars.' ');
+                $sql4x = mysql_query('SELECT id, adversary, urlAdversary, paysAdversary, type, style, game, createdDay, createdMonth, createdYear, tscoreTeam, tscoreAdversary FROM ' . WARS_TABLE . ' WHERE status = 0 ' . $and . $order . ' LIMIT ' . $start . ',' . $nb_wars.' ');
                 while (list($war_id, $adv_name, $adv_url, $pays_adv, $type, $style, $game, $jour, $mois, $an, $score_team, $score_adv) = mysql_fetch_array($sql4x)){
                     $adv_name = printSecuTags($adv_name);
                     $type = printSecuTags($type);
@@ -447,7 +447,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         . 'Shadowbox.init();'."\n"
         . '</script>'."\n";
 
-        $sql = mysql_query('SELECT team, adversaire, url_adv, pays_adv, date_jour, date_mois, date_an, type, style, tscore_team, tscore_adv, map, score_adv, score_team, report, auteur, url_league, etat FROM ' . WARS_TABLE . ' WHERE warid = \'' . $war_id . '\' ');
+        $sql = mysql_query('SELECT team, adversary, urlAdversary, paysAdversary, createdDay, createdMonth, createdYear, type, style, tscoreTeam, tscoreAdversary, map, scoreAdversary, scoreTeam, report, autor, urlLeague, status FROM ' . WARS_TABLE . ' WHERE id = \'' . $war_id . '\' ');
         if(mysql_num_rows($sql) <= 0){
             redirect('index.php?file=404', 0);
             exit();
@@ -473,7 +473,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         } 
 
         if ($team > 0){
-            $sql_team = mysql_query('SELECT titre FROM ' . TEAM_TABLE . ' WHERE cid = \'' . $team . '\' ');
+            $sql_team = mysql_query('SELECT title FROM ' . TEAM_TABLE . ' WHERE id = \'' . $team . '\' ');
             list($team_name) = mysql_fetch_array($sql_team);
             $team_name = printSecuTags($team_name);
         } 
@@ -561,7 +561,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             echo '</td></tr><tr style="background: ' . $bgcolor2 . ';"><td>&nbsp;</td></tr>';
         }
 
-        $sql_screen = mysql_query('SELECT url FROM ' . WARS_FILES_TABLE . ' WHERE module = \'Wars\' AND type = \'screen\' AND im_id = \'' . $war_id . '\' ');
+        $sql_screen = mysql_query('SELECT url FROM ' . WARS_FILES_TABLE . ' WHERE module = \'Wars\' AND type = \'screen\' AND itemId = \'' . $war_id . '\' ');
         $nb_screen = mysql_num_rows($sql_screen);
 
         if ($nb_screen > 0){
@@ -574,7 +574,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             echo '</td></tr><tr style="background: ' . $bgcolor2 . ';"><td>&nbsp;</td></tr>';
         } 
 
-        $sql_demo = mysql_query('SELECT url FROM ' . WARS_FILES_TABLE . ' WHERE module = \'Wars\' AND type = \'demo\' AND im_id = \'' . $war_id . '\' ');
+        $sql_demo = mysql_query('SELECT url FROM ' . WARS_FILES_TABLE . ' WHERE module = \'Wars\' AND type = \'demo\' AND itemId = \'' . $war_id . '\' ');
         $nb_demo = mysql_num_rows($sql_demo);
 
         if ($nb_demo > 0){
@@ -598,7 +598,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         
         echo '</table><br />';
         
-        $sql = mysql_query('SELECT active FROM ' . $nuked['prefix'] . '_comment_mod WHERE module = \'wars\' ');
+        $sql = mysql_query('SELECT active FROM ' . $nuked['prefix'] . '_comment_mod WHERE module = \'Wars\' ');
         list($active) = mysql_fetch_array($sql);
                 
         if($active ==1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1){

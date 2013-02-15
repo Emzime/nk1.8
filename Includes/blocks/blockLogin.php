@@ -16,7 +16,7 @@ if (defined('TESTLANGUE')) {
         global $user, $nuked, $visiteur;
         list($login, $messpv, $members, $online, $avatar) = explode('|', $blok['content']); 
         $blok['content'] = '<div class="nkBlockLogin">';
-        $c = 0;	
+        $c = 0; 
         if ($login != 'off') {
             if (!$user) {
                 $blok['content'] .= '
@@ -28,9 +28,9 @@ if (defined('TESTLANGUE')) {
                                         <div>
                                             <label for="BlockLoginPassword">'.PASSWORD.' : </label>
                                                 <input id="BlockLoginPassword" class="nkInput" type="password" name="pass" size="10" maxlength="15" />
-                                        </div>';																		
+                                        </div>';                                                                        
                 $blok['content'] .=     $GLOBALS['nkFunctions']->nkCheckBox('remember_me', 'Remember', 'BlockLoginRememberId', 'BlockLoginRemember nkWidth3Quarter', REMEMBERME, 'ok', true);
-                $blok['content'] .= '           <input type="submit" class="nkButton" value="'.SEND.'" />										
+                $blok['content'] .= '           <input type="submit" class="nkButton" value="'.SEND.'" />                                       
                                         <nav>
                                             <small>
                                                 <a href="index.php?file=User&amp;op=reg_screen">'.REGISTER.'</a>&nbsp;/&nbsp;
@@ -52,7 +52,7 @@ if (defined('TESTLANGUE')) {
                                         <figure>
                                             <img src="'.$avatarUrl.'" alt="'.$user[2].' avatar" />
                                         </figure>';
-                                    } else {										
+                                    } else {                                        
                                         $blok['content'] .= '
                                         <figure>
                                             <img src="images/noavatar.png" alt="" />
@@ -73,16 +73,16 @@ if (defined('TESTLANGUE')) {
                 $blok['content'] .= '
                                     <div class="nkSeparator"></div>';
             }
-            $dbsMessPvIdRead = 'SELECT mid 
+            $dbsMessPvIdRead = 'SELECT id 
                                 FROM '.USERBOX_TABLE.' 
-                                WHERE user_for = \''.$user[0].'\' 
+                                WHERE userFor = \''.$user[0].'\' 
                                 AND status = 1';
             $dbeMessPvIdRead = mysql_query($dbsMessPvIdRead);
-            $dbcMessPvIdRead = mysql_num_rows($dbeMessPvIdRead);    	
+            $dbcMessPvIdRead = mysql_num_rows($dbeMessPvIdRead);        
             $blok['content'] .= '   <h5>
                                         <span class="nkIconMail"></span>'.MESSPV.'
                                     </h5>
-                                    <ul>';    	
+                                    <ul>';      
             if ($user[5] > 0) { 
                 $blok['content'] .= '   <li>
                                             <span class="nkIconMailReceive"></span>'.NOTREAD.' : <a href="index.php?file=Userbox">'.$user[5].'</a>
@@ -91,7 +91,7 @@ if (defined('TESTLANGUE')) {
                 $blok['content'] .= '   <li>
                                             <span class="nkIconMailReceive"></span>'.NOTREAD.' : '.$user[5].'
                                         </li>';
-            }    	
+            }       
             if ($dbcMessPvIdRead > 0) {
                 $blok['content'] .= '   <li>
                                             <span class="nkIconMailLock"></span>'.READ.' : <a href="index.php?file=Userbox">'.$dbcMessPvIdRead.'</a>
@@ -100,7 +100,7 @@ if (defined('TESTLANGUE')) {
                 $blok['content'] .= '   <li>
                                             <span class="nkIconMailLock"></span>'.READ.' : '.$dbcMessPvIdRead.'
                                         </li>';
-            }    	
+            }       
             $blok['content'] .='    </ul>';
             $c++;
         }
@@ -118,16 +118,16 @@ if (defined('TESTLANGUE')) {
                                 (
                                   SELECT count(id)
                                   FROM '.USER_TABLE.' 
-                                  WHERE niveau >1
+                                  WHERE level >1
                                  ) AS nbAdmins,
                                 (
                                   SELECT pseudo
                                   FROM '.USER_TABLE.' 
-                                  ORDER BY date DESC 
+                                  ORDER BY created DESC 
                                   LIMIT 0, 1
                                  ) AS lastMembers
                             FROM '.USER_TABLE.' 
-                            WHERE niveau = 1';
+                            WHERE level = 1';
             $dbeMembers = mysql_query($dbsMembers);
             list($nbMembers, $nbAdmins, $lastMembers) = mysql_fetch_array($dbeMembers);
             $blok['content'] .= '       <li>
@@ -147,10 +147,10 @@ if (defined('TESTLANGUE')) {
             $nb = nbvisiteur();
             if ($nb[1] > 0) { 
                 $userOnline = '<ul>';
-                $dbsUserOnline = '  SELECT username 
+                $dbsUserOnline = '  SELECT userName 
                                     FROM '.NBCONNECTE_TABLE.' 
                                     WHERE type = 1 
-                                    ORDER BY date';
+                                    ORDER BY created';
                 $dbeUserOnline = mysql_query($dbsUserOnline);
                 while (list($userOnlineName) = mysql_fetch_array($dbeUserOnline)) {
                        $userOnline .= '<li>'.$userOnlineName.'</li>';
@@ -163,10 +163,10 @@ if (defined('TESTLANGUE')) {
             }
             if ($nb[2] > 0) {
                 $adminOnline = '<ul>';
-                $dbsAdminOnline = ' SELECT username 
+                $dbsAdminOnline = ' SELECT userName 
                                     FROM '.NBCONNECTE_TABLE.' 
                                     WHERE type > 1 
-                                    ORDER BY date';
+                                    ORDER BY created';
                 $dbeAdminOnline = mysql_query($dbsAdminOnline);
                 while (list($adminOnlineName) = mysql_fetch_array($dbeAdminOnline)) {
                        $adminOnline .= '<li>'.$adminOnlineName.'</li>';
@@ -184,7 +184,7 @@ if (defined('TESTLANGUE')) {
             $blok['content'] .= '   <h5>
                                         <span class="nkIconAutor"></span>'.WHOISONLINE.'
                                     </h5>
-                                    <ul>';    	
+                                    <ul>';      
             $blok['content'] .= '       <li>
                                             <span class="nkIconNext"></span>'.VISITOR;
                                             if ($nb[0] > 1) {
@@ -206,7 +206,7 @@ if (defined('TESTLANGUE')) {
                                             }
             $blok['content'] .= '           : ' . $nb[2] . ' ' . $adminList . '
                                         </li>
-                                    </ul>';    	
+                                    </ul>';     
             $c++;
         }
         $blok['content'] .= '</div>';
@@ -272,7 +272,7 @@ if (defined('TESTLANGUE')) {
                     /*** Position Options ***/
                     $activeBlockValue = array(
                             0 => LEFT,
-        	                1 => RIGHT,
+                            1 => RIGHT,
                             2 => OFF
                         );
                     echo $GLOBALS['nkFunctions']->nkRadioBox('active', 'nkLabelSpacing', BLOCK, 3, $activeBlockValue, 'InputForactive', 'InputIdactive')
@@ -295,11 +295,11 @@ if (defined('TESTLANGUE')) {
                             OFF => NO
                         );
                     echo $GLOBALS['nkFunctions']->nkRadioBox('login', 'nkLabelSpacing', LOGIN.'&nbsp;:&nbsp;', 2, $loginValue, 'blockLoginLoginId');
-        			/*** Private message options ***/	
+                    /*** Private message options ***/   
                     $messpvValue = array(
                             ON => YES,
                             OFF => NO
-                        );			
+                        );          
                     echo $GLOBALS['nkFunctions']->nkRadioBox('messpv', 'nkLabelSpacing', MESSPV.'&nbsp;:&nbsp;', 2, $messpvValue, 'blockLoginmesspvId');
                     /*** Members options ***/
                     $membersValue = array(
@@ -313,12 +313,12 @@ if (defined('TESTLANGUE')) {
                             OFF => NO
                         );
                     echo $GLOBALS['nkFunctions']->nkRadioBox('online', 'nkLabelSpacing', WHOISONLINE.'&nbsp;:&nbsp;', 2, $onlineValue, 'blockLoginonlineId');
-        			/*** Avatar options ***/
+                    /*** Avatar options ***/
                     $avatarValue = array(
                             ON => YES,
                             OFF => NO
                         );
-                    echo $GLOBALS['nkFunctions']->nkRadioBox('avatar', 'nkLabelSpacing', SHOWAVATAR.'&nbsp;:&nbsp;', 2, $avatarValue, 'blockLoginavatarId');			
+                    echo $GLOBALS['nkFunctions']->nkRadioBox('avatar', 'nkLabelSpacing', SHOWAVATAR.'&nbsp;:&nbsp;', 2, $avatarValue, 'blockLoginavatarId');            
                     ?>
                     <div class="nkBoxcontainer padding-left">
                         <label for="blockLoginPages" class="nkLabelSpacing valign-top"><?php echo PAGESELECT; ?>&nbsp;:&nbsp;</label>

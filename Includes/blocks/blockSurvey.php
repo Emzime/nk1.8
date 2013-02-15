@@ -20,12 +20,12 @@ if (defined('TESTLANGUE')) {
             $blok['content'] = '';
         
             if ($survey_id != '') {
-                $where = 'WHERE sid = \'' . $survey_id . '\' ';
+                $where = 'WHERE id = \'' . $survey_id . '\' ';
             } else {
-                $where = 'ORDER BY sid DESC LIMIT 0, 1';
+                $where = 'ORDER BY id DESC LIMIT 0, 1';
             }
 
-            $dbsSurvey = '  SELECT sid, titre 
+            $dbsSurvey = '  SELECT id, title 
                             FROM '.SURVEY_TABLE.' 
                             '.$where;
             $dbeSurvey = mysql_query($dbsSurvey);
@@ -36,29 +36,23 @@ if (defined('TESTLANGUE')) {
 
             $dbsOptions = ' SELECT voteID, optionText 
                             FROM ' . SURVEY_DATA_TABLE . ' 
-                            WHERE sid = \'' . $pollId . '\' 
+                            WHERE id = \'' . $pollId . '\' 
                             ORDER BY voteID ASC';
             $dbeOptions = mysql_query($dbsOptions);
             $dbcOptions = mysql_num_rows($dbeOptions);
             while (list($voteid, $optiontext) = mysql_fetch_array($dbeOptions)) {
                 $optiontext = printSecuTags($optiontext);
 
-                $test[$voteid] = $optiontext;
-
-                //$blok['content'] .= '   <li><input type="radio" class="checkbox" name="voteID" value="'.$voteid.'" />&nbsp;'.$optiontext.'</li>';
-                
+                $test[$voteid] = $optiontext;                
             }
             $blok['content'] .= $GLOBALS['nkFunctions']->nkRadioBox('h3', $pollTitle, $dbcOptions, 'voteID', $test, null, 'nkAlignCenter nkBlock', 'nkWidthFully', 'nkBlock');
-
-
-
             $blok['content'] .= '
                                 <div class="nkAlignCenter nkMarginTop15">
                                     <input type="hidden" name="poll_id" value="'.$pollId.'" />
                                     <input class="nkButton" type="submit" value="'.TOVOTE.'" />&nbsp;
-                                    <input class="nkButton" type="button" value="'.RESULT.'" onclick="document.location=\'index.php?file=Survey&amp;op=affich_res&amp;poll_id='.$pollId.'\'" />
+                                    <input class="nkButton" type="button" value="'.RESULT.'" onclick="document.location="index.php?file=Survey&amp;op=affich_res&amp;poll_id='.$pollId.'" />
                                 </div>
-                                <nav class="nkAlignCenter nkMarginTop15">
+                                <nav class="nkAlignCenter nkMarginTop15 nkMarginBottom15">
                                     <ul>
                                         <li class="nkBold">[ <a href="index.php?file=Survey">'.OTHERPOLL.'</a> ]</li>
                                     </ul>

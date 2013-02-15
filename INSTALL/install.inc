@@ -242,25 +242,25 @@
                         echo 'OK';
         break;
         case'defie':
-                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_defie`";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_defy`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE `" . $db_prefix . "_defie` (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_defy` (
                           `id` int(11) NOT NULL auto_increment,
-                          `send` varchar(12) NOT NULL default '',
+                          `send` varchar(12) NOT NULL,
                           `pseudo` text NOT NULL,
                           `clan` text NOT NULL,
-                          `mail` varchar(80) NOT NULL default '',
-                          `icq` varchar(50) NOT NULL default '',
-                          `irc` varchar(50) NOT NULL default '',
-                          `url` varchar(200) NOT NULL default '',
-                          `pays` text NOT NULL,
-                          `date` varchar(20) NOT NULL default '',
-                          `heure` varchar(10) NOT NULL default '',
-                          `serveur` text NOT NULL,
+                          `mail` varchar(80) NOT NULL,
+                          `icq` varchar(50) NOT NULL,
+                          `irc` varchar(50) NOT NULL,
+                          `url` varchar(200) NOT NULL,
+                          `country` text NOT NULL,
+                          `created` varchar(20) NOT NULL,
+                          `hour` varchar(10) NOT NULL,
+                          `server` text NOT NULL,
                           `game` int(11) NOT NULL default '0',
                           `type` text NOT NULL,
                           `map` text NOT NULL,
-                          `comment` text NOT NULL,
+                          `content` text NOT NULL,
                           PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());

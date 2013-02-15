@@ -432,15 +432,15 @@ class NK_functions {
      * @return array array of all informations
      */
     function infoModules() {
-        $dbsActiveModule = 'SELECT id, nom, newName, niveau, admin 
+        $dbsActiveModule = 'SELECT id, name, newName, level, admin 
                             FROM '. MODULES_TABLE;
         $dbeActiveModule = mysql_query($dbsActiveModule)or die(mysql_error());
         while($row = mysql_fetch_assoc($dbeActiveModule)) {
-            $moduleArray[$row['nom']] = array(
+            $moduleArray[$row['name']] = array(
                     'id'      => $row['id'],
-                    'name'    => $row['nom'],
+                    'name'    => $row['name'],
                     'newName' => $row['newName'],
-                    'level'   => $row['niveau'],
+                    'level'   => $row['level'],
                     'admin'   => $row['admin']
                 );
         }

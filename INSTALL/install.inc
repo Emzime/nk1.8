@@ -706,15 +706,16 @@
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_modules` (
                           `id` int(2) NOT NULL auto_increment,
-                          `nom` varchar(50) NOT NULL default '',
-                          `newName` varchar(50) NOT NULL default '',
-                          `niveau` int(1) NOT NULL default '0',
-                          `admin` int(1) NOT NULL default '0',
+                          `name` varchar(50) NOT NULL,
+                          `newName` varchar(50) NOT NULL,
+                          `level` int(1) NOT NULL default '0',
+                          `admin` int(1) NOT NULL default '2',
                           PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
-                        $sql = "INSERT INTO `" . $db_prefix . "_modules` VALUES (1, 'News', '', 0, 2),
+                        $sql = "INSERT INTO `" . $db_prefix . "_modules` VALUES 
+                            (1, 'News', '', 0, 2),
                             (2, 'Forum', '', 0, 2),
                             (3, 'Wars', '', 0, 2),
                             (4, 'Irc', '', 0, 2),

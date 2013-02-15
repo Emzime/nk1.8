@@ -707,6 +707,7 @@
                         $sql = "CREATE TABLE `" . $db_prefix . "_modules` (
                           `id` int(2) NOT NULL auto_increment,
                           `nom` varchar(50) NOT NULL default '',
+                          `newName` varchar(50) NOT NULL,
                           `niveau` int(1) NOT NULL default '0',
                           `admin` int(1) NOT NULL default '0',
                           PRIMARY KEY  (`id`)

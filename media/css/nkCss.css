@@ -651,7 +651,7 @@ div[id^='globalVoteResult_'] {
 .nkBlockLogin label {
     display: inline-block;
     text-align: left;
-    width: 90px;
+    width: 84px;
 }
 .nkBlockLogin #BlockLoginRememberme {
     vertical-align: top;

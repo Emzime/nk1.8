@@ -80,7 +80,7 @@ if($langTest == true) {
                     <div class="nkAlignCenter">
                         <h2>
                             <?php 
-                            echo SEARCHFOR; 
+                            echo SEARCH; 
                             ?>
                         </h2>
                     </div>

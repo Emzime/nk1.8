@@ -397,29 +397,28 @@ class NK_functions {
      * infoBlocks display block
      */
     function infoBlocks() {
-
-        $dbsActiveBlock = ' SELECT bid, active, position, module, titre, content, type, nivo, page 
+        $dbsActiveBlock = ' SELECT id, side, placing, module, title, content, type, level, page 
                             FROM '.BLOCK_TABLE.' 
-                            WHERE active != 0 ORDER BY active';
+                            WHERE side != 0 
+                            ORDER BY side';
         $dbeActiveBlock = mysql_query($dbsActiveBlock)or die(mysql_error());
         $dbcActiveBlock = mysql_num_rows($dbeActiveBlock);
         if ($dbcActiveBlock > 0) {
             $infos = array(1 => array(), 2 => array(), 3 => array(), 4 => array());
             while($row = mysql_fetch_assoc($dbeActiveBlock)) {
                 $blockArray = array(
-                        'bid'      => $row['bid'],
-                        'active'   => $row['active'],
-                        'position' => $row['position'],
-                        'module'   => $row['module'], 
-                        'titre'    => $row['titre'],
-                        'content'  => $row['content'],
-                        'type'     => $row['type'],
-                        'nivo'     => $row['nivo'],
-                        'page'     => $row['page'] 
-                    );
-
+                    'id'      => $row['id'],
+                    'side'    => $row['side'],
+                    'placing'  => $row['placing'],
+                    'module'  => $row['module'], 
+                    'title'   => $row['title'],
+                    'content' => $row['content'],
+                    'type'    => $row['type'],
+                    'level'   => $row['level'],
+                    'page'    => $row['page'] 
+                );
                 for($i=1;$i<=4;$i++) {
-                    if($i == $row['active']) {
+                    if($i == $row['side']) {
                         $infos[$i][] = $blockArray;
                     }
                 }

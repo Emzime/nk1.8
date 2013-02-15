@@ -186,26 +186,26 @@ function news($data){
 <div class="block center">
     <div class="top">
         <div class="bottom">
-        	<h2><?php echo $data['titre']; ?></h2>
-			<div style="padding:5px;">
-			   <div style="float:right;"><?php echo $data['image']; ?></div>
-			   <span style="color: #ffffff;"><?php echo $data['texte']; ?></span>                                        
-			</div>
-			<div style="width:100%;">
-					<div style="text-align:right;">
-							<?php echo $data['friend']; ?> <?php echo $data['printpage']; ?>
-					</div>
-			</div>
-			<div>
-				<?php echo $comment; ?> - <?php echo INPUBL; ?>
-				<a href="index.php?file=News&amp;op=categorie&amp;cat_id=<?php echo $data['catid']; ?>">
-						<?php echo $data['cat']; ?>
-				</a>
-			</div>
-			<?php echo $posted; ?>
-			<br />
-		</div>
-	 </div>
+            <h2><?php echo $data['titre']; ?></h2>
+            <div style="padding:5px;">
+               <div style="float:right;"><?php echo $data['image']; ?></div>
+               <span style="color: #ffffff;"><?php echo $data['texte']; ?></span>                                        
+            </div>
+            <div style="width:100%;">
+                    <div style="text-align:right;">
+                            <?php echo $data['friend']; ?> <?php echo $data['printpage']; ?>
+                    </div>
+            </div>
+            <div>
+                <?php echo $comment; ?> - <?php echo INPUBL; ?>
+                <a href="index.php?file=News&amp;op=categorie&amp;cat_id=<?php echo $data['catid']; ?>">
+                        <?php echo $data['cat']; ?>
+                </a>
+            </div>
+            <?php echo $posted; ?>
+            <br />
+        </div>
+     </div>
 </div>
 <?php
 }
@@ -252,7 +252,7 @@ function blockLeft($block){
         <div class="block left">
                 <div class="top">
                         <div class="bottom">
-                                <h2><?php echo $block['titre']; ?></h2>
+                                <h2><?php echo $block['title']; ?></h2>
                                 <?php echo $block['content']; ?>
                         </div>
                 </div>
@@ -266,7 +266,7 @@ function blockRight($block){
         <div class="block right">
                 <div class="top">
                         <div class="bottom">
-                                <h2><?php echo $block['titre']; ?></h2>
+                                <h2><?php echo $block['title']; ?></h2>
                                 <?php echo $block['content']; ?>
                         </div>
                 </div>

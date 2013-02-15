@@ -33,16 +33,16 @@
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_block`";
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_block` (
-                          `bid` int(10) NOT NULL auto_increment,
-                          `active` int(1) NOT NULL default '0',
-                          `position` int(2) NOT NULL default '0',
+                          `id` int(10) NOT NULL auto_increment,
+                          `side` int(1) NOT NULL default '0',
+                          `placing` int(2) NOT NULL default '0',
                           `module` varchar(100) NOT NULL default '',
-                          `titre` text NOT NULL,
+                          `title` text NOT NULL,
                           `content` text NOT NULL,
                           `type` varchar(30) NOT NULL default '0',
-                          `nivo` int(1) NOT NULL default '0',
+                          `level` int(1) NOT NULL default '0',
                           `page` text NOT NULL,
-                          PRIMARY KEY  (`bid`)
+                          PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         

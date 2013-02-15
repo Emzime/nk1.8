@@ -5,7 +5,7 @@
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_action` (
                           `id` int(11) NOT NULL auto_increment,
-                          `date` varchar(30) NOT NULL default '0',
+                          `created` varchar(30) NOT NULL default '0',
                           `pseudo`  text NOT NULL,
                           `action`  text NOT NULL,
                           PRIMARY KEY  (`id`)
@@ -21,9 +21,9 @@
                             `ip` varchar(50) NOT NULL default '',
                             `pseudo` varchar(50) NOT NULL default '',
                             `email` varchar(80) NOT NULL default '',
-                            `date` VARCHAR(20)  NULL,
-                            `dure` VARCHAR(20)  NULL,
-                            `texte` text NOT NULL,
+                            `created` VARCHAR(20)  NULL,
+                            `period` VARCHAR(20)  NULL,
+                            `content` text NOT NULL,
                             PRIMARY KEY  (`id`)
                           ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                           $req = mysql_query($sql) or die (mysql_error());
@@ -796,9 +796,9 @@
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_notification` (
                           `id` int(11) NOT NULL auto_increment,
-                          `date` varchar(30) NOT NULL default '0',
-                          `type`  text NOT NULL,
-                          `texte`  text NOT NULL,
+                          `created` varchar(30) NOT NULL default '0',
+                          `type` text NOT NULL,
+                          `content` text NOT NULL,
                           PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());

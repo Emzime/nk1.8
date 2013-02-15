@@ -180,10 +180,10 @@ function banip() {
     $ipDyn = substr($GLOBALS['user_ip'], 0, -1);
 
     // SQL condition : dynamic IP or user account
-    $whereClause = ' WHERE (ip LIKE "%' . $ipDyn . '%") OR pseudo = "' . $GLOBALS['user'][2] . '"';
+    $whereClause = ' WHERE (ip LIKE "%'.$ipDyn.'%") OR pseudo = "'.$GLOBALS['user'][2];
 
     // Search banish
-    $banQuery = nkDB_select('SELECT `id`, `pseudo`, `date`, `dure` FROM ' . BANNED_TABLE . $whereClause);
+    $banQuery = nkDB_select('SELECT `id`, `pseudo`, `created`, `period` FROM '.BANNED_TABLE . $whereClause);
 
     // If positive result with banish search, assign new ip
     if (nkDB_numRows() > 0) {
@@ -195,7 +195,7 @@ function banip() {
         // Check IP cookie and current IP address
         if ($ipDynCookie == $ipDyn) {
             // Check banishment existence
-            $banCookieQuery  = nkDB_select('SELECT `id` FROM ' . BANNED_TABLE . ' WHERE (ip LIKE "%' . $ipDynCookie . '%")');
+            $banCookieQuery  = nkDB_select('SELECT `id` FROM '.BANNED_TABLE.' WHERE (ip LIKE "%'.$ipDynCookie.'%")');
             // If positive result, do new ban and assign new IP
             if (nkDB_numRows() > 0) {
                 $ipBanned = $GLOBALS['user_ip'];
@@ -208,28 +208,28 @@ function banip() {
     // Delete expire banishment or update IP
     if (!empty($ipBanned)) {
         // Search expire banishment
-        if ($banQuery[0]['dure'] != 0 && ($banQuery[0]['date'] + $banQuery[0]['dure']) < time()) {
+        if ($banQuery[0]['period'] != 0 && ($banQuery[0]['created'] + $banQuery[0]['period']) < time()) {
             // Delete banishment
-            $delBan = nkDB_delete( BANNED_TABLE, $whereClause);
+            $delBan = nkDB_delete(BANNED_TABLE, $whereClause);
             // Administration notification           
-            $fields = array( 'date', 'type', 'texte' );
-            $banQuery[0]['pseudo']  .= ' ' . BANFINISHED . ' : [<a href=\"index.php?file=Admin&page=user&op=main_ip\">' . _LINK . '</a>]';
+            $fields = array('created', 'type', 'content');
+            $banQuery[0]['pseudo']  .= '&nbsp;'.BANFINISHED.'&nbsp;:&nbsp;[<a href=\"index.php?file=Admin&page=user&op=main_ip\">'.LINK.'</a>]';
             $values = array( time(), '4', mysql_real_escape_string($banQuery[0]['pseudo']));
             $rs = nkDB_insert( BANNED_TABLE, $fields, $values );
         } else { // update IP address
             if ($isset($GLOBALS['user'])) {
-                $whereUser = ', pseudo = "' . $GLOBALS['user'][2] . '"';
+                $whereUser = ', pseudo = "'.$GLOBALS['user'][2];
             } else {
                 $whereUser = '';
             }
             $fields = array('ip', 'pseudo');
             $values = array($GLOBALS['user_ip'], $whereUser);
-            $rs = nkDB_update( BANNED_TABLE, $fields, $values, 'ip = '. nkDB_escape($GLOBALS['user_ip']. $whereUser . $whereClause));
+            $rs = nkDB_update( BANNED_TABLE, $fields, $values, 'ip = '.nkDB_escape($GLOBALS['user_ip']. $whereUser . $whereClause));
                 
             // Redirection to banish page
-            $urlBan = 'ban.php?ip_ban=' . $ipBanned;
+            $urlBan = 'ban.php?ip_ban='.$ipBanned;
             if (!empty($GLOBALS['user'])) {
-                $urlBan .= '&user=' . urlencode($GLOBALS['user'][2]);
+                $urlBan .= '&user='.urlencode($GLOBALS['user'][2]);
             }
             redirect($urlBan, 0);
         }

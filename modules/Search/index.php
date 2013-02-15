@@ -80,7 +80,7 @@ if($langTest == true) {
                     <div class="nkAlignCenter">
                         <h2>
                             <?php 
-                            echo SEARCHFOR; 
+                            echo SEARCH; 
                             ?>
                         </h2>
                     </div>
@@ -113,7 +113,7 @@ if($langTest == true) {
                         ?>
                     </div>
                     <div class="nkAlignCenter nkMarginLRAuto nkMarginTop15">
-                        <input type="submit" class="nkButton" name="submit" value="<?php echo SEARCHFOR; ?>" />
+                        <input type="submit" class="nkButton" name="submit" value="<?php echo SEARCH; ?>" />
                     </div>
                 </form>
             </article>

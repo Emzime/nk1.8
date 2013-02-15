@@ -82,7 +82,7 @@ if ($blockSide[$modName] == 3 || $blockSide[$modName] == 4) {
             ?>
         </div>
         <div class="nkAlignCenter nkMarginLRAuto nkMarginTop15 nkMarginBottom15">
-            <input type="submit" class="nkButton" name="submit" value="<?php echo SEARCHFOR; ?>" />
+            <input type="submit" class="nkButton" name="submit" value="<?php echo SEARCH; ?>" />
         </div>
     </form>
 
@@ -95,7 +95,7 @@ if ($blockSide[$modName] == 3 || $blockSide[$modName] == 4) {
         </div>
         <div class="nkAlignCenter nkMarginBottom15">
             <input type="hidden" name="module" value="" />
-            <input type="submit" class="nkButton" name="submit" value="<?php echo SEARCHFOR; ?>" />
+            <input type="submit" class="nkButton" name="submit" value="<?php echo SEARCH; ?>" />
         </div>
         <div class="nkAlignCenter">
             <a href="index.php?file=Search"><?php echo ADVANCEDSEARCH; ?></a>

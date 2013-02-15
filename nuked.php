@@ -287,8 +287,8 @@ function getBlok($side) {
                 $display = TRUE;
             }
 
-            if ($visiteur >= $block['nivo'] && $display) {
-                $block['titre'] = printSecuTags($block['titre']);
+            if ($visiteur >= $block['level'] && $display) {
+                $block['title'] = printSecuTags($block['title']);
 
                 include_once 'Includes/blocks/block'. ucfirst($block['type']) .'.php';
 

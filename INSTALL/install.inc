@@ -413,7 +413,7 @@
                           `forumId` mediumint(10) NOT NULL default '0',
                           `attachment` varchar(200) NOT NULL,
                           PRIMARY KEY  (`id`),
-                          KEY `auteurId` (`auteurId`),
+                          KEY `autorId` (`autorId`),
                           KEY `threadId` (`threadId`),
                           KEY `forumId` (`forumId`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
@@ -429,14 +429,14 @@
                           `created` varchar(10) default NULL,
                           `closed` int(1) NOT NULL default '0',
                           `autor` text NOT NULL,
-                          `autorId` varchar(20) NOT NULL default '',
+                          `autorId` varchar(20) NOT NULL,
                           `forumId` int(5) NOT NULL default '0',
-                          `lastPost` varchar(20) NOT NULL default '',
+                          `lastPost` varchar(20) NOT NULL,
                           `view` int(10) NOT NULL default '0',
                           `annonce` int(1) NOT NULL default '0',
-                          `sondage` int(1) NOT NULL default '0',
+                          `survey` int(1) NOT NULL default '0',
                           PRIMARY KEY  (`id`),
-                          KEY `auteurId` (`auteurId`),
+                          KEY `autorId` (`autorId`),
                           KEY `forumId` (`forumId`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
@@ -642,7 +642,7 @@
         case'links_cat':
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_links_cat`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE `" . $db_prefix . "_liens_cat` (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_links_cat` (
                           `id` int(11) NOT NULL auto_increment,
                           `parentid` int(11) NOT NULL default '0',
                           `title` varchar(50) NOT NULL,
@@ -681,7 +681,7 @@
                           `urlLeague` varchar(100) default NULL,
                           `available` text,
                           `unavailable` text,
-                          PRIMARY KEY  (`warid`)
+                          PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req  =mysql_query($sql) or die (mysql_error());
                         echo 'OK';
@@ -951,7 +951,7 @@
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
-                        $sql = "INSERT INTO `" . $db_prefix . "_sondage` VALUES
+                        $sql = "INSERT INTO `" . $db_prefix . "_survey` VALUES
                             (1, '" . mysql_real_escape_string(LIKENK) . "', '" . time() . "', 0);";
                         $req = mysql_query($sql);
                         echo 'OK';
@@ -981,7 +981,7 @@
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
-                        $sql = "INSERT INTO `" . $db_prefix . "_sondage_data` VALUES
+                        $sql = "INSERT INTO `" . $db_prefix . "_survey_data` VALUES
                             (1, '" . mysql_real_escape_string(ROXX) . "', 0, 1),
                             (1, '" . mysql_real_escape_string(NOTBAD) . "', 0, 2),
                             (1, '" . mysql_real_escape_string(SHIET) . "', 0, 3),
@@ -1215,7 +1215,7 @@
                           `ip` varchar(20) NOT NULL default '',
                           `vote` int(2) default NULL,
                           PRIMARY KEY  (`id`),
-                          KEY `vid` (`vid`)
+                          KEY `id` (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';

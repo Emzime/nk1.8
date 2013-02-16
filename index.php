@@ -138,7 +138,7 @@ if (!empty($activeCssBlock)) {
         foreach($arraySide as $keyActivedBlock){
             if (!empty($keyActivedBlock['module'])) {
                 // Récupération du coté du block
-                $blockSide[$keyActivedBlock['module']] = $keyActivedBlock['active'];
+                $blockSide[$keyActivedBlock['module']] = $keyActivedBlock['side'];
                 // on inclu la langue du module
                 if (is_file(ROOT_PATH .'modules/'.$keyActivedBlock['module'].'/lang/'.$language.'.lang.php')) {
                     include_once ROOT_PATH .'modules/'.$keyActivedBlock['module'].'/lang/'.$language.'.lang.php';

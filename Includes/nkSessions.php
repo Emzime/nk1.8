@@ -191,7 +191,7 @@ function nkSessionInit() {
     $GLOBALS['timesession'] = $timesession;
     $GLOBALS['timelimit'] = $timelimit;
     $GLOBALS['sessionlimit'] = $sessionlimit ;
-    $GLOBALS['cookie_session']	= $cookie_session;
+    $GLOBALS['cookie_session']  = $cookie_session;
     $GLOBALS['cookie_theme'] = $cookie_theme;
     $GLOBALS['cookie_langue'] = $cookie_langue;
     $GLOBALS['cookie_visit'] = $cookie_visit ;
@@ -269,22 +269,22 @@ function secure(){
         $id_user = $_COOKIE[$cookie_userid];
 
     if ($id_de_session != null && $id_user != null) {
-        $sql = mysql_query("SELECT date, ip, last_used FROM " . SESSIONS_TABLE . " WHERE id = '" . $id_de_session . "' AND user_id = '" . $id_user . "'");
+        $sql = mysql_query("SELECT created, ip, lastUsed FROM " . SESSIONS_TABLE . " WHERE id = '" . $id_de_session . "' AND userId = '" . $id_user . "'");
         $secu_user = mysql_num_rows($sql);
         $row = mysql_fetch_assoc($sql);
-        if ($row['date'] > $time - $timesession && $row['ip'] != $user_ip)
+        if ($row['created'] > $time - $timesession && $row['ip'] != $user_ip)
             $secu_user = 0;
         if ($secu_user  == 1) {
-            $last_used = $row['last_used'];
-            $sql2 = mysql_query("SELECT niveau, pseudo FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
+            $last_used = $row['lastUsed'];
+            $sql2 = mysql_query("SELECT level, pseudo FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
             list($user_type, $user_name) = mysql_fetch_array($sql2);
             
             $last_visite = $last_used;
             
-            $upd = mysql_query("UPDATE " . SESSIONS_TABLE . "  last_used = '" . $time . "' WHERE id = '" . $id_de_session . "'");
+            $upd = mysql_query("UPDATE " . SESSIONS_TABLE . "  lastUsed = '" . $time . "' WHERE id = '" . $id_de_session . "'");
 
             if (isset($_REQUEST['file']) && isset($_REQUEST['thread_id']) && $_REQUEST['file'] == 'Forum' && is_numeric($_REQUEST['thread_id']) && $_REQUEST['thread_id'] > 0 && $secu_user > 0) {
-                $select_thread = "SELECT MAX(id) FROM " . FORUM_MESSAGES_TABLE . " WHERE date > '" . $last_used . "' AND thread_id = '" . $_REQUEST['thread_id'] . "' ";
+                $select_thread = "SELECT MAX(id) FROM " . FORUM_MESSAGES_TABLE . " WHERE created > '" . $last_used . "' AND threadId = '" . $_REQUEST['thread_id'] . "' ";
                 $sql_thread = mysql_query($select_thread);
                 list($max_mess_id) = mysql_fetch_array($sql_thread);
 
@@ -302,7 +302,7 @@ function secure(){
         // Incorect session information
         else {
             mysql_query("DELETE FROM " . SESSIONS_TABLE . " WHERE id = '" . $id_de_session."'");
-            mysql_query("DELETE FROM " . SESSIONS_TABLE . " WHERE user_id = '" . $id_user . "'");
+            mysql_query("DELETE FROM " . SESSIONS_TABLE . " WHERE userId = '" . $id_user . "'");
         }
 
     }
@@ -312,7 +312,7 @@ function secure(){
     }
 
     if ($secu_user == 1) {
-        $sql_mess = mysql_query("SELECT mid FROM " . USERBOX_TABLE . " WHERE user_for = '" . $id_user . "' AND status = 0");
+        $sql_mess = mysql_query("SELECT id FROM " . USERBOX_TABLE . " WHERE userFor = '" . $id_user . "' AND status = 0");
         $nb_mess = mysql_num_rows($sql_mess);
         $user = array($id_user, $user_type, mysql_real_escape_string($user_name), $user_ip, $last_visite, $nb_mess);
     }
@@ -369,9 +369,9 @@ function session_new($userid, $remember_me) {
 
     $test = init_cookie();
 
-    $upd = mysql_query("UPDATE " . SESSIONS_TABLE . " SET `id` = '" . $session_id . "', last_used = date, `date` =  '" . $time . "', `ip` = '" . $user_ip . "' WHERE user_id = '" . $userid . "'");
+    $upd = mysql_query("UPDATE " . SESSIONS_TABLE . " SET `id` = '" . $session_id . "', lastUsed = created, `created` =  '" . $time . "', `ip` = '" . $user_ip . "' WHERE userId = '" . $userid . "'");
     if (mysql_affected_rows() == 0)
-        $ins = mysql_query("INSERT INTO " . SESSIONS_TABLE . " ( `id` , `user_id` , `date` , `ip` , `vars` ) VALUES( '" . $session_id . "' , '" . $userid . "' , '" . $time . "' , '" . $user_ip . "', '' )");
+        $ins = mysql_query("INSERT INTO " . SESSIONS_TABLE . " ( `id` , `userId` , `created` , `ip` , `vars` ) VALUES( '" . $session_id . "' , '" . $userid . "' , '" . $time . "' , '" . $user_ip . "', '' )");
     if ($upd !== FALSE && $ins !== FALSE) {
         if ($remember_me == "ok") {
             setcookie($cookie_session, $session_id, $timelimit);
@@ -383,7 +383,7 @@ function session_new($userid, $remember_me) {
         }
     }
     else {
-        mysql_query("DELETE FROM " . SESSIONS_TABLE . " WHERE `user_id` = '" . $userid . "'");
+        mysql_query("DELETE FROM " . SESSIONS_TABLE . " WHERE `userId` = '" . $userid . "'");
     }
 }
 ?>

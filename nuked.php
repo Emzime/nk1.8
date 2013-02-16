@@ -1157,8 +1157,7 @@ function visits() {
  * @param int $maxlength : the max length of pseudo (30)
  * @return string : pseudo string without blank characters or error code
  */
-function verif_pseudo($pseudo = '', $checkNickUse = TRUE, $maxlength = 30)
-{
+function verif_pseudo($pseudo = '', $checkNickUse = TRUE, $maxlength = 30) {
     // Clean blank characters of pseudo
     $pseudo = trim($pseudo);
 
@@ -1450,8 +1449,6 @@ function activatedModules($blackArray = null) {
     foreach ($kname as $key) {
         unset($activeModules[$key]);
     }
-
-
     return $activeModules;
 }
 
@@ -1459,8 +1456,7 @@ function activatedModules($blackArray = null) {
  * Set theme
  */
 // SELECT THEME, USER THEME OR NOT FOUND THEME : ERROR
-if (isset($_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_theme'])
-        && is_file(ROOT_PATH . 'themes/' . $GLOBALS['nuked']['user_theme'] . '/theme.php')) {
+if (isset($_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_theme']) && is_file(ROOT_PATH . 'themes/' . $GLOBALS['nuked']['user_theme'] . '/theme.php')) {
     $theme = $_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_theme'];
 } elseif (is_file(ROOT_PATH . 'themes/' . $GLOBALS['nuked']['theme'] . '/theme.php')) {
     $theme = $GLOBALS['nuked']['theme'];
@@ -1469,8 +1465,7 @@ if (isset($_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_theme'])
 }
 
 // SELECT LANGUAGE AND USER LANGUAGE
-if (isset($_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_langue'])
-        && is_file(ROOT_PATH . 'lang/' . $GLOBALS['nuked']['user_lang'] . '.lang.php')) {
+if (isset($_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_langue']) && is_file(ROOT_PATH . 'lang/' . $GLOBALS['nuked']['user_lang'] . '.lang.php')) {
     $language = $_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_langue'];    
 } else {
     $language =  $GLOBALS['nuked']['langue'];    
@@ -1481,10 +1476,14 @@ if (isset($_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_langue'])
 // FORMAT DATE FR/EN
 if($language == 'french') {
     // On verifie l'os du serveur pour savoir si on est en windows (setlocale : ISO) ou en unix (setlocale : UTF8)
-    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') setlocale (LC_ALL, 'fr_FR','fra');
-    else setlocale(LC_ALL, 'fr_FR.UTF8','fra');    
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        setlocale (LC_ALL, 'fr_FR','fra');
+    } else {
+        setlocale(LC_ALL, 'fr_FR.UTF8','fra');  
+    }    
+} elseif ($language == 'english') {
+    setlocale(LC_ALL, 'en_US');
 }
-elseif($language == 'english') setlocale(LC_ALL, 'en_US');
 
 // DATE FUNCTION WITH FORMAT AND ZONE FOR DATE
 $dateZone = getTimeZoneDateTime($GLOBALS['nuked']['datezone']);

@@ -12,13 +12,12 @@ define("_REGISTRATION","Inscription");
 define("_PASSFORGET","Mot de passe oubli?");
 define("_ADMINS","Admins");
 define("_MEMBERS","Membres");
-define("_VISITORS","Visiteurs");
 define("_LASTMEMBER","Dernier membre");
 
 
 /*
 if (!defined("INDEX_CHECK")){
-	exit('You can\'t run this file alone.');
+    exit('You can\'t run this file alone.');
 }
 define("_OTHER","Autre");
 define("_YOURACCOUNT","Votre Compte");

@@ -151,22 +151,25 @@ function nkSessionInit() {
     */
     
     // Prepare sessions vars
-    $lifetime = $GLOBALS['nuked']['sess_days_limit'] * 86400;
-    $timesession = $GLOBALS['nuked']['sess_inactivemins'] * 60;
-    $time = time();
-    $timelimit = $time + $lifetime;
+    $lifetime     = $GLOBALS['nuked']['sess_days_limit'] * 86400;
+    $timesession  = $GLOBALS['nuked']['sess_inactivemins'] * 60;
+    $time         = time();
+    $timelimit    = $time + $lifetime;
     $sessionlimit = $time + $timesession;
-    $user_theme = '';
-    $user_langue = '';
+    $user_theme   = '';
+    $user_langue  = '';
+
+    // Recherche de l'adresse IP
+    $uip = (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
     
     // Prepare session cookie name
     $cookie_session = $GLOBALS['nuked']['cookiename'] . '_sess_id';
-    $cookie_theme = $GLOBALS['nuked']['cookiename'] . '_user_theme';
-    $cookie_langue = $GLOBALS['nuked']['cookiename'] . '_user_langue';
-    $cookie_visit = $GLOBALS['nuked']['cookiename'] . '_last_visit';
-    $cookie_admin = $GLOBALS['nuked']['cookiename'] . '_admin_session';
-    $cookie_forum = $GLOBALS['nuked']['cookiename'] . '_forum_read';
-    $cookie_userid = $GLOBALS['nuked']['cookiename'] . '_userid';
+    $cookie_theme   = $GLOBALS['nuked']['cookiename'] . '_user_theme';
+    $cookie_langue  = $GLOBALS['nuked']['cookiename'] . '_user_langue';
+    $cookie_visit   = $GLOBALS['nuked']['cookiename'] . '_last_visit';
+    $cookie_admin   = $GLOBALS['nuked']['cookiename'] . '_admin_session';
+    $cookie_forum   = $GLOBALS['nuked']['cookiename'] . '_forum_read';
+    $cookie_userid  = $GLOBALS['nuked']['cookiename'] . '_userid';
     $cookie_captcha = $GLOBALS['nuked']['cookiename'] . '_captcha';
     
     // Get theme cookie of user if exists
@@ -178,7 +181,7 @@ function nkSessionInit() {
     if (isset( $_COOKIE[$cookie_langue] ) && $_COOKIE[$cookie_langue] != '') {
         $user_langue = $_COOKIE[$cookie_langue];
     }
-    
+
     // Check IP address user validity and get user IP
     if (isset($uip) && filter_var($uip, FILTER_VALIDATE_IP) !== FALSE) {
         $user_ip = $uip;
@@ -187,26 +190,26 @@ function nkSessionInit() {
     }
     
     // Prepares global vars of session
-    $GLOBALS['lifetime']= $lifetime;
-    $GLOBALS['timesession'] = $timesession;
-    $GLOBALS['timelimit'] = $timelimit;
-    $GLOBALS['sessionlimit'] = $sessionlimit ;
-    $GLOBALS['cookie_session']  = $cookie_session;
-    $GLOBALS['cookie_theme'] = $cookie_theme;
-    $GLOBALS['cookie_langue'] = $cookie_langue;
-    $GLOBALS['cookie_visit'] = $cookie_visit ;
-    $GLOBALS['cookie_admin'] = $cookie_admin;
-    $GLOBALS['cookie_forum'] = $cookie_forum ;
-    $GLOBALS['cookie_userid'] = $cookie_userid;
+    $GLOBALS['lifetime']       = $lifetime;
+    $GLOBALS['timesession']    = $timesession;
+    $GLOBALS['timelimit']      = $timelimit;
+    $GLOBALS['sessionlimit']   = $sessionlimit ;
+    $GLOBALS['cookie_session'] = $cookie_session;
+    $GLOBALS['cookie_theme']   = $cookie_theme;
+    $GLOBALS['cookie_langue']  = $cookie_langue;
+    $GLOBALS['cookie_visit']   = $cookie_visit ;
+    $GLOBALS['cookie_admin']   = $cookie_admin;
+    $GLOBALS['cookie_forum']   = $cookie_forum ;
+    $GLOBALS['cookie_userid']  = $cookie_userid;
     $GLOBALS['cookie_captcha'] = $cookie_captcha;
-    $GLOBALS['time'] = $time;
-    $GLOBALS['user_ip'] = $user_ip;
-    $GLOBALS['user_theme'] = $user_theme;
-    $GLOBALS['user_langue'] = $user_langue;
+    $GLOBALS['time']           = $time;
+    $GLOBALS['user_ip']        = $user_ip;
+    $GLOBALS['user_theme']     = $user_theme;
+    $GLOBALS['user_langue']    = $user_langue;
 }
 
 
-//var_dump($GLOBALS);exit;
+// debug($GLOBALS);exit;
 
 
 
@@ -361,6 +364,7 @@ function init_cookie() {
 function session_new($userid, $remember_me) {
     global $nuked, $cookie_session, $cookie_userid, $cookie_theme, $cookie_langue, $cookie_forum, $user_ip, $timelimit, $sessionlimit, $time;
 
+
     //On prend un ID de session unique
     do {
         $session_id = md5(uniqid());
@@ -370,8 +374,10 @@ function session_new($userid, $remember_me) {
     $test = init_cookie();
 
     $upd = mysql_query("UPDATE " . SESSIONS_TABLE . " SET `id` = '" . $session_id . "', lastUsed = created, `created` =  '" . $time . "', `ip` = '" . $user_ip . "' WHERE userId = '" . $userid . "'");
-    if (mysql_affected_rows() == 0)
+
+    if (mysql_affected_rows() == 0) 
         $ins = mysql_query("INSERT INTO " . SESSIONS_TABLE . " ( `id` , `userId` , `created` , `ip` , `vars` ) VALUES( '" . $session_id . "' , '" . $userid . "' , '" . $time . "' , '" . $user_ip . "', '' )");
+    
     if ($upd !== FALSE && $ins !== FALSE) {
         if ($remember_me == "ok") {
             setcookie($cookie_session, $session_id, $timelimit);

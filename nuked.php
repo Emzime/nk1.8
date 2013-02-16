@@ -909,7 +909,7 @@ function updateUserConnectData($user, $ipUser, $limite) {
     
     // Get IP address of visitor
     if (isset($user[0])) {
-        $req = nkDB_select('SELECT IP FROM '. NBCONNECTE_TABLE .' WHERE user_id = '. nkDB_escape($user[0]));
+        $req = nkDB_select('SELECT IP FROM '. NBCONNECTE_TABLE .' WHERE userId = '. nkDB_escape($user[0]));
     } else {
         $req = nkDB_select('SELECT IP FROM '. NBCONNECTE_TABLE .' WHERE IP = '. nkDB_escape($ipUser));
     }
@@ -917,11 +917,11 @@ function updateUserConnectData($user, $ipUser, $limite) {
     // If IP address exists, update user informations
     if (nkDB_numRows() > 0) {
         if (isset($user[0])) {
-            $fieldsUserSet = array('date', 'type', 'IP', 'username');
+            $fieldsUserSet = array('created', 'type', 'IP', 'userName');
             $valuesUserSet = array($limite, (int) $user[1], $ipUser, $user[2]);
             $rs = nkDB_update(NBCONNECTE_TABLE, $fieldsUserSet, $valuesUserSet, 'user_id = '. nkDB_escape($user[0]));
         } else {
-            $fields = array('date', 'type', 'IP', 'username', 'user_id');
+            $fields = array('created', 'type', 'IP', 'userName', 'userId');
             $values = array($limite, 0, $ipUser, '', '');
             $rs = nkDB_update(NBCONNECTE_TABLE, $fields, $values, 'IP = '. nkDB_escape($ipUser));
         }
@@ -930,10 +930,10 @@ function updateUserConnectData($user, $ipUser, $limite) {
         $rsDel = nkDB_delete(NBCONNECTE_TABLE, 'IP = ' . nkDB_escape($ipUser));
         
         if ($user) {
-            $fields = array('date', 'type', 'IP', 'username', 'user_id');
+            $fields = array('created', 'type', 'IP', 'userName', 'userId');
             $values = array($limite, (int) $user[1], $ipUser, $user[2], $user[0]);
         } else {
-            $fields = array('date', 'type', 'IP');
+            $fields = array('created', 'type', 'IP');
             $values = array($limite, 0, $ipUser);
         }
         $rsIns = nkDB_insert(NBCONNECTE_TABLE, $fields, $values);

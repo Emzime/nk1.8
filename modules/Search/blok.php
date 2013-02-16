@@ -18,7 +18,7 @@ $arrayanswer = array(
     'matchexact' => MATCHEXACT.'<br />',
     'matchor' => MATCHOR
 );                        
-$keyword = $GLOBALS['nkFunctions']->nkRadioBox('label', TYPEOFSEARCH, '3', 'searchtype', $arrayanswer, 'searchtype', 'nkWidthQuarter nkValignTop nkInlineBlock', null, 'nkBlock');
+$keyword = $GLOBALS['nkFunctions']->nkRadioBox('label', TYPEOFSEARCH.'&nbsp;:&nbsp;', '3', 'searchtype', $arrayanswer, 'searchtype', 'nkLabelSpacing nkValignTop nkInlineBlock', null, 'nkBlock');
 
 // Nombre de reponse a retrouner
 $arrayanswers = array(
@@ -26,7 +26,7 @@ $arrayanswers = array(
     '50' => 50,
     '100' => 100
 );                      
-$numberOfResponse =  $GLOBALS['nkFunctions']->nkRadioBox( 'label',NBANSWERS.'&nbsp;:&nbsp;', '3', 'limit', $arrayanswers, 'answers', 'nkLabelSpacing nkWidthQuarter nkMarginLRAuto');
+$numberOfResponse =  $GLOBALS['nkFunctions']->nkRadioBox( 'label',NBANSWERS.'&nbsp;:&nbsp;', '3', 'limit', $arrayanswers, 'answers', 'nkLabelSpacing nkMarginLRAuto');
 
 
 if ($blockSide[$modName] == 3 || $blockSide[$modName] == 4) {
@@ -36,25 +36,25 @@ if ($blockSide[$modName] == 3 || $blockSide[$modName] == 4) {
         <div class="nkAlignCenter">
             <h2>
                 <?php 
-                echo SEARCHFOR; 
+                echo SEARCH; 
                 ?>
             </h2>
         </div>
-        <div class="nkWidth3Quarter  nkMarginLRAuto">
-            <label for="main" class="nkLabelSpacing nkWidthQuarter nkMarginLRAuto"><?php echo KEYWORDS; ?>&nbsp;:&nbsp;</label>
+        <div class="nkMarginLRAuto nkPaddingLeft nkPaddingRight">
+            <label for="main" class="nkLabelSpacing nkMarginLRAuto"><?php echo KEYWORDS; ?>&nbsp;:&nbsp;</label>
                 <input type="text" id="main" name="main" size="30" value="" />
         </div>
-        <div class="nkWidth3Quarter  nkMarginLRAuto">
+        <div class="nkMarginLRAuto nkPaddingLeft nkPaddingRight">
             <?php  
             echo $keyword; 
             ?>
         </div>
-        <div class="nkWidth3Quarter  nkMarginLRAuto">
-            <label for="autor" class="nkLabelSpacing nkWidthQuarter nkMarginLRAuto"><?php echo AUTHOR; ?>&nbsp;:&nbsp;</label>
+        <div class="nkMarginLRAuto nkPaddingLeft nkPaddingRight">
+            <label for="autor" class="nkLabelSpacing nkMarginLRAuto"><?php echo AUTHOR; ?>&nbsp;:&nbsp;</label>
                 <input type="text" size="30" id="autor" name="autor"  value="" />
         </div>
-        <div class="nkWidth3Quarter  nkMarginLRAuto">
-            <label for="module" class="nkLabelSpacing nkWidthQuarter nkMarginLRAuto"><?php echo COLUMN; ?>&nbsp;:&nbsp;</label>
+        <div class="nkMarginLRAuto nkPaddingLeft nkPaddingRight">
+            <label for="module" class="nkLabelSpacing nkMarginLRAuto"><?php echo COLUMN; ?>&nbsp;:&nbsp;</label>
                 <select id="module" name="module">
                     <option value=""><?php echo SALL; ?></option>
                     <?php
@@ -76,7 +76,7 @@ if ($blockSide[$modName] == 3 || $blockSide[$modName] == 4) {
                         ?>                  
                 </select>
         </div>
-        <div class="nkWidth3Quarter nkMarginLRAuto">
+        <div class="nkMarginLRAuto nkPaddingLeft nkPaddingRight">
             <?php   
             echo $numberOfResponse;
             ?>

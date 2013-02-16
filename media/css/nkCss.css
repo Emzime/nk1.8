@@ -665,7 +665,7 @@ div[id^='globalVoteResult_'] {
 }
 /* Global pour l'affichage des <label> */
 .nkLabelSpacing {
-    width: 12%;
+    width: 30%;
     display: inline-block !important;
     padding: 15px 0;
 }

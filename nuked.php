@@ -1441,6 +1441,8 @@ function activatedModules($blackArray = null) {
             $kname[] = $k['name'];        
         }
     }
+    // initialise $kname
+    $kname = array();
     if (!is_null($blackArray)) {
         $kname = array_merge($kname, $blackArray);
     }

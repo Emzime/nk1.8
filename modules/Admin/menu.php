@@ -13,7 +13,6 @@ if (!defined("INDEX_CHECK"))
 }
 
 global $user, $language;
-translate("modules/Admin/lang/" . $language . ".lang.php");
 include("modules/Admin/design.php");
 if (!$user)
 {
@@ -29,28 +28,28 @@ if ($visiteur == 9)
     function index()
     {
         global $nuked, $language;
-		
-		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _MENUADMIN . "</h3>\n"
-		. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/menu.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-	. "<tr>\n"
-	. "<td style=\"width: 35%;\" align=\"center\"><b>" . _NAME . "</b></td>\n"
-	. "<td style=\"width: 20%;\" align=\"center\"><b>" . _BLOCK . "</b></td>\n"
-	. "<td style=\"width: 15%;\" align=\"center\"><b>" . _POSITION . "</b></td>\n"
-	. "<td style=\"width: 15%;\" align=\"center\"><b>" . _LEVEL . "</b></td>\n"
-	. "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td></tr>\n";
+        
+        echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
+        . "<div class=\"content-box-header\"><h3>" . MENUADMIN . "</h3>\n"
+        . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/menu.php\" rel=\"modal\">\n"
+    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . HELP . "\" /></a>\n"
+    . "</div></div>\n"
+    . "<div class=\"tab-content\" id=\"tab2\"><table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+    . "<tr>\n"
+    . "<td style=\"width: 35%;\" align=\"center\"><b>" . NAME . "</b></td>\n"
+    . "<td style=\"width: 20%;\" align=\"center\"><b>" . BLOCK . "</b></td>\n"
+    . "<td style=\"width: 15%;\" align=\"center\"><b>" . POSITION . "</b></td>\n"
+    . "<td style=\"width: 15%;\" align=\"center\"><b>" . LEVEL . "</b></td>\n"
+    . "<td style=\"width: 15%;\" align=\"center\"><b>" . EDIT . "</b></td></tr>\n";
 
-        $sql = mysql_query("SELECT  bid, active, position, titre, nivo FROM " . BLOCK_TABLE . " WHERE type = 'menu'");
+        $sql = mysql_query("SELECT  id, side, placing, title, level FROM " . BLOCK_TABLE . " WHERE type = 'menu'");
         while (list($bid, $activ, $position, $titre, $nivo) = mysql_fetch_array($sql))
         {
             $titre = htmlentities($titre);
 
-            if ($activ == 1) $active = _LEFT;
-            else if ($activ == 2) $active = _RIGHT;
-            else $active = _OFF;
+            if ($activ == 1) $active = LEFT;
+            else if ($activ == 2) $active = RIGHT;
+            else $active = OFF;
 
 
             echo "<tr>\n"
@@ -58,56 +57,56 @@ if ($visiteur == 9)
             . "<td style=\"width: 20%;\" align=\"center\">" . $active . "</td>\n"
             . "<td style=\"width: 15%;\" align=\"center\">" . $position . "</td>\n"
             . "<td style=\"width: 15%;\" align=\"center\">" . $nivo . "</td>\n"
-            . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=menu&amp;op=edit_menu&amp;bid=" . $bid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDIT . "\" /></a></td></tr>\n";
+            . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=menu&amp;op=edit_menu&amp;bid=" . $bid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . EDIT . "\" /></a></td></tr>\n";
 
         }
-        echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+        echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . BACK . "</b></a> ]</div><br /></div></div>\n";
     }
 
     function edit_menu($bid)
     {
         global $nuked, $user, $language;
 
-        $sql = mysql_query("SELECT titre, content FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
+        $sql = mysql_query("SELECT title, content FROM " . BLOCK_TABLE . " WHERE id = '" . $bid . "'");
         list($titre, $content) = mysql_fetch_array($sql);
         $titre = htmlentities($titre);
 
         echo "<script type=\"text/javascript\">\n"
-	."<!--\n"
-	."\n"
-	."function setCheckboxes(checkbox, nbcheck, do_check)\n"
-	."{\n"
-	."for (var i = 0; i < nbcheck; i++)\n"
-	."{\n"
-	."cbox = checkbox + i;\n"
-	."document.getElementById(cbox).checked = do_check;\n"
-	."}\n"
-	."return true;\n"
-	."}\n"
-	."\n"
-	. "// -->\n"
-	. "</script>\n";
+    ."<!--\n"
+    ."\n"
+    ."function setCheckboxes(checkbox, nbcheck, do_check)\n"
+    ."{\n"
+    ."for (var i = 0; i < nbcheck; i++)\n"
+    ."{\n"
+    ."cbox = checkbox + i;\n"
+    ."document.getElementById(cbox).checked = do_check;\n"
+    ."}\n"
+    ."return true;\n"
+    ."}\n"
+    ."\n"
+    . "// -->\n"
+    . "</script>\n";
 
         $link = explode('NEWLINE', $content);
         $count = count($link);
         $r = 0;
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _MENUADMIN . " : " . $titre . "</h3>\n"
-		. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/menu.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=menu&amp;op=send_line\">\n"
-	. "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-	. "<tr>\n"
-	. "<td style=\"width: 5%;\" align=\"center\"><b>&lt; # &gt;</b></td>\n"
-	. "<td style=\"width: 5%;\" align=\"center\"><b>" . _DELBOX . "</b></td>\n"
-	. "<td style=\"width: 25%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
-	. "<td style=\"width: 25%;\" align=\"center\"><b>" . _URL . "</b></td>\n"
-	. "<td style=\"width: 10%;\" align=\"center\"><b>" . _COMMENT . "</b></td>\n"
-	. "<td style=\"width: 10%;\" align=\"center\"><b>" . _NEWPAGE . "</b></td>\n"
-	. "<td style=\"width: 10%;\" align=\"center\"><b>" . _LEVEL . "</b></td>\n"
-	. "<td style=\"width: 10%;\" align=\"center\"><b>" . _EDIT . "</b></td></tr>\n";
+        . "<div class=\"content-box-header\"><h3>" . MENUADMIN . " : " . $titre . "</h3>\n"
+        . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/menu.php\" rel=\"modal\">\n"
+    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+    . "</div></div>\n"
+    . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=menu&amp;op=send_line\">\n"
+    . "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+    . "<tr>\n"
+    . "<td style=\"width: 5%;\" align=\"center\"><b>&lt; # &gt;</b></td>\n"
+    . "<td style=\"width: 5%;\" align=\"center\"><b>" . DELBOX . "</b></td>\n"
+    . "<td style=\"width: 25%;\" align=\"center\"><b>" . TITLE . "</b></td>\n"
+    . "<td style=\"width: 25%;\" align=\"center\"><b>" . URL . "</b></td>\n"
+    . "<td style=\"width: 10%;\" align=\"center\"><b>" . COMMENT . "</b></td>\n"
+    . "<td style=\"width: 10%;\" align=\"center\"><b>" . NEWPAGE . "</b></td>\n"
+    . "<td style=\"width: 10%;\" align=\"center\"><b>" . LEVEL . "</b></td>\n"
+    . "<td style=\"width: 10%;\" align=\"center\"><b>" . EDIT . "</b></td></tr>\n";
 
         if (!empty($content))
         {
@@ -121,22 +120,22 @@ if ($visiteur == 9)
                 {
                     $comment = htmlentities(substr($comment, 0, 15)) . "...";
                 }
-		else if ($comment != "")
-		{
+        else if ($comment != "")
+        {
                     $comment = htmlentities($comment);
-		}
-		else
-		{
-                    $comment = _NOCOMLINK;
-		}
+        }
+        else
+        {
+                    $comment = NOCOMLINK;
+        }
 
                 if ($blank == 1)
                 {
-                    $checked = _YES;
+                    $checked = YES;
                 }
                 else
                 {
-                    $checked = _NO;
+                    $checked = NO;
                 }
 
                 if ($url != "" && substr($url, 0, 1) == "[")
@@ -146,36 +145,36 @@ if ($visiteur == 9)
                     $type = _MODULE . " : <i>" . $url ."</i>";
                 }
                 else if ($url != "")
-		{
-                    $type = _LINK;
-		}
+        {
+                    $type = LINK;
+        }
                 else
-		{
-                    $type = _TITLE;
-		}
+        {
+                    $type = TITLE;
+        }
 
 
                 echo "<tr><td style=\"width: 5%;\" align=\"center\">";
 
                 if ($r < ($count - 1))
                 {
-                    echo "<a href=\"index.php?file=Admin&amp;page=menu&amp;op=send_line&amp;bid=" . $bid . "&amp;lid=" . $r . "&amp;line=" . ($r + 2) . "\" title=\"" . _DOWN . "\">&lt;</a>";
+                    echo "<a href=\"index.php?file=Admin&amp;page=menu&amp;op=send_line&amp;bid=" . $bid . "&amp;lid=" . $r . "&amp;line=" . ($r + 2) . "\" title=\"" . DOWN . "\">&lt;</a>";
                 }
-		else
-		{
+        else
+        {
                     echo "&nbsp;&nbsp;";
-		}
+        }
 
                 echo "&nbsp;" . $r . "&nbsp;";
 
                 if ($r > 0)
                 {
-                    echo "<a href=\"index.php?file=Admin&amp;page=menu&amp;op=send_line&amp;bid=" . $bid . "&amp;lid=" . $r . "&amp;line=" . ($r - 1) . "\"  title=\"" . _UP . "\">&gt;</a>";
+                    echo "<a href=\"index.php?file=Admin&amp;page=menu&amp;op=send_line&amp;bid=" . $bid . "&amp;lid=" . $r . "&amp;line=" . ($r - 1) . "\"  title=\"" . UP . "\">&gt;</a>";
                 }
-		else
-		{
+        else
+        {
                     echo "&nbsp;&nbsp;";
-		}
+        }
 
                 echo "</td><td style=\"width: 5%;\" align=\"center\"><input id=\"box" . $r . "\" class=\"checkbox\" type=\"checkbox\" name=\"cid[" . $r . "]\" value=\"1\" /></td>\n"
                 . "<td style=\"width: 25%;\">&nbsp;" . $title . "</td>\n"
@@ -183,7 +182,7 @@ if ($visiteur == 9)
                 . "<td style=\"width: 15%;\" align=\"center\">" . $comment . "</td>\n"
                 . "<td style=\"width: 10%;\" align=\"center\">" . $checked . "</td>\n"
                 . "<td style=\"width: 10%;\" align=\"center\">" . $niveau . "</td>\n"
-                . "<td style=\"width: 10%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=menu&amp;op=edit_line&amp;bid=" . $bid . "&amp;lid=" . $r . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDIT . "\" /></a></td></tr>\n";
+                . "<td style=\"width: 10%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=menu&amp;op=edit_line&amp;bid=" . $bid . "&amp;lid=" . $r . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . EDIT . "\" /></a></td></tr>\n";
 
                 $r++;
             }
@@ -192,22 +191,22 @@ if ($visiteur == 9)
             {
 
                 echo "</table><table width=\"100%\"><tr><td style=\"width: 7%;\">&nbsp;</td><td><img src=\"images/flech_coch.gif\" alt=\"\" />\n"
-                . "<a href=\"#\" onclick=\"setCheckboxes('box', '" . $r . "', true);\">" . _CHECKALL . "</a> / "
-                . "<a href=\"#\" onclick=\"setCheckboxes('box', '" . $r . "', false);\">" . _UNCHECKALL . "</a></td></tr>\n";
+                . "<a href=\"#\" onclick=\"setCheckboxes('box', '" . $r . "', true);\">" . CHECKALL . "</a> / "
+                . "<a href=\"#\" onclick=\"setCheckboxes('box', '" . $r . "', false);\">" . UNCHECKALL . "</a></td></tr>\n";
             }
         }
 
         echo "</table><div style=\"text-align: center;\"><br /><input type=\"hidden\" name=\"bid\" value=\"" . $bid . "\" />\n"
-	. "<input type=\"button\" value=\"" . _DEL . "\" onclick=\"if (confirm('" . _SURDELLINE . "')) submit();\" />\n"
-        . "&nbsp;<input type=\"button\" value=\"" . _ADD . "\" onclick=\"document.location='index.php?file=Admin&amp;page=menu&amp;op=edit_line&amp;bid=" . $bid . "'\" /></div>\n"
-        . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=menu\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>";
+    . "<input type=\"button\" value=\"" . DEL . "\" onclick=\"if (confirm('" . SURDELLINE . "')) submit();\" />\n"
+        . "&nbsp;<input type=\"button\" value=\"" . ADD . "\" onclick=\"document.location='index.php?file=Admin&amp;page=menu&amp;op=edit_line&amp;bid=" . $bid . "'\" /></div>\n"
+        . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=menu\"><b>" . BACK . "</b></a> ]</div></form><br /></div></div>";
     }
 
     function edit_line($bid, $lid)
     {
         global $nuked, $user, $language;
 
-        $sql = mysql_query("SELECT titre, content FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
+        $sql = mysql_query("SELECT title, content FROM " . BLOCK_TABLE . " WHERE id = '" . $bid . "'");
         list($titre, $content) = mysql_fetch_array($sql);
         $titre = strip_tags($titre);
         $titre = htmlentities($titre);
@@ -215,11 +214,11 @@ if ($visiteur == 9)
         if ($content) $link = explode('NEWLINE', $content);
         list($module, $title, $comment, $niveau, $blank) = explode('|', $link[$lid]);
 
-	if ($lid != "") $selected0 = "";
-	else $selected0 = "selected=\"selected\"";
+    if ($lid != "") $selected0 = "";
+    else $selected0 = "selected=\"selected\"";
 
         if ($blank == 1) $checked = "checked=\"checked\"";
-	else  $checked = "";
+    else  $checked = "";
 
         if (preg_match("`<b>`i", $title)) $chk1 = "checked=\"checked\""; else $chk1 = "";
         if (preg_match("`<i>`i", $title)) $chk2 = "checked=\"checked\""; else $chk2 = "";
@@ -252,50 +251,50 @@ if ($visiteur == 9)
         else $url = $module;
 
         echo "<script type=\"text/javascript\">\n"
-	."<!--\n"
-	."\n"
-	. "function update_img(newimage)\n"
-	. "{\n"
-	. "document.getElementById('img_puce').src = 'images/puces/' + newimage;\n"
-	. "}\n"
-	."\n"
-	. "// -->\n"
-	. "</script>\n";
+    ."<!--\n"
+    ."\n"
+    . "function update_img(newimage)\n"
+    . "{\n"
+    . "document.getElementById('img_puce').src = 'images/puces/' + newimage;\n"
+    . "}\n"
+    ."\n"
+    . "// -->\n"
+    . "</script>\n";
 
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _EDITLINE . "</h3>\n"
-		. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/menu.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=menu&amp;op=send_line&amp;bid=" . $bid . "&amp;lid=" . $lid . "\">\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-	. "<tr>\n"
-	. "<td colspan=\"4\" align=\"center\"><big><b>" .$titre . " : " . $title . "</b></big></td></tr>\n"
-	. "<tr><td colspan=\"2\">" . _PUCE . " : </td>\n"
-	. "<td><table cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tr><td><select name=\"puce\" onchange=\"update_img(this.options[selectedIndex].value);\">\n";
+        . "<div class=\"content-box-header\"><h3>" . EDITLINE . "</h3>\n"
+        . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/menu.php\" rel=\"modal\">\n"
+    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . HELP . "\" /></a>\n"
+    . "</div></div>\n"
+    . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=menu&amp;op=send_line&amp;bid=" . $bid . "&amp;lid=" . $lid . "\">\n"
+    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+    . "<tr>\n"
+    . "<td colspan=\"4\" align=\"center\"><big><b>" .$titre . " : " . $title . "</b></big></td></tr>\n"
+    . "<tr><td colspan=\"2\">" . PUCE . " : </td>\n"
+    . "<td><table cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tr><td><select name=\"puce\" onchange=\"update_img(this.options[selectedIndex].value);\">\n";
 
         list_puce($puce);
 
         if ($puce == "") $puce = "none.gif";
 
         echo "</select></td><td>&nbsp;</td>\n"
-	. "<td><table cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n"
-	. "<tr><td><img id=\"img_puce\" src=\"images/puces/" . $puce . "\" alt=\"\" /></td></tr></table>\n"
-	. "</td></td></tr></table>\n"
-	. "<td style=\"width: 25%;\" rowspan=\"4\" align=\"right\">" . _COLOR . " : <a href=\"#\" onclick=\"javascript:window.open('index.php?file=Admin&amp;page=menu&amp;nuked_nude=menu&amp;op=code_color&amp;color=" . $color . "','" . _COLOR . "','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=330,height=330,top=30,left=0');return(false)\" title=\"" . _VIEWCOLOR . "\"><b>#</b></a><input id=\"couleur\" type=\"text\" name=\"color\" value=\"" . $color . "\" size=\"7\" maxlength=\"6\" />\n"
-	. "<br />" . _BOLD . " : <input class=\"checkbox\" type=\"checkbox\" name=\"b\" value=\"1\" " . $chk1 . " />&nbsp;&nbsp;\n"
-	. "<br />" . _ITAL . " : <input class=\"checkbox\" type=\"checkbox\" name=\"i\" value=\"1\" " . $chk2 . " />&nbsp;&nbsp;\n"
-	. "<br />" . _UNDERLINE . " : <input class=\"checkbox\" type=\"checkbox\" name=\"u\" value=\"1\" " . $chk3 . " />&nbsp;&nbsp;</td></tr>\n"
-	. "<tr><td  colspan=\"2\">" . _TITLE . " :</td><td><input type=\"text\" name=\"title\" value=\"" . $title . "\" size=\"30\" /></td></tr>\n"
-	. "<tr><td rowspan=\"2\" valign=\"top\">" . _URL . " : </td><td>" . _LINK . " :</td><td><input type=\"text\" name=\"url\" value=\"" . $url . "\" size=\"30\" /></td></tr>\n"
-	. "<tr><td>" . _MODULE . " : </td><td><select name=\"module\">\n";
+    . "<td><table cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n"
+    . "<tr><td><img id=\"img_puce\" src=\"images/puces/" . $puce . "\" alt=\"\" /></td></tr></table>\n"
+    . "</td></td></tr></table>\n"
+    . "<td style=\"width: 25%;\" rowspan=\"4\" align=\"right\">" . COLOR . " : <a href=\"#\" onclick=\"javascript:window.open('index.php?file=Admin&amp;page=menu&amp;nuked_nude=menu&amp;op=code_color&amp;color=" . $color . "','" . COLOR . "','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=330,height=330,top=30,left=0');return(false)\" title=\"" . VIEWCOLOR . "\"><b>#</b></a><input id=\"couleur\" type=\"text\" name=\"color\" value=\"" . $color . "\" size=\"7\" maxlength=\"6\" />\n"
+    . "<br />" . BOLD . " : <input class=\"checkbox\" type=\"checkbox\" name=\"b\" value=\"1\" " . $chk1 . " />&nbsp;&nbsp;\n"
+    . "<br />" . ITAL . " : <input class=\"checkbox\" type=\"checkbox\" name=\"i\" value=\"1\" " . $chk2 . " />&nbsp;&nbsp;\n"
+    . "<br />" . UNDERLINE . " : <input class=\"checkbox\" type=\"checkbox\" name=\"u\" value=\"1\" " . $chk3 . " />&nbsp;&nbsp;</td></tr>\n"
+    . "<tr><td  colspan=\"2\">" . TITLE . " :</td><td><input type=\"text\" name=\"title\" value=\"" . $title . "\" size=\"30\" /></td></tr>\n"
+    . "<tr><td rowspan=\"2\" valign=\"top\">" . URL . " : </td><td>" . _LINK . " :</td><td><input type=\"text\" name=\"url\" value=\"" . $url . "\" size=\"30\" /></td></tr>\n"
+    . "<tr><td>" . MODULE . " : </td><td><select name=\"module\">\n";
 
         list_mod($module);
 
         echo"</select></td></tr>\n"
-	. "<tr><td colspan=\"2\">" . _COMMENT . " : </td><td colspan=\"2\"><input type=\"text\" name=\"comment\" value=\"" . $comment . "\" size=\"30\" /></td></tr>\n"
-	. "<tr><td colspan=\"2\">" . _POSITION . " : </td><td colspan=\"2\"><select name=\"line\">\n";
+    . "<tr><td colspan=\"2\">" . COMMENT . " : </td><td colspan=\"2\"><input type=\"text\" name=\"comment\" value=\"" . $comment . "\" size=\"30\" /></td></tr>\n"
+    . "<tr><td colspan=\"2\">" . POSITION . " : </td><td colspan=\"2\"><select name=\"line\">\n";
 
         for($z = 0;$z < count($link);$z++)
         {
@@ -309,9 +308,9 @@ if ($visiteur == 9)
             echo "<option value=\"" . $z . "\" " . $selected . ">" . $z . "&nbsp;&nbsp;(" . $title2 . ")</option>\n";
         }
 
-        echo "<option value=\"" . $z . "\"  " . $selected0 . ">" . $z . "&nbsp;&nbsp;" . _LAST . " ...</option>\n"
+        echo "<option value=\"" . $z . "\"  " . $selected0 . ">" . $z . "&nbsp;&nbsp;" . LAST . " ...</option>\n"
         . "</select></td></tr>\n"
-	. "<tr><td colspan=\"2\">" . _LEVEL . " : </td><td colspan=\"2\"><select name=\"niveau\">\n";
+    . "<tr><td colspan=\"2\">" . LEVEL . " : </td><td colspan=\"2\"><select name=\"niveau\">\n";
 
         for($j = 0;$j < 10;$j++)
         {
@@ -322,16 +321,16 @@ if ($visiteur == 9)
         }
 
         echo "</select></td></tr>\n"
-	. "<tr><td colspan=\"4\">" . _NEWPAGE . " : <input class=\"checkbox\" type=\"checkbox\" name=\"blank\" value=\"1\" " . $checked . " /></td></tr></table>\n"
-	. "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=menu&amp;op=edit_menu&amp;bid=" . $bid . "\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+    . "<tr><td colspan=\"4\">" . NEWPAGE . " : <input class=\"checkbox\" type=\"checkbox\" name=\"blank\" value=\"1\" " . $checked . " /></td></tr></table>\n"
+    . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . SEND . "\" /></div>\n"
+    . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=menu&amp;op=edit_menu&amp;bid=" . $bid . "\"><b>" . BACK . "</b></a> ]</div></form><br /></div></div>\n";
     }
 
     function send_line($bid, $lid)
     {
         global $nuked, $user, $b, $i, $u, $puce, $cid;
 
-        $sql = mysql_query("SELECT titre, content FROM " . BLOCK_TABLE . " WHERE bid = '" . $_REQUEST['bid'] . "'");
+        $sql = mysql_query("SELECT title, content FROM " . BLOCK_TABLE . " WHERE id = '" . $_REQUEST['bid'] . "'");
         list($titre, $content) = mysql_fetch_array($sql);
 
         if ($_REQUEST['niveau'] != "")
@@ -353,7 +352,7 @@ if ($visiteur == 9)
             if ($link) $content = implode('NEWLINE', $link);
         }
 
-    	if ($_REQUEST['cid'])
+        if ($_REQUEST['cid'])
         {
             $link = explode('NEWLINE', $content);
             $i = 0;
@@ -370,34 +369,34 @@ if ($visiteur == 9)
 
         $content = mysql_real_escape_string(stripslashes($content));
 
-        $sql = mysql_query("UPDATE " . BLOCK_TABLE . " SET content = '" . $content . "' WHERE bid = '" . $_REQUEST['bid'] . "'");
-		// Action
-		$texteaction = "". _ACTIONMODIFMENU .": ".$titre."";
-		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-		//Fin action
+        $sql = mysql_query("UPDATE " . BLOCK_TABLE . " SET content = '" . $content . "' WHERE id = '" . $_REQUEST['bid'] . "'");
+        // Action
+        $texteaction = "". ACTIONMODIFMENU .": ".$titre."";
+        $acdate = time();
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`created`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        //Fin action
         if ($_REQUEST['cid'])
         {
-			echo "<div class=\"notification success png_bg\">\n"
-			. "<div>\n"
-			. "" . _LINEDELETED . "\n"
-			. "</div>\n"
-			. "</div>\n";
+            echo "<div class=\"notification success png_bg\">\n"
+            . "<div>\n"
+            . "" . LINEDELETED . "\n"
+            . "</div>\n"
+            . "</div>\n";
         }
         else
         {
-			echo "<div class=\"notification success png_bg\">\n"
-			. "<div>\n"
-			. "" . _LINEMODIFIED . "\n"
-			. "</div>\n"
-			. "</div>\n";
+            echo "<div class=\"notification success png_bg\">\n"
+            . "<div>\n"
+            . "" . LINEMODIFIED . "\n"
+            . "</div>\n"
+            . "</div>\n";
         }
-		echo "<script>\n"
-			."setTimeout('screen()','3000');\n"
-			."function screen() { \n"
-			."screenon('index.php', 'index.php?file=Admin&page=menu&op=edit_menu&bid=" . $_REQUEST['bid']."');\n"
-			."}\n"
-			."</script>\n";
+        echo "<script>\n"
+            ."setTimeout('screen()','3000');\n"
+            ."function screen() { \n"
+            ."screenon('index.php', 'index.php?file=Admin&page=menu&op=edit_menu&bid=" . $_REQUEST['bid']."');\n"
+            ."}\n"
+            ."</script>\n";
     }
 
     function move($start, $end, $content)
@@ -431,7 +430,7 @@ if ($visiteur == 9)
     {
         global $nuked, $user, $language;
 
-        echo "<option value=\"\">-- " . _NONE . " --</option>\n";
+        echo "<option value=\"\">-- " . NONE . " --</option>\n";
 
         $modules = array();
         $handle = opendir("modules");
@@ -441,7 +440,7 @@ if ($visiteur == 9)
             {
                 $rep = $mod;
                 $umod = strtoupper($mod);
-                $modname = _NAME . $umod;
+                $modname = NAME . $umod;
 
                 if (defined($modname)) $modname = constant($modname);
                 else $modname = $mod;
@@ -454,33 +453,33 @@ if ($visiteur == 9)
         closedir($handle);
         natcasesort($modules);
 
-	foreach($modules as $value)
-	{
+    foreach($modules as $value)
+    {
             $temp = explode("|", $value);
             $tmp = "[" . $temp[1] . "]";
 
             if ($module == $tmp)
             {
-		$checked = "selected=\"selected\"";
+        $checked = "selected=\"selected\"";
             }
             else
             {
-		$checked = "";
+        $checked = "";
             }
 
-            $sql = mysql_query("SELECT nom FROM " . MODULES_TABLE . " WHERE nom = '" . $temp[1] . "' AND admin = -1 AND niveau = -1");
+            $sql = mysql_query("SELECT name FROM " . MODULES_TABLE . " WHERE name = '" . $temp[1] . "' AND admin = -1 AND level = -1");
             $count = mysql_num_rows($sql);
 
             if (is_file("modules/" . $temp[1] . "/index.php") && $count == 0)
             {
-		echo "<option value=\"" . $tmp . "\" " . $checked . ">" . $temp[0] . "</option>\n";
+        echo "<option value=\"" . $tmp . "\" " . $checked . ">" . $temp[0] . "</option>\n";
             }
-	}
+    }
     }
 
     function list_puce($spuce)
     {
-        echo "<option value=\"none.gif\">-- " . _NONE . " --</option>\n";
+        echo "<option value=\"none.gif\">-- " . NONE . " --</option>\n";
 
         $path = "images/puces/";
         $handle = opendir($path);
@@ -507,7 +506,7 @@ if ($visiteur == 9)
 
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
         . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-        . "<head><title>" . _COLORCODE . "</title>\n"
+        . "<head><title>" . COLORCODE . "</title>\n"
         . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
         . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
         . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
@@ -525,28 +524,28 @@ if ($visiteur == 9)
         ."document.getElementById('sel').style.backgroundColor=elem;\n"
         ."}\n"
         ."\n";
-		if ($_GET['balise'] == "true")
-		{
-			echo "function addcolor(elem){\n"
-			."elem=document.getElementById('hex').value;\n"
-			."elem = elem.substr(1,6);\n"
-			."opener.document.getElementById('couleur2').value=elem;\n"
-			."}\n"
-			."\n"
-			. "// -->\n"
-			. "</script>\n";
-		}
-		else
-		{
-			echo "function addcolor(elem){\n"
-			."elem=document.getElementById('hex').value;\n"
-			."elem = elem.substr(1,6);\n"
-			."opener.document.getElementById('couleur').value=elem;\n"
-			."}\n"
-			."\n"
-			. "// -->\n"
-			. "</script>\n";
-		}
+        if ($_GET['balise'] == "true")
+        {
+            echo "function addcolor(elem){\n"
+            ."elem=document.getElementById('hex').value;\n"
+            ."elem = elem.substr(1,6);\n"
+            ."opener.document.getElementById('couleur2').value=elem;\n"
+            ."}\n"
+            ."\n"
+            . "// -->\n"
+            . "</script>\n";
+        }
+        else
+        {
+            echo "function addcolor(elem){\n"
+            ."elem=document.getElementById('hex').value;\n"
+            ."elem = elem.substr(1,6);\n"
+            ."opener.document.getElementById('couleur').value=elem;\n"
+            ."}\n"
+            ."\n"
+            . "// -->\n"
+            . "</script>\n";
+        }
         echo "<table style=\"background: #000000;\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"270\">\n"
         . "<tr><td style=\"width: 100%;\">\n"
         . "<table border=\"0\" cellpadding=\"0\" cellspacing=\"1\" width=\"100%\">\n"
@@ -818,7 +817,7 @@ if ($visiteur == 9)
         . "<input id=\"hex\" name=\"hexvalue\" value=\"#" . $_REQUEST['color'] . "\" size=\"10\" class=\"hexfield\" onchange=\"shouldset(this.value)\" type=\"text\" />"
         . "&nbsp;<input id=\"sel\" style=\"background-color: " . $_REQUEST['color'] . ";\" name=\"selcolor\" size=\"24\" type=\"text\" />"
         . "&nbsp;<input type=\"button\" value=\"" . _OK . "\" onclick=\"addcolor()\" /></td></tr></table>\n"
-        . "<div style=\"text-align: center;\"><br /><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></body></html>";
+        . "<div style=\"text-align: center;\"><br /><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" .CLOSEWINDOW . "</b></a></div></body></html>";
 
     }
 
@@ -870,20 +869,20 @@ else if ($visiteur > 1)
 {
     admintop();
     echo "<div class=\"notification error png_bg\">\n"
-	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	. "</div>\n"
-	. "</div>\n";
+    . "<div>\n"
+    . "<br /><br /><div style=\"text-align: center;\">" . NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . BACK . "</b></a></div><br /><br />"
+    . "</div>\n"
+    . "</div>\n";
     adminfoot();
 }
 else
 {
     admintop();
     echo "<div class=\"notification error png_bg\">\n"
-	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	. "</div>\n"
-	. "</div>\n";
+    . "<div>\n"
+    . "<br /><br /><div style=\"text-align: center;\">" . ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . BACK . "</b></a></div><br /><br />"
+    . "</div>\n"
+    . "</div>\n";
     adminfoot();
 }
 ?>

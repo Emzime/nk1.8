@@ -413,7 +413,7 @@ if ($visiteur == 9)
             else if ($active == 2) $act = RIGHT;
             else if ($active == 3) $act = CENTERBLOCK;
             else if ($active == 4) $act = FOOTERBLOCK;
-            else $act = _OFF;
+            else $act = OFF;
 
             echo "<tr>\n"
             . "<td style=\"width: 20%;\">" . $titre . "</td>\n"
@@ -471,7 +471,7 @@ else if ($visiteur > 1)
     admintop();
     echo "<div class=\"notification error png_bg\">\n"
     . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+    . "<br /><br /><div style=\"text-align: center;\">" . NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . BACK . "</b></a></div><br /><br />"
     . "</div>\n"
     . "</div>\n";
     adminfoot();
@@ -481,7 +481,7 @@ else
     admintop();
     echo "<div class=\"notification error png_bg\">\n"
     . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+    . "<br /><br /><div style=\"text-align: center;\">" . ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . BACK . "</b></a></div><br /><br />"
     . "</div>\n"
     . "</div>\n";
     adminfoot();

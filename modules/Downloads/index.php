@@ -492,7 +492,7 @@ if($langTest == true) {
                         <?php 
                         if (!$orderby) {
                         ?>
-                        <div class="nkAlignCenter nkAlignLeft nkMarginLRAuto nkWidthHalf">
+                        <div class="nkAlignCenter nkMarginLRAuto nkWidthFull">
                             <?php
                                 echo $catDesc; 
                             ?>

@@ -13,7 +13,6 @@ if (!defined("INDEX_CHECK"))
 }
 
 global $user, $language;
-translate("modules/Admin/lang/" . $language . ".lang.php");
 include("modules/Admin/design.php");
 
 if (!$user)
@@ -27,9 +26,17 @@ else
 
 if ($visiteur == 9)
 {
-    if ($_REQUEST['what'] != "") $i = $_REQUEST['what'];
-    else $i = -1;
+    // Vérification des variables
+    $requestArray = array(
+            'what'
+        );
+    $GLOBALS['nkFunctions']->nkInitRequest($requestArray);
 
+    if ($_REQUEST['what'] != "") {
+        $i = $_REQUEST['what'];
+    } else {
+        $i = -1;
+    }
     if ($i == -1) $selected1 = "selected=\"selected\""; else $selected1 = "";
     if ($i == 1) $selected2 = "selected=\"selected\""; else $selected2 = "";
     if ($i == 4) $selected3 = "selected=\"selected\""; else $selected3 = "";
@@ -54,25 +61,25 @@ if ($visiteur == 9)
     $php_info = str_replace("<tr class=\"h\">", "<tr>", $php_info);
     $php_info = str_replace("<tr class=\"v\">", "<tr>", $php_info);
     $php_info = str_replace("<td class=\"e\">", "<td>", $php_info);
-    $php_info    = str_replace(";", "; ", $php_info);
-    $php_info    = str_replace(",", ", ", $php_info);
-    $php_info    = str_replace("font", "span", $php_info);
+    $php_info = str_replace(";", "; ", $php_info);
+    $php_info = str_replace(",", ", ", $php_info);
+    $php_info = str_replace("font", "span", $php_info);
     //$php_info    = str_replace("&", "&amp;", $php_info);
 
 
     admintop();
-	echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _ADMINPHPINFO . "</h3></div>\n"
-	. "<form method=\"post\" action=\"index.php?file=Admin&amp;page=phpinfo\">\n"
-    . "<div style=\"text-align: center;\"><b>" . _VIEWINFO . " :</b> <select name=\"what\" onchange=\"submit();\">\n"
-    . "<option value=\"-1\" " . $selected1 . ">". _INFOALL . "</option>\n"
-    . "<option value=\"1\" " . $selected2 . ">". _INFOGENERALES . "</option>\n"
-    . "<option value=\"4\" " . $selected3 . ">". _INFOCONFIGURATION . "</option>\n"
-    . "<option value=\"8\" " . $selected4 . ">". _INFOMODULES . "</option>\n"
-    . "<option value=\"16\" " . $selected5 . ">". _INFOENVIRONMENT . "</option>\n"
-    . "<option value=\"32\" " . $selected6 . ">". _INFOVARIABLES . "</option></select><br /><br /></div>\n"
+    echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
+        . "<div class=\"content-box-header\"><h3>" . ADMINPHPINFO . "</h3></div>\n"
+    . "<form method=\"post\" action=\"index.php?file=Admin&amp;page=phpinfo\">\n"
+    . "<div style=\"text-align: center;\"><b>" . VIEWINFO . " :</b> <select name=\"what\" onchange=\"submit();\">\n"
+    . "<option value=\"-1\" " . $selected1 . ">". INFOALL . "</option>\n"
+    . "<option value=\"1\" " . $selected2 . ">". INFOGENERALES . "</option>\n"
+    . "<option value=\"4\" " . $selected3 . ">". INFOCONFIGURATION . "</option>\n"
+    . "<option value=\"8\" " . $selected4 . ">". INFOMODULES . "</option>\n"
+    . "<option value=\"16\" " . $selected5 . ">". INFOENVIRONMENT . "</option>\n"
+    . "<option value=\"32\" " . $selected6 . ">". INFOVARIABLES . "</option></select><br /><br /></div>\n"
     . "<div class=\"tab-content\" id=\"tab2\"><div style=\"width:96%; margin-left:2%;\">" . $php_info . "</div>\n"
-    . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+    . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . BACK . "</b></a> ]</div></form><br /></div></div>\n";
 
     adminfoot();
 
@@ -81,20 +88,20 @@ else if ($visiteur > 1)
 {
     admintop();
     echo "<div class=\"notification error png_bg\">\n"
-	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	. "</div>\n"
-	. "</div>\n";
+    . "<div>\n"
+    . "<br /><br /><div style=\"text-align: center;\">" . NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . BACK . "</b></a></div><br /><br />"
+    . "</div>\n"
+    . "</div>\n";
     adminfoot();
 }
 else
 {
     admintop();
     echo "<div class=\"notification error png_bg\">\n"
-	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	. "</div>\n"
-	. "</div>\n";
+    . "<div>\n"
+    . "<br /><br /><div style=\"text-align: center;\">" . ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . BACK . "</b></a></div><br /><br />"
+    . "</div>\n"
+    . "</div>\n";
     adminfoot();
 }
 ?>

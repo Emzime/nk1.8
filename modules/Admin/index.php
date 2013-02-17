@@ -28,7 +28,7 @@ if ($visiteur >= 2)
                 <option value="Admin"><?php echo _PANNEAU; ?></option>
                 <?php
                 $modules = array();
-                $sql = mysql_query('SELECT nom FROM ' . MODULES_TABLE . ' WHERE "' . $visiteur . '" >= admin AND niveau > -1 AND admin > -1 ORDER BY nom');
+                $sql = mysql_query('SELECT name FROM ' . MODULES_TABLE . ' WHERE "' . $visiteur . '" >= admin AND level > -1 AND admin > -1 ORDER BY name');
                 while (list($mod) = mysql_fetch_array($sql))
                 {
                     if ($mod == 'Gallery') $modname = _NAMEGALLERY;
@@ -168,16 +168,16 @@ if ($visiteur >= 2)
                         <h4><a href="index.php?file=Admin&amp;page=action"><?php echo _VIEWACTIONS; ?></a></h4>
                         <p>
                         <?php
-                        $sql_act = mysql_query("SELECT date, pseudo, action  FROM " . $nuked['prefix'] . "_action ORDER BY date DESC LIMIT 0, 3");
+                        $sql_act = mysql_query("SELECT created, pseudo, action  FROM " . $nuked['prefix'] . "_action ORDER BY created DESC LIMIT 0, 3");
                         while ($action = mysql_fetch_array($sql_act))
                         {
                             $sql = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $action['pseudo'] . "'");
                             list($pseudo) = mysql_fetch_array($sql);
 
                             $action['action'] = $pseudo . ' ' . $action['action'];
-							$action['date'] = nkDate($action['date']);
+                            $action['created'] = nkDate($action['created']);
 
-                            echo '<div style="font-size: 12px"><em>' . $action['date'] . '</em></div>
+                            echo '<div style="font-size: 12px"><em>' . $action['created'] . '</em></div>
                             <div style="font-size: 12px; margin-bottom: 4px">' . $action['action'] . '</div>';
                         }
                         ?>
@@ -190,7 +190,7 @@ if ($visiteur >= 2)
 
         <!-- Start Notifications -->
         <?php
-            $sql2 = mysql_query('SELECT id, type, texte  FROM ' . $nuked['prefix'] . '_notification ORDER BY date DESC LIMIT 0, 4');
+            $sql2 = mysql_query('SELECT id, type, content  FROM ' . $nuked['prefix'] . '_notification ORDER BY created DESC LIMIT 0, 4');
             while (list($id, $type, $texte) = mysql_fetch_array($sql2))
             {
                 if($type == 4)

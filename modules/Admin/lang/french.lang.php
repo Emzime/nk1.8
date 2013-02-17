@@ -528,27 +528,27 @@ define("_BLOCKADMIN","Gestion des Blocks");
 define("_BLOCKTITLE","Titre du Block");
 define("_BLOCK","Blocs");
 define("_TITLE","Titre");
-define("_TYPE","Type");
+
 define("_LEVEL","Niveau");
 define("_LEVELACCES","Niveau d'accès");
 define("_LEVELADMIN","Niveau d'admin");
 define("_SELECTPAGE","Sélectionnez les pages où vous voulez que le block s'affiche");
 define("_CREATEBLOCK","Créer un block");
-define("_BACK","Retour");
+
 define("_BLOCKSUCCES","Block ajouté avec succès.");
 define("_BLOCKCLEAR","Block effacé avec succès.");
 define("_BLOCKMODIF","Block modifié avec succès.");
-define("_TEAM","Team");
+
 define("_USER","User");
 define("_ADMIN","Admin");
-define("_ALL","Tous");
+
 define("_DELBLOCK","Vous êtes sur le point de supprimer");
-define("_CONFIRM","Continuer ?");
+
 define("_POSITION","Position");
 define("_RIGHT","Droite");
 define("_LEFT","Gauche");
 define("_CENTERBLOCK","Centre");
-define("_DELETE","Supprimer");
+
 define("_BLOCKDOWN","Descendre ce Block");
 define("_BLOCKUP","Monter ce Block");
 define("_BLOCKEDIT","Editer ce Block");
@@ -569,29 +569,17 @@ define("_ADMINMODULE","Administration des modules");
 define("_PREFGEN","Préférences Générales");
 define("_CLICTOHELP","Cliquez sur l'icône ? pour obtenir de l'aide");
 define("_CHECKUPDATE","Mises à jour de Nk");
-define("_NAMENEWS","News");
-define("_NAMEFORUM","Forum");
-define("_NAMEDOWNLOAD","Téléchargements");
-define("_NAMEDEFY","Défie");
-define("_NAMERECRUIT","Recrutement");
-define("_NAMESECTIONS","Articles");
-define("_NAMESERVER","Serveurs");
-define("_NAMELINKS","Liens Web");
-define("_NAMECALANDAR","Calendrier");
-define("_NAMEGALLERY","Galerie");
-define("_NAMEMATCHES","Matches");
-define("_NAMEIRC","IrC");
-define("_NAMEGUESTBOOK","Livre d'or");
+
+
 define("_NAMESURVEY","Sondage");
 define("_NAMESUGGEST","Suggestion");
 define("_NAMECOMMENT","Commentaires");
-define("_NAMEMEMBERS","Membres");
-define("_NAMETEAM","Team");
+
 define("_NAMESHOUTBOX","Tribune libre");
 define("_NAMEVOTE","Vote");
 
 define("_MODULE","Module");
-define("_NAME","Nom");
+
 define("_MEMBERS","Membre");
 define("_LEVEL1","niveau 1");
 define("_LEVEL2","niveau 2");
@@ -605,7 +593,7 @@ define("_MODULEENABLED","Module activé avec succès.");
 define("_MODULEDISABLED","Module désactivé avec succès.");
 define("_MODULEMODIF","Module modifié avec succès.");
 define("_MODULEEDIT","Editer ce Module");
-define("_STATUS","Statut");
+
 define("_ENABLED","Activé");
 define("_DISABLED","Désactivé");
 
@@ -663,8 +651,7 @@ define("_PREFUSER","Préférence de");
 define("_NICK","Pseudo");
 define("_MAIL","Email");
 define("_PUBLIC","publique");
-define("_URL","URL");
-define("_COUNTRY","Pays");
+
 define("_ICQ","ICQ");
 define("_MSN","MSN");
 define("_AIM","AIM");
@@ -685,14 +672,14 @@ define("_LINKCOM","Uniquement Membres");
 define("_LEVELREQUIRED","Visible pour les utilisateurs rang");
 define("_IMAGE","Url de l'image");
 define("_UPLOADIMAGE","Uploader sur le serveur");
-define("_GAME","Jeu");
+
 define("_AVATAR","Avatar");
 define("_SIGN","Signature");
 define("_RANKTEAM","Rang Team");
 define("_PASSWORD","Mot de passe");
 define("_TEAMNONE","Aucune");
 define("_NORANK","Aucun");
-define("_NONE","Aucun");
+
 define("_CONFIRMPASS","confirmez");
 define("_MODIFUSER","Modifier ce membre");
 define("_ADDUSER","Ajouter un membre");
@@ -739,7 +726,7 @@ define("_RANKDEL","Rang supprimé avec succès.");
 define("_SEARCH","Recherche");
 define("_NORESULTFOR","Aucun membre trouvé pour");
 define("_NOUSERINDB","Aucun membre dans la base de données");
-define("_ORDERBY","Classer par");
+
 define("_NORANKINDB","Aucun rang dans la base de données");
 define("_NOIPINDB","Aucun bannissement dans la base de données");
 define("_VISIT","visite");
@@ -753,7 +740,7 @@ define("_SMILEYDEL","Supprimer ce smiley");
 define("_SMILEYSUCCES","Smiley ajouté avec succès.");
 define("_SMILEYMODIF","Smiley modifié avec succès.");
 define("_SMILEYDELETE","Smiley supprimé avec succès.");
-define("_SEND","Envoyer");
+
 
 define("_PREFNAME","Préférence");
 define("_ICON","Icône");
@@ -778,7 +765,7 @@ define("_USERVALIDATE","Membre validé avec succès.");
 define("_VALIDREGISTRATION","votre compte vient d'être validé, vous pouvez dès à présent vous identifier sur notre site web :");
 
 define("_MENUADMIN","Gestion des menus");
-define("_DEL","Supprimer");
+
 define("_ADD","Ajouter");
 define("_DOWN","Descendre");
 define("_UP","Monter");
@@ -886,10 +873,10 @@ define("_NOADMININTERNE","Le thème ne possède pas d'administration interne.");
 define("_A","à");
 define("_ADMINSQLERROR","Gestion des erreurs SQL");
 define("_VIDERSQL","Supprimer la liste");
-define("_DATE","Date");
+
 
 define("_INFORMATION","Information");
-define("_DELETEFILE","Vous êtes sur le point de supprimer");
+
 define("_ERRORBDD","Erreurs SQL");
 define("_SQLERRORDELETED","La liste des erreurs SQL repérées a été détruite.");
 
@@ -970,14 +957,14 @@ define("_LIGNE1","Ligne 1");
 define("_LIGNE2","Ligne 2:");
 define("_LIGNE3","Ligne 3:");
 define("_LIGNE4","Ligne 4:");
-define("_STYLE", "Liste des styles prédéfinis de l'éditeur");
+
 define("_Taille","Taille");
 define("_Couleur","Couleur");
 define("_Gras","Gras");
 define("_Italique","Italique");
 define("_Souligner","Souligner");
 define("_APERCU","Aperçu des styles:");
-define("_TOP","Haut");
+
 define("_BOTTOM","Bas");
 define("_SCREENHOT","Affichage du popup preview");
 define("_LISTERASED","Liste des liens morts effacée avec succès.");

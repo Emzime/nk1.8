@@ -13,7 +13,6 @@ if (!defined("INDEX_CHECK"))
 }
 
 global $user, $language;
-translate("modules/Admin/lang/" . $language . ".lang.php");
 include("modules/Admin/design.php");
 if (!$user)
 {
@@ -38,25 +37,25 @@ if ($visiteur == 9)
         . "\n"
         . "function delsmiley(name, id)\n"
         . "{\n"
-        . "if (confirm('" . _DELBLOCK . " '+name+' ! " . _CONFIRM . "'))\n"
+        . "if (confirm('" . DELBLOCK . " '+name+' ! " . CONFIRM . "'))\n"
         . "{document.location.href = 'index.php?file=Admin&page=smilies&op=del_smiley&smiley_id='+id;}\n"
         . "}\n"
             . "\n"
         . "// -->\n"
         . "</script>\n";
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-        . "<div class=\"content-box-header\"><h3>" . _SMILIEADMIN . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . SMILIEADMIN . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/smilies.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n"
-        . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">[ <a href=\"index.php?file=Admin&amp;page=smilies&amp;op=add_smiley\"><b>" . _SMILEYADD . "</b></a> ]</div><br />\n"
+        . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">[ <a href=\"index.php?file=Admin&amp;page=smilies&amp;op=add_smiley\"><b>" . SMILEYADD . "</b></a> ]</div><br />\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"70%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
         . "<tr>\n"
-        . "<td style=\"width: 20%;\" align=\"center\"><b>" . _SMILEY . "</b></td>\n"
-        . "<td style=\"width: 25%;\" align=\"center\"><b>" . _NAME . "</b></td>\n"
-        . "<td style=\"width: 20%;\" align=\"center\"><b>" . _CODE . "</b></td>\n"
-        . "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
-        . "<td style=\"width: 20%;\" align=\"center\"><b>" . _DELETE . "</b></td></tr>\n";
+        . "<td style=\"width: 20%;\" align=\"center\"><b>" . SMILEY . "</b></td>\n"
+        . "<td style=\"width: 25%;\" align=\"center\"><b>" . NAME . "</b></td>\n"
+        . "<td style=\"width: 20%;\" align=\"center\"><b>" . CODE . "</b></td>\n"
+        . "<td style=\"width: 15%;\" align=\"center\"><b>" . EDIT . "</b></td>\n"
+        . "<td style=\"width: 20%;\" align=\"center\"><b>" . DELETE . "</b></td></tr>\n";
 
         $sql = mysql_query("SELECT id, code, url, name FROM " . SMILIES_TABLE . " ORDER BY id");
         while (list($smiley_id, $code, $url, $name) = mysql_fetch_array($sql))
@@ -67,11 +66,11 @@ if ($visiteur == 9)
             . "<td style=\"width: 20%;\" align=\"center\"><img src=\"images/icones/" . $url . "\" alt=\"\" title=\"$url\" /></td>\n"
             . "<td style=\"width: 25%;\" align=\"center\">" . $name . "</td>\n"
             . "<td style=\"width: 20%;\" align=\"center\">" . $code . "</td>\n"
-            . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=smilies&amp;op=edit_smiley&amp;smiley_id=" . $smiley_id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _SMILEYEDIT . "\" /></a></td>\n"
-            . "<td style=\"width: 20%;\" align=\"center\"><a href=\"javascript:delsmiley('" . mysql_real_escape_string($name) . "', '" . $smiley_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _SMILEYDEL . "\" /></a></td></tr>\n";
+            . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=smilies&amp;op=edit_smiley&amp;smiley_id=" . $smiley_id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . SMILEYEDIT . "\" /></a></td>\n"
+            . "<td style=\"width: 20%;\" align=\"center\"><a href=\"javascript:delsmiley('" . mysql_real_escape_string($name) . "', '" . $smiley_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . SMILEYDEL . "\" /></a></td></tr>\n";
         }
 
-        echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+        echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . BACK . "</b></a> ]</div><br /></div></div>\n";
     }
 
     function add_smiley()
@@ -90,15 +89,15 @@ if ($visiteur == 9)
         . "</script>\n";
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-        . "<div class=\"content-box-header\"><h3>" . _SMILIEADMIN . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . SMILIEADMIN . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/smilies.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n"
         . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=smilies&amp;op=send_smiley\" enctype=\"multipart/form-data\">\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"2\" border=\"0\">\n"
-        . "<tr><td><b>" . _NAME . " :</b> <input type=\"text\" name=\"nom\" size=\"30\" /></td></tr>\n"
-        . "<tr><td><b>" . _CODE . " :</b> <input type=\"text\" name=\"code\" size=\"10\" /></td></tr><tr><td>&nbsp;</td></tr>\n"
-        . "<tr><td><b>" . _SMILEY . " :</b> <select name=\"url\" onchange=\"update_smiley(this.options[selectedIndex].value);\">";
+        . "<tr><td><b>" . NAME . " :</b> <input type=\"text\" name=\"nom\" size=\"30\" /></td></tr>\n"
+        . "<tr><td><b>" . CODE . " :</b> <input type=\"text\" name=\"code\" size=\"10\" /></td></tr><tr><td>&nbsp;</td></tr>\n"
+        . "<tr><td><b>" . SMILEY . " :</b> <select name=\"url\" onchange=\"update_smiley(this.options[selectedIndex].value);\">";
 
         $i = 0;
         $rep = Array();
@@ -135,10 +134,10 @@ if ($visiteur == 9)
             echo "<img id=\"smiley\" src=\"" . $img . "\" alt=\"\" />";
         }
 
-        echo "</td></tr><tr><td><b>" . _UPSMILEY . " : </b><input type=\"file\" name=\"fichiernom\" /></td></tr>\n"
+        echo "</td></tr><tr><td><b>" . UPSMILEY . " : </b><input type=\"file\" name=\"fichiernom\" /></td></tr>\n"
         . "<tr><td>&nbsp;</td></tr>\n"
-        . "<tr><td style=\"text-align:center;\"><input type=\"submit\" value=\"" . _SEND . "\" /></td></tr></table>\n"
-        . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=smilies\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+        . "<tr><td style=\"text-align:center;\"><input type=\"submit\" value=\"" . SEND . "\" /></td></tr></table>\n"
+        . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=smilies\"><b>" . BACK . "</b></a> ]</div></form><br /></div></div>\n";
     }
 
     function send_smiley($nom, $code, $url, $fichiernom)
@@ -149,7 +148,7 @@ if ($visiteur == 9)
         {
             echo "<div class=\"notification error png_bg\">\n"
             . "<div>\n"
-            . _SMILEYNOTAUTHORIZE . ".\n"
+            . SMILEYNOTAUTHORIZE . ".\n"
             . "</div>\n"
             . "</div>\n";
             redirect("index.php?file=Admin&page=smilies&op=add_smiley", 2);
@@ -192,13 +191,13 @@ if ($visiteur == 9)
 
         $sql = mysql_query("INSERT INTO " . SMILIES_TABLE . " ( `id` , `code` , `url` , `name` ) VALUES ( '' , '" . $code . "' , '" . $filename . "' , '" . $nom . "')");
         // Action
-        $texteaction = "". _ACTIONADDSMILEY .": ".$nom."";
+        $texteaction = "". ACTIONADDSMILEY .": ".$nom."";
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`created`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
-        . "" . _SMILEYSUCCES . "\n"
+        . "" . SMILEYSUCCES . "\n"
         . "</div>\n"
         . "</div>\n";
         redirect("index.php?file=Admin&page=smilies", 2);
@@ -223,15 +222,15 @@ if ($visiteur == 9)
         . "</script>\n";
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-        . "<div class=\"content-box-header\"><h3>" . _SMILIEADMIN . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . SMILIEADMIN . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/smilies.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n"
         . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=smilies&amp;op=modif_smiley\" enctype=\"multipart/form-data\">\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"2\" border=\"0\">\n"
-        . "<tr><td><b>" . _NAME . " :</b> <input type=\"text\" name=\"nom\" size=\"30\" value=\"" . $name . "\" /></td></tr>\n"
-        . "<tr><td><b>" . _CODE . " :</b> <input type=\"text\" name=\"code\" size=\"10\" value=\"" . $code . "\" /></td></tr><tr><td>&nbsp;</td></tr>\n"
-        . "<tr><td><b>" . _SMILEY . " :</b> <select name=\"url\" onchange=\"update_smiley(this.options[selectedIndex].value);\">";
+        . "<tr><td><b>" . NAME . " :</b> <input type=\"text\" name=\"nom\" size=\"30\" value=\"" . $name . "\" /></td></tr>\n"
+        . "<tr><td><b>" . CODE . " :</b> <input type=\"text\" name=\"code\" size=\"10\" value=\"" . $code . "\" /></td></tr><tr><td>&nbsp;</td></tr>\n"
+        . "<tr><td><b>" . SMILEY . " :</b> <select name=\"url\" onchange=\"update_smiley(this.options[selectedIndex].value);\">";
 
         $rep = Array();
         $path = "images/icones";
@@ -262,10 +261,10 @@ if ($visiteur == 9)
             echo "<option value=\"" . $filename . "\" " . $checked . ">" . $filename . "</option>\n";
         }
 
-        echo "</select>&nbsp;&nbsp;<img id=\"smiley\" src=\"images/icones/" . $url . "\" alt=\"\" /></td></tr><tr><td><b>" . _UPSMILEY . " : </b><input type=\"file\" name=\"fichiernom\" /></td></tr>\n"
+        echo "</select>&nbsp;&nbsp;<img id=\"smiley\" src=\"images/icones/" . $url . "\" alt=\"\" /></td></tr><tr><td><b>" . UPSMILEY . " : </b><input type=\"file\" name=\"fichiernom\" /></td></tr>\n"
         . "<tr><td>&nbsp;<input type=\"hidden\" name=\"smiley_id\" value=\"" . $smiley_id . "\" /></td></tr>\n"
-        . "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _SEND . "\" /></td></tr></table>\n"
-        . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=smilies\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+        . "<tr><td align=\"center\"><input type=\"submit\" value=\"" . SEND . "\" /></td></tr></table>\n"
+        . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=smilies\"><b>" . BACK . "</b></a> ]</div></form><br /></div></div>\n";
     }
 
     function modif_smiley($smiley_id, $nom, $code, $url, $fichiernom)
@@ -279,7 +278,7 @@ if ($visiteur == 9)
         {
             echo "<div class=\"notification error png_bg\">\n"
             . "<div>\n"
-            . _SMILEYNOTAUTHORIZE . ".\n"
+            . SMILEYNOTAUTHORIZE . ".\n"
             . "</div>\n"
             . "</div>\n";
             redirect("index.php?file=Admin&page=smilies&op=edit_smiley&smiley_id=" . $smiley_id, 2);
@@ -319,13 +318,13 @@ if ($visiteur == 9)
 
         $sql = mysql_query("UPDATE " . SMILIES_TABLE . " SET code = '" . $code . "', url = '" . $filename . "', name = '" . $nom . "' WHERE id = '" . $smiley_id . "'");
        // Action
-        $texteaction = "". _ACTIONMODIFSMILEY .": ".$nom."";
+        $texteaction = "". ACTIONMODIFSMILEY .": ".$nom."";
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`created`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
-        . "" . _SMILEYMODIF . "\n"
+        . "" . SMILEYMODIF . "\n"
         . "</div>\n"
         . "</div>\n";
         redirect("index.php?file=Admin&page=smilies", 2);
@@ -339,13 +338,13 @@ if ($visiteur == 9)
         list($name) = mysql_fetch_array($sql2);
         $sql = mysql_query("DELETE FROM " . SMILIES_TABLE . " WHERE id = '" . $smiley_id . "'");
         // Action
-        $texteaction = "". _ACTIONDELSMILEY .": ".$name."";
+        $texteaction = "". ACTIONDELSMILEY .": ".$name."";
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`created`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
-        . "" . _SMILEYDELETE . "\n"
+        . "" . SMILEYDELETE . "\n"
         . "</div>\n"
         . "</div>\n";
         redirect("index.php?file=Admin&page=smilies", 2);
@@ -387,7 +386,7 @@ else if ($visiteur > 1)
 {
     echo "<div class=\"notification error png_bg\">\n"
     . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+    . "<br /><br /><div style=\"text-align: center;\">" . NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . BACK . "</b></a></div><br /><br />"
     . "</div>\n"
     . "</div>\n";
 }
@@ -395,7 +394,7 @@ else
 {
     echo "<div class=\"notification error png_bg\">\n"
     . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+    . "<br /><br /><div style=\"text-align: center;\">" . ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . BACK . "</b></a></div><br /><br />"
     . "</div>\n"
     . "</div>\n";
 }

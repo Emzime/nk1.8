@@ -105,18 +105,18 @@ function getStats($nuked)
     
     $sql = mysql_query($sqlstring);
     $rep = mysql_fetch_array($sql);
-    $data['count_news'] = $rep['news'];
-    $data['count_forum_cat'] = $rep['forumc'];
-    $data['count_forum'] = $rep['forum'];
-    $data['count_cat_gallery'] = $rep['galc'];
-    $data['count_gallery'] = $rep['gal'];
-    $data['count_cat_link'] = $rep['linkc'];
-    $data['count_link'] = $rep['link'];
-    $data['count_wars'] = $rep['war'];
+    $data['count_news']         = $rep['news'];
+    $data['count_forum_cat']    = $rep['forumc'];
+    $data['count_forum']        = $rep['forum'];
+    $data['count_cat_gallery']  = $rep['galc'];
+    $data['count_gallery']      = $rep['gal'];
+    $data['count_cat_link']     = $rep['linkc'];
+    $data['count_link']         = $rep['link'];
+    $data['count_wars']         = $rep['war'];
     $data['count_cat_download'] = $rep['dlc'];
-    $data['count_download'] = $rep['dl'];
-    $data['count_teams'] = $rep['team'];
-    $data['count_pagesee'] = $rep['pageview'];
+    $data['count_download']     = $rep['dl'];
+    $data['count_teams']        = $rep['team'];
+    $data['count_pagesee']      = $rep['pageview'];
     
     $sql = mysql_query("SELECT name, level, admin FROM ". MODULES_TABLE);
     while($rep = mysql_fetch_array($sql))

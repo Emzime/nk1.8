@@ -20,7 +20,8 @@ else $captcha = 1;
 
     // Vérification des variables
     $requestArray = array(
-            'p'
+            'p',
+            'op'
         );
     $GLOBALS['nkFunctions']->nkInitRequest($requestArray);
 

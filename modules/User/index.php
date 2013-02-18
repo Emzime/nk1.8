@@ -16,8 +16,8 @@ include_once('Includes/nkCaptcha.php');
 include_once('Includes/hash.php');
 
 // On determine si le captcha est actif ou non
-if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
+if (NKCAPTCHA == 'off') $captcha = 0;
+else if ((NKCAPTCHA == 'auto' OR NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
 else $captcha = 1;
 
 function index(){
@@ -1083,7 +1083,7 @@ function login($pseudo, $pass, $remember_me){
     global $captcha, $bgcolor3, $bgcolor2, $bgcolor1, $nuked, $theme, $cookie_theme, $cookie_langue, $timelimit;
     $cookiename = $nuked['cookiename'];
 
-    $sql = mysql_query("SELECT id, pass, user_theme, user_langue, niveau, erreur FROM " . USER_TABLE . " WHERE pseudo = '" . htmlentities($pseudo, ENT_QUOTES) . "'");
+    $sql = mysql_query("SELECT id, pass, userTheme, userLanguage, level, error FROM " . USER_TABLE . " WHERE pseudo = '" . htmlentities($pseudo, ENT_QUOTES) . "'");
     $check = mysql_num_rows($sql);
 
     if($check > 0){
@@ -1091,8 +1091,8 @@ function login($pseudo, $pass, $remember_me){
 
         // Verification code captcha
         if (!ValidCaptchaCode($_REQUEST['code_confirm']) && $count >= 3){
-            if (empty($_REQUEST['code_confirm'])) $msg_error = _MSGCAPTCHA;
-            else $msg_error = _BADCODECONFIRM;
+            if (empty($_REQUEST['code_confirm'])) $msg_error = MSGCAPTCHA;
+            else $msg_error = BADCODECONFIRM;
 
             echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
                     . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
@@ -1121,13 +1121,13 @@ function login($pseudo, $pass, $remember_me){
         if ($niveau > 0){
             if (!Check_Hash($pass, $dbpass)){
                 $error = 2;
-                $sql = 'UPDATE ' . USER_TABLE . ' SET erreur = ' . ($count + 1) . ' WHERE pseudo = \'' . htmlentities($pseudo, ENT_QUOTES) . '\'';
+                $sql = 'UPDATE ' . USER_TABLE . ' SET error = ' . ($count + 1) . ' WHERE pseudo = \'' . htmlentities($pseudo, ENT_QUOTES) . '\'';
                 $req = mysql_query($sql);
                 $url = "index.php?file=User&op=login_screen&error=" . $error . $captcha;
                 redirect($url, 0);
             }
             else{
-                $sql = 'UPDATE ' . USER_TABLE . ' SET erreur = 0 WHERE pseudo = \'' . htmlentities($pseudo, ENT_QUOTES) . '\'';
+                $sql = 'UPDATE ' . USER_TABLE . ' SET error = 0 WHERE pseudo = \'' . htmlentities($pseudo, ENT_QUOTES) . '\'';
                 $req = mysql_query($sql);
                 session_new($id_user, $remember_me);
 
@@ -1161,7 +1161,7 @@ function login($pseudo, $pass, $remember_me){
                     . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
                     . "<body style=\"background: " . $bgcolor2 . ";\"><div><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></div>\n"
                     . "<table width=\"400\" style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor3 . ";\" cellspacing=\"1\" cellpadding=\"20\">\n"
-                    . "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>" . _NOVALIDUSER . "</td></tr></table></body></html>";
+                    . "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>" . NOVALIDUSER . "</td></tr></table></body></html>";
 
             redirect("index.php", 2);
         }
@@ -1175,7 +1175,7 @@ function login($pseudo, $pass, $remember_me){
                 . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
                 . "<body style=\"background: " . $bgcolor2 . ";\"><div><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></div>\n"
                 . "<table width=\"400\" style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor3 . ";\" cellspacing=\"1\" cellpadding=\"20\">\n"
-                . "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>" . _UNKNOWNUSER . "</td></tr></table></body></html>";
+                . "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>" . UNKNOWNUSER . "</td></tr></table></body></html>";
 
         redirect("index.php", 2);
     }
@@ -1202,28 +1202,28 @@ function login_message(){
     }
 
     if ($test_cookie != ""){
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
+        echo "<!DOCTYPE html>\n"
+                . "<html lang=\"fr\">\n"
                 . "<head><title>" . $nuked['name'] . " :: " . $nuked['slogan'] . " ::</title>\n"
                 . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
                 . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
                 . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
                 . "<body style=\"background: " . $bgcolor2 . ";\"><div><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></div>\n"
                 . "<table width=\"400\" style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor3 . ";\" cellspacing=\"1\" cellpadding=\"20\">\n"
-                . "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>" . _LOGINPROGRESS . "</b></big></td></tr></table></body></html>";
+                . "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>" . LOGINPROGRESS . "</b></big></td></tr></table></body></html>";
 
         redirect($url, 2);
     }
     else{
         if ($nuked['sess_inactivemins'] > 0 && $user_ip != "" && $user_ip != "127.0.0.1"){
-            $login_text = _LOGINPROGRESS . "<br /><br />" . _SESSIONIPOPEN . "<br /><br />" . _ERRORCOOKIE;
+            $login_text = LOGINPROGRESS . "<br /><br />" . SESSIONIPOPEN . "<br /><br />" . ERRORCOOKIE;
         }
         else{
             $login_text = _ERRORCOOKIE;
         }
 
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
+        echo "<!DOCTYPE html>\n"
+                . "<html lang=\"fr\">\n"
                 . "<head><title>" . $nuked['name'] . " :: " . $nuked['slogan'] . " ::</title>\n"
                 . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
                 . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"

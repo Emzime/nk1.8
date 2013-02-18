@@ -468,7 +468,7 @@ if($langTest == true) {
                 $dbsRequestFile = ' SELECT D.id, D.title, D.content, D.size, D.category, D.count, D.created, D.url, D.urlScreen, D.level, D.edited, D.autor, D.urlAutor, D.compatibility, C.title, avg( V.vote ) AS note
                                     FROM '.DOWNLOADS_TABLE.' AS D
                                     LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS C ON C.id = D.category
-                                    LEFT JOIN '.VOTE_TABLE.' AS V ON D.id = V.vid AND V.module = "'.$modName.'"
+                                    LEFT JOIN '.VOTE_TABLE.' AS V ON D.id = V.itemId AND V.module = "'.$modName.'"
                                     '.$whereFileCat.' 
                                     GROUP BY D.id '.$order;
                 $dbeRequestFile = mysql_query($dbsRequestFile);
@@ -492,7 +492,7 @@ if($langTest == true) {
                         <?php 
                         if (!$orderby) {
                         ?>
-                        <div class="nkAlignCenter nkAlignLeft nkMarginLRAuto nkWidthHalf">
+                        <div class="nkAlignCenter nkMarginLRAuto nkWidthFull">
                             <?php
                                 echo $catDesc; 
                             ?>
@@ -589,7 +589,7 @@ if($langTest == true) {
                                 // Affiche le nombre de commentaires 
                                 $dbsSqlComDl = 'SELECT id 
                                                 FROM '.COMMENT_TABLE.' 
-                                                WHERE im_id = '.$fileId;
+                                                WHERE itemId = '.$fileId;
                                 $dbeSqlComDl = mysql_query($dbsSqlComDl);
                                 $dbcFileNbComment = mysql_num_rows($dbeSqlComDl);
 

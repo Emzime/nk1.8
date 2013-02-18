@@ -20,7 +20,8 @@ else $captcha = 1;
 
     // Vérification des variables
     $requestArray = array(
-            'p'
+            'p',
+            'op'
         );
     $GLOBALS['nkFunctions']->nkInitRequest($requestArray);
 
@@ -34,11 +35,11 @@ else $captcha = 1;
         $day = time();
 
         if ($_REQUEST['op'] == 'categorie') {
-            $where = "WHERE cat = '{$_REQUEST['cat_id']}' AND $day >= date";
-        } elseif ($_REQUEST['op'] == 'suite' || $_REQUEST['op'] == 'index_comment') {
-            $where = "WHERE id = '{$_REQUEST['news_id']}' AND $day >= date";
+            $where = "WHERE category = '{$_REQUEST['cat_id']}' AND $day >= created";
+        } elseif ($_REQUEST['op'] == 'continuation' || $_REQUEST['op'] == 'index_comment') {
+            $where = "WHERE id = '{$_REQUEST['news_id']}' AND $day >= created";
         } else {
-            $where = "WHERE $day >= date";
+            $where = "WHERE $day >= created";
         }
 
         $sql_nbnews = mysql_query("SELECT id FROM ".NEWS_TABLE." $where");
@@ -48,58 +49,58 @@ else $captcha = 1;
         $start = $_REQUEST['p'] * $max_news - $max_news;
 
         if ($_REQUEST['op'] == 'categorie') {
-            $WhereNews = "WHERE cat = '{$_REQUEST['cat_id']}' AND $day >= date ORDER BY date DESC LIMIT $start, $max_news";
-        } elseif ($_REQUEST['op'] == 'suite' || $_REQUEST['op'] == 'index_comment') {
+            $WhereNews = "WHERE category = '{$_REQUEST['cat_id']}' AND $day >= created ORDER BY created DESC LIMIT $start, $max_news";
+        } elseif ($_REQUEST['op'] == 'continuation' || $_REQUEST['op'] == 'index_comment') {
             $WhereNews = "WHERE id = '{$_REQUEST['news_id']}'";
         } else {
-            $WhereNews = "WHERE $day >= date ORDER BY date DESC LIMIT $start, $max_news";
+            $WhereNews = "WHERE $day >= created ORDER BY created DESC LIMIT $start, $max_news";
         }
         
-        $sql = mysql_query("SELECT id, auteur, auteur_id, date, titre, texte, suite, cat FROM ".NEWS_TABLE." $WhereNews");
+        $sql = mysql_query("SELECT id, autor, autorId, created, title, content, continuation, category FROM ".NEWS_TABLE." $WhereNews");
         
         if (mysql_num_rows($sql) <= 0) {
             echo '<p style="text-align: center">'.NONEWSINDB . '</p>';
         }
         
         while ($TabNews = mysql_fetch_assoc($sql)) {
-            $TabNews['titre'] = printSecuTags($TabNews['titre']);
+            $TabNews['title'] = printSecuTags($TabNews['title']);
 
-            $sql2 = mysql_query("SELECT im_id FROM ".COMMENT_TABLE." WHERE im_id = '{$TabNews['id']}' AND module = 'news'");
+            $sql2 = mysql_query("SELECT itemId FROM ".COMMENT_TABLE." WHERE itemId = '{$TabNews['id']}' AND module = 'News'");
             $nb_comment = mysql_num_rows($sql2);
 
-            $sql3 = mysql_query("SELECT titre, image FROM ".NEWS_CAT_TABLE." WHERE nid = '{$TabNews['cat']}'");
+            $sql3 = mysql_query("SELECT title, image FROM ".NEWS_CAT_TABLE." WHERE id = '{$TabNews['category']}'");
             $TabCat = mysql_fetch_assoc($sql3);
 
-            if (!empty($autor_id)) {
-                $sql4 = mysql_query("SELECT pseudo FROM ".USER_TABLE." WHERE id = '{$TabNews['auteur_id']}'");
+            if (!empty($autorId)) {
+                $sql4 = mysql_query("SELECT pseudo FROM ".USER_TABLE." WHERE id = '{$TabNews['autorId']}'");
                 $test = mysql_num_rows($sql4);
             }
 
-            if (!empty($autor_id) && $test > 0) list($auteur) = mysql_fetch_array($sql4);
-            else $auteur = $TabNews['auteur'];
+            if (!empty($autorId) && $test > 0) list($autor) = mysql_fetch_array($sql4);
+            else $autor = $TabNews['autor'];
             
-            $data['date'] = nkDate($TabNews['date']);
-            $data['date_timestamp'] = $TabNews['date'];
-            $data['cat'] = $TabCat['titre'];
-            $data['catid'] = $TabNews['cat'];
+            $data['date'] = nkDate($TabNews['created']);
+            $data['date_timestamp'] = $TabNews['created'];
+            $data['cat'] = $TabCat['title'];
+            $data['catid'] = $TabNews['category'];
             $data['id'] = $TabNews['id'];
-            $data['titre'] = printSecuTags($TabNews['titre']);
-            $data['auteur'] = $auteur;
+            $data['titre'] = printSecuTags($TabNews['title']);
+            $data['auteur'] = $autor;
             $data['nb_comment'] = $nb_comment;
             $data['printpage'] = '<a title="'.PDF.'" href="index.php?file=News&amp;nuked_nude=index&amp;op=pdf&amp;news_id='.$TabNews['id'].'" onclick="window.open(this.href); return false;"><img style="border:none;" src="images/pdf.gif" alt="'.PDF.'" title="'.PDF.'" width="16" height="16" /></a>';
             $data['friend'] = '<a title="'.FSEND.'" href="index.php?file=News&amp;op=sendfriend&amp;news_id='.$TabNews['id'].'"><img style="border:none;" src="images/friend.gif" alt="'.FSEND.'" title="'.FSEND.'" width="16" height="16" /></a>';
  
-            $data['image'] = (!empty($TabCat['image'])) ? '<a title="'.$TabCat['titre'].'" href="index.php?file=Archives&amp;op=sujet&amp;cat_id='.$TabNews['cat'].'"><img style="float:right;border:0;" src="'.$TabCat['image'].'" alt="'.$TabCat['titre'].'" title="'.$TabCat['titre'].'" /></a>' : '';
+            $data['image'] = (!empty($TabCat['image'])) ? '<a title="'.$TabCat['title'].'" href="index.php?file=Archives&amp;op=sujet&amp;cat_id='.$TabNews['category'].'"><img style="float:right;border:0;" src="'.$TabCat['image'].'" alt="'.$TabCat['title'].'" title="'.$TabCat['title'].'" /></a>' : '';
 
-            if ($_REQUEST['op'] == 'suite' || $_REQUEST['op'] == 'index_comment' && !empty($TabNews['suite'])) {
-                $data['texte'] = $TabNews['texte'].'<br /><br />'.$TabNews['suite'];
-            } elseif (!empty($TabNews['suite'])) {
+            if ($_REQUEST['op'] == 'continuation' || $_REQUEST['op'] == 'index_comment' && !empty($TabNews['continuation'])) {
+                $data['content'] = $TabNews['content'].'<br /><br />'.$TabNews['continuation'];
+            } elseif (!empty($TabNews['continuation'])) {
                 // Bouton lire la suite du thème ou texte par défaut
                 $data['bouton'] = (is_file('themes/' . $theme . '/images/readmore.png')) ? '<img src="themes/' . $theme . '/images/readmore.png" alt="" title="'.READMORE . '" />' : READMORE;
 
-                $data['texte'] = $TabNews['texte'].'<div style="text-align:right;"><a title="'.READMORE.'" href="index.php?file=News&amp;op=suite&amp;news_id='.$TabNews['id'].'">' . $data['bouton'] . '</a></div>';
+                $data['texte'] = $TabNews['content'].'<div style="text-align:right;"><a title="'.READMORE.'" href="index.php?file=News&amp;op=suite&amp;news_id='.$TabNews['id'].'">' . $data['bouton'] . '</a></div>';
             } else {
-                $data['texte'] = $TabNews['texte'];
+                $data['texte'] = $TabNews['content'];
             }
 
             news($data);

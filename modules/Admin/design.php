@@ -139,29 +139,29 @@ function admintop(){
                         <?php
                         echo '<li>';
                         $modules = array();
-                        $Sql = mysql_query("SELECT `nom` FROM `" . MODULES_TABLE . "` WHERE '".$visiteur."' >= admin AND niveau > -1 AND admin > -1 ORDER BY nom");
+                        $Sql = mysql_query("SELECT `name` FROM `" . MODULES_TABLE . "` WHERE '".$visiteur."' >= admin AND level > -1 AND admin > -1 ORDER BY name");
                         while ($mod = mysql_fetch_assoc($Sql)) {
                             
-                            if ($mod['nom'] == 'Gallery') $modname = _NAMEGALLERY;
-                            else if ($mod['nom'] == 'Calendar') $modname = _NAMECALANDAR;
-                            else if ($mod['nom'] == 'Defy') $modname = _NAMEDEFY;
-                            else if ($mod['nom'] == 'Download') $modname = _NAMEDOWNLOAD;
-                            else if ($mod['nom'] == 'Guestbook') $modname = _NAMEGUESTBOOK;
-                            else if ($mod['nom'] == 'Irc') $modname = _NAMEIRC;
-                            else if ($mod['nom'] == 'Links') $modname = _NAMELINKS;
-                            else if ($mod['nom'] == 'Wars') $modname = _NAMEMATCHES;
-                            else if ($mod['nom'] == 'News') $modname = _NAMENEWS;
-                            else if ($mod['nom'] == 'Recruit') $modname = _NAMERECRUIT;
-                            else if ($mod['nom'] == 'Sections') $modname = _NAMESECTIONS;
-                            else if ($mod['nom'] == 'Server') $modname = _NAMESERVER;
-                            else if ($mod['nom'] == 'Suggest') $modname = _NAMESUGGEST;
-                            else if ($mod['nom'] == 'Survey') $modname = _NAMESURVEY;
-                            else if ($mod['nom'] == 'Forum') $modname = _NAMEFORUM;
-                            else if ($mod['nom'] == 'Textbox') $modname = _NAMESHOUTBOX;
-                            else if ($mod['nom'] == 'Comment') $modname = _NAMECOMMENT;
-                            else $modname = $mod['nom'];
+                            if ($mod['name'] == 'Gallery') $modname = _NAMEGALLERY;
+                            else if ($mod['name'] == 'Calendar') $modname = _NAMECALANDAR;
+                            else if ($mod['name'] == 'Defy') $modname = _NAMEDEFY;
+                            else if ($mod['name'] == 'Downloads') $modname = _NAMEDOWNLOAD;
+                            else if ($mod['name'] == 'Guestbook') $modname = _NAMEGUESTBOOK;
+                            else if ($mod['name'] == 'Irc') $modname = _NAMEIRC;
+                            else if ($mod['name'] == 'Links') $modname = _NAMELINKS;
+                            else if ($mod['name'] == 'Wars') $modname = _NAMEMATCHES;
+                            else if ($mod['name'] == 'News') $modname = _NAMENEWS;
+                            else if ($mod['name'] == 'Recruit') $modname = _NAMERECRUIT;
+                            else if ($mod['name'] == 'Sections') $modname = _NAMESECTIONS;
+                            else if ($mod['name'] == 'Server') $modname = _NAMESERVER;
+                            else if ($mod['name'] == 'Suggest') $modname = _NAMESUGGEST;
+                            else if ($mod['name'] == 'Survey') $modname = _NAMESURVEY;
+                            else if ($mod['name'] == 'Forum') $modname = _NAMEFORUM;
+                            else if ($mod['name'] == 'Textbox') $modname = _NAMESHOUTBOX;
+                            else if ($mod['name'] == 'Comment') $modname = _NAMECOMMENT;
+                            else $modname = $mod['name'];
 
-                            array_push($modules, $modname . '|' . $mod['nom']);
+                            array_push($modules, $modname . '|' . $mod['name']);
                         } // END while
 
                         natcasesort($modules);
@@ -176,6 +176,9 @@ function admintop(){
                             } // END if
                             
                         } // END foreach
+                        
+                        // initialize $modulecur
+                        $modulecur = '';
                         
                         $CurrentModule = ($modulecur == true) ? ' current' : '';
                         echo '<a href="#" class="nav-top-item' . $CurrentModule . '">' . _CONTENU . '</a><ul>';
@@ -223,11 +226,11 @@ function admintop(){
                     <div id="content_messages">
                         
                         <?php
-                        $Str = mysql_query("SELECT D.date, D.texte, U.pseudo FROM " . $nuked['prefix'] . "_discussion D, " . USER_TABLE . " U WHERE D.pseudo = U.id ORDER BY D.date DESC LIMIT 0, 16");
+                        $Str = mysql_query("SELECT D.created, D.content, U.pseudo FROM " . $nuked['prefix'] . "_discussion D, " . USER_TABLE . " U WHERE D.pseudo = U.id ORDER BY D.created DESC LIMIT 0, 16");
                         while ($row = mysql_fetch_assoc($Str)) {
                             
                             ?>
-                            <p><strong><?php echo nkDate($row['date']); ?></strong> <?php echo _BY; ?> <?php echo $row['pseudo']; ?><br /><?php echo $row['texte']; ?></p>
+                            <p><strong><?php echo nkDate($row['created']); ?></strong> <?php echo _BY; ?> <?php echo $row['pseudo']; ?><br /><?php echo $row['content']; ?></p>
                             <?php 
                         } // END while
                         ?>

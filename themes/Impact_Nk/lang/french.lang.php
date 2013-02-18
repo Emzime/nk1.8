@@ -1,6 +1,6 @@
 <?php
 if (!defined("INDEX_CHECK")){
-	exit('You can\'t run this file alone.');
+    exit('You can\'t run this file alone.');
 }
 
 define("INCONTACT","Contact");
@@ -31,8 +31,6 @@ define("INSELECTAT", "Sélectionner ?");
 define("INFULLPAGE", "Pleine page");
 define("INALLNONE", "Tous - Aucun");
 define('YOUVE', 'Vous avez');
-define("ALERTENOT","Notification d'alerte");
-define("CHOOSEADMIN","Choisir l'affichage du module en 75% ou en 100%, si un module n'est ni en 75% (1 colonne de blocks) ni en 100% (aucune colonne), il sera alors affiché en 50% soit deux colonnes de blocks.<br /> Attention! Ne pas mettre un module en 75% et en 100%, choisissez toujours l'un ou l'autre.");
 
 
 define('NEWSPOSTBY', 'Posté par');

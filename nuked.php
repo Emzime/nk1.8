@@ -180,10 +180,10 @@ function banip() {
     $ipDyn = substr($GLOBALS['user_ip'], 0, -1);
 
     // SQL condition : dynamic IP or user account
-    $whereClause = ' WHERE (ip LIKE "%' . $ipDyn . '%") OR pseudo = "' . $GLOBALS['user'][2] . '"';
+    $whereClause = ' WHERE (ip LIKE "%'.$ipDyn.'%") OR pseudo = "'.$GLOBALS['user'][2];
 
     // Search banish
-    $banQuery = nkDB_select('SELECT `id`, `pseudo`, `date`, `dure` FROM ' . BANNED_TABLE . $whereClause);
+    $banQuery = nkDB_select('SELECT `id`, `pseudo`, `created`, `period` FROM '.BANNED_TABLE . $whereClause);
 
     // If positive result with banish search, assign new ip
     if (nkDB_numRows() > 0) {
@@ -195,7 +195,7 @@ function banip() {
         // Check IP cookie and current IP address
         if ($ipDynCookie == $ipDyn) {
             // Check banishment existence
-            $banCookieQuery  = nkDB_select('SELECT `id` FROM ' . BANNED_TABLE . ' WHERE (ip LIKE "%' . $ipDynCookie . '%")');
+            $banCookieQuery  = nkDB_select('SELECT `id` FROM '.BANNED_TABLE.' WHERE (ip LIKE "%'.$ipDynCookie.'%")');
             // If positive result, do new ban and assign new IP
             if (nkDB_numRows() > 0) {
                 $ipBanned = $GLOBALS['user_ip'];
@@ -208,28 +208,28 @@ function banip() {
     // Delete expire banishment or update IP
     if (!empty($ipBanned)) {
         // Search expire banishment
-        if ($banQuery[0]['dure'] != 0 && ($banQuery[0]['date'] + $banQuery[0]['dure']) < time()) {
+        if ($banQuery[0]['period'] != 0 && ($banQuery[0]['created'] + $banQuery[0]['period']) < time()) {
             // Delete banishment
-            $delBan = nkDB_delete( BANNED_TABLE, $whereClause);
+            $delBan = nkDB_delete(BANNED_TABLE, $whereClause);
             // Administration notification           
-            $fields = array( 'date', 'type', 'texte' );
-            $banQuery[0]['pseudo']  .= ' ' . BANFINISHED . ' : [<a href=\"index.php?file=Admin&page=user&op=main_ip\">' . _LINK . '</a>]';
+            $fields = array('created', 'type', 'content');
+            $banQuery[0]['pseudo']  .= '&nbsp;'.BANFINISHED.'&nbsp;:&nbsp;[<a href=\"index.php?file=Admin&page=user&op=main_ip\">'.LINK.'</a>]';
             $values = array( time(), '4', mysql_real_escape_string($banQuery[0]['pseudo']));
             $rs = nkDB_insert( BANNED_TABLE, $fields, $values );
         } else { // update IP address
             if ($isset($GLOBALS['user'])) {
-                $whereUser = ', pseudo = "' . $GLOBALS['user'][2] . '"';
+                $whereUser = ', pseudo = "'.$GLOBALS['user'][2];
             } else {
                 $whereUser = '';
             }
             $fields = array('ip', 'pseudo');
             $values = array($GLOBALS['user_ip'], $whereUser);
-            $rs = nkDB_update( BANNED_TABLE, $fields, $values, 'ip = '. nkDB_escape($GLOBALS['user_ip']. $whereUser . $whereClause));
+            $rs = nkDB_update( BANNED_TABLE, $fields, $values, 'ip = '.nkDB_escape($GLOBALS['user_ip']. $whereUser . $whereClause));
                 
             // Redirection to banish page
-            $urlBan = 'ban.php?ip_ban=' . $ipBanned;
+            $urlBan = 'ban.php?ip_ban='.$ipBanned;
             if (!empty($GLOBALS['user'])) {
-                $urlBan .= '&user=' . urlencode($GLOBALS['user'][2]);
+                $urlBan .= '&user='.urlencode($GLOBALS['user'][2]);
             }
             redirect($urlBan, 0);
         }
@@ -909,7 +909,7 @@ function updateUserConnectData($user, $ipUser, $limite) {
     
     // Get IP address of visitor
     if (isset($user[0])) {
-        $req = nkDB_select('SELECT IP FROM '. NBCONNECTE_TABLE .' WHERE user_id = '. nkDB_escape($user[0]));
+        $req = nkDB_select('SELECT IP FROM '. NBCONNECTE_TABLE .' WHERE userId = '. nkDB_escape($user[0]));
     } else {
         $req = nkDB_select('SELECT IP FROM '. NBCONNECTE_TABLE .' WHERE IP = '. nkDB_escape($ipUser));
     }
@@ -917,11 +917,11 @@ function updateUserConnectData($user, $ipUser, $limite) {
     // If IP address exists, update user informations
     if (nkDB_numRows() > 0) {
         if (isset($user[0])) {
-            $fieldsUserSet = array('date', 'type', 'IP', 'username');
+            $fieldsUserSet = array('created', 'type', 'IP', 'userName');
             $valuesUserSet = array($limite, (int) $user[1], $ipUser, $user[2]);
             $rs = nkDB_update(NBCONNECTE_TABLE, $fieldsUserSet, $valuesUserSet, 'user_id = '. nkDB_escape($user[0]));
         } else {
-            $fields = array('date', 'type', 'IP', 'username', 'user_id');
+            $fields = array('created', 'type', 'IP', 'userName', 'userId');
             $values = array($limite, 0, $ipUser, '', '');
             $rs = nkDB_update(NBCONNECTE_TABLE, $fields, $values, 'IP = '. nkDB_escape($ipUser));
         }
@@ -930,10 +930,10 @@ function updateUserConnectData($user, $ipUser, $limite) {
         $rsDel = nkDB_delete(NBCONNECTE_TABLE, 'IP = ' . nkDB_escape($ipUser));
         
         if ($user) {
-            $fields = array('date', 'type', 'IP', 'username', 'user_id');
+            $fields = array('created', 'type', 'IP', 'userName', 'userId');
             $values = array($limite, (int) $user[1], $ipUser, $user[2], $user[0]);
         } else {
-            $fields = array('date', 'type', 'IP');
+            $fields = array('created', 'type', 'IP');
             $values = array($limite, 0, $ipUser);
         }
         $rsIns = nkDB_insert(NBCONNECTE_TABLE, $fields, $values);
@@ -1107,9 +1107,9 @@ function visits() {
     } else {
         // Get month, year, day and hour actual
         $month = strftime( '%m', $time );
-        $year = strftime( '%Y', $time );
-        $day    = strftime( '%d', $time );
-        $hour = strftime( '%H', $time );
+        $year  = strftime( '%Y', $time );
+        $day   = strftime( '%d', $time );
+        $hour  = strftime( '%H', $time );
         
         // Get http referer if exists
         if (isset($_SERVER['HTTP_REFERER'])) {
@@ -1157,8 +1157,7 @@ function visits() {
  * @param int $maxlength : the max length of pseudo (30)
  * @return string : pseudo string without blank characters or error code
  */
-function verif_pseudo($pseudo = '', $checkNickUse = TRUE, $maxlength = 30)
-{
+function verif_pseudo($pseudo = '', $checkNickUse = TRUE, $maxlength = 30) {
     // Clean blank characters of pseudo
     $pseudo = trim($pseudo);
 
@@ -1442,6 +1441,8 @@ function activatedModules($blackArray = null) {
             $kname[] = $k['name'];        
         }
     }
+    // initialise $kname
+    $kname = array();
     if (!is_null($blackArray)) {
         $kname = array_merge($kname, $blackArray);
     }
@@ -1450,8 +1451,6 @@ function activatedModules($blackArray = null) {
     foreach ($kname as $key) {
         unset($activeModules[$key]);
     }
-
-
     return $activeModules;
 }
 
@@ -1459,8 +1458,7 @@ function activatedModules($blackArray = null) {
  * Set theme
  */
 // SELECT THEME, USER THEME OR NOT FOUND THEME : ERROR
-if (isset($_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_theme'])
-        && is_file(ROOT_PATH . 'themes/' . $GLOBALS['nuked']['user_theme'] . '/theme.php')) {
+if (isset($_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_theme']) && is_file(ROOT_PATH . 'themes/' . $GLOBALS['nuked']['user_theme'] . '/theme.php')) {
     $theme = $_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_theme'];
 } elseif (is_file(ROOT_PATH . 'themes/' . $GLOBALS['nuked']['theme'] . '/theme.php')) {
     $theme = $GLOBALS['nuked']['theme'];
@@ -1469,8 +1467,7 @@ if (isset($_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_theme'])
 }
 
 // SELECT LANGUAGE AND USER LANGUAGE
-if (isset($_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_langue'])
-        && is_file(ROOT_PATH . 'lang/' . $GLOBALS['nuked']['user_lang'] . '.lang.php')) {
+if (isset($_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_langue']) && is_file(ROOT_PATH . 'lang/' . $GLOBALS['nuked']['user_lang'] . '.lang.php')) {
     $language = $_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_langue'];    
 } else {
     $language =  $GLOBALS['nuked']['langue'];    
@@ -1481,10 +1478,14 @@ if (isset($_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_langue'])
 // FORMAT DATE FR/EN
 if($language == 'french') {
     // On verifie l'os du serveur pour savoir si on est en windows (setlocale : ISO) ou en unix (setlocale : UTF8)
-    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') setlocale (LC_ALL, 'fr_FR','fra');
-    else setlocale(LC_ALL, 'fr_FR.UTF8','fra');    
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        setlocale (LC_ALL, 'fr_FR','fra');
+    } else {
+        setlocale(LC_ALL, 'fr_FR.UTF8','fra');  
+    }    
+} elseif ($language == 'english') {
+    setlocale(LC_ALL, 'en_US');
 }
-elseif($language == 'english') setlocale(LC_ALL, 'en_US');
 
 // DATE FUNCTION WITH FORMAT AND ZONE FOR DATE
 $dateZone = getTimeZoneDateTime($GLOBALS['nuked']['datezone']);

@@ -3,11 +3,11 @@ var errors = 0;
 var install = false;
 var ajaxBusy = false;
 var arrayTablesInstall = new Array(
-                            "action", "banned", "block", "calendar", "comment", "comment_mod", "config", "contact", "defie", "discussion", "downloads",
+                            "action", "banned", "block", "calendar", "comment", "comment_mod", "config", "contact", "defy", "discussion", "downloads",
                             "downloads_cat", "downloads_config", "forums", "forums_cat", "forums_messages", "forums_threads", "forums_rank",
                             "forums_reads", "forums_poll", "forums_options", "forums_vote", "gallery", "gallery_cat", "games", "games_prefs", "guestbook",
-                            "irc_awards", "liens", "liens_cat", "match", "match_files", "modules", "nbconnecte", "news", "news_cat", "notification", "recrute", "sections",
-                            "sections_cat", "serveur", "serveur_cat", "sessions", "smilies", "sondage", "sondage_check", "sondage_data", "stats", "stats_visitor",
+                            "irc_awards", "links", "links_cat", "match", "match_files", "modules", "nbconnecte", "news", "news_cat", "notification", "recruit", "sections",
+                            "sections_cat", "server", "server_cat", "sessions", "smilies", "survey", "survey_check", "survey_data", "stats", "stats_visitor",
                             "suggest", "shoutbox", "team", "team_rank", "tmpses", "userbox", "users", "users_detail", "vote", "vote_mod"
                         );
 var arrayTablesUpdate = new Array(

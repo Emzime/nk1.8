@@ -23,22 +23,22 @@ if ($visiteur == 9)
         $handle = @opendir($path);
         while (false !== ($blok = readdir($handle)))
         {
-            if ($blok != '.' && $blok != '..' && $blok != 'index.html' && $blok != 'block_module.php')
+            if ($blok != '.' && $blok != '..' && $blok != 'index.html' && $blok != 'blockModule.php')
             {
                 if (substr($blok, -3, 3) == 'php')
                 {
                     $blok = substr($blok, 5, -4);
 
-                    if ($blok == 'survey') $blokname = _NAMESURVEY;
-                    else if ($blok == 'menu') $blokname = _NAV;
-                    else if ($blok == 'suggest') $blokname = _NAMESUGGEST;
-                    else if ($blok == 'event') $blokname = _NAMECALANDAR;
-                    else if ($blok == 'login') $blokname = _LOGIN;
-                    else if ($blok == 'center') $blokname = _CENTERBLOCK;
-                    else if ($blok == 'html') $blokname = _BLOCKHTML;
-                    else if ($blok == 'language') $blokname = _BLOCKLANG;
-                    else if ($blok == 'theme') $blokname = _BLOCKTHEME;
-                    else if ($blok == 'counter') $blokname = _BLOCKCOUNTER;
+                    if ($blok == 'survey') $blokname = NAMESURVEY;
+                    else if ($blok == 'menu') $blokname = NAV;
+                    else if ($blok == 'suggest') $blokname = NAMESUGGEST;
+                    else if ($blok == 'event') $blokname = NAMECALANDAR;
+                    else if ($blok == 'login') $blokname = LOGIN;
+                    else if ($blok == 'center') $blokname = CENTERBLOCK;
+                    else if ($blok == 'html') $blokname = BLOCKHTML;
+                    else if ($blok == 'language') $blokname = BLOCKLANG;
+                    else if ($blok == 'theme') $blokname = BLOCKTHEME;
+                    else if ($blok == 'counter') $blokname = BLOCKCOUNTER;
                     else $blokname = $blok;
 
                     array_push($blocks, $blokname . '|' . $blok);
@@ -62,22 +62,22 @@ if ($visiteur == 9)
         admintop();
 
         echo '<div class="content-box">',"\n" //<!-- Start Content Box -->
-        . '<div class="content-box-header"><h3>' . _BLOCKADMIN . '</h3>',"\n"
+        . '<div class="content-box-header"><h3>' . BLOCKADMIN . '</h3>',"\n"
         . '<div style="text-align:right"><a href="help/' . $language . '/block.php" rel="modal">',"\n"
-        . '<img style="border: 0" src="help/help.gif" alt="" title="' . _HELP . '" /></a>',"\n"
+        . '<img style="border: 0" src="help/help.gif" alt="" title="' . HELP . '" /></a>',"\n"
         . '</div></div>',"\n"
         . '<div class="tab-content" id="tab2"><form method="post" action="index.php?file=Admin&amp;page=block&amp;op=send_block">',"\n"
         . '<table style="margin: auto;text-align: left" cellspacing="0" cellpadding="2" border="0">',"\n"
-        . '<tr><td><b>' . _BLOCKTITLE . ' :</b> <input type="text" name="titre" size="40" value="' . $titre . '" /></td></tr>',"\n"
-        . '<tr><td><b>' . _TYPE . ' : </b><select name="type">',"\n";
+        . '<tr><td><b>' . BLOCKTITLE . ' :</b> <input type="text" name="titre" size="40" value="" /></td></tr>',"\n"
+        . '<tr><td><b>' . TYPE . ' : </b><select name="type">',"\n";
 
         sel_block();
 
-        echo '<option value="b|module">* ' . _MODBLOCK . ' :</option>',"\n";
+        echo '<option value="b|module">* ' . MODBLOCK . ' :</option>',"\n";
 
         select_mod('Tous');
 
-        echo '</select>&nbsp;&nbsp;<b>' . _LEVEL . ' : </b><select name="nivo">',"\n"
+        echo '</select>&nbsp;&nbsp;<b>' . LEVEL . ' : </b><select name="nivo">',"\n"
         . '<option>0</option>',"\n"
         . '<option>1</option>',"\n"
         . '<option>2</option>',"\n"
@@ -88,13 +88,13 @@ if ($visiteur == 9)
         . '<option>7</option>',"\n"
         . '<option>8</option>',"\n"
         . '<option>9</option></select></td></tr><tr><td>&nbsp;</td></tr>',"\n"
-        . '<tr><td align="center"><b>' . _SELECTPAGE . ' :</b></td></tr><tr><td>&nbsp;</td></tr><tr><td align="center"><select name="pages[]" size="8" multiple="multiple">',"\n";
+        . '<tr><td align="center"><b>' . SELECTPAGE . ' :</b></td></tr><tr><td>&nbsp;</td></tr><tr><td align="center"><select name="pages[]" size="8" multiple="multiple">',"\n";
 
         select_mod2('Tous');
 
         echo '</select></td></tr><tr><td>&nbsp;</td></tr>',"\n"
-        . '<tr><td align="center"><input type="submit" value="' . _CREATEBLOCK . '" /></td></tr></table>',"\n"
-        . '<div style="text-align: center"><br />[ <a href="index.php?file=Admin&amp;page=block"><b>' . _BACK . '</b></a> ]</div></form><br /></div></div>',"\n";
+        . '<tr><td align="center"><input type="submit" value="' . CREATEBLOCK . '" /></td></tr></table>',"\n"
+        . '<div style="text-align: center"><br />[ <a href="index.php?file=Admin&amp;page=block"><b>' . BACK . '</b></a> ]</div></form><br /></div></div>',"\n";
 
         adminfoot();
     }
@@ -128,20 +128,20 @@ if ($visiteur == 9)
         $nivo = mysql_real_escape_string(stripslashes($nivo));
         $pages = mysql_real_escape_string(stripslashes($pages));
 
-        $sql = mysql_query("INSERT INTO " . BLOCK_TABLE . " ( `bid` , `active` , `position` , `module` , `titre` , `content` , `type` , `nivo` , `page` ) VALUES ( '' , '0' , '' , '" . $module . "' , '" . $titre . "' , '' , '" . $type . "' , '" . $nivo . "' , '" . $pages . "' )");
+        $sql = mysql_query("INSERT INTO " . BLOCK_TABLE . " ( `id` , `side` , `placing` , `module` , `title` , `content` , `type` , `level` , `page` ) VALUES ( '' , '0' , '' , '" . $module . "' , '" . $titre . "' , '' , '" . $type . "' , '" . $nivo . "' , '" . $pages . "' )");
 
-        $sql2 = mysql_query("SELECT bid FROM " . BLOCK_TABLE . " WHERE titre = '" . $titre . "' AND type = '" . $type . "'");
+        $sql2 = mysql_query("SELECT id FROM " . BLOCK_TABLE . " WHERE title = '" . $titre . "' AND type = '" . $type . "'");
         list($bid) = mysql_fetch_array($sql2);
 
         // Action
         $texteaction = _ACTIONADDBLOCK . ': ' . $titre;
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`created`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
         //Fin action
 
         echo '<div class="notification success png_bg">',"\n"
         . '<div>',"\n"
-        . '' . _BLOCKSUCCES . '',"\n"
+        . '' . BLOCKSUCCES . '',"\n"
         . '</div>',"\n"
         . '</div>',"\n";
         redirect('index.php?file=Admin&page=block&op=edit_block&bid=' . $bid, 2);
@@ -161,13 +161,13 @@ if ($visiteur == 9)
         $sql = mysql_query("DELETE FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
 
         // Action
-        $texteaction = _ACTIONDELBLOCK . ': ' . $titre;
+        $texteaction = ACTIONDELBLOCK . ': ' . $titre;
         $acdate = time();
         $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
         //Fin action
         echo '<div class="notification success png_bg">',"\n"
         . '<div>',"\n"
-        . '' . _BLOCKCLEAR . '',"\n"
+        . '' . BLOCKCLEAR . '',"\n"
         . '</div>',"\n"
         . '</div>',"\n";
         redirect('index.php?file=Admin&page=block', 2);
@@ -198,10 +198,10 @@ if ($visiteur == 9)
             echo '<option value="' . $nom . '" ' . $checked . '>&nbsp;' . $nom . '&nbsp;</option>',"\n";
         }
 
-        echo '<option value="Team" ' . $checked_team . '>&nbsp;' . _TEAM . '&nbsp;</option>',"\n"
-        . '<option value="User" ' . $checked_user . '>&nbsp;' . _USER . '&nbsp;</option>',"\n"
-        . '<option value="Admin" ' . $checked_admin . '>&nbsp;' . _ADMIN . '&nbsp;</option>',"\n"
-        . '<option value="Tous" ' . $checked_tous . '>&nbsp;' . _ALL . '&nbsp;</option>',"\n";
+        echo '<option value="Team" ' . $checked_team . '>&nbsp;' . TEAM . '&nbsp;</option>',"\n"
+        . '<option value="User" ' . $checked_user . '>&nbsp;' . USER . '&nbsp;</option>',"\n"
+        . '<option value="Admin" ' . $checked_admin . '>&nbsp;' . ADMIN . '&nbsp;</option>',"\n"
+        . '<option value="Tous" ' . $checked_tous . '>&nbsp;' . ALL . '&nbsp;</option>',"\n";
     }
 
     function select_mod($mod)
@@ -213,19 +213,19 @@ if ($visiteur == 9)
             if ($f != '.' && $f != '..' && $f != 'CVS' && $f != 'index.html'  && !preg_match('`[.]`', $f))
             {
 
-                if ($f == 'Gallery') $modname = _NAMEGALLERY;
-                else if ($f == 'Download') $modname = _NAMEDOWNLOAD;
-                else if ($f == 'Irc') $modname = _NAMEIRC;
-                else if ($f == 'Links') $modname = _NAMELINKS;
-                else if ($f == 'Wars') $modname = _NAMEMATCHES;
-                else if ($f == 'News') $modname = _NAMENEWS;
-                else if ($f == 'Search') $modname = _NAVSEARCH;
-                else if ($f == 'Sections') $modname = _NAMESECTIONS;
-                else if ($f == 'Server') $modname = _NAMESERVER;
-                else if ($f == 'Stats') $modname = _BLOKSTATS;
-                else if ($f == 'Forum') $modname = _NAMEFORUM;
-                else if ($f == 'Team') $modname = _NAVTEAM;
-                else if ($f == 'Textbox') $modname = _NAMESHOUTBOX;
+                if ($f == 'Gallery') $modname = NAMEGALLERY;
+                else if ($f == 'Download') $modname = NAMEDOWNLOAD;
+                else if ($f == 'Irc') $modname = NAMEIRC;
+                else if ($f == 'Links') $modname = NAMELINKS;
+                else if ($f == 'Wars') $modname = NAMEMATCHES;
+                else if ($f == 'News') $modname = NAMENEWS;
+                else if ($f == 'Search') $modname = NAVSEARCH;
+                else if ($f == 'Sections') $modname = NAMESECTIONS;
+                else if ($f == 'Server') $modname = NAMESERVER;
+                else if ($f == 'Stats') $modname = BLOKSTATS;
+                else if ($f == 'Forum') $modname = NAMEFORUM;
+                else if ($f == 'Team') $modname = NAVTEAM;
+                else if ($f == 'Textbox') $modname = NAMESHOUTBOX;
                 else $modname = $f;
 
                 array_push($modules, $modname . '|' . $f);
@@ -262,12 +262,12 @@ if ($visiteur == 9)
         $bid = mysql_real_escape_string(stripslashes($bid));
         admintop();
 
-        $sql = mysql_query("SELECT type FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
+        $sql = mysql_query("SELECT type FROM " . BLOCK_TABLE . " WHERE id = '" . $bid . "'");
         list($type) = mysql_fetch_array($sql);
 
-        include_once('Includes/blocks/block_' . $type . '.php');
+        include_once('Includes/blocks/block' . $type . '.php');
 
-        $function = 'edit_block_' . $type;
+        $function = 'edit_block' . $type;
         $function($bid);
 
         adminfoot();
@@ -281,7 +281,7 @@ if ($visiteur == 9)
 
         $function = 'modif_advanced_' . $data['type'];
 
-        include_once('Includes/blocks/block_' . $data['type'] . '.php');
+        include_once('Includes/blocks/block' . $data['type'] . '.php');
 
         if (function_exists($function))
         {
@@ -302,17 +302,17 @@ if ($visiteur == 9)
             $module = '';
         }
 
-        $sql = mysql_query("UPDATE " . BLOCK_TABLE . " SET active = '" . $data['active'] . "', position = '" . $data['position'] . "', module = '" . $module . "', titre = '" . $data['titre'] . "', content = '" . $data['content'] . "', type = '" . $data['type'] . "', nivo = '" . $data['nivo'] . "', page = '" . $data['pages'] . "' WHERE bid = '" . $data['bid'] . "'");
+        $sql = mysql_query("UPDATE " . BLOCK_TABLE . " SET side = '" . $data['active'] . "', placing = '" . $data['position'] . "', module = '" . $module . "', title = '" . $data['titre'] . "', content = '" . $data['content'] . "', type = '" . $data['type'] . "', level = '" . $data['nivo'] . "', page = '" . $data['pages'] . "' WHERE id = '" . $data['bid'] . "'");
 
         // Action
-        $texteaction = _ACTIONMODIFBLOCK . ': ' . $data['titre'];
+        $texteaction = ACTIONMODIFBLOCK . ': ' . $data['titre'];
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`created`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
         //Fin action
 
         echo '<div class="notification success png_bg">',"\n"
         . '<div>',"\n"
-        . '' . _BLOCKMODIF . '',"\n"
+        . '' . BLOCKMODIF . '',"\n"
         . '</div>',"\n"
         . '</div>',"\n"
         . "<script>\n"
@@ -357,7 +357,7 @@ if ($visiteur == 9)
 
         echo '<div class="notification success png_bg">',"\n"
         . '<div>',"\n"
-        . '' . _BLOCKMODIF . '',"\n"
+        . '' . BLOCKMODIF . '',"\n"
         . '</div>',"\n"
         . '</div>',"\n"
         . '<script>',"\n"
@@ -381,7 +381,7 @@ if ($visiteur == 9)
         . "\n"
         . "function delblock(titre, id)\n"
         . "{\n"
-        . "if (confirm('" . _DELBLOCK . " '+titre+' ! " . _CONFIRM . "'))\n"
+        . "if (confirm('" . DELBLOCK . " '+titre+' ! " . CONFIRM . "'))\n"
         . "{document.location.href = 'index.php?file=Admin&page=block&op=del_block&bid='+id;}\n"
         . "}\n"
         . "\n"
@@ -389,43 +389,43 @@ if ($visiteur == 9)
         . "</script>\n";
 
        echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-        . "<div class=\"content-box-header\"><h3>" . _BLOCKADMIN . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . BLOCKADMIN . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/block.php\" rel=\"modal\">\n"
-        . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+        . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . HELP . "\" /></a>\n"
         . "</div></div>\n"
-        . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">[ <a href=\"index.php?file=Admin&amp;page=block&amp;op=add_block\"><b>" . _BLOCKADD . "</b></a> ]</div><br />\n"
+        . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">[ <a href=\"index.php?file=Admin&amp;page=block&amp;op=add_block\"><b>" . BLOCKADD . "</b></a> ]</div><br />\n"
         . "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
         . "<tr>\n"
-        . "<td style=\"width: 20%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
-        . "<td style=\"width: 15%;\" align=\"center\"><b>" . _BLOCK . "</b></td>\n"
-        . "<td style=\"width: 15%;\" align=\"center\"><b>" . _POSITION . "</b></td>\n"
-        . "<td style=\"width: 15%;\" align=\"center\"><b>" . _TYPE . "</b></td>\n"
-        . "<td style=\"width: 10%;\" align=\"center\"><b>" . _LEVEL . "</b></td>\n"
-        . "<td style=\"width: 10%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
-        . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DELETE . "</b></td></tr>\n";
+        . "<td style=\"width: 20%;\" align=\"center\"><b>" . TITLE . "</b></td>\n"
+        . "<td style=\"width: 15%;\" align=\"center\"><b>" . BLOCK . "</b></td>\n"
+        . "<td style=\"width: 15%;\" align=\"center\"><b>" . POSITION . "</b></td>\n"
+        . "<td style=\"width: 15%;\" align=\"center\"><b>" . TYPE . "</b></td>\n"
+        . "<td style=\"width: 10%;\" align=\"center\"><b>" . LEVEL . "</b></td>\n"
+        . "<td style=\"width: 10%;\" align=\"center\"><b>" . EDIT . "</b></td>\n"
+        . "<td style=\"width: 15%;\" align=\"center\"><b>" . DELETE . "</b></td></tr>\n";
 
-        $sql = mysql_query("SELECT active, position, titre, module, content, type, nivo, bid FROM " . BLOCK_TABLE . " ORDER BY active DESC, position, nivo");
+        $sql = mysql_query("SELECT side, placing, title, module, content, type, level, id FROM " . BLOCK_TABLE . " ORDER BY side DESC, placing, level");
         while (list($active, $position, $titre, $module, $content, $type, $nivo, $bid) = mysql_fetch_array($sql))
         {
             $titre = printSecuTags($titre);
 
-            if ($active == 1) $act = _LEFT;
-            else if ($active == 2) $act = _RIGHT;
-            else if ($active == 3) $act = _CENTERBLOCK;
-            else if ($active == 4) $act = _FOOTERBLOCK;
-            else $act = _OFF;
+            if ($active      == 1) $act = LEFT;
+            else if ($active == 2) $act = RIGHT;
+            else if ($active == 3) $act = CENTERBLOCK;
+            else if ($active == 4) $act = FOOTERBLOCK;
+            else $act = OFF;
 
             echo "<tr>\n"
             . "<td style=\"width: 20%;\">" . $titre . "</td>\n"
             . "<td style=\"width: 15%;\" align=\"center\">" . $act . "</td>\n"
-            . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=block&amp;op=modif_position_block&amp;bid=" . $bid . "&amp;method=down\" title=\"" . _BLOCKDOWN . "\">&lt;</a> " . $position . " <a href=\"index.php?file=Admin&amp;page=block&amp;op=modif_position_block&amp;bid=" . $bid . "&amp;method=up\" title=\"" . _BLOCKUP . "\">&gt;</a></td>\n"
+            . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=block&amp;op=modif_position_block&amp;bid=" . $bid . "&amp;method=down\" title=\"" . BLOCKDOWN . "\">&lt;</a> " . $position . " <a href=\"index.php?file=Admin&amp;page=block&amp;op=modif_position_block&amp;bid=" . $bid . "&amp;method=up\" title=\"" . BLOCKUP . "\">&gt;</a></td>\n"
             . "<td style=\"width: 15%;\" align=\"center\">" . $type . "</td>\n"
             . "<td style=\"width: 15%;\" align=\"center\">" . $nivo . "</td>\n"
-            . "<td style=\"width: 10%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=block&amp;op=edit_block&amp;bid=" . $bid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _BLOCKEDIT . "\" /></a></td>\n"
-            . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:delblock('" . mysql_real_escape_string(stripslashes($titre)) . "','" . $bid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _BLOCKDEL . "\" /></a></td></tr>\n";
+            . "<td style=\"width: 10%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=block&amp;op=edit_block&amp;bid=" . $bid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . BLOCKEDIT . "\" /></a></td>\n"
+            . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:delblock('" . mysql_real_escape_string(stripslashes($titre)) . "','" . $bid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . BLOCKDEL . "\" /></a></td></tr>\n";
         }
 
-        echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+        echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . BACK . "</b></a> ]</div><br /></div></div>\n";
 
         adminfoot();
     }
@@ -471,7 +471,7 @@ else if ($visiteur > 1)
     admintop();
     echo "<div class=\"notification error png_bg\">\n"
     . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+    . "<br /><br /><div style=\"text-align: center;\">" . NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . BACK . "</b></a></div><br /><br />"
     . "</div>\n"
     . "</div>\n";
     adminfoot();
@@ -481,7 +481,7 @@ else
     admintop();
     echo "<div class=\"notification error png_bg\">\n"
     . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+    . "<br /><br /><div style=\"text-align: center;\">" . ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . BACK . "</b></a></div><br /><br />"
     . "</div>\n"
     . "</div>\n";
     adminfoot();

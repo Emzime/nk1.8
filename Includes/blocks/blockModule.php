@@ -19,15 +19,14 @@ if (defined('TESTLANGUE')) {
             if($mod != 'index.html' && file_exists('modules/'.$mod.'/blok.php')) {
                 $autorized_modules[] = $mod;
             }
-        }
-        
-        if (false===array_search($blok['module'], $autorized_modules)) {
-             $blok_content = '';
+        }        
+        if (false === array_search($blok['module'], $autorized_modules)) {
+             $blok['content'] = '';
         } else {
+            $module = $blok['module'];
             ob_start();
-            print eval('$id = \'$blok["id"]\';');
-            print eval(' include "modules/'.$blok["module"].'/blok.php"); ');
-            $blok_content = ob_get_contents();
+            print eval(' include ("modules/" . $module . "/blok.php"); ');
+            $blok['content'] = ob_get_contents();
             ob_end_clean();
         }
         return $blok;

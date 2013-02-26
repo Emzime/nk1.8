@@ -21,14 +21,11 @@ if($langTest == true) {
 
         // Vérification des variables
         $requestArray = array(
-                'cat',
-                'requestedId',
-                'orderby',
-                'url',
-                'p',
-                'orderbycat'
-            );
-        $GLOBALS['nkFunctions']->nkInitRequest($requestArray);
+        'int'     => array('p','requestedId','cat'),
+        'boolean' => array(),
+        'string'  => array('orderbycat', 'url', 'orderby', 'view')
+        );
+        $GLOBALS['nkFunctions']->nkInitRequest($requestArray, $GLOBALS['indexRequestArray']);
 
         $arrayMenu = array(
             'index.php?file='.$modName                          =>  INDEX,
@@ -63,7 +60,6 @@ if($langTest == true) {
 
             $modulePref = $GLOBALS['nkFunctions']->nkModsPrefs($modName);
 
-
             // Requete pour statistique en bas de page
             $dbsFile = 'SELECT count( id ), 
                             (
@@ -80,196 +76,8 @@ if($langTest == true) {
             $dbeFile = mysql_query($dbsFile);
             list($statFile, $statSubCat, $statCat) = mysql_fetch_array($dbeFile);
 
-            // Affichage si clic sur les blocks 
-            if ($requestedId) {
-
-                $dbsRequestFile = ' SELECT D.title, D.content, D.size, D.category, D.count, D.created, D.url, D.urlScreen, D.level, D.edited, D.autor, D.urlAutor, D.compatibility, C.title, avg( V.vote ) AS note
-                                    FROM '.DOWNLOADS_TABLE.' AS D
-                                    LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS C ON C.id = D.category
-                                    LEFT JOIN '.VOTE_TABLE.' AS V ON D.id = V.vid AND V.module = \''.$modName.'\'
-                                    WHERE D.id = '.$requestedId;
-                $dbeRequestFile = mysql_query($dbsRequestFile);
-                list($fileTitle, $fileDescription, $fileSize, $fileType, $fileCount, $fileDate, $fileUrl, $fileScreen, $fileLevel, $fileEdit, $fileAutor, $fileUrlAutor, $fileCompatibility, $fileCatTitle, $fileNote) = mysql_fetch_array($dbeRequestFile);
-                
-                // Affiche le nombre de commentaires 
-                $dbsComDl = 'SELECT id 
-                             FROM '.COMMENT_TABLE.' 
-                             WHERE im_id = '.$requestedId;
-                $dbeComDl = mysql_query($dbsComDl);
-                $dbcFileNbComment = mysql_num_rows($dbeComDl);
-
-                // A ADAPTER AVEC LE FUNCTION VOTE 
-                $fileNote = round($fileNote, 2);
-                $fileNote = $fileNote.'&nbsp;/&nbsp;10';
-
-                // Affichage de l'image correspondant a l'extension du fichier 
-                $fileExtension = strrchr($fileUrl, '.');
-                $fileExtension = substr($fileExtension, 1);
-                if ($fileExtension == "zip") {
-                    $fileExtensionClass = 'nkIconZip';
-                } elseif ($fileExtension == "rar") {
-                    $fileExtensionClass = 'nkIconZip';
-                } elseif ($fileExtension == "jpg" || $fileExtension == "jpeg") {
-                    $fileExtensionClass = 'nkIconJpg';
-                } elseif ($fileExtension == "png") {
-                    $fileExtensionClass = 'nkIconPng';
-                } elseif ($fileExtension == "gif") {
-                    $fileExtensionClass = 'nkIconGif';
-                } elseif ($fileExtension == "bmp") {
-                    $fileExtensionClass = 'nkIconBmp';
-                } else {
-                    $fileExtensionClass = 'nkIconNone';
-                }
-
-                // Affichage de la description si option defini par l'administrateur 
-                if ($modulePref['hideDescription'] == "off") {
-
-                    // Affichage d'un message si la description est vide 
-                    if (empty($fileDescription)) {
-                        $fileTexte = '<p class="nkMargin">'.NOTKNOW.'</p>';
-                    } else {
-                        $fileDescriptions = htmlentities($fileDescription);
-                        $fileTexte = html_entity_decode($fileDescriptions);
-                        $fileTexte = icon($fileTexte);
-                    }
-                    $fileDescriptionView = '    <h3>'.DESCR.'</h3>'
-                                            . ' <div class="nkMarginBottom">'
-                                            .       $fileTexte 
-                                            . ' </div>';
-                }       
-
-                // Affichage de la taille du fichier si calculable 
-                if ($fileSize != '' && $fileSize < 1000) {
-                    $fileSize = $fileSize.'&nbsp;'.KO;
-                } elseif ($fileSize != '' && $fileSize >= 1000) {
-                    $fileSize = $fileSize / 1000;
-                    $fileSize = $fileSize.'&nbsp;'.MO;
-                } else {
-                    $fileSize = NOTKNOW;
-                }
-
-                // Message d'erreur si compatibilité non précisé 
-                if (empty($fileCompatibility)) {
-                    $fileCompatibility = NOTKNOW;
-                }
-
-                // Message d'erreur si site de l'auteur inconnu sinon lien vers celui-ci 
-                if (empty($fileUrlAutor)) {
-                    $fileUrlAutor = NOTKNOW;
-                } else {
-                    $fileUrlAutor = '<a href="'.$fileUrlAutor.'" target="_blank">'.VISITAUTORWEBSITE.'</a>';
-                }
-
-                // Message d'erreur si auteur non précisé sinon affichage de son pseudo 
-                if (empty($fileAutor)) {
-                    $fileAutor = NOTKNOW;
-                } else {
-                    $fileAutor = $fileAutor;
-                }
-
-                // Affichage d'un message si catégorie null 
-                if ($fileCatTitle == '') {
-                    $fileCatTitle = NONECAT;
-                }
-
-                // Affichage d'un message si pas d'édition 
-                if ($fileEdit) {
-                    $fileEdit = nkDate($fileEdit); 
-                } else {
-                    $fileEdit = NOTKNOW;
-                }
-
-                // Affichage de l'image si existante sinon affichage image de substitution 
-                if ($fileScreen != '') {
-                    $box = '<a href="'.checkimg($fileScreen).'" class="nkPopupBox"><img src="'.checkimg($fileScreen).'" title="'.$fileTitle.'" alt="" /></a>';
-                } else {
-                    $box = '<img src="'.checkimg('images/noimage.png').'" title="'.$fileTitle.'" alt="" />';
-                }
-
-                // Récupération de l'extention 
-                if ($fileExtension != '' && !preg_match('`\?`i', $fileUrl) && !preg_match('`.html`i', $fileUrl) && !preg_match('`.htm`i', $fileUrl)) {
-                    $fileExtension = $fileExtension;
-                } 
-
-                // Condition d'affichage du bouton de téléchargement
-                if ($visiteur >= $fileLevel) {
-                    // Affichage du bouton télécharger si le visiteur a le niveau 
-                    $filesButtonView = '<a href="index.php?file='.$modName.'>&amp;op=doDownload&amp;nuked_nude=index&amp;requestedId='.$requestedId.'" title="'.DOWNLOAD.' '.$fileTitle.'" class="nkButton">'.DOWNLOAD.'</a>';
-                } elseif ($visiteur == 0) {
-                    // Affichage du bouton de demande d'itentification 
-                    $filesButtonView = '<a href="index.php?file=User&amp;nuked_nude=index&amp;op=login_screen" title="" class="nkPopupBox nkButton">'.NEEDLOGIN.'</a>';
-                } elseif ($visiteur < $level && $visiteur != 0) {   
-                    // Affichage du bouton si niveau requis                                           
-                    // A MODIFIER AVEC LA LIBRAIRIE USER REQUEST
-                    $filesButtonView = '<a href="" title="" class="nkButton">'.NEEDLEVEL.'</a>';
-                }
-                ?>
-
-                <!-- Section interne du module -->
-                <section class="nkWidthFull nkMarginLRAuto nkPersonalCssFor<?php echo $modName; ?>Desc nkPaddingBottom">
-                    <!-- Header de la section interne du module -->
-                    <header>
-                        <div class="nkInlineBlock">
-                            <figure class="nkInline nkMarginLeft">
-                                <span class="<?php echo $fileExtensionClass; ?>"></span>
-                            </figure>
-                            <h4 class="nkInline"><?php echo $fileTitle; ?></h4>
-                        </div>
-                        <div class="nkInlineBlock">
-                            <?php
-                                // A COMPLETER QUAND LA LIBRAIRIE VOTE SERA FAITE 
-                                // rating($modName, $requestedId);
-                            ?>
-                        </div>
-                    </header>
-                    <!-- Article de la section interne du module -->
-                    <article class="nkBlock nkPadding">
-                        <div class="nkInlineBlock nkWidth3Quarter">
-                            <h2 class="nkSize16 nkAlignCenter">
-                                <?php echo INFO; ?>
-                            </h2>
-                            <div class="nkWidthHalf nkInlineBlock">
-                                <ul class="nkInlineBlock nkValignTop">
-                                    <li><span class="nkIconFolder"></span><?php echo CAT; ?>&nbsp;:&nbsp;<small><?php echo $fileCatTitle; ?></small></li>
-                                    <li><span class="nkIconDate"></span><?php echo ADDTHE; ?>&nbsp;:&nbsp;<small><?php echo nkDate($fileDate); ?></small></li>
-                                    <li><span class="nkIconDateUpdate"></span><?php echo EDITTHE; ?>&nbsp;:&nbsp;<small><?php echo $fileEdit; ?></small></li>
-                                    <li><span class="nkIconInfo"></span><?php echo SIZE; ?>&nbsp;:&nbsp;<small><?php echo $fileSize; ?></small></li>
-                                    <li><span class="nkIconRefresh"></span><?php echo COMPATIBLE; ?>&nbsp;:&nbsp;<small><?php echo $fileCompatibility; ?></small></li>
-                                </ul>
-                            </div>
-                            <div class="nkWidthHalf nkInlineBlock">
-                                <ul class="nkInlineBlock nkValignTop">
-                                    <li><span class="nkIconAutor"></span><?php echo AUTOR; ?>&nbsp;:&nbsp;<small><?php echo $fileAutor; ?></small></li>
-                                    <li><span class="nkIconGlobe"></span><?php echo SITE; ?>&nbsp;:&nbsp;<small><?php echo $fileUrlAutor; ?></small></li>
-                                    <li><span class="<?php echo $fileExtensionClass; ?>"></span><?php echo EXT; ?>&nbsp;:&nbsp;<small><?php echo $fileExtension; ?></small></li>
-                                    <li><span class="nkIconComments"></span><?php echo FILEVOTE; ?>&nbsp;:&nbsp;<small><?php echo $fileNote; ?></small></li>
-                                    <li><span class="nkIconDownload"></span><?php echo DOWNLOADED; ?>:&nbsp;<small><?php echo $fileCount.'&nbsp;'.TIMES; ?></small></li>
-                                </ul>
-                            </div>
-                            <?php
-                            if ($modulePref['hideDescription'] == "off") {
-                                echo $fileDescriptionView;
-                            }
-                            ?>
-                        </div>
-                        <!-- Parti deporté pour le module commentaire -->
-                        <aside class="nkInlineBlock nkMarginTop15 nkValignTop nkWidthQuarter nkAlignCenter">
-                            <figure><?php echo $box; ?></figure>
-                                <?php 
-                                    viewComment($modName, $requestedId, $modulePref['fileNbComment'], $modulePref['fileNbCommentCut']);
-                                ?>
-                        </aside>
-                    </article>
-                    <!-- Footer de la section interne du module -->
-                    <footer class="nkAlignCenter nkMargin nkWidth3Quarter">
-                        <?php
-                        echo $filesButtonView;
-                        ?>
-                    </footer>
-                </section>
-            <?php
+            
             // Affichage de l'index du module 
-            } else {
                 // Definition de la page de demarrage de la fonction page 
                 if (!$_REQUEST['p']) {
                     $_REQUEST['p'] = 1;
@@ -789,7 +597,199 @@ if($langTest == true) {
                 </section>
 
             <?php
+        }
+
+        function view($requestedId) {
+            global $modName, $visiteur;
+
+            $modulePref = $GLOBALS['nkFunctions']->nkModsPrefs($modName);
+
+            // Affichage si clic sur les blocks 
+            $dbsRequestFile = ' SELECT D.title, D.content, D.size, D.category, D.count, D.created, D.url, D.urlScreen, D.level, D.edited, D.autor, D.urlAutor, D.compatibility, C.title, avg( V.vote ) AS note
+                                FROM '.DOWNLOADS_TABLE.' AS D
+                                LEFT JOIN '.DOWNLOADS_CAT_TABLE.' AS C ON C.id = D.category
+                                LEFT JOIN '.VOTE_TABLE.' AS V ON D.id = V.itemId AND V.module = \''.$modName.'\'
+                                WHERE D.id = '.$requestedId;
+            $dbeRequestFile = mysql_query($dbsRequestFile);
+            list($fileTitle, $fileDescription, $fileSize, $fileType, $fileCount, $fileDate, $fileUrl, $fileScreen, $fileLevel, $fileEdit, $fileAutor, $fileUrlAutor, $fileCompatibility, $fileCatTitle, $fileNote) = mysql_fetch_array($dbeRequestFile);
+            
+            // Affiche le nombre de commentaires 
+            $dbsComDl = 'SELECT id 
+                         FROM '.COMMENT_TABLE.' 
+                         WHERE itemId = '.$requestedId;
+            $dbeComDl = mysql_query($dbsComDl);
+            $dbcFileNbComment = mysql_num_rows($dbeComDl);
+
+            // A ADAPTER AVEC LE FUNCTION VOTE 
+            $fileNote = round($fileNote, 2);
+            $fileNote = $fileNote.'&nbsp;/&nbsp;10';
+
+            // Affichage de l'image correspondant a l'extension du fichier 
+            $fileExtension = strrchr($fileUrl, '.');
+            $fileExtension = substr($fileExtension, 1);
+            if ($fileExtension == "zip") {
+                $fileExtensionClass = 'nkIconZip';
+            } elseif ($fileExtension == "rar") {
+                $fileExtensionClass = 'nkIconZip';
+            } elseif ($fileExtension == "jpg" || $fileExtension == "jpeg") {
+                $fileExtensionClass = 'nkIconJpg';
+            } elseif ($fileExtension == "png") {
+                $fileExtensionClass = 'nkIconPng';
+            } elseif ($fileExtension == "gif") {
+                $fileExtensionClass = 'nkIconGif';
+            } elseif ($fileExtension == "bmp") {
+                $fileExtensionClass = 'nkIconBmp';
+            } else {
+                $fileExtensionClass = 'nkIconNone';
             }
+
+            // Affichage de la description si option defini par l'administrateur 
+            if ($modulePref['hideDescription'] == "off") {
+
+                // Affichage d'un message si la description est vide 
+                if (empty($fileDescription)) {
+                    $fileTexte = '<p class="nkMargin">'.NOTKNOW.'</p>';
+                } else {
+                    $fileDescriptions = htmlentities($fileDescription);
+                    $fileTexte = html_entity_decode($fileDescriptions);
+                    $fileTexte = icon($fileTexte);
+                }
+                $fileDescriptionView = '    <h3>'.DESCR.'</h3>'
+                                        . ' <div class="nkMarginBottom">'
+                                        .       $fileTexte 
+                                        . ' </div>';
+            }       
+
+            // Affichage de la taille du fichier si calculable 
+            if ($fileSize != '' && $fileSize < 1000) {
+                $fileSize = $fileSize.'&nbsp;'.KO;
+            } elseif ($fileSize != '' && $fileSize >= 1000) {
+                $fileSize = $fileSize / 1000;
+                $fileSize = $fileSize.'&nbsp;'.MO;
+            } else {
+                $fileSize = NOTKNOW;
+            }
+
+            // Message d'erreur si compatibilité non précisé 
+            if (empty($fileCompatibility)) {
+                $fileCompatibility = NOTKNOW;
+            }
+
+            // Message d'erreur si site de l'auteur inconnu sinon lien vers celui-ci 
+            if (empty($fileUrlAutor)) {
+                $fileUrlAutor = NOTKNOW;
+            } else {
+                $fileUrlAutor = '<a href="'.$fileUrlAutor.'" target="_blank">'.VISITAUTORWEBSITE.'</a>';
+            }
+
+            // Message d'erreur si auteur non précisé sinon affichage de son pseudo 
+            if (empty($fileAutor)) {
+                $fileAutor = NOTKNOW;
+            } else {
+                $fileAutor = $fileAutor;
+            }
+
+            // Affichage d'un message si catégorie null 
+            if ($fileCatTitle == '') {
+                $fileCatTitle = NONECAT;
+            }
+
+            // Affichage d'un message si pas d'édition 
+            if ($fileEdit) {
+                $fileEdit = nkDate($fileEdit); 
+            } else {
+                $fileEdit = NOTKNOW;
+            }
+
+            // Affichage de l'image si existante sinon affichage image de substitution 
+            if ($fileScreen != '') {
+                $box = '<a href="'.checkimg($fileScreen).'" class="nkPopupBox"><img src="'.checkimg($fileScreen).'" title="'.$fileTitle.'" alt="" /></a>';
+            } else {
+                $box = '<img src="'.checkimg('images/noimage.png').'" title="'.$fileTitle.'" alt="" />';
+            }
+
+            // Récupération de l'extention 
+            if ($fileExtension != '' && !preg_match('`\?`i', $fileUrl) && !preg_match('`.html`i', $fileUrl) && !preg_match('`.htm`i', $fileUrl)) {
+                $fileExtension = $fileExtension;
+            } 
+
+            // Condition d'affichage du bouton de téléchargement
+            if ($visiteur >= $fileLevel) {
+                // Affichage du bouton télécharger si le visiteur a le niveau 
+                $filesButtonView = '<a href="index.php?file='.$modName.'&amp;op=doDownload&amp;nuked_nude=index&amp;requestedId='.$requestedId.'" title="'.DOWNLOAD.' '.$fileTitle.'" class="nkButton">'.DOWNLOAD.'</a>';
+            } elseif ($visiteur == 0) {
+                // Affichage du bouton de demande d'itentification 
+                $filesButtonView = '<a href="index.php?file=User&amp;nuked_nude=index&amp;op=login_screen" title="" class="nkPopupBox nkButton">'.NEEDLOGIN.'</a>';
+            } elseif ($visiteur < $level && $visiteur != 0) {   
+                // Affichage du bouton si niveau requis                                           
+                // A MODIFIER AVEC LA LIBRAIRIE USER REQUEST
+                $filesButtonView = '<a href="" title="" class="nkButton">'.NEEDLEVEL.'</a>';
+            }
+            ?>
+
+            <!-- Section interne du module -->
+            <section class="nkWidthFull nkMarginLRAuto nkPersonalCssFor<?php echo $modName; ?>Desc nkPaddingBottom">
+                <!-- Header de la section interne du module -->
+                <header>
+                    <div class="nkInlineBlock">
+                        <figure class="nkInline nkMarginLeft">
+                            <span class="<?php echo $fileExtensionClass; ?>"></span>
+                        </figure>
+                        <h4 class="nkInline"><?php echo $fileTitle; ?></h4>
+                    </div>
+                    <div class="nkInlineBlock">
+                        <?php
+                            // A COMPLETER QUAND LA LIBRAIRIE VOTE SERA FAITE 
+                            // rating($modName, $requestedId);
+                        ?>
+                    </div>
+                </header>
+                <!-- Article de la section interne du module -->
+                <article class="nkBlock nkPadding">
+                    <div class="nkInlineBlock nkWidth3Quarter">
+                        <h2 class="nkSize16 nkAlignCenter">
+                            <?php echo INFO; ?>
+                        </h2>
+                        <div class="nkWidthHalf nkInlineBlock">
+                            <ul class="nkInlineBlock nkValignTop">
+                                <li><span class="nkIconFolder"></span><?php echo CAT; ?>&nbsp;:&nbsp;<small><?php echo $fileCatTitle; ?></small></li>
+                                <li><span class="nkIconDate"></span><?php echo ADDTHE; ?>&nbsp;:&nbsp;<small><?php echo nkDate($fileDate); ?></small></li>
+                                <li><span class="nkIconDateUpdate"></span><?php echo EDITTHE; ?>&nbsp;:&nbsp;<small><?php echo $fileEdit; ?></small></li>
+                                <li><span class="nkIconInfo"></span><?php echo SIZE; ?>&nbsp;:&nbsp;<small><?php echo $fileSize; ?></small></li>
+                                <li><span class="nkIconRefresh"></span><?php echo COMPATIBLE; ?>&nbsp;:&nbsp;<small><?php echo $fileCompatibility; ?></small></li>
+                            </ul>
+                        </div>
+                        <div class="nkWidthHalf nkInlineBlock">
+                            <ul class="nkInlineBlock nkValignTop">
+                                <li><span class="nkIconAutor"></span><?php echo AUTOR; ?>&nbsp;:&nbsp;<small><?php echo $fileAutor; ?></small></li>
+                                <li><span class="nkIconGlobe"></span><?php echo SITE; ?>&nbsp;:&nbsp;<small><?php echo $fileUrlAutor; ?></small></li>
+                                <li><span class="<?php echo $fileExtensionClass; ?>"></span><?php echo EXT; ?>&nbsp;:&nbsp;<small><?php echo $fileExtension; ?></small></li>
+                                <li><span class="nkIconComments"></span><?php echo FILEVOTE; ?>&nbsp;:&nbsp;<small><?php echo $fileNote; ?></small></li>
+                                <li><span class="nkIconDownload"></span><?php echo DOWNLOADED; ?>:&nbsp;<small><?php echo $fileCount.'&nbsp;'.TIMES; ?></small></li>
+                            </ul>
+                        </div>
+                        <?php
+                        if ($modulePref['hideDescription'] == "off") {
+                            echo $fileDescriptionView;
+                        }
+                        ?>
+                    </div>
+                    <!-- Parti deporté pour le module commentaire -->
+                    <aside class="nkInlineBlock nkMarginTop15 nkValignTop nkWidthQuarter nkAlignCenter">
+                        <figure><?php echo $box; ?></figure>
+                            <?php 
+                                viewComment($modName, $requestedId, $modulePref['fileNbComment'], $modulePref['fileNbCommentCut']);
+                            ?>
+                    </aside>
+                </article>
+                <!-- Footer de la section interne du module -->
+                <footer class="nkAlignCenter nkMargin nkWidth3Quarter">
+                    <?php
+                    echo $filesButtonView;
+                    ?>
+                </footer>
+            </section>
+        <?php
         }
 
         function verifDownload($url1, $url2, $url3) {
@@ -872,6 +872,10 @@ if($langTest == true) {
 
             case "doDownload":
                 doDownload($_REQUEST['requestedId']);
+                break;
+
+            case "view":
+                view($_REQUEST['requestedId']);
                 break;
 
             case "errorDownload":

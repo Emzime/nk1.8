@@ -63,5 +63,6 @@ define('INDATABASE','dans la base de données');
 define('FILES','Fichiers');
 define('ISHOT', 'Hot !');
 define('ISNEW', 'New !');
+define('NOFILE', 'Aucun fichier');
 
 ?>

@@ -12,20 +12,23 @@ defined('INDEX_CHECK') or die ('<div class="nkAlignCenter">'.CANTOPENPAGE.'</div
 global $user, $visiteur, $levelMod;
 $modName = basename(dirname(__FILE__));
 
-// Veridication du chargement du fichier langue
-$langTest = strtoupper($modName);
-$langTest = constant('TESTLANGUEFILE'.$langTest);
-if($langTest == true) { 
+// Vérification des variables
+$requestArray = array(
+'integer'     => array('p','requestedId','cat'),
+'boolean' => array(),
+'string'  => array('orderbycat', 'url', 'orderby', 'view')
+);
+$GLOBALS['nkFunctions']->nkInitRequest($requestArray, $GLOBALS['indexRequestArray']);
+
+// Verification qu'il n'y a aucune erreur dans le request
+if (!isset($GLOBALS['nkInitError'])) {
+
+    // Veridication du chargement du fichier langue
+    $langTest = strtoupper($modName);
+    $langTest = constant('TESTLANGUEFILE'.$langTest);
+    if($langTest == true) { 
 
         compteur($modName);
-
-        // Vérification des variables
-        $requestArray = array(
-        'int'     => array('p','requestedId','cat'),
-        'boolean' => array(),
-        'string'  => array('orderbycat', 'url', 'orderby', 'view')
-        );
-        $GLOBALS['nkFunctions']->nkInitRequest($requestArray, $GLOBALS['indexRequestArray']);
 
         $arrayMenu = array(
             'index.php?file='.$modName                          =>  INDEX,
@@ -270,7 +273,11 @@ if($langTest == true) {
                 $breadCrumbView = $GLOBALS['nkFunctions']->nkBreadCrumb($breadCrumbArray, $modulePref['breadCrumbTheme']);
 
                 // Affichage du menu centrale
-                $menuAffView = $GLOBALS['nkFunctions']->nkMenu($modName, $arrayMenu, $orderSelect, 'nkAlignCenter nkMarginBottom', null, 'nkInline', 'active', '[', ']', '|');
+                if ($nbCat != 0) {
+                    $menuAffView = $GLOBALS['nkFunctions']->nkMenu($modName, $arrayMenu, $orderSelect, 'nkAlignCenter nkMarginBottom', null, 'nkInline', 'active', '[', ']', '|');
+                } else {
+                    $menuAffView = $GLOBALS['nkTpl']->nkContentTag('div', NOFILE.'&nbsp;'.INDATABASE, 'nkAlignCenter nkMarginBottom15');
+                }
 
                 //Requete d'affichage des fichiers selon la catégorie 
                 $dbsRequestFile = ' SELECT D.id, D.title, D.content, D.size, D.category, D.count, D.created, D.url, D.urlScreen, D.level, D.edited, D.autor, D.urlAutor, D.compatibility, C.title, avg( V.vote ) AS note
@@ -298,7 +305,7 @@ if($langTest == true) {
                         ?>
                         <h1 class="nkMarginTop15 nkAlignCenter"><?php echo DOWNLOAD; ?></h1>
                         <?php 
-                        if (!$orderby) {
+                        if (!$orderby && $nbCat != 0) {
                         ?>
                         <div class="nkAlignCenter nkMarginLRAuto nkWidthFull">
                             <?php
@@ -903,4 +910,8 @@ if($langTest == true) {
                 break;
         }
     }
+} else {
+    // Si il y a une ou des erreur(s) on les affiche.
+    echo $GLOBALS['nkInitError'];
+}
 ?>

@@ -240,7 +240,7 @@ function nkDB_insert( $table, $fields, $values )
     foreach ( $values as $i => $value ) {
         if ( is_array( $values[$i] ) && count( $values[$i] ) > 1 ) {
             if ( $values[$i][1] == 'no-escape' ) {
-                //$values[$i] = nkDB_escape( $values[$i][0], true ); <-- pas échapper par mysql_real_escape_string ?
+                //$values[$i] = nkDB_escape( $values[$i][0], true ); <-- pas Ã©chapper par mysql_real_escape_string ?
                 $values[$i] = $values[$i][0];
             }
         } else {
@@ -299,7 +299,7 @@ function nkDB_update( $table, $fields, $values, $where )
         if ( is_array( $values[$i] ) && count( $values[$i] ) > 1 ) {
             if ( $values[$i][1] == 'no-escape' ) {
                 $sql .= $values[$i][0];
-                //$sql .= nkDB_escape( $values[$i][0], true ); <-- pas échapper par mysql_real_escape_string ?
+                //$sql .= nkDB_escape( $values[$i][0], true ); <-- pas Ã©chapper par mysql_real_escape_string ?
             }
         } else {
             $sql .= nkDB_escape( $values[$i] );
@@ -426,7 +426,7 @@ function nkDB_date_format( $field, $dateFormat_Mask )
      * http://dev.mysql.com/doc/refman/5.0/fr/date-and-time-functions.html
      * %d	=> jour
      * %m	=> mois
-     * %Y	=> année
+     * %Y	=> annÃ©e
      *
      * %H	=> heure
      * %i	=> minute

@@ -6,25 +6,25 @@
 
 <body style="font-family: Verdana; font-size: 10px" link="#000000" vlink="#000000" alink="#000000" bgcolor="#FFFFFF">
 <center><big><b>Administration Gallery</b></big></center><br>
-<li><b>Index</b> : Affiche la liste des images avec options de classement, il permet d'éditer, de supprimer ou d'ajouter une image au module 
-Gallery et de se rendre dans la gestion des catégories ou les préférences.<br>
+<li><b>Index</b> : Affiche la liste des images avec options de classement, il permet d'Ã©diter, de supprimer ou d'ajouter une image au module 
+Gallery et de se rendre dans la gestion des catÃ©gories ou les prÃ©fÃ©rences.<br>
 <br>
 <li><b>Ajouter une image</b> : Ce formulaire vous permet d'ajouter une image en remplissant simplement les
-champs que vous désirez. Vous pouvez joindre un fichier à cette image (Url du fichier), une vignette (miniature) et uploader l'image 
-directement à partir de ce formulaire.<br>
+champs que vous dÃ©sirez. Vous pouvez joindre un fichier Ã  cette image (Url du fichier), une vignette (miniature) et uploader l'image 
+directement Ã  partir de ce formulaire.<br>
 <br>
-<li><b>Editer une image</b> : L'édition permet de modifier toutes les informations de l'image et d'en voir un aperçu.<br>
+<li><b>Editer une image</b> : L'Ã©dition permet de modifier toutes les informations de l'image et d'en voir un aperÃ§u.<br>
 <br>
-<li><b>Gestion des catégories</b> : Vous permet de créer des catégories et sous-catégories d'images. 
-Ces catégories peuvent avoir une position précise (ordre).<br>
+<li><b>Gestion des catÃ©gories</b> : Vous permet de crÃ©er des catÃ©gories et sous-catÃ©gories d'images. 
+Ces catÃ©gories peuvent avoir une position prÃ©cise (ordre).<br>
 <br>
-<li><b>Préférences</b> : Vous permet de régler le nombre d'images par page et par ligne dans le module Gallery
+<li><b>PrÃ©fÃ©rences</b> : Vous permet de rÃ©gler le nombre d'images par page et par ligne dans le module Gallery
 ainsi que d'en changer le titre.<br>
 <br>
 <br>
 
 <br>
-<i><b>Note :</b> La fonction d'upload n'est pas activée sur tous les hébergeurs et requière que le répertoire 
+<i><b>Note :</b> La fonction d'upload n'est pas activÃ©e sur tous les hÃ©bergeurs et requiÃ¨re que le rÃ©pertoire 
 "upload/Gallery" soit en CHMOD 777.<br>
-Si vous joignez un fichier à une image, un bouton "Télécharger" apparaîtra alors dans la description.<i><br>
+Si vous joignez un fichier Ã  une image, un bouton "TÃ©lÃ©charger" apparaÃ®tra alors dans la description.<i><br>
 <br></body></html>

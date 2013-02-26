@@ -7,12 +7,12 @@
 <body style="font-family: Verdana; font-size: 10px" link="#000000" vlink="#000000" alink="#000000" bgcolor="#FFFFFF">
 <center><big><b>Demande de Recrutement</b></big></center><br>
 <li><b>Index</b> : Affiche la liste des demandes de recrutement, pour en consulter une, 
-cliquez sur le pseudo de l'auteur. Vous pouvez également accéder aux préférences des recrutements.<br>
+cliquez sur le pseudo de l'auteur. Vous pouvez Ã©galement accÃ©der aux prÃ©fÃ©rences des recrutements.<br>
 <br>
-<li><b>Modifier les préférences</b> : Ici, vous pouvez régler les préférences des recrutements. Vous pouvez fermer 
-le recrutement, être averti par mail en ajoutant le ou les emails a contacter (séparé par une virgule), être
-averti par message privé en sélectionnant le membre à contacter ou encore ajouter une charte avant d'avoir accès
-au formulaire (laisser vide pour désactiver cette fonction).<br>
+<li><b>Modifier les prÃ©fÃ©rences</b> : Ici, vous pouvez rÃ©gler les prÃ©fÃ©rences des recrutements. Vous pouvez fermer 
+le recrutement, Ãªtre averti par mail en ajoutant le ou les emails a contacter (sÃ©parÃ© par une virgule), Ãªtre
+averti par message privÃ© en sÃ©lectionnant le membre Ã  contacter ou encore ajouter une charte avant d'avoir accÃ¨s
+au formulaire (laisser vide pour dÃ©sactiver cette fonction).<br>
 <br>
 <br>
 

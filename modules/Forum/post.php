@@ -17,7 +17,7 @@ global $user, $language, $nuked, $cookie_captcha, $random_code, $bgcolor3;
 translate("modules/Forum/lang/" . $language . ".lang.php");
 include("modules/Forum/template.php");
 
-// Inclusion système Captcha
+// Inclusion systÃ¨me Captcha
 include_once("Includes/nkCaptcha.php");
 
 // On determine si le captcha est actif ou non

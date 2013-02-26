@@ -1,18 +1,18 @@
 <?php
 // PHP ERROR NK
 if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0,2) == 'fr'){
-    define('ERROR_SESSION', 'Erreur dans la création de la session anonyme');
-    define('THEME_NOTFOUND','Erreur fatale : Impossible de trouver le thème');
+    define('ERROR_SESSION', 'Erreur dans la crÃ©ation de la session anonyme');
+    define('THEME_NOTFOUND','Erreur fatale : Impossible de trouver le thÃ¨me');
     define('ERROR_QUERY','Veuillez nous excuser, le site web est actuellement indisponible !<br />Information :<br />Connexion SQL impossible.');
-    define('ERROR_QUERYDB','Veuillez nous excuser, le site web est actuellement indisponible !<br />Information :<br />Nom de base de données sql incorrect.');
-    define('ERROR_SQL', '<b>Une erreur SQL a été détectée.<br /><br />Information :<br /><br />Mon ERREUR</b> [' . $errno . '] ' . $errstr . '<br />Erreur fatale sur la ligne ' . $errline . ' dans le fichier ' . $errfile . ', PHP ' . PHP_VERSION . ' (' . PHP_OS . ')<br />Arrêt...<br />');
-    define('WBSITE_CLOSED','Ce site est momentanément fermé, merci de réessayer plus tard');
+    define('ERROR_QUERYDB','Veuillez nous excuser, le site web est actuellement indisponible !<br />Information :<br />Nom de base de donnÃ©es sql incorrect.');
+    define('ERROR_SQL', '<b>Une erreur SQL a Ã©tÃ© dÃ©tectÃ©e.<br /><br />Information :<br /><br />Mon ERREUR</b> [' . $errno . '] ' . $errstr . '<br />Erreur fatale sur la ligne ' . $errline . ' dans le fichier ' . $errfile . ', PHP ' . PHP_VERSION . ' (' . PHP_OS . ')<br />ArrÃªt...<br />');
+    define('WBSITE_CLOSED','Ce site est momentanÃ©ment fermÃ©, merci de rÃ©essayer plus tard');
     define('WAYTODO', 'Qu\'essayez vous de faire ?');
     define('REMOVEDIRINST', 'Veuillez supprimer le dossier d\'installation de Nuked-Klan (/INSTALL/)');
     define('REMOVEINST', 'Veuillez supprimer vos fichiers d\'installation de modules ou de patchs (install.php ou update.php)');
-    define('DBPREFIX_ERROR', 'Impossible de se connecter à la base de données ! Vérifier que la variable $db_prefix du fichier conf.inc.php correspond au préfixe de vos tables.');
+    define('DBPREFIX_ERROR', 'Impossible de se connecter Ã  la base de donnÃ©es ! VÃ©rifier que la variable $db_prefix du fichier conf.inc.php correspond au prÃ©fixe de vos tables.');
     define('UNKNOWN_BLOCK', 'Type de block inconnu');
-    define('UNKNOWN_FUNCTION_BLOCK', 'La fonction pour afficher les blocs du thème n\'existe pas !');
+    define('UNKNOWN_FUNCTION_BLOCK', 'La fonction pour afficher les blocs du thÃ¨me n\'existe pas !');
     define('UNKNOWN_FUNCTION_DISPLAY_BLOCK', 'La fonction d\'affichage du bloc n\'existe pas !');
     
     

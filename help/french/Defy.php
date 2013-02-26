@@ -7,15 +7,15 @@
 <body style="font-family: Verdana; font-size: 10px" link="#000000" vlink="#000000" alink="#000000" bgcolor="#FFFFFF">
 <center><big><b>Demande de Match</b></big></center><br>
 <li><b>Index</b> : Affiche la liste des demandes de match, pour en consulter une, 
-cliquez sur le pseudo de l'auteur. Vous pouvez également accéder aux préférences.<br>
+cliquez sur le pseudo de l'auteur. Vous pouvez Ã©galement accÃ©der aux prÃ©fÃ©rences.<br>
 <br>
-<li><b>Préférences</b> : Vous permet de régler les préférences des défies. Vous pouvez être averti 
-par mail en ajoutant le ou les emails à contacter (séparé par une virgule), être averti par message privé en 
-selectionnant le membre a contacter ou encore ajouter une charte avant d'avoir accès au formulaire 
-(laisser vide pour désactiver cette fonction).<br>
+<li><b>PrÃ©fÃ©rences</b> : Vous permet de rÃ©gler les prÃ©fÃ©rences des dÃ©fies. Vous pouvez Ãªtre averti 
+par mail en ajoutant le ou les emails Ã  contacter (sÃ©parÃ© par une virgule), Ãªtre averti par message privÃ© en 
+selectionnant le membre a contacter ou encore ajouter une charte avant d'avoir accÃ¨s au formulaire 
+(laisser vide pour dÃ©sactiver cette fonction).<br>
 <br>
 <br>
 
 <br>
-<i><b>Note :</b> Lors de la consultation, vous pouvez transférer ce défi dans le module Wars (Matches) en cliquant sur "Ajouter ce match".<i><br>
+<i><b>Note :</b> Lors de la consultation, vous pouvez transfÃ©rer ce dÃ©fi dans le module Wars (Matches) en cliquant sur "Ajouter ce match".<i><br>
 <br></body></html>

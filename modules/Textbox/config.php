@@ -12,10 +12,10 @@ if (!defined("INDEX_CHECK"))
 	die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 }
 
-// Largeur de la tribune libre (côté)
+// Largeur de la tribune libre (cÃ´tÃ©)
 $box_width = "100%";
 
-// Longeur de la tribune libre (côté)
+// Longeur de la tribune libre (cÃ´tÃ©)
 $box_height = "200px";
 
 
@@ -27,27 +27,27 @@ $mbox_width = "100%";
 $mbox_height = "200px";
 
 
-// nombre de caractéres maximal par mot (côté)
+// nombre de caractÃ©res maximal par mot (cÃ´tÃ©)
 $max_string = 20;
 
 
-//  nombre de caractéres maximal par mot (centre)
+//  nombre de caractÃ©res maximal par mot (centre)
 $max_mstring = 25;
 
 
-// nombre de caractéres maximal pour le pseudo (côté)
+// nombre de caractÃ©res maximal pour le pseudo (cÃ´tÃ©)
 $max_pseudo = 15;
 
 
-//  nombre de caractéres maximal pour le pseudo (centre)
+//  nombre de caractÃ©res maximal pour le pseudo (centre)
 $max_mpseudo = 20;
 
 
-// nombre de caractéres maximal par message (côté)
+// nombre de caractÃ©res maximal par message (cÃ´tÃ©)
 $max_texte = 400;
 
 
-//  nombre de caractéres maximal par message (centre)
+//  nombre de caractÃ©res maximal par message (centre)
 $max_mtexte = 600;
 
 ?>

@@ -10,7 +10,7 @@
 <br>
 <li><b>Lire un message</b> : Affiche un message et permet de le supprimer.<br>
 <br>
-<li><b>Préférences</b> : Vous permet de choisir l'email de reception et le délai entre 2 messages (flood).<br>
+<li><b>PrÃ©fÃ©rences</b> : Vous permet de choisir l'email de reception et le dÃ©lai entre 2 messages (flood).<br>
 <br>
 <br>
 

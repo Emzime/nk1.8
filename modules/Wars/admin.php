@@ -309,7 +309,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         $mapss = explode('|', $mapss);
         for($maps =1; $maps <= $nbr; $maps++){
             $mapis = $mapss;
-            echo "<tr><td><b>Map n° ".$maps.": </b></td></tr><tr><td><select name=\"map_".$maps."\">\n";
+            echo "<tr><td><b>Map nÂ° ".$maps.": </b></td></tr><tr><td><select name=\"map_".$maps."\">\n";
             foreach ($mapis as $mapping){
                 $mapping = printSecuTags($mapping);
 

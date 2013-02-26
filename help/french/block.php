@@ -8,21 +8,21 @@
 <center><big><b>Gestion des Blocks</b></big></center><br>
 
 <li><b>Index</b> : Dans cette partie, vous avez la liste des blocks sous forme d'un
-tableau. Vous pouvez Èditer ou supprimer un block mais aussi gr‚ce aux flËches (position) 
-monter ou descendre ce block. L'option Ajouter un block vous permet de crÈer un nouveau block. <br>
+tableau. Vous pouvez √©diter ou supprimer un block mais aussi gr√¢ce aux fl√®ches (position) 
+monter ou descendre ce block. L'option Ajouter un block vous permet de cr√©er un nouveau block. <br>
 <br>
 <li><b>Ajouter un block</b> : Entrez le titre, le niveau, le type de block et 
-sÈlectionnez les modules ou vous voulez qu'il soit visible (par dÈfaut il est visible partout). Une fois crÈÈ, vous serez redirigÈ vers l'Èdition 
+s√©lectionnez les modules ou vous voulez qu'il soit visible (par d√©faut il est visible partout). Une fois cr√©√©, vous serez redirig√© vers l'√©dition 
 de ce block..<br>
 <br>
-<li><b>Editer</b> : Lors de l'Èdition d'un block, vous pouvez modifier le titre,
-rÈgler le niveau (c'est ‡ dire les membres autorisÈs ‡ le voir), rÈgler des options pour certains blocks, mettre ce block ‡
-droite, ‡ gauche, au centre ou encore en bas voir le dÈsactiver et enfin sÈlectionner les modules ou le block sera visible 
+<li><b>Editer</b> : Lors de l'√©dition d'un block, vous pouvez modifier le titre,
+r√©gler le niveau (c'est √† dire les membres autoris√©s √† le voir), r√©gler des options pour certains blocks, mettre ce block √†
+droite, √† gauche, au centre ou encore en bas voir le d√©sactiver et enfin s√©lectionner les modules ou le block sera visible 
 (maintenir ctrl et cliquer sur les modules de la liste). Dans le cas d'un block HTML vous pouvez 
-Ègalement modifier son contenu et dans le cas d'un block module, changer de module.<br>
+√©galement modifier son contenu et dans le cas d'un block module, changer de module.<br>
 <br>
 <br>
 <br>
 <br>
-<i><b>Note :</b> Pour modifier les liens des blocks menu, allez directement dans "Gestion des menus" ou cliquez sur "Edition du menu" dans l'Èdition du block.<i><br>
+<i><b>Note :</b> Pour modifier les liens des blocks menu, allez directement dans "Gestion des menus" ou cliquez sur "Edition du menu" dans l'√©dition du block.<i><br>
 </body></html>

@@ -7,16 +7,16 @@
 <body style="font-family: Verdana; font-size: 10px" link="#000000" vlink="#000000" alink="#000000" bgcolor="#FFFFFF">
 <center><big><b>Administration des Sondages</b></big></center>
 <br>
-<li><b>Index</b> : Affiche la liste des sondages, il permet d'éditer, de supprimer ou d'ajouter 
-un sondage et de se rendre dans les préférences.<br>
+<li><b>Index</b> : Affiche la liste des sondages, il permet d'Ã©diter, de supprimer ou d'ajouter 
+un sondage et de se rendre dans les prÃ©fÃ©rences.<br>
 <br>
 <li><b>Ajouter un sondage</b> : Pour ajouter un sondage, indiquez le titre (question), 
-les choix (réponse possible, max 13) et le niveau requis pour voter à ce sondage.<br>
+les choix (rÃ©ponse possible, max 13) et le niveau requis pour voter Ã  ce sondage.<br>
 <br>
-<li><b>Editer un sondage</b> : Vous permet d'éditer le titre, les choix et le niveau d'un sondage.<br>
+<li><b>Editer un sondage</b> : Vous permet d'Ã©diter le titre, les choix et le niveau d'un sondage.<br>
 <br>
-<li><b>Préférences</b> : Vous permet de régler le délai entre 2 votes d'un même visiteur/membre.<br>
+<li><b>PrÃ©fÃ©rences</b> : Vous permet de rÃ©gler le dÃ©lai entre 2 votes d'un mÃªme visiteur/membre.<br>
 <br>
 <br>
-<i><b>Note :</b> Seul le dernier sondage crée est affiché dans le block prévu à cet effet.<i><br>
+<i><b>Note :</b> Seul le dernier sondage crÃ©e est affichÃ© dans le block prÃ©vu Ã  cet effet.<i><br>
 </body></html>

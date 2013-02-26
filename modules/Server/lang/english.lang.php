@@ -52,7 +52,7 @@ define("_TITLE","Title");
 define("_DESCR","Description");
 define("_CREATECAT","Create Category");
 define("_CATADD","Category was successfully added.");
-define("_MODIFTHISCAT","Modify this Catégorie");
+define("_MODIFTHISCAT","Modify this CatÃ©gorie");
 define("_CATMODIF","Category was successfully modified.");
 define("_CATDEL","Category was successfully removed.");
 define("_ADDTHISSERV","Add this Server");

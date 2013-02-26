@@ -1,6 +1,6 @@
 <?php
 // Redimensionnement
-// Proposé par cknight le 19/08/2005
+// ProposÃ© par cknight le 19/08/2005
 // http://www.asp-php.net/ressources/bouts_de_code.aspx?id=465
 if (!defined("INDEX_CHECK")){
 exit('You can\'t run this file alone.');
@@ -8,7 +8,7 @@ exit('You can\'t run this file alone.');
 
 // Classe principale
 class Img{
-   // Propiétés de l'objet
+   // PropiÃ©tÃ©s de l'objet
    var $name; // nom de l'image source
    var $org;  // dossier d'origine
    var $ext;  // extension de l'image
@@ -27,14 +27,14 @@ class Img{
       $this->ext = $this->GetExtension();
    }
 
-   /* Récupère la position du dernier point
+   /* RÃ©cupÃ¨re la position du dernier point
    * retourne (int)
    */
    function LastPoint(){
       return strrpos($this->name, '.');
    }
 
-   /* Récupère l'extension du fichier
+   /* RÃ©cupÃ¨re l'extension du fichier
    * retourne (string)
    */
    function GetExtension(){
@@ -53,11 +53,11 @@ class Img{
 
 // Classe Fille
 class thb extends Img{
-   // Propiétés de l'objet
-   var $suffix; // suffix à ajouter à l'image
-   var $thb_name; // nom complet de l'image réduite
-   var $size; // taille pour réduction
-   var $quality; // quamité de l'image réduite
+   // PropiÃ©tÃ©s de l'objet
+   var $suffix; // suffix Ã  ajouter Ã  l'image
+   var $thb_name; // nom complet de l'image rÃ©duite
+   var $size; // taille pour rÃ©duction
+   var $quality; // quamitÃ© de l'image rÃ©duite
    var $name; // nom de l'image source
    var $org; // dossier d'origine de l'image
    var $dest; // dossier de destination
@@ -76,10 +76,10 @@ class thb extends Img{
       $this->ext = Img::GetExtension();
    }
 
-   /* Ajout des paramètres
+   /* Ajout des paramÃ¨tres
    * (string) suffix de l'image
    * (int) taille (px)
-   * (int) qualité (%)
+   * (int) qualitÃ© (%)
    * retourne void (rien)
    */
    function SetParam($suf,$size, $quality){
@@ -88,7 +88,7 @@ class thb extends Img{
       $this->quality = (int) $quality;
    }
 
-   /* Ajout des paramètres séparament
+   /* Ajout des paramÃ¨tres sÃ©parament
    * (int) taille ($x)
    * retourne void (rien)
    */
@@ -97,7 +97,7 @@ class thb extends Img{
    }
 
    /*
-   * (int) Qualité (%)
+   * (int) QualitÃ© (%)
    * retourne void (rien)
    */
    function SetQuality($quality){
@@ -113,7 +113,7 @@ class thb extends Img{
    }
 
    /*
-   * récupère le nom +chemin de l'image résultante
+   * rÃ©cupÃ¨re le nom +chemin de l'image rÃ©sultante
    * retourne un (string)
    */
    function GetThbName(){
@@ -134,7 +134,7 @@ class thb extends Img{
       }
    }
 
-   /* Récupère le nom + le chemin de l'image source
+   /* RÃ©cupÃ¨re le nom + le chemin de l'image source
    * retourne void (rien)
    */
    function GetOrigine(){
@@ -142,7 +142,7 @@ class thb extends Img{
    }
 
    /*
-   * Fonctions privées
+   * Fonctions privÃ©es
    */
 
    /* Fonction de redimensionnement
@@ -184,7 +184,7 @@ class thb extends Img{
       $w = imagesx($src_img);
       $h = imagesy($src_img);
 
-      //Récupère les proportions
+      //RÃ©cupÃ¨re les proportions
       if($w<$h){
          $p = $w / $h;
          $height = $this->size;
@@ -213,7 +213,7 @@ class thb extends Img{
 }
 
 /*
-* Utilisation: redimenssioner sans écraser la source.
+* Utilisation: redimenssioner sans Ã©craser la source.
 //
 // instanciation de l'objet
 $thb = new thb;
@@ -224,14 +224,14 @@ $thb = new thb;
 $thb->doImg('image.jpg', './', './');
 // Config des parametres
 // prefix: _thb
-// taille du + grd coté 250px
-// qualité 100%
+// taille du + grd cotÃ© 250px
+// qualitÃ© 100%
 $thb->SetParam('_thb', 100, 100);
-// pour connaitre le nom et chemin de l'image réduite
-// résultat: ./image_thb.jpeg
+// pour connaitre le nom et chemin de l'image rÃ©duite
+// rÃ©sultat: ./image_thb.jpeg
 $thumb = $thb->GetThbName();
 // pour connaitre le nom et chemin de l'image d'origine
-// résultat: ./image.jpeg
+// rÃ©sultat: ./image.jpeg
 $source = $thb->GetOrigine();
 // Lance le redimensionenemt
 $thb->doThb();

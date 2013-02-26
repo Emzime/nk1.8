@@ -80,6 +80,7 @@ define('ACTION_TABLE', $nuked['prefix'].'_action');
 define('DOWNLOADS_TABLE', $nuked['prefix'] . '_downloads');
 define('DOWNLOADS_CAT_TABLE', $nuked['prefix'] . '_downloads_cat');
 define('DOWNLOADS_CONFIG_TABLE', $nuked['prefix'] . '_downloads_config');
+define('NEWS_CONFIG_TABLE', $nuked['prefix'] . '_news_config');
 
 
 ?>

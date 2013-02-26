@@ -5,7 +5,7 @@ defined('INDEX_CHECK') or die ('<div class="align-center">You cannot open this p
 define('TESTLANGUEFILENEWS', true);
 
 define('READMORE','Lire la suite...');
-define('SUBJECTNEWS','Sujet de News');
+define('CATEGORYNEWS','Les catégories de news');
 define('SEENEWS','Voir les news');
 define('CLICSCREEN','Cliquez sur l\'image d\'un sujet pour en voir les news');
 define('PDF','Format pdf imprimable');

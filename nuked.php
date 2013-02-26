@@ -118,6 +118,7 @@ function nkDate($timestamp, $tinySize = false, $convert = false) {
     // Format date, and convert it to ISO format
     return strftime($format, $timestamp);
 }
+
 /**
  * Fix printing tags.
  * @param string $value : text to display before filter
@@ -985,9 +986,9 @@ function getModuleData() {
     static $data = array();
 
     if (empty($data)) {
-        $moduleList = nkDB_select( 'SELECT nom, niveau, admin FROM '. MODULES_TABLE );
+        $moduleList = nkDB_select( 'SELECT name, level, admin FROM '. MODULES_TABLE );
         foreach ($moduleList as $module) {
-            $data[$module['nom']] = array('userLevel' => $module['niveau'], 'adminLevel' => $module['admin']);
+            $data[$module['name']] = array('userLevel' => $module['level'], 'adminLevel' => $module['admin']);
         }
     }
 
@@ -998,7 +999,7 @@ function getModuleData() {
  * activeMods liste les modules actifs
  */
 function activeMods() {
-        $dbsActiveMods = ' SELECT nom, niveau, admin 
+        $dbsActiveMods = '  SELECT nom, niveau, admin 
                             FROM '.MODULES_TABLE.' 
                             WHERE niveau != -1';
         $dbeActiveMods = mysql_query($dbsActiveMods);
@@ -1016,9 +1017,9 @@ function activeMods() {
 function compteur($file){
     $rsUpd = nkDB_update(
         STATS_TABLE,
-        array( 'count' ),
-        array( array( 'count + 1', 'no-escape' ) ),
-        'type = "pages" AND nom = '. nkDB_escape( $file ));
+        array('count'),
+        array(array('count + 1', 'no-escape')),
+        'name = '.nkDB_escape($file));
     
     /**
      * Bug PHP 5.3.0 & Apache 2.2 (mysql_close() resource parameter)
@@ -1421,7 +1422,7 @@ $allModules = $GLOBALS['nkFunctions']->infoModules();
  */
 if(array_key_exists($_REQUEST['file'], $allModules)) {
     foreach ($allModules as $key) {        
-        if($_REQUEST['file'] == $key['name']) {
+        if ($_REQUEST['file'] == $key['name']) {
             $levelMod = $key['level'];
             $adminMod = $key['admin'];
         }
@@ -1430,9 +1431,11 @@ if(array_key_exists($_REQUEST['file'], $allModules)) {
     $levelMod = 0;
     $adminMod = 9;
 }
+
 /**
  * activatedModules return informations on module activate
- * @return array return module activate
+ * @param array $blackArray table modules blacklisted
+ * @return array return module activate whithout table modules blacklisted
  */
 function activatedModules($blackArray = null) {
     global $allModules;
@@ -1455,23 +1458,44 @@ function activatedModules($blackArray = null) {
 }
 
 /**
+ * accessModule return informations access on module or request[file]
+ * @param  string $module   wanted modules
+ * @param  string $type     level or admin
+ * @return int              level or admin access module
+ */
+function accessModule($module,$type = 'level') {
+    global $allModules;
+    if (!array_key_exists($module, $allModules)) {
+        return FALSE;
+    }
+    if ($type === 'admin') {
+        return $allModules[$module]['admin'];
+    } else {
+        return $allModules[$module]['level'];
+    }
+}
+
+/**
  * Set theme
  */
 // SELECT THEME, USER THEME OR NOT FOUND THEME : ERROR
 if (isset($_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_theme']) && is_file(ROOT_PATH . 'themes/' . $GLOBALS['nuked']['user_theme'] . '/theme.php')) {
-    $theme = $_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_theme'];
+    $theme = trim($_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_theme']);
 } elseif (is_file(ROOT_PATH . 'themes/' . $GLOBALS['nuked']['theme'] . '/theme.php')) {
-    $theme = $GLOBALS['nuked']['theme'];
+    $theme = trim($GLOBALS['nuked']['theme']);
 } else {
     exit(THEME_NOTFOUND);
 }
 
 // SELECT LANGUAGE AND USER LANGUAGE
 if (isset($_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_langue']) && is_file(ROOT_PATH . 'lang/' . $GLOBALS['nuked']['user_lang'] . '.lang.php')) {
-    $language = $_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_langue'];    
+    $language = trim($_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_langue']);    
 } else {
-    $language =  $GLOBALS['nuked']['langue'];    
+    $language =  trim($GLOBALS['nuked']['langue']);    
 }
+
+// SUBSTRING LANGUAGE OR USER LANGUAGE
+$lang = substr($language, 0, 2);
 
 
 
@@ -1479,7 +1503,7 @@ if (isset($_REQUEST[$GLOBALS['nuked']['cookiename'] . '_user_langue']) && is_fil
 if($language == 'french') {
     // On verifie l'os du serveur pour savoir si on est en windows (setlocale : ISO) ou en unix (setlocale : UTF8)
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-        setlocale (LC_ALL, 'fr_FR','fra');
+        setlocale(LC_ALL, 'fr_FR','fra');
     } else {
         setlocale(LC_ALL, 'fr_FR.UTF8','fra');  
     }    

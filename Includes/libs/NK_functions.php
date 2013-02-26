@@ -253,8 +253,6 @@ class NK_functions {
     <?php
     }
 
-
-
     /** 
     * Create Checkbox simply
     * @param inputName      -> Name of select
@@ -385,12 +383,71 @@ class NK_functions {
      * nkInitRequest initializes the elements of the array
      * @param array $array 
      */
-    public function nkInitRequest($array) {
-        foreach ($array as $value) {
-            if (!isset($_REQUEST[$value])) {
-                $_REQUEST[$value] = null;
+    public function nkInitRequest($array,$index = null) {
+        if (!isset($GLOBALS['nkInitError'])) {
+            $GLOBALS['nkInitError'] = null;
+        }
+        if (!is_null($index)) {
+            $mergeArray = array_merge_recursive($array,$index);
+            $valueMergeArray = array();
+            foreach ($mergeArray as $key => $value) {
+                $valueMergeArray = array_merge($value,$valueMergeArray);
+            }
+            $valueQueryArray = array();
+            if (!empty($_SERVER['QUERY_STRING'])) {
+                $parts = explode("&", $_SERVER['QUERY_STRING']);              
+                foreach ($parts as $val) {               
+                    $val_parts = explode("=", $val);
+                    $valueQueryArray[] = $val_parts[0];
+                }
+            } else {
+                $valueQueryArray = array_keys($_REQUEST);
+            }
+            foreach ($valueQueryArray as $k => $v) {
+                if (!in_array($v, $valueMergeArray)) {
+                    $errorContent = '   <h3>'.ERRORARGUMENT.'&nbsp;'.$v.'</h3>
+                                        <p>'.NOTINITARGUMENT.'</p>';
+                    $GLOBALS['nkInitError'] .= $GLOBALS['nkTpl']->nkContentTag('div', $errorContent, 'nkAlert nkAlertError');
+                }
             }
         }
+        foreach ($array as $key => $value) {
+            if ($key == 'integer') {
+                foreach ($value as $k) {
+                    if (!isset($_REQUEST[$k])) {
+                        $_REQUEST[$k] = null;
+                    } elseif (!preg_match("/^[0-9]*$/", $_REQUEST[$k])) {
+                        $errorContent = '   <h3>'.ERRORARGUMENT.'&nbsp;'.$k.'</h3>
+                                            <p>'.NOTINTEGERARGUMENT.'</p>';
+                        $GLOBALS['nkInitError'] .= $GLOBALS['nkTpl']->nkContentTag('div', $errorContent, 'nkAlert nkAlertError');
+                    }
+                }                    
+            } elseif ($key == 'boolean') {
+                foreach ($value as $k) {
+                    if (!isset($_REQUEST[$k])) {
+                        $_REQUEST[$k] = null;
+                    } elseif (!preg_match("/^(true|false)$/", $_REQUEST[$k])) {
+                        $errorContent = '   <h3>'.ERRORARGUMENT.'&nbsp;'.$k.'</h3>
+                                            <p>'.NOTBOOLEENARGUMENT.'</p>';
+                        $GLOBALS['nkInitError'] .= $GLOBALS['nkTpl']->nkContentTag('div', $errorContent, 'nkAlert nkAlertError');
+                    }
+                }   
+            } elseif ($key == 'string') {
+                foreach ($value as $k) {
+                    if (!isset($_REQUEST[$k])) {
+                        $_REQUEST[$k] = null;
+                    } elseif (!preg_match("/^[a-z]+[0-9]?[a-z]*$/i", $_REQUEST[$k])) {
+                        $errorContent = '   <h3>'.ERRORARGUMENT.'&nbsp;'.$k.'</h3>
+                                            <p>'.NOTSTRINGARGUMENT.'</p>';
+                        $GLOBALS['nkInitError'] .= $GLOBALS['nkTpl']->nkContentTag('div', $errorContent, 'nkAlert nkAlertError');
+                    } elseif (preg_match("/^(outfile|onmouse|select|update|insert|delete|union)$/", $_REQUEST[$k])) {
+                        $errorContent = '   <h3>'.ERRORARGUMENT.'&nbsp;'.$k.'</h3>
+                                            <p>'.BLACKLISTARGUMENT.'</p>';
+                        $GLOBALS['nkInitError'] .= $GLOBALS['nkTpl']->nkContentTag('div', $errorContent, 'nkAlert nkAlertError');
+                    }
+                } 
+            }               
+        }        
     }
 
     /**
@@ -467,6 +524,60 @@ class NK_functions {
             $return .= '<option value="'.$key.'">'.$nameModule.'</option>';
         }
         return $return;
+    }
+
+
+    public function generatedPdf($html, $fileName, $modulePref) {
+        global $lang;
+
+        require_once'Includes/tcpdf/config/nkLang/'.$lang.'.php';
+        require_once'Includes/tcpdf/tcpdf.php';
+
+        $copyright = "http://www.nuked-klan.org\n";
+        // create new PDF document
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);        
+
+        // set default header data
+        $pdf->SetHeaderData('nkPdfLogo.png', 30, $GLOBALS['nuked']['name'], TFOR.' '.$copyright.''.POWERED. ' '.PDF_HEADER_STRING);
+
+        // set header and footer fonts
+        $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+        // set default monospaced font
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+        //set margins
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+        //set auto page breaks
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+        //set image scale factor
+        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+        //set some language-dependent strings
+        $pdf->setLanguageArray($l);
+
+        // ---------------------------------------------------------
+
+        // set font
+        $pdf->SetFont($modulePref['pdfFont'], $modulePref['pdfFontStyle'], $modulePref['pdfFontSize']);
+
+        // add a page
+        $pdf->AddPage($modulePref['pdfDirection'],$modulePref['pdfFormat']);
+
+        // set some text to print
+
+        // print a block of text using Write()
+        //$pdf->Write($h=0, $txt, $link='', $fill=0, $align='C', $ln=true, $stretch=0, $firstline=false, $firstblock=false, $maxh=0);
+        $pdf->writeHTML($html, true, false, true, false, '');
+        // ---------------------------------------------------------
+        ob_clean();
+        //Close and output PDF document
+        $pdf->Output($fileName, $modulePref['pdfGeneratedType']);
     }
 }
 ?>

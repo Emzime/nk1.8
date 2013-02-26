@@ -30,7 +30,7 @@ define('DOWNLOADS','Téléchargements');
 define('FORUM','Forum');
 define('GALLERY','Galerie');
 define('GUESTBOOK','Livre d\'or');
-define('IRC','IrC');
+define('IRC','Irc');
 define('LINKS','Liens Web');
 define('MEMBERS','Membres');
 define('NEWS','News');
@@ -143,6 +143,7 @@ define('CANTOPENPAGE','Vous ne pouvez pas ouvrir cette page directement');
 define('CANTOPENBLOCK','Le block est introuvable');
 
 define('BY','Par');
+define('TFOR', 'Pour');
 define('THE','le');
 define('AT','à');
 define('AUTHOR','Auteur');
@@ -156,4 +157,17 @@ define('ERROROPENRSS', 'Echec lors de l\'ouverture du fichier');
 
 define('MEMBERREG','enregistré le');
 define('ADDED','ajouté le');
+
+/*******News***********/
+define('UNKNOWAUTHOR', 'Auteur inconnu');
+
+
+/*******Error Init Request******/
+define('ERRORARGUMENT', 'Erreur pour l\'argument :');
+define('NOTINITARGUMENT', 'Cet argument n\'est pas présent dans le tableau d\'initialisation !');
+define('NOTINTEGERARGUMENT', 'Cet argument est initialisé en tant qu\'<a target="_blank" href="http://www.php.net/manual/fr/language.types.integer.php">entier</a> !');
+define('NOTBOOLEENARGUMENT', 'Cet argument est initialisé en tant que <a target="_blank" href="http://www.php.net/manual/fr/language.types.boolean.php">booléen</a> !');
+define('NOTSTRINGARGUMENT', 'Cet argument est initialisé en tant que <a target="_blank" href="http://www.php.net/manual/fr/language.types.string.php">chaînes de caractères</a> !');
+define('BLACKLISTARGUMENT', 'La valeur de cet argument a été mis sur liste noire !');
+
 ?>

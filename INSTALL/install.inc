@@ -790,6 +790,30 @@
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
+        case'news_config':
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_news_config`";
+                        $req = mysql_query($sql) or die (mysql_error());
+                        $sql = "CREATE TABLE `" . $db_prefix . "_news_config` (
+                          `name` varchar(255) NOT NULL,
+                          `value` text NOT NULL,
+                          PRIMARY KEY (`name`)
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
+                        $req = mysql_query($sql) or die (mysql_error());
+                        
+                        $sql = "INSERT INTO `" . $db_prefix . "_news_config` VALUES
+                            ('txtReadMore', 'on'),
+                            ('nbMaxNews', '1'),
+                            ('nbComment', '5'),
+                            ('commentCut', '150'),
+                            ('pdfFont', 'courier'),
+                            ('pdfFontStyle', ''),
+                            ('pdfFontSize', '10'),
+                            ('pdfGeneratedType', 'I'),
+                            ('pdfDirection', 'P'),
+                            ('pdfFormat', 'A4');";
+                        $req = mysql_query($sql) or die (mysql_error());
+                        echo 'OK';
+        break;
         case'notification':
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_notification`";
                         $req = mysql_query($sql) or die (mysql_error());                        

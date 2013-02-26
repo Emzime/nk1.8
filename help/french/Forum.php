@@ -6,26 +6,26 @@
 <body style="font-family: Verdana; font-size: 10px" link="#000000" vlink="#000000" alink="#000000" bgcolor="#FFFFFF">
 <center><big><b>Administration Forum</b></big></center><br>
 <br>
-<li><b>Index</b> : Affiche la liste des Forums par catégorie et nom, il permet d'ajouter, d'éditer ou supprimer 
-un forum ainsi que de se rendre dans les différentes parties de l'administration Forum.<br>
+<li><b>Index</b> : Affiche la liste des Forums par catÃ©gorie et nom, il permet d'ajouter, d'Ã©diter ou supprimer 
+un forum ainsi que de se rendre dans les diffÃ©rentes parties de l'administration Forum.<br>
 <br>
 <li><b>Ajouter un Forum</b> : Remplissez simplement les champs du
-Formulaire, le niveau d'accès autorise les membres a voir le Forum, le niveau
+Formulaire, le niveau d'accÃ¨s autorise les membres a voir le Forum, le niveau
 d'utilisation autorise l'envoie de messages dans ce Forum, le niveau sondage autorise a poster un sondage, 
-le niveau vote a voter à un sondage et l'ordre permet de régler la position du Forum. Vous pouvez également ajouter des modérateurs en sélectionant
+le niveau vote a voter Ã  un sondage et l'ordre permet de rÃ©gler la position du Forum. Vous pouvez Ã©galement ajouter des modÃ©rateurs en sÃ©lectionant
 le pseudo.<br>
 <br>
-<li><b>Editer un Forum</b> : Vous permet de modifier toutes les informations et préférences de ce Forum ainsi que de rajouter un modérateur.<br>
+<li><b>Editer un Forum</b> : Vous permet de modifier toutes les informations et prÃ©fÃ©rences de ce Forum ainsi que de rajouter un modÃ©rateur.<br>
 <br>
-<li><b>Gestion des catégories</b> : Vous permet de créer, supprimer et ajouter des catégories de Forum, vous pouvez régler 
-le niveau d'accès et l'ordre d'affichage de celles-ci.<br>
+<li><b>Gestion des catÃ©gories</b> : Vous permet de crÃ©er, supprimer et ajouter des catÃ©gories de Forum, vous pouvez rÃ©gler 
+le niveau d'accÃ¨s et l'ordre d'affichage de celles-ci.<br>
 <br>
-<li><b>Gestion des rangs</b> : Vous permet de créer, supprimer ou éditer les rangs d'utilisateur (en fonction du nombre de messages postés).<br>
+<li><b>Gestion des rangs</b> : Vous permet de crÃ©er, supprimer ou Ã©diter les rangs d'utilisateur (en fonction du nombre de messages postÃ©s).<br>
 <br>
-<li><b>Délestage des Forums</b> : Vous permet de supprimer les vieux messages en indiquant le nombre de jours à partir du quel
-les messages seront supprimés.<br>
+<li><b>DÃ©lestage des Forums</b> : Vous permet de supprimer les vieux messages en indiquant le nombre de jours Ã  partir du quel
+les messages seront supprimÃ©s.<br>
 <br>
-<li><b>Préférences</b> : Vous permet régler les différentes préférences du Forum dont le titre, la description, le nombre de message par page ect...<br><br>
+<li><b>PrÃ©fÃ©rences</b> : Vous permet rÃ©gler les diffÃ©rentes prÃ©fÃ©rences du Forum dont le titre, la description, le nombre de message par page ect...<br><br>
 <br>
 <br>
 </body>

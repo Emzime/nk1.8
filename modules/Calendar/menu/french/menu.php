@@ -9,11 +9,11 @@ header('Content-type: text/html; charset=iso-8859-1');
 				
 				<li><a class="shortcut-button" href="index.php?file=Calendar&amp;page=admin&amp;op=add"><span>
 					<img src="modules/Admin/images/icons/clock_48.png" alt="icon" /><br /><br />
-					Ajouter un évenement
+					Ajouter un Ã©venement
 				</span></a></li>
 				
 				<li><a class="shortcut-button" href="index.php?file=Calendar&amp;page=admin&amp;op=main_pref"><span>
 					<img src="modules/Admin/images/icons/preference.png" alt="icon" /><br /><br />
-					Préférences
+					PrÃ©fÃ©rences
 				<br />&nbsp;</span></a></li>
 </body></html>

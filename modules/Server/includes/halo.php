@@ -48,7 +48,7 @@ class halo extends gsQuery
       $this->_init();
     }
 
-    $cmd="þý".Chr(0)."wjÿÿÿÿ";
+    $cmd="Ã¾Ã½".Chr(0)."wjÂÂÃ¿Ã¿Ã¿Ã¿";
     if(!($response=$this->_sendCommand($this->address, $this->queryport, $cmd))) {
       $this->errstr='No reply received';
       return FALSE;

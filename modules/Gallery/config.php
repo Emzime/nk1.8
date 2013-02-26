@@ -13,10 +13,10 @@ if (!defined("INDEX_CHECK"))
 }
 
 
-// Image miniature par defaut dans les sous-catégories (tableau)
+// Image miniature par defaut dans les sous-catÃ©gories (tableau)
 $img_none = "modules/Gallery/images/nk.gif";
 
-// largeur en pixel de la miniature dans les sous-catégories (tableau)
+// largeur en pixel de la miniature dans les sous-catÃ©gories (tableau)
 $img_cat = 50;
 
 
@@ -24,15 +24,15 @@ $img_cat = 50;
 $img_width = 400;
 
 
-// largeur en pixel de la miniature dans les catégories avec 1 ou 2 images par ligne
+// largeur en pixel de la miniature dans les catÃ©gories avec 1 ou 2 images par ligne
 $img_screen1 = 150;
 
 
-// largeur en pixel de la miniature dans les catégories avec 3 images par ligne
+// largeur en pixel de la miniature dans les catÃ©gories avec 3 images par ligne
 $img_screen2 = 120;
 
 
-// largeur en pixel de la miniature dans les catégories avec 4 ou plus images par ligne
+// largeur en pixel de la miniature dans les catÃ©gories avec 4 ou plus images par ligne
 $img_screen3 = 90;
 
 // Fonction de redimentionement des images (on, off, local)
@@ -41,7 +41,7 @@ $image_resize = "on";
 // Repertoire d'upload des images
 $rep_img = "upload/Gallery/";
 
-// Création automatique de miniature GD (on, off)
+// CrÃ©ation automatique de miniature GD (on, off)
 $image_gd = "on";
 
 // Repertoire d'upload des miniatures (GD)

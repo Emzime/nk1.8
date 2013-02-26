@@ -14,26 +14,26 @@ header('Content-type: text/html; charset=iso-8859-1');
 				
 				<li><a class="shortcut-button" href="index.php?file=Forum&page=admin&op=main_cat"><span>
 					<img src="modules/Admin/images/icons/gestioncat.png" alt="icon" /><br />
-					Gestion des catégories
+					Gestion des catÃ©gories
 				</span></a></li>
 				
 				<li><a class="shortcut-button" href="index.php?file=Forum&page=admin&op=add_cat"><span>
 					<img src="modules/Admin/images/icons/paper_content_pencil_48.png" alt="icon" /><br />
-					Ajouter une catégorie
+					Ajouter une catÃ©gorie
 				</span></a></li>
 				
 				<li><a class="shortcut-button" href="index.php?file=Forum&page=admin&op=main_rank"><span>
 					<img src="modules/Admin/images/icons/rang.png" alt="icon" /><br />
-					Gérer les rangs
+					GÃ©rer les rangs
 				<br />&nbsp;</span></a></li>
 				
 				<li><a class="shortcut-button" href="index.php?file=Forum&page=admin&op=prune"><span>
 					<img src="modules/Admin/images/icons/corbeille.png" alt="icon" /><br />
-					Délestage du Forum
+					DÃ©lestage du Forum
 				</span></a></li>
 				
 				<li><a class="shortcut-button" href="index.php?file=Forum&page=admin&op=main_pref"><span>
 					<img src="modules/Admin/images/icons/preference.png" alt="icon" /><br />
-					Préférences<br />&nbsp;
+					PrÃ©fÃ©rences<br />&nbsp;
 				</span></a></li>
 </body></html>

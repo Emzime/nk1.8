@@ -8,12 +8,12 @@
 <center><big><b>Administration IrC</b></big></center><br>
 <li><b>Index</b> : Affiche la liste des awards avec la date d'ajout et une partie de l'award.<br>
 <br>
-<li><b>Ajouter un award</b> : Vous permet d'ajouter un award, c'est à dire une partie d'une discussion Irc, faites simplement 
-un copier/coller à partir de votre Chanel Irc dans le textaréa prévus a cette effet.<br>
+<li><b>Ajouter un award</b> : Vous permet d'ajouter un award, c'est Ã  dire une partie d'une discussion Irc, faites simplement 
+un copier/coller Ã  partir de votre Chanel Irc dans le textarÃ©a prÃ©vus a cette effet.<br>
 <br>
 <li><b>Editer un award</b> : Vous permet de modifier le texte d'un award.<br>
 <br>
-<li><b>Préférences</b> : Vous permet de régler votre Channel et Serveur Irc par défaut.<br>
+<li><b>PrÃ©fÃ©rences</b> : Vous permet de rÃ©gler votre Channel et Serveur Irc par dÃ©faut.<br>
 <br>
 
 </body></html>

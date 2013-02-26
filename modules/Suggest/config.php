@@ -18,27 +18,27 @@ $upload_img = 'on';
 // Repertoire de destination pour les suggestions de downloads
 $rep_dl = 'upload/Suggest/';
 
-// Repertoire de destination pour les downloads validés
+// Repertoire de destination pour les downloads validÃ©s
 $rep_dl_ok = 'upload/Download/';
 
 // Repertoire de destination pour les suggestions de captures de  downloads
 $rep_dl_screen = 'upload/Suggest/';
 
-// Repertoire de destination pour les captures de  downloads validées
+// Repertoire de destination pour les captures de  downloads validÃ©es
 $rep_dl_screen_ok = 'upload/Download/screen/';
 
 // Repertoire de destination pour les images
 $rep_img = 'upload/Suggest/';
 
-// Repertoire de destination pour les images validées
+// Repertoire de destination pour les images validÃ©es
 $rep_img_ok = 'upload/Download/';
 
-// Repertoire de destination pour les suggestions de thèmes
+// Repertoire de destination pour les suggestions de thÃ¨mes
 $rep_theme = 'upload/Suggest/';
 
-// Activer le filtre des fichiers uploadés ( on | off )
+// Activer le filtre des fichiers uploadÃ©s ( on | off )
 $file_filter = 'on';
 
-// Liste des extentions autorisé
+// Liste des extentions autorisÃ©
 $file_filtre = array('zip', 'rar', '7z', 'gz', 'mpg', 'mpeg', 'avi', 'wmv', 'mov', 'wav', 'mp3', 'jpg', 'jpeg', 'bmp', 'gif', 'png', 'doc', 'xls', 'ptt', 'rtf', 'txt', 'docx', 'xlsx', 'pptx', 'odt', 'ods', 'odp');
 ?>

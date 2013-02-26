@@ -35,9 +35,9 @@ $count = mysql_num_rows($sql);
 if ($count > 0) {
     list($texte_ban, $date, $dure, $pseudo) = mysql_fetch_array($sql);
 
-    // On supprime les bans dépassés, 0 = A vie
+    // On supprime les bans dÃ©passÃ©s, 0 = A vie
     if($dure != 0 && ($date + $dure) < time()) {
-        // On supprime l'entrée SQL
+        // On supprime l'entrÃ©e SQL
         $del_ban = mysql_query('DELETE FROM ' . BANNED_TABLE . ' WHERE ip = "' . $ip_ban . '"');
         // On supprime le cookie
         $_COOKIE['ip_ban'] = '';
@@ -48,7 +48,7 @@ if ($count > 0) {
         die;
     }
 
-    // Sinon on prolongue la durée de vie du cookie.
+    // Sinon on prolongue la durÃ©e de vie du cookie.
     setcookie('ip_ban', $ip_ban, time() + 9999999, '', '', '');
 
     echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

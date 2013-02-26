@@ -254,7 +254,7 @@ div[id^='globalVoteResult_'] {
 [class^="crumbsyellow"] li a { background-position: 100% -745px; width: 480px; height: 144px; } 
 
 /* Global pour l'affichage des icons "sprites" */
-[class^="nkIcon"], [class*="nkIcon"] {
+[class^="nkIcon"] {
     background-image: url(../../images/nkIconSprite.png);
     background-repeat: no-repeat;
     width: 16px;
@@ -353,6 +353,25 @@ div[id^='globalVoteResult_'] {
 .nkIconZoomIn{ background-position: -1785px 0;  } 
 .nkIconZoomOut{ background-position: -1806px 0;  } 
 .nkIconlang{ background-position: -1827px 0;  } 
+
+
+/* Global pour l'affichage des icons "sprites" */
+[class^="nkIcon24"] {
+    background-image: url(../../images/nkIconSprite24.png);
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 24px; 
+    display: inline-block;
+    margin-top : 1px;
+    line-height: 24px;
+    vertical-align: text-bottom;
+    margin-right: 5px;
+}
+.nkIcon24Edit{ background-position: 0 0; width: 24px; height: 24px; } 
+.nkIcon24MailSend{ background-position: 0 -29px; width: 24px; height: 24px; } 
+.nkIcon24Pdf{ background-position: 0 -58px; width: 24px; height: 24px; } 
+.nkIcon24ReadMore{ background-position: 0 -87px; width: 24px; height: 24px; } 
+.nkIcon24Trash{ background-position: 0 -116px; width: 24px; height: 24px; }
 
 /* Affichage des drapeaux */
 [class^="nkFlags"], [class*="nkFlags"] {
@@ -1021,5 +1040,89 @@ div[id^='globalVoteResult_'] {
 }
 .nkNnoWrap{
     white-space:nowrap;
+}
+
+
+/********* Ajout Bahamut ********/
+.nkAlert {
+    -webkit-background-size: 40px 40px;
+    -moz-background-size: 40px 40px;
+    background-size: 40px 40px;            
+    background-image: -webkit-gradient(linear, left top, right bottom,
+                            color-stop(.25, rgba(255, 255, 255, .05)), color-stop(.25, transparent),
+                            color-stop(.5, transparent), color-stop(.5, rgba(255, 255, 255, .05)),
+                            color-stop(.75, rgba(255, 255, 255, .05)), color-stop(.75, transparent),
+                            to(transparent));
+    background-image: -webkit-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+                        transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+                        transparent 75%, transparent);
+    background-image: -moz-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+                        transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+                        transparent 75%, transparent);
+    background-image: -ms-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+                        transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+                        transparent 75%, transparent);
+    background-image: -o-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+                        transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+                        transparent 75%, transparent);
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+                        transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+                        transparent 75%, transparent);
+                            
+    -moz-box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);
+    -webkit-box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);        
+    box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);
+    border: 1px solid;
+    margin-bottom: 5px;
+    color: #000;
+    font-size: 14px;
+    padding: 15px;
+    z-index:1050000;
+    -webkit-animation: animate-bg 5s linear infinite;
+    -moz-animation: animate-bg 5s linear infinite;
+    animation: animate-bg 5s linear infinite;
+}
+.nkAlertDanger, .nkAlertError {
+    background-color: #de4343;
+    border-color: #c43d3d;
+}
+
+.nkAlert h3{
+         margin: 0 0 5px 0;                                                  
+}
+
+.nkAlert p{
+         margin: 0;                                                  
+}
+
+.nkAlert a {
+    font-weight: bold;
+    color: inherit !important;
+}
+@keyframes animate-bg {
+    from {
+        background-position: 0 0;
+    }
+    to {
+       background-position: -80px 0;
+    }
+}
+@-webkit-keyframes animate-bg {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: -80px 0;
+    }
+}
+
+
+@-moz-keyframes animate-bg {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: -80px 0;
+    }
 }
 

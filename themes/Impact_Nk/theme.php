@@ -180,26 +180,26 @@ function footer(){
 function news($data){
     global $theme;
         
-        $posted = NEWSPOSTBY . "&nbsp;<a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($data['auteur']) . "\">" . $data['auteur'] . "</a>&nbsp;" . THE . "&nbsp;". $data['date'];
-        $comment = "<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $data['id'] . "\">" . NEWSCOMMENT . "</a>&nbsp;(" . $data['nb_comment'] . ")";
+        $posted = NEWSPOSTBY . "&nbsp;" . $data['author'] . "&nbsp;" . THE . "&nbsp;". $data['date'];
+        $comment =  $data['comment']."&nbsp;(" . $data['nbComment'] . ")";
 ?>
 <div class="block center">
     <div class="top">
         <div class="bottom">
-            <h2><?php echo $data['titre']; ?></h2>
+            <h2><?php echo $data['title']; ?></h2>
             <div style="padding:5px;">
-               <div style="float:right;"><?php echo $data['image']; ?></div>
-               <span style="color: #ffffff;"><?php echo $data['texte']; ?></span>                                        
+               <div style="float:right;"><?php echo $data['catImage']; ?></div>
+               <span style="color: #ffffff;"><?php echo $data['content']; ?></span>                                        
             </div>
             <div style="width:100%;">
                     <div style="text-align:right;">
-                            <?php echo $data['friend']; ?> <?php echo $data['printpage']; ?>
+                            <?php echo $data['readMore']; ?> <?php echo $data['friend']; ?> <?php echo $data['printPage']; ?>
                     </div>
             </div>
             <div>
                 <?php echo $comment; ?> - <?php echo INPUBL; ?>
-                <a href="index.php?file=News&amp;op=categorie&amp;cat_id=<?php echo $data['catid']; ?>">
-                        <?php echo $data['cat']; ?>
+                <a href="index.php?file=News&amp;categoryId=<?php echo $data['catId']; ?>">
+                        <?php echo $data['catTitle']; ?>
                 </a>
             </div>
             <?php echo $posted; ?>

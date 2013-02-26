@@ -12,6 +12,15 @@
 define('LANGNOTFOUND', '<div class="nkMarginBottom15">Fichier de langue non chargé<br />Language file not loaded</div>');
 define('UNKNOWNBLOCK', 'Bloc non trouvé<br />Block not found');
 define('UNKNOWNFUNCTIONBLOCK', 'La fonction suivante n\'a pas été trouvée<br />The following function has not been found');
+// Define the text for error on loading lang file
+define('UNKNOWLANGFILEEN', 'Error load lang file for');
+define('UNKNOWLANGFILEFR', 'Erreur de chargement du fichier lang');
+define('GLOBALLANGEN', 'main');
+define('GLOBALLANGFR', 'principal');
+define('THEMELANGEN', 'in the theme');
+define('THEMELANGFR', 'dans le thème');
+define('MODULELANGEN', 'in the module');
+define('MODULELANGFR', 'dans le module');
 
 /* ---------------------------------- */
 /* Start version fusion 1.8 */
@@ -55,6 +64,29 @@ include_once 'Includes/hash.php';
 
 if ($nuked['time_generate'] == 'on') {
     $mtime = microtime();
+}
+
+// Initialisation des variables pour le chargement des fichiers de lang
+$langUpper = strtoupper($lang);
+$errorLangMessage = constant('UNKNOWLANGFILE'.$langUpper);
+$errorGlobalLangMessage = constant('GLOBALLANG'.$langUpper);
+$errorThemeLangMessage = constant('THEMELANG'.$langUpper);
+$errorModuleLangMessage = constant('MODULELANG'.$langUpper);
+$loadLangGlobalFileError = '';
+$loadLangModuleFileError = '';
+$loadLangThemeFileError = '';
+
+// Chargement du fichier de lang global
+if (is_file(ROOT_PATH .'lang/'.$language.'.lang.php')) {
+    include_once ROOT_PATH .'lang/'.$language.'.lang.php';
+} else {
+    $loadLangGlobalFileError = $GLOBALS['nkTpl']->nkDisplayError($errorLangMessage.'&nbsp;'.$errorGlobalLangMessage, 'nkAlert nkAlertError');
+}
+// inclusion du fichier lang de nom de module personnalisé
+if (is_file(ROOT_PATH .'lang/modules/'.$language.'.lang.php')) {
+    include_once ROOT_PATH .'lang/modules/'.$language.'.lang.php';
+} else {
+    $loadLangGlobalFileError = $GLOBALS['nkTpl']->nkDisplayError($errorLangMessage.'&nbsp;'.$errorGlobalLangMessage, 'nkAlert nkAlertError');
 }
 
 // GESTION DES ERREURS SQL - SQL ERROR MANAGEMENT
@@ -102,7 +134,8 @@ if (isset($_REQUEST['nuked_nude']) && !empty($_REQUEST['nuked_nude'])) {
     $_REQUEST['im_file'] = 'index';
 }
 
-if (preg_match('`\.\.`', $theme) || 
+
+/*if (preg_match('`\.\.`', $theme) || 
     preg_match('`\.\.`', $language) || 
     preg_match('`\.\.`', $_REQUEST['file']) || 
     preg_match('`\.\.`', $_REQUEST['im_file']) || 
@@ -112,14 +145,18 @@ if (preg_match('`\.\.`', $theme) ||
     is_int(strpos( $_SERVER['QUERY_STRING'], 'http://' )) || 
     is_int(strpos( $_SERVER['QUERY_STRING'], '%3C%3F' ))) {
         die(WHATAREYOUTRYTODO);
-}
+}*/
+
+// Initialisation des variables et verifications de leur type
+$GLOBALS['indexRequestArray'] = array(
+        'string' => array('op', 'file', 'im_file', 'nuked_nude', 'page')
+    );
+$GLOBALS['nkFunctions']->nkInitRequest($GLOBALS['indexRequestArray']);
 
 $_REQUEST['file']       = basename(trim($_REQUEST['file']));
 $_REQUEST['im_file']    = basename(trim($_REQUEST['im_file']));
 $_REQUEST['page']       = basename(trim($_REQUEST['im_file']));
-$theme                  = trim($theme);
-$language               = trim($language);
-$lang                   = substr($language, 0, 2);
+
 // Check Ban
 //$check_ip = banip();
 
@@ -152,48 +189,18 @@ if (!empty($activeCssBlock)) {
         }
     } 
 }
-// Define the text for erron on loading lang file
-define('UNKNOWLANGFILEEN', 'Error load lang file for');
-define('UNKNOWLANGFILEFR', 'Erreur de chargement du fichier lang');
-define('GLOBALLANGEN', 'main');
-define('GLOBALLANGFR', 'principal');
-define('THEMELANGEN', 'in the theme');
-define('THEMELANGFR', 'dans le thème');
-define('MODULELANGEN', 'in the module');
-define('MODULELANGFR', 'dans le module');
 
-// Inclusion de fichier lang global nk
-$loadLangGlobalFileError = '';
-$loadLangModuleFileError = '';
-$loadLangThemeFileError = '';
-$langUpper = strtoupper($lang);
-$errorLangMessage = constant('UNKNOWLANGFILE'.$langUpper);
-$errorGlobalLangMessage = constant('GLOBALLANG'.$langUpper);
-$errorThemeLangMessage = constant('THEMELANG'.$langUpper);
-$errorModuleLangMessage = constant('MODULELANG'.$langUpper);
-
-if (is_file(ROOT_PATH .'lang/'.$language.'.lang.php')) {
-    include_once ROOT_PATH .'lang/'.$language.'.lang.php';
-} else {
-    $loadLangGlobalFileError = $GLOBALS['nkTpl']->nkDisplayError($errorLangMessage.'&nbsp;'.$errorGlobalLangMessage, 'nkAlignCenter');
-}
-// inclusion du fichier lang de nom de module personnalisé
-if (is_file(ROOT_PATH .'lang/modules/'.$language.'.lang.php')) {
-    include_once ROOT_PATH .'lang/modules/'.$language.'.lang.php';
-} else {
-    $loadLangGlobalFileError = $GLOBALS['nkTpl']->nkDisplayError($errorLangMessage.'&nbsp;'.$errorGlobalLangMessage, 'nkAlignCenter');
-}
 // Inlusion des fichiers lang du module visualisé
 if (is_file(ROOT_PATH .'modules/'.$_REQUEST['file'].'/lang/'.$language.'.lang.php')) {
     include_once ROOT_PATH .'modules/'.$_REQUEST['file'].'/lang/'.$language.'.lang.php';
 } else {
-    $loadLangModuleFileError = $GLOBALS['nkTpl']->nkDisplayError($errorLangMessage.'&nbsp;'.$errorModuleLangMessage.'&nbsp;'.$_REQUEST['file'] , 'nkAlignCenter');
+    $loadLangModuleFileError = $GLOBALS['nkTpl']->nkDisplayError($errorLangMessage.'&nbsp;'.$errorModuleLangMessage.'&nbsp;'.$_REQUEST['file'] , 'nkAlert nkAlertError');
 }
 // Inclusion des fichiers lang pour le theme defini par l'admin
 if (is_file(ROOT_PATH .'themes/'.$theme.'/lang/'.$language.'.lang.php')) {
     include_once ROOT_PATH .'themes/'.$theme.'/lang/'.$language.'.lang.php';
 } else {
-    $loadLangThemeFileError = $GLOBALS['nkTpl']->nkDisplayError($errorLangMessage.'&nbsp;'.$errorThemeLangMessage.'&nbsp;'.$theme, 'nkAlignCenter');
+    $loadLangThemeFileError = $GLOBALS['nkTpl']->nkDisplayError($errorLangMessage.'&nbsp;'.$errorThemeLangMessage.'&nbsp;'.$theme, 'nkAlert nkAlertError');
 }
 // Regroupement des mesaage d'erreur de langue
 $loadLangFileError = $loadLangGlobalFileError.$loadLangModuleFileError.$loadLangThemeFileError;
@@ -201,6 +208,9 @@ $loadLangFileError = $loadLangGlobalFileError.$loadLangModuleFileError.$loadLang
 if (is_file(ROOT_PATH .'themes/'.$theme.'/css/modules/'.$_REQUEST['file'].'.css') && !array_key_exists($_REQUEST['file'], $arrayCss)) {
     $loadCss .= '<link type="text/css" rel="stylesheet" href="themes/'.$theme.'/css/modules/'.$_REQUEST['file'].'.css" media="screen" />';
 }
+
+
+
 // Si le site est fermé
 if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login_screen' && $_REQUEST['op'] != 'login_message' && $_REQUEST['op'] != 'login') {
     // on inclu le html du site fermé
@@ -221,14 +231,24 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
     }
 // sinon si nous ne sommes pas en administration, que les modules ne sont pas désactivé ou que les modules ont le niveau du membre
 } elseif ($levelMod > -1 && $levelMod <= $visiteur) {
-    // on inclu le theme
-    include_once ROOT_PATH .'themes/'.$theme.'/theme.php';
-    // on inclu les stats de visite si elles sont actives
-    if ($nuked['level_analys'] != -1) {
-        visits();
-    }
-    // si nous ne sommes pas en nuked_nude
-    if (!isset($_REQUEST['nuked_nude'])) {
+    if (isset($_REQUEST['nuked_nude'])) {
+        header('Content-Type: text/html;charset=utf-8');
+        // si le module existe on l'inclu
+        if (is_file( ROOT_PATH .'modules/'.$_REQUEST['file'].'/'.$_REQUEST['im_file'].'.php')) {
+            include ROOT_PATH .'modules/'.$_REQUEST['file'].'/'.$_REQUEST['im_file'].'.php';
+        // sinon on affiche le 404
+        } else {
+            include_once ROOT_PATH .'modules/404/index.php'; 
+        }
+    } else {
+        // on inclu le theme
+        if ($loadLangThemeFileError == '') {
+            include_once ROOT_PATH .'themes/'.$theme.'/theme.php';
+        }
+         // on inclu les stats de visite si elles sont actives
+        if ($nuked['level_analys'] != -1) {
+            visits();
+        }
         // on initialise la fonction zip
         if (defined('NK_GZIP') && ini_get('zlib_output')) {
             ob_start('ob_gzhandler');
@@ -236,7 +256,9 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
         // on inclu le header
         include_once ROOT_PATH .'Includes/header.php';
         // on inclu le top du theme
-        top();
+        if ($loadLangThemeFileError == '') {
+            top();
+        }
         // on affiche les messages de suppression des INSTALL / UPDATE si level admin et en dehors de l'administration
         if ($visiteur == 9 && defined('TESTLANGUE')) { 
             if (is_dir(ROOT_PATH .'INSTALL/')) {
@@ -249,48 +271,45 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
                 echo $nkTpl->nkDisplayError(REMOVEUPDATE);         
             }
         }
-
-    // Sinon on est en nuked_nude
-    } else {
-        // on declare le header
-        header('Content-Type: text/html;charset=utf-8');
-    }
-
-    // si le module existe on l'inclu
-    if (is_file( ROOT_PATH .'modules/'.$_REQUEST['file'].'/'.$_REQUEST['im_file'].'.php')) {
-        include ROOT_PATH .'modules/'.$_REQUEST['file'].'/'.$_REQUEST['im_file'].'.php';
-
-    // sinon on affiche le 404
-    } else {
-        include_once ROOT_PATH .'modules/404/index.php'; 
-    }
-        
-    // on affiche l'erreur de lang si non existante
-    echo $loadLangFileError;
-
-    // on ferme le theme si en dehors de nuked_nude
-    if (!isset($_REQUEST['nuked_nude'])) {              
-        footer();
-
-        // on inclu le copyleft
-        include_once ROOT_PATH .'Includes/copyleft.php';
-
-        // on affichage le temps de génération des pages
-        if ($nuked['time_generate'] == 'on' && defined('TESTLANGUE')) {
-            $mtime = microtime() - $mtime;
-        ?>
-            <p class="nkAlignCenter"><?php echo GENERATE.'&nbsp;'.$mtime.'&nbsp;'.SECONDE; ?></p>
-        <?php
+        if (!isset($GLOBALS['nkInitError'])) {
+            if ($loadLangFileError == '') {
+                // si le module existe on l'inclu
+                if (is_file( ROOT_PATH .'modules/'.$_REQUEST['file'].'/'.$_REQUEST['im_file'].'.php')) {
+                    include ROOT_PATH .'modules/'.$_REQUEST['file'].'/'.$_REQUEST['im_file'].'.php';
+                // sinon on affiche le 404
+                } else {
+                    include_once ROOT_PATH .'modules/404/lang/'.$language.'.lang.php';
+                    include_once ROOT_PATH .'modules/404/index.php'; 
+                }        
+            } else {
+                echo $loadLangFileError;
+            }   
+        } else { 
+            echo $GLOBALS['nkInitError'];
         }
-        //@todo reactive and test it when head inclusion is done
-        //sendStatsNk();
+        
+        if ($loadLangThemeFileError == '') {
+            footer();
+            // on inclu le copyleft
+            include_once ROOT_PATH .'Includes/copyleft.php';
 
-        // on ajout le lien pour le backToTop
-        ?>
-        <div><a id="nkToTop" class="<?php echo $nuked['nkToTopTheme']; ?>" href="#top"></a></div>
+            // on affichage le temps de génération des pages
+            if ($nuked['time_generate'] == 'on' && defined('TESTLANGUE')) {
+                $mtime = microtime() - $mtime;
+            ?>
+                <p class="nkAlignCenter"><?php echo GENERATE.'&nbsp;'.$mtime.'&nbsp;'.SECONDE; ?></p>
+            <?php
+            }
+            //@todo reactive and test it when head inclusion is done
+            //sendStatsNk();
+
+            // on ajout le lien pour le backToTop
+            ?>
+            <div><a id="nkToTop" class="<?php echo $nuked['nkToTopTheme']; ?>" href="#top"></a></div>
+
     <?php
+        }
     }
-
 } else {
 
     // on inclu le theme

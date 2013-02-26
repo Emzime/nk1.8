@@ -46,27 +46,33 @@ function SecureVar($value){
     }
     else
     {
-		return str_replace(array('&', '<', '>', '0x'), array('&amp;', '&lt;', '&gt;', '0&#120;'), $value);
-	}
+        return str_replace(array('&', '<', '>', '0x'), array('&amp;', '&lt;', '&gt;', '0&#120;'), $value);
+    }
 }
+
+
 //error_reporting (E_ERROR | E_WARNING | E_PARSE);
 //@set_magic_quotes_runtime(false);
 
 // ANTI INJECTION SQL (UNION) et XSS/CSS
-$query_string = strtolower(rawurldecode($_SERVER['QUERY_STRING']));
-$bad_string = array('%20union%20', '/*', '*/union/*', '+union+', 'load_file', 'outfile', 'document.cookie', 'onmouse', '<script', '<iframe', '<applet', '<meta', '<style', '<form', '<img', '<body', '<link');
-$size = count($bad_string);
+//$query_string = strtolower(rawurldecode($_SERVER['QUERY_STRING']));
+//$bad_string = array('%20union%20', '/*', '*/union/*', '+union+', 'load_file', 'outfile', 'document.cookie', 'onmouse', '<script', '<iframe', '<applet', '<meta', '<style', '<form', '<img', '<body', '<link');
+/*$size = count($bad_string);
 for($i=0; $i<$size; $i++){
-     if (strpos($query_string, $bad_string[$i])) die('<br /><br /><br /><div style="text-align: center"><big>What are you trying to do ?</big></div>');
-}
-unset($query_string, $bad_string, $string_value);
+    if (strpos($query_string, $bad_string[$i])) {
+        die('<h2 style="text-align:center;margin-top:15px">What are you trying to do ?</h2>');
+    }
+}*/
+//unset($query_string, $bad_string, $string_value);
 
-$get_id = array('news_id', 'cat_id', 'cat', 'forum_id', 'thread_id', 'dl_id', 'link_id', 'cid', 'secid', 'artid', 'poll_id', 'sid', 'vid', 'im_id', 'tid', 'game', 'war_id', 'server_id', 'mid', 'p', 'm', 'y', 'mo', 'ye', 'oday', 'omonth', 'oyear');
+/*$get_id = array('id', 'news_id', 'cat_id', 'cat', 'forum_id', 'thread_id', 'dl_id', 'link_id', 'cid', 'secid', 'artid', 'poll_id', 'sid', 'vid', 'im_id', 'tid', 'game', 'war_id', 'server_id', 'mid', 'p', 'm', 'y', 'mo', 'ye', 'oday', 'omonth', 'oyear');
 $size = count($get_id);
 for($i=0; $i<$size; $i++){
-      if (isset($_GET[$get_id[$i]]) && !empty($_GET[$get_id[$i]]) && !is_numeric($_GET[$get_id[$i]])) die('<br /><br /><br /><div style="text-align: center"><big>Error : ID must be a number !</big></div>');
+    if (isset($_GET[$get_id[$i]]) && !empty($_GET[$get_id[$i]]) && !is_numeric($_GET[$get_id[$i]])) {
+        die('<h2 style="text-align:center;margin-top:15px">Error : ID must be a number !</h2>');
+    }
 }
-unset($get_id, $int_id);
+unset($get_id, $int_id);*/
 
 // FONCTION DE SUBSTITUTION POUR MAGIC_QUOTE_GPC
 // To delete...

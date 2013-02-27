@@ -195,6 +195,11 @@ div[id^='globalVoteResult_'] {
 }
 
 /* Global pour l'affichage du breadcrumb */
+#nkBreadCrumb {
+    left: 9px;
+    position: relative;
+    top: 8px;
+}
 .crumbs li, .crumbsgreen li, .crumbsblue li, .crumbsyellow li, .crumbsred li, .crumbspurple li {display: inline;}
 .crumbs li:first-child, .crumbsgreen li:first-child; .crumbsblue li:first-child, .crumbsyellow li:first-child, .crumbsred li:first-child, .crumbspurple li:first-child, .crumbsadmin li:first-child {}
 .crumbs li a, .crumbs li a:link, .crumbs li a:visited, 

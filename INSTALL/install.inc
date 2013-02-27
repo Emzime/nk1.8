@@ -661,6 +661,7 @@
                           `id` int(10) NOT NULL auto_increment,
                           `status` int(1) NOT NULL default '0',
                           `team` int(11) NOT NULL default '0',
+                          `paysTeam` varchar(50) NOT NULL,
                           `game` int(11) NOT NULL default '0',
                           `adversary` text,
                           `urlAdversary` varchar(60) default NULL,

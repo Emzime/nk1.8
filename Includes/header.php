@@ -4,7 +4,6 @@
         <meta name="keywords" content="<?php echo $nuked['keyword'] ?>" />
         <meta name="Description" content="<?php echo $nuked['description'] ?>" />
         <meta charset="UTF-8" />
-        <meta http-equiv="content-style-type" content="text/css" />
         <title><?php echo $nuked['name'] ?> - <?php echo $nuked['slogan'] ?></title>                        
         <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
 

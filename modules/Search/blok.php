@@ -14,8 +14,8 @@ $modName = basename(dirname(__FILE__));
 
 // Bouton radio de sélection
 $arrayanswer = array(
-    'matchand' => MATCHAND.'<br />',
-    'matchexact' => MATCHEXACT.'<br />',
+    'matchand' => MATCHAND,
+    'matchexact' => MATCHEXACT,
     'matchor' => MATCHOR
 );                        
 $keyword = $GLOBALS['nkFunctions']->nkRadioBox('label', TYPEOFSEARCH.'&nbsp;:&nbsp;', '3', 'searchtype', $arrayanswer, 'searchtype', 'nkLabelSpacing nkValignTop nkInlineBlock', null, 'nkBlock');
@@ -28,6 +28,15 @@ $arrayanswers = array(
 );                      
 $numberOfResponse =  $GLOBALS['nkFunctions']->nkRadioBox( 'label',NBANSWERS.'&nbsp;:&nbsp;', '3', 'limit', $arrayanswers, 'answers', 'nkLabelSpacing nkMarginLRAuto');
 
+$blackList = array(
+    'Stats', 
+    'Irc', 
+    'Defy', 
+    'Recruit', 
+    'Suggest', 
+    'Contact'
+);
+$moduleList = $GLOBALS['nkFunctions']->nkSeeModule($blackList);
 
 if ($blockSide[$modName] == 3 || $blockSide[$modName] == 4) {
 ?>
@@ -58,22 +67,8 @@ if ($blockSide[$modName] == 3 || $blockSide[$modName] == 4) {
                 <select id="module" name="module">
                     <option value=""><?php echo SALL; ?></option>
                     <?php
-                        $dbsModule = '  SELECT nom 
-                                        FROM '.MODULES_TABLE.'
-                                        WHERE niveau <= '.$visiteur.'
-                                        AND niveau != -1
-                                        AND nom != "Stats"
-                                        AND nom != "Contact"';
-                        $dbeModule = mysql_query($dbsModule);
-                        while (list($listModule) = mysql_fetch_array($dbeModule)){
-                            $listModule = strtoupper($listModule);
-                            $listModule = constant($listModule);
-
-                        ?>
-                        <option value="<?php echo $listModule; ?>"><?php echo $listModule; ?></option>
-                        <?php
-                        }
-                        ?>                  
+                        echo $moduleList;
+                    ?>                  
                 </select>
         </div>
         <div class="nkMarginLRAuto nkPaddingLeft nkPaddingRight">

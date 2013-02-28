@@ -50,7 +50,7 @@ if (defined('TESTLANGUE')) {
                                 <div class="nkAlignCenter nkMarginTop15">
                                     <input type="hidden" name="poll_id" value="'.$pollId.'" />
                                     <input class="nkButton" type="submit" value="'.TOVOTE.'" />&nbsp;
-                                    <input class="nkButton" type="button" value="'.RESULT.'" onclick="document.location="index.php?file=Survey&amp;op=affich_res&amp;poll_id='.$pollId.'" />
+                                    <input class="nkButton" type="button" value="'.RESULT.'" onclick="document.location=\'index.php?file=Survey&amp;op=affich_res&amp;poll_id='.$pollId.'\'" />
                                 </div>
                                 <nav class="nkAlignCenter nkMarginTop15 nkMarginBottom15">
                                     <ul>

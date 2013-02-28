@@ -9,7 +9,7 @@
 
  		var defaults = {
     			text: 'To Top',
-    			min: 200,
+    			min: 50,
     			inDelay:600,
     			outDelay:400,
       			containerID: 'toTop',

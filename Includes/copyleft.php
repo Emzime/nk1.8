@@ -9,6 +9,6 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 ?>
-<div class="nkAlignCenter nkWidthFully">
+<div>
     <a href="http://www.nuked-klan.org" target="_blank" class="nkPowered" title="<?php echo POWERED ?> Nuked-KlaN <?php echo $nuked['version']; ?> &copy; 2001, <?php echo date('Y'); ?>"></a>
 </div>

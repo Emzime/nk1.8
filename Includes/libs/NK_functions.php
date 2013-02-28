@@ -466,7 +466,7 @@ class NK_functions {
                 $blockArray = array(
                     'id'      => $row['id'],
                     'side'    => $row['side'],
-                    'placing'  => $row['placing'],
+                    'placing' => $row['placing'],
                     'module'  => $row['module'], 
                     'title'   => $row['title'],
                     'content' => $row['content'],

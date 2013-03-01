@@ -158,6 +158,7 @@ define('ERROROPENRSS', 'Echec lors de l\'ouverture du fichier');
 define('MEMBERREG','enregistré le');
 define('ADDED','ajouté le');
 define('VISITNK', 'Visiter le site de Nuked-Klan');
+define('ADMINISTRATION', 'Administration');
 
 /*******News***********/
 define('UNKNOWAUTHOR', 'Auteur inconnu');

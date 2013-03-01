@@ -262,13 +262,13 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
         // on affiche les messages de suppression des INSTALL / UPDATE si level admin et en dehors de l'administration
         if ($visiteur == 9 && defined('TESTLANGUE')) { 
             if (is_dir(ROOT_PATH .'INSTALL/')) {
-                echo $nkTpl->nkDisplayError(REMOVEDIRINST);            
+                echo $nkTpl->nkContentTag('div', REMOVEDIRINST, 'nkAlert nkAlertError nkAlignCenter');                
             }
-            if (file_exists(ROOT_PATH .'install.php')) {            
-                echo $nkTpl->nkDisplayError(REMOVEINST);             
+            if (file_exists(ROOT_PATH .'install.php')) {
+                echo $nkTpl->nkContentTag('div', REMOVEINST, 'nkAlert nkAlertError nkAlignCenter');                 
             }
-            if (file_exists(ROOT_PATH .'update.php')) {            
-                echo $nkTpl->nkDisplayError(REMOVEUPDATE);         
+            if (file_exists(ROOT_PATH .'update.php')) {   
+                echo $nkTpl->nkContentTag('div', REMOVEUPDATE, 'nkAlert nkAlertError nkAlignCenter');      
             }
         }
         if (!isset($GLOBALS['nkInitError'])) {

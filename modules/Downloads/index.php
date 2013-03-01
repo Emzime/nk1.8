@@ -582,7 +582,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                                             </figure>
                                             <?php 
                                             // Affichage des commentaires du fichier 
-                                            viewComment($modName, $fileId, $modulePref['fileNbComment'], $modulePref['fileNbCommentCut']);
+                                            viewComment($modName, $fileId, $modulePref['nbComment'], $modulePref['commentCut']);
                                             ?>
                                         </aside>
                                     </article>
@@ -785,7 +785,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                     <aside class="nkInlineBlock nkMarginTop15 nkValignTop nkWidthQuarter nkAlignCenter">
                         <figure><?php echo $box; ?></figure>
                             <?php 
-                                viewComment($modName, $requestedId, $modulePref['fileNbComment'], $modulePref['fileNbCommentCut']);
+                                viewComment($modName, $requestedId, $modulePref['nbComment'], $modulePref['commentCut']);
                             ?>
                     </aside>
                 </article>

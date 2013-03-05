@@ -287,27 +287,31 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
         } else { 
             echo $GLOBALS['nkInitError'];
         }
-        
+        ?>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                // on inclu le copyleft par Jquery
+                $('body').append('<div id="copyleft"><a href="http://www.nuked-klan.org" target="_blank" class="nkPowered" title="<?php echo POWERED ?> Nuked-KlaN <?php echo $nuked['version']; ?> &copy; 2001, <?php echo date('Y'); ?>"></a></div>');
+                // on ajout le lien pour le backToTop par Jquery
+                $('body').append('<div><a id="nkToTop" class="<?php echo $nuked['nkToTopTheme']; ?>" href="#"></a></div>');
+            });
+        </script>
+        <?php
+        // on affichage le temps de génération des pages par Jquery
+        if ($nuked['time_generate'] == 'on' && defined('TESTLANGUE')) {
+            $mtime = microtime() - $mtime;
+        ?>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $('body').append('<p class="nkAlignCenter"><?php echo GENERATE.'&nbsp;'.$mtime.'&nbsp;'.SECONDE; ?></p>');
+                });
+            </script>
+        <?php
+        }
         if ($loadLangThemeFileError == '') {
             footer();
-            // on inclu le copyleft
-            include_once ROOT_PATH .'Includes/copyleft.php';
-
-            // on affichage le temps de génération des pages
-            if ($nuked['time_generate'] == 'on' && defined('TESTLANGUE')) {
-                $mtime = microtime() - $mtime;
-            ?>
-                <p class="nkAlignCenter"><?php echo GENERATE.'&nbsp;'.$mtime.'&nbsp;'.SECONDE; ?></p>
-            <?php
-            }
             //@todo reactive and test it when head inclusion is done
             //sendStatsNk();
-
-            // on ajout le lien pour le backToTop
-            ?>
-            <div><a id="nkToTop" class="<?php echo $nuked['nkToTopTheme']; ?>" href="#top"></a></div>
-
-    <?php
         }
     }
 } else {

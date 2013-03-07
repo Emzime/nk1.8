@@ -8,7 +8,7 @@ var arrayTablesInstall = new Array(
                             "forums_reads", "forums_poll", "forums_options", "forums_vote", "gallery", "gallery_cat", "games", "games_prefs", "guestbook",
                             "irc_awards", "links", "links_cat", "match", "match_files", "modules", "nbconnecte", "news", "news_cat", "news_config", "notification", "recruit", "sections",
                             "sections_cat", "server", "server_cat", "sessions", "smilies", "survey", "survey_check", "survey_data", "stats", "stats_visitor",
-                            "suggest", "shoutbox", "team", "team_rank", "tmpses", "userbox", "users", "users_detail", "vote", "vote_mod"
+                            "suggest", "shoutbox", "team", "team_rank", "tmpses", "userbox", "users", "users_config", "users_detail", "vote", "vote_mod"
                         );
 var arrayTablesUpdate = new Array(
                             "table_action", "table_banned", "table_comment_mod", "table_contact", "table_discussion", "table_games", "table_match", "table_match_files",

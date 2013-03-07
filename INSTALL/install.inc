@@ -163,12 +163,7 @@
                             ('theme', 'Impact_Nk'),
                             ('keyword', ''),
                             ('description', ''),
-                            ('inscription', 'on'),
-                            ('inscription_mail', ''),
-                            ('inscription_avert', ''),
-                            ('inscription_charte', ''),
                             ('validation', 'auto'),
-                            ('user_delete', 'on'),
                             ('video_editeur', 'on'),
                             ('scayt_editeur', 'on'),
                             ('suggest_avert', ''),
@@ -197,7 +192,6 @@
                             ('max_sections', '10'),
                             ('max_wars', '30'),
                             ('max_archives', '30'),
-                            ('max_members', '30'),
                             ('max_shout', '20'),
                             ('mess_guest_page', '10'),
                             ('sond_delay', '24'),
@@ -1163,39 +1157,54 @@
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_users` (
                           `id` varchar(20) NOT NULL,
-                          `teamOne` varchar(80) NOT NULL,
-                          `teamTwo` varchar(80) NOT NULL,
-                          `teamThree` varchar(80) NOT NULL,
-                          `rank` int(11) NOT NULL default '0',
-                          `placing` int(5) NOT NULL default '0',
                           `pseudo` text NOT NULL,
-                          `mail` varchar(80) NOT NULL,
-                          `email` varchar(80) NOT NULL,
-                          `icq` varchar(50) NOT NULL,
-                          `msn` varchar(80) NOT NULL,
-                          `aim` varchar(50) NOT NULL,
-                          `yim` varchar(50) NOT NULL,
-                          `url` varchar(150) NOT NULL,
+                          `firstName` text NOT NULL,
+                          `age` varchar(10) NOT NULL,
+                          `sex` varchar(20) NOT NULL,
+                          `city` text NOT NULL,
+                          `privateMail` varchar(80) NOT NULL,
+                          `publicMail` varchar(80) NOT NULL,
+                          `website` varchar(150) NOT NULL,
                           `pass` varchar(80) NOT NULL,
-                          `level` int(1) NOT NULL default '0',
+                          `level` int(1) NOT NULL DEFAULT '0',
                           `created` varchar(30) NOT NULL,
                           `avatar` varchar(100) NOT NULL,
                           `signing` text NOT NULL,
                           `userTheme` varchar(30) NOT NULL,
                           `userLanguage` varchar(30) NOT NULL,
-                          `game` int(11) NOT NULL default '0',
                           `country` varchar(50) NOT NULL,
-                          `count` int(10) NOT NULL default '0',
-                          `error` INT(10) NOT NULL default '0',
-                          `token` varchar(13)  DEFAULT NULL,
+                          `countForum` int(10) NOT NULL DEFAULT '0',
+                          `countComment` int(10) NOT NULL DEFAULT '0',
+                          `countSuggest` int(10) NOT NULL DEFAULT '0',
+                          `error` int(10) NOT NULL DEFAULT '0',
+                          `token` varchar(13) DEFAULT NULL,
                           `tokenTime` varchar(10) NOT NULL DEFAULT '0',
-                          PRIMARY KEY  (`id`),
-                          KEY `team` (`teamOne`),
-                          KEY `team2` (`teamTwo`),
-                          KEY `team3` (`teamThree`),
-                          KEY `rank` (`rank`),
-                          KEY `game` (`game`)
+                          PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
+                        $req = mysql_query($sql) or die (mysql_error());
+                        echo 'OK';
+        break;
+        case'users_config':
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_users_config`";
+                        $req = mysql_query($sql) or die (mysql_error());                        
+                        $sql = "CREATE TABLE `" . $db_prefix . "_users_config` (
+                            `name` varchar(255) NOT NULL,
+                            `value` text NOT NULL,
+                          PRIMARY KEY  (`name`)
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
+                        $req = mysql_query($sql) or die (mysql_error());
+
+                         $sql = "INSERT INTO `" . $db_prefix . "_downloads_config` VALUES
+                            ('inscription', 'on'),
+                            ('inscriptionAvert', ''),
+                            ('inscriptionCharte', ''),
+                            ('inscriptionMail', ''),
+                            ('avatarUpload', 'on'),
+                            ('avatarUrl', 'on'),
+                            ('maxMembers', '30'),
+                            ('userAccountDelete', 'on'),
+                            ('nbForumMessage', '5'),
+                            ('nbComment', '5');";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;

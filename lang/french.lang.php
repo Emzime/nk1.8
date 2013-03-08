@@ -180,11 +180,14 @@ define('POSTEDTHE','Posté le');
 define('COUNTRY','Pays');
 define('GAME','Jeu');
 define('AVATAR','Avatar');
+define('AVATARUPLOAD','Upload Avatar');
 define("FIRSTNAME","Prénom");
 define("SEX","Sexe");
 define("MAN","Homme");
 define("WOMEN","Femme");
 define("BIRTHDAY","Date de naissance");
+define("CITY","Ville");
+define("SIGNING","Signature");
 
 define('LOSTPASS','Perdu votre Password ?');
 

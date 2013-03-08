@@ -19,6 +19,7 @@ define('LASTPAGE','Dernière page');
 define('PREVIOUSPAGE','Page précédente');
 define('NEXTPAGE','Page suivante');
 define('BANFINISHED','n\'est plus banni, sa période est arrivée à expiration');
+define('UNKNOW', 'Non renseigné');
 
 /*********  AJOUT PAR MAXXI **********/
 // Nom des modules
@@ -171,5 +172,21 @@ define('NOTINTEGERARGUMENT', 'Cet argument est initialisé en tant qu\'<a target
 define('NOTBOOLEENARGUMENT', 'Cet argument est initialisé en tant que <a target="_blank" href="http://www.php.net/manual/fr/language.types.boolean.php">booléen</a> !');
 define('NOTSTRINGARGUMENT', 'Cet argument est initialisé en tant que <a target="_blank" href="http://www.php.net/manual/fr/language.types.string.php">chaînes de caractères</a> !');
 define('BLACKLISTARGUMENT', 'La valeur de cet argument a été mis sur liste noire !');
+define('NOTUNIQIDARGUMENT', 'La valeur de cet argument doit contenir 20 caractères alphanumérique !');
+
+/* USER */
+
+define('POSTEDTHE','Posté le');
+define('COUNTRY','Pays');
+define('GAME','Jeu');
+define('AVATAR','Avatar');
+define("FIRSTNAME","Prénom");
+define("SEX","Sexe");
+define("MAN","Homme");
+define("WOMEN","Femme");
+define("BIRTHDAY","Date de naissance");
+
+define('LOSTPASS','Perdu votre Password ?');
+
 
 ?>

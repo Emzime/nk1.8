@@ -146,7 +146,7 @@
                             ('time_generate', 'on'),
                             ('dateformat', '" . $dateFormat. "'),
                             ('datezone', '" . $dateZone . "'),
-                            ('version', '1.7.9'),
+                            ('version', '1.8'),
                             ('date_install', '".$date."'),
                             ('langue', '".$this->data['lang_install']."'),
                             ('stats_share', '".$stats_share."'),
@@ -163,7 +163,6 @@
                             ('theme', 'Impact_Nk'),
                             ('keyword', ''),
                             ('description', ''),
-                            ('validation', 'auto'),
                             ('video_editeur', 'on'),
                             ('scayt_editeur', 'on'),
                             ('suggest_avert', ''),
@@ -205,8 +204,6 @@
                             ('defie_mail', ''),
                             ('defie_inbox', ''),
                             ('birthday', 'all'),
-                            ('avatar_upload', 'on'),
-                            ('avatar_url', 'on'),
                             ('cookiename', 'nuked'),
                             ('sess_inactivemins', '5'),
                             ('sess_days_limit', '365'),
@@ -1176,6 +1173,8 @@
                           `countForum` int(10) NOT NULL DEFAULT '0',
                           `countComment` int(10) NOT NULL DEFAULT '0',
                           `countSuggest` int(10) NOT NULL DEFAULT '0',
+                          `countVisitor` int(10) NOT NULL DEFAULT '0',
+                          `lastVisitor` varchar(20) NOT NULL,
                           `error` int(10) NOT NULL DEFAULT '0',
                           `token` varchar(13) DEFAULT NULL,
                           `tokenTime` varchar(10) NOT NULL DEFAULT '0',
@@ -1194,8 +1193,9 @@
                         ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
 
-                         $sql = "INSERT INTO `" . $db_prefix . "_downloads_config` VALUES
+                         $sql = "INSERT INTO `" . $db_prefix . "_users_config` VALUES
                             ('inscription', 'on'),
+                            ('validation', 'auto'),
                             ('inscriptionAvert', ''),
                             ('inscriptionCharte', ''),
                             ('inscriptionMail', ''),

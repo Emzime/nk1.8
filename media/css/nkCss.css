@@ -172,6 +172,15 @@ li {
 #nkCaptcha img {
     display: block;
 }
+#captchaImg > img {
+    vertical-align: middle;
+}
+#captchaCheck input {
+    width: 100px;
+}
+#securityPass {
+    margin-top: -10px;
+}
 
 /* CSS pour la fonction Vote */
 div.globalVoteResult {
@@ -368,7 +377,7 @@ div[id^='globalVoteResult_'] {
 
 
 /* Global pour l'affichage des icons "sprites" */
-[class^="nkIcon24"] {
+[class^="nkIcon24"], [class*="nkIcon24"] {
     background-image: url(../../images/nkIconSprite24.png);
     background-repeat: no-repeat;
     width: 24px;
@@ -701,14 +710,21 @@ div[id^='globalVoteResult_'] {
     margin-bottom: 5px;
 }
 /* Global pour l'affichage des <label> */
-.nkLabelSpacing {
-    width: 30%;
+.nkLabelSpacing15 {
+    width: 35%;
     display: inline-block !important;
     padding: 15px 0;
 }
+/* Global pour l'affichage des <label> */
+.nkLabelSpacing {
+    width: 35%;
+    display: inline-block !important;
+    padding: 10px 0;
+}
 /* Global pour l'affichage des boutons <input type=button> */
 .nkButton:hover {
-    opacity: 0.5;
+    opacity: 0.9;
+    color: #fff;
 }
 .nkButton {
     background-image: -webkit-linear-gradient(top, #444 30%, #222 100%);
@@ -728,10 +744,7 @@ div[id^='globalVoteResult_'] {
     max-width: 100%;
     padding: 5px;
     text-align: center;
-    color: #ccc !important;
-}
-.nkButton:hover {
-    color: #fff !important;
+    color: #ccc;
 }
 
 /* Global pour afficher une séparation en 3D */
@@ -758,14 +771,29 @@ div[id^='globalVoteResult_'] {
     box-shadow: 2px 3px 2px 0 rgba(0, 0, 0, 0.3) inset;
     -moz-box-shadow: 2px 3px 2px 0 rgba(0, 0, 0, 0.3) inset;
     -webkit-box-shadow: 2px 3px 2px 0 rgba(0, 0, 0, 0.3) inset;
-    color: #5594DA;
+    color: #446DD7;
     padding-left: 5px;
     height: 20px;
-    min-width: 90px;
 }
-.nkInput:hover, .nkSelect:hover {
+.nkInput:hover, .nkSelect:hover, .nkTextArea:hover {
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0.3);
 }
+.nkTextArea {
+    height: 120px;    
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.2);
+    border-color: rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.2) #444444;
+    border-image: none;
+    border-radius: 7px;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 2px 3px 2px 0 rgba(0, 0, 0, 0.3) inset;
+    -moz-box-shadow: 2px 3px 2px 0 rgba(0, 0, 0, 0.3) inset;
+    -webkit-box-shadow: 2px 3px 2px 0 rgba(0, 0, 0, 0.3) inset;
+    color: #5594DA;
+    padding-left: 5px;
+    min-width: 90px;
+}
+
 option {
     background-color: #1C1C1C;
 }
@@ -813,7 +841,6 @@ option {
     -o-transition: left 0.15s ease-out;
     transition: left 0.15s ease-out;
 }
-
 
 /* Global pour la public function nkCheckBox */
 .nkCheckBox {
@@ -884,11 +911,13 @@ option {
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
     filter: alpha(opacity=30);
     opacity: 0.3;
+    left: 0;
 }
 .nkCheckBoxRounded input[type=checkbox]:checked + label:after {
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
     filter: alpha(opacity=100);
     opacity: 1;
+    left: 0;
 }
 
 /* TOTOP CSS */
@@ -971,6 +1000,12 @@ option {
 .nkPadding {
     padding: 1%;
 }
+.nkPaddingTB5 {
+    padding: 5px 0;
+}
+.nkPaddingLR5 {
+    padding: 0 5px;
+}
 
 /* Global pour les Margin */
 .nkMarginBottom{
@@ -1044,6 +1079,9 @@ option {
 }
 
 /* Global pour les Font-size */
+.nkSize11{
+    font-size: 11px !important;
+}
 .nkSize12{
     font-size: 12px !important;
 }
@@ -1057,6 +1095,9 @@ option {
     font-size: 0;
 }
 
+.nkNoFont{
+    font-weight: normal;
+}
 .nkBold{
     font-weight: bold;
 }
@@ -1111,6 +1152,10 @@ option {
     background-color: #de4343;
     border-color: #c43d3d;
 }
+.nkAlertSuccess {
+    background-color: #0D860D;
+    border-color: #00FF16;
+}
 
 .nkAlert h3{
          margin: 0 0 5px 0;                                                  
@@ -1151,3 +1196,156 @@ option {
     }
 }
 
+/* MODULE USER */
+
+#backgroundProfil {
+    background-color: #333;
+    border-radius: 4px;
+    margin: auto auto 25px;
+    width: 95%;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+}
+#contentProfilLeft {
+    width: 163px;
+    display: table-cell;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+#contentProfilLeft figure {
+    border: 1px solid #D5D5D5;
+    box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.5);
+    font-size: 0;
+    margin: 15px auto;
+    width: 100px;
+}
+#menuProfil {
+    float: right;
+    margin-bottom: 15px;
+    width: 75%;
+    cursor: pointer;
+}
+#menuProfil ul {
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    border-left: 1px solid #222;
+    border-top: 1px solid #222;
+    margin-top: 10px;
+}
+#menuProfil li {
+    border-bottom: 1px solid #222;
+    color: #808080;
+    font-size: 12px;
+    height: 25px;
+    line-height: 25px;
+    padding-left: 5px;
+}
+#menuProfil li:first-child {    
+    border-top-left-radius: 4px;
+}
+#menuProfil li:last-child {    
+    border-bottom-left-radius: 4px;
+}
+#menuProfil li:hover, #menuProfil li:hover a {
+    background-color: #666;
+}
+#menuProfil li.active {
+    z-index: 8000;
+    background-color: #666;
+}
+#menuProfil li.active a {
+    color: #222;
+    font-weight: bold;
+}
+#contentProfilRight {
+    display: table-cell;
+    padding: 10px;
+    width: 81%;
+    border-left: 1px solid #222;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+#contentProfilRight span:first-child {
+    color: #446DD7;
+}
+
+#contentProfilRight span:last-child {
+    color: #999999;
+}
+#contentProfil {
+    border: 1px solid #222;
+    margin-top: 5px;
+    min-height: 185px;
+    border-radius: 4px;
+    padding: 5px;
+}
+.profilContent {
+    margin-bottom: 15px;
+}
+
+.profilContent > header {
+    background-color: #222;
+    margin: -5px -5px 5px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.profilContent h3 {
+    font-size: 14px;
+    text-align: center;
+    margin: 0;
+    padding: 5px 0;
+}
+.profilContent nav {
+    margin: 20px auto;
+    text-align: center;
+    width: 100%;
+}
+.profilContent li {
+    border-left: 1px solid #222;
+    border-right: 1px solid #222;
+    border-bottom: 1px solid #222;
+    padding: 5px;
+}
+.profilContent li:first-child {
+    border-top: 1px solid #222;
+}
+.profilContent li:last-child {
+    border-top: 0;
+    border-bottom: 1px solid #222;
+}
+.userMessId {
+    width: 8%;
+}
+.userMessTitle {
+    width: 60%;
+}
+.userMessDate {
+    width: 30%
+}
+.profilMessageForum span {
+    font-size: 12px !important;
+}
+.profilMessageForum {
+    border-bottom: 1px solid #666;
+}
+.profilMessageForum:last-child {
+    border-bottom: 0;
+}
+#profilLogOut:hover {
+    opacity: 0.7;
+}
+#userInfo, #userFriends, #userInfoContact {
+    border: 1px solid;
+    border-radius: 4px;
+}
+#userInfo header, #userFriends header, #userInfoContact header {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    background-color: #666;
+    color: #222;
+}
+#userInfo > article, #userInfoContact > article {
+    min-height: 50px;
+}
+#userFriends article {
+    min-height: 133px;
+}

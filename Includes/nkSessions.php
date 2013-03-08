@@ -375,15 +375,17 @@ function session_new($userid, $remember_me) {
 
     $upd = mysql_query("UPDATE " . SESSIONS_TABLE . " SET `id` = '" . $session_id . "', lastUsed = created, `created` =  '" . $time . "', `ip` = '" . $user_ip . "' WHERE userId = '" . $userid . "'");
 
+    $ins = '';
     if (mysql_affected_rows() == 0) 
         $ins = mysql_query("INSERT INTO " . SESSIONS_TABLE . " ( `id` , `userId` , `created` , `ip` , `vars` ) VALUES( '" . $session_id . "' , '" . $userid . "' , '" . $time . "' , '" . $user_ip . "', '' )");
     
     if ($upd !== FALSE && $ins !== FALSE) {
+
         if ($remember_me == "ok") {
             setcookie($cookie_session, $session_id, $timelimit);
             setcookie($cookie_userid, $userid, $timelimit);
-        }
-        else {
+
+        } else {
             setcookie($cookie_session, $session_id);
             setcookie($cookie_userid, $userid);
         }

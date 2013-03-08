@@ -294,13 +294,13 @@ class NK_functions {
      * @param  string $labelClass  class for label
      * @return mixed
      */
-    public function nkRadioBox($typeTag, $tagContent, $numberRadio, $inputName, $inputValue, $inputFor=null, $tagClass=null, $divClass=null, $labelClass=null) {
+    public function nkRadioBox($typeTag, $tagContent, $numberRadio, $inputName, $inputValue, $tagSeparate, $inputFor=null, $tagClass=null, $divClass=null, $labelClass=null) {
         foreach($inputValue as $key => $arrayValue) {
 
                 $value[] = $arrayValue;
                 $keyValue[] = $key;
         }
-        $return = ' <'.$typeTag.' class="'.$tagClass.'">'.$tagContent.'</'.$typeTag.'>
+        $return = ' <'.$typeTag.' class="'.$tagClass.'">'.$tagContent.'</'.$typeTag.'>'.$tagSeparate.'
                         <div class="nkRadioBox '.$divClass.'">';
                             $i = 0;
                             for ($i = 0; $i < $numberRadio; $i++) {
@@ -333,6 +333,7 @@ class NK_functions {
     public function nkModsPrefs($mods) {
         $mods = strtoupper($mods);
         $constantMods = constant($mods.'_CONFIG_TABLE');
+        // debug($constantMods);
         $sql = mysql_query('SELECT name, value FROM '.$constantMods);
         while($row = mysql_fetch_array($sql)) {
             $return[$row['name']] = printSecuTags(htmlentities($row['value'], ENT_NOQUOTES));
@@ -384,6 +385,7 @@ class NK_functions {
      * @param array $array 
      */
     public function nkInitRequest($array,$index = null) {
+
         if (!isset($GLOBALS['nkInitError'])) {
             $GLOBALS['nkInitError'] = null;
         }
@@ -401,7 +403,7 @@ class NK_functions {
                     $valueQueryArray[] = $val_parts[0];
                 }
             } else {
-                $valueQueryArray = array_keys($_REQUEST);
+                $valueQueryArray = array_keys($_GET);
             }
             foreach ($valueQueryArray as $k => $v) {
                 if (!in_array($v, $valueMergeArray)) {
@@ -446,8 +448,18 @@ class NK_functions {
                         $GLOBALS['nkInitError'] .= $GLOBALS['nkTpl']->nkContentTag('div', $errorContent, 'nkAlert nkAlertError');
                     }
                 } 
-            }               
-        }        
+            } elseif ($key == 'uniqid') {
+                foreach ($value as $k) {
+                    if (!isset($_REQUEST[$k])) {
+                        $_REQUEST[$k] = null;
+                    } elseif (!preg_match("/^[a-zA-Z0-9]{20}$/", $_REQUEST[$k])) {
+                        $errorContent = '   <h3>'.ERRORARGUMENT.'&nbsp;'.$k.'</h3>
+                                            <p>'.NOTUNIQIDARGUMENT.'</p>';
+                        $GLOBALS['nkInitError'] .= $GLOBALS['nkTpl']->nkContentTag('div', $errorContent, 'nkAlert nkAlertError');
+                    }
+                }
+            }             
+        }
     }
 
     /**

@@ -7,7 +7,7 @@ include_once('Includes/nkCaptcha.php');
 
 $text = $_SESSION['captcha'];
 
-header('Content-type: image/png');
+header('Content-type: image/jpeg');
 $im = imagecreatefromjpeg('images/captcha.jpg');
 $id = imagecreatefromjpeg('images/captcha.jpg');
 $grey = imagecolorallocate($im, 0, 0, 0);
@@ -23,7 +23,7 @@ for($i=0;$i<5;$i++)
 }
 
 imagecopymerge ($im, $id, 0, 0, 0, 0, 120, 20, 40);
-imagepng($im);
+imagejpeg($im);
 imagedestroy($im);
 imagedestroy($id);
 

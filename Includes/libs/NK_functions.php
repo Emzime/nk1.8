@@ -269,8 +269,10 @@ class NK_functions {
     
         if (!is_null($check)) {
             $checked = 'checked="checked"';
+        } else {
+            $checked = '';
         }
-        $return = ' <div class="nkCheckBox">
+        $return = ' <div id="nkCheck" class="nkCheckBox">
                         <label for="'.$inputId.'" class="nkLabelSpacing '.$labelClass.'">'.$labelContent.'</label>
                         <div class="nkCheckBoxRounded">
                             <input type="checkbox" value="'.$inputValue.'" id="'.$inputId.'" class="'.$inputClass.'" name="'.$inputName.'" '.$checked.' />

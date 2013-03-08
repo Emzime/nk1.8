@@ -3,7 +3,7 @@
     <head>
         <title><?php echo $nuked['name']; ?>&nbsp;-&nbsp;<?php echo $nuked['slogan']; ?></title>
         <meta charset="utf-8" />
-        <link title="style" type="text/css" rel="stylesheet" href="css/nkCss.css" />
+        <link title="style" type="text/css" rel="stylesheet" href="media/css/nkCss.css" />
     </head>
     <body id="nkSiteClose">
         <section>
@@ -24,7 +24,7 @@
                     <div>
                         <label for="password"><?php echo PASSWORD; ?></label>
                             <input type="password" id="password" name="pass" size="15" maxlength="15" />                        
-                            <input type="hidden" class="checkbox" name="remember_me" value="ok" checked="checked" />
+                            <input type="hidden" class="checkbox" name="rememberMe" value="ok" checked="checked" />
                     </div>
                             <input type="submit" value="<?php echo TOLOG; ?>" />      
                 </form>         

@@ -107,7 +107,7 @@ if (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'ajax') {
 
             $opts = array(
                 'http' => array(
-                    'method' => "POST",
+                    'method'  => "POST",
                     'content' => 'data='.$string
                 )
             );
@@ -133,7 +133,6 @@ if (isset($_REQUEST['nuked_nude']) && !empty($_REQUEST['nuked_nude'])) {
 } else {
     $_REQUEST['im_file'] = 'index';
 }
-
 
 /*if (preg_match('`\.\.`', $theme) || 
     preg_match('`\.\.`', $language) || 
@@ -183,12 +182,15 @@ if (!empty($activeCssBlock)) {
                 // Inclusion du Css personalisé du module depuis le theme            
                 if (is_file(ROOT_PATH .'themes/'.$theme.'/css/modules/'.$keyActivedBlock['module'].'.css')) {
                     $loadCss .= '<link type="text/css" rel="stylesheet" href="themes/'.$theme.'/css/modules/'.$keyActivedBlock['module'].'.css" media="screen" />';
-                }    
+                } else {
+                    $loadCss .= '<link type="text/css" rel="stylesheet" href="media/template/'.$theme.'/css/modules/'.$keyActivedBlock['module'].'.css" media="screen" />';
+                }  
                 $arrayCss[$keyActivedBlock['module']] = $keyActivedBlock['type']; 
             }
         }
     } 
 }
+
 
 // Inlusion des fichiers lang du module visualisé
 if (is_file(ROOT_PATH .'modules/'.$_REQUEST['file'].'/lang/'.$language.'.lang.php')) {
@@ -198,15 +200,30 @@ if (is_file(ROOT_PATH .'modules/'.$_REQUEST['file'].'/lang/'.$language.'.lang.ph
 }
 // Inclusion des fichiers lang pour le theme defini par l'admin
 if (is_file(ROOT_PATH .'themes/'.$theme.'/lang/'.$language.'.lang.php')) {
+
     include_once ROOT_PATH .'themes/'.$theme.'/lang/'.$language.'.lang.php';
+
+// si le theme n'existe pas on inclu le template par defaut
+} elseif (is_file(ROOT_PATH .'media/template/'.$theme.'/lang/'.$language.'.lang.php')) {
+
+    include_once ROOT_PATH .'media/template/'.$theme.'/lang/'.$language.'.lang.php';
+// sinon on met une erreur
 } else {
     $loadLangThemeFileError = $GLOBALS['nkTpl']->nkDisplayError($errorLangMessage.'&nbsp;'.$errorThemeLangMessage.'&nbsp;'.$theme, 'nkAlert nkAlertError');
 }
 // Regroupement des mesaage d'erreur de langue
 $loadLangFileError = $loadLangGlobalFileError.$loadLangModuleFileError.$loadLangThemeFileError;
+
+
 // Inclusion du Css personalisé pour le module actif
 if (is_file(ROOT_PATH .'themes/'.$theme.'/css/modules/'.$_REQUEST['file'].'.css') && !array_key_exists($_REQUEST['file'], $arrayCss)) {
+
     $loadCss .= '<link type="text/css" rel="stylesheet" href="themes/'.$theme.'/css/modules/'.$_REQUEST['file'].'.css" media="screen" />';
+
+} elseif (is_file(ROOT_PATH .'media/template/'.$theme.'/css/modules/'.$_REQUEST['file'].'.css') && !array_key_exists($_REQUEST['file'], $arrayCss)) {
+    $loadCss .= '<link type="text/css" rel="stylesheet" href="media/template/'.$theme.'/css/modules/'.$theme.'.css" media="screen" />';
+} else {
+    $loadCss ='';
 }
 
 
@@ -241,9 +258,23 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
             include_once ROOT_PATH .'modules/404/index.php'; 
         }
     } else {
-        // on inclu le theme
+        // on inclu le theme     
         if ($loadLangThemeFileError == '') {
-            include_once ROOT_PATH .'themes/'.$theme.'/theme.php';
+            if (isset($_COOKIE[$GLOBALS['cookieTheme']])) {
+                $theme = $_COOKIE[$GLOBALS['cookieTheme']];
+            } else {
+                $theme = $theme;
+            }
+            // récupération du theme utilisateur et vérification de l'existance de celui-ci
+            if (is_file(ROOT_PATH .'themes/'.$theme.'/theme.php')) { 
+                // affichage du theme utilisateur si existant sinon affichage du theme admin si existant               
+                include_once ROOT_PATH .'themes/'.$theme.'/theme.php';
+
+            // sinon affichage du template par defaut
+            } else {
+                include_once ROOT_PATH .'/media/template/'.$theme.'/theme.php';
+            }
+
         }
          // on inclu les stats de visite si elles sont actives
         if ($nuked['level_analys'] != -1) {
@@ -308,6 +339,7 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
             </script>
         <?php
         }
+        
         if ($loadLangThemeFileError == '') {
             footer();
             //@todo reactive and test it when head inclusion is done
@@ -315,9 +347,23 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
         }
     }
 } else {
+    // récupération du theme utilisateur et vérification de l'existance de celui-ci
+    if ($GLOBALS['cookieTheme'] && is_file(ROOT_PATH .'themes/'.$_COOKIE[$GLOBALS['cookieTheme']].'/theme.php')) {
+        // définition du theme utilisateur si existant
+        $theme = $_COOKIE[$GLOBALS['cookieTheme']];
+    } else {
+        // sinon définition du theme défini par l'admin
+        $theme = $theme;
+    }
+    // vérification que le theme défini par l'admin existe
+    if (is_file(ROOT_PATH .'themes/'.$theme.'/theme.php')) { 
+        // affichage du theme utilisateur si existant sinon affichage du theme admin si existant               
+        include_once ROOT_PATH .'themes/'.$theme.'/theme.php';                
+    } else {
+        // sinon affichage du template par defaut
+        include_once ROOT_PATH .'/media/template/'.$theme.'/theme.php';
+    }
 
-    // on inclu le theme
-    include_once ROOT_PATH .'themes/'.$theme.'/theme.php';
     // on inclu le header
     include_once ROOT_PATH .'Includes/header.php';
     // fonction top du theme

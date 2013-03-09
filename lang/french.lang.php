@@ -110,7 +110,6 @@ define('UPDATENOTE', 'Note mis à jour avec succès.');
 /**** LOGIN ****/
 define('LISTING','Liste');
 define('WHOISONLINE','Qui est en ligne ?');
-define('VISITOR','Visiteur');
 define('MEMBER','Membre');
 define('ADMIN','Administrateur');
 define('ACCOUNT','Compte');
@@ -125,7 +124,6 @@ define('REMEMBERME','Se Rappeler de moi');
 define('REGISTER','Inscription');
 define('FORGETPASS','Mot de passe oublié');
 define('PASSFORGET','Passe oublié');
-
 define('YES', 'Oui');
 define('NO', 'Non');
 define('ON', 'on');
@@ -139,27 +137,23 @@ define('EDIT', 'Editer');
 define('DEL', 'Supprimer');
 define('NONE', 'Aucun enregistrement');
 define('NONECAT', 'Aucune catégorie');
-
 define('CANTOPENPAGE','Vous ne pouvez pas ouvrir cette page directement');
 define('CANTOPENBLOCK','Le block est introuvable');
-
 define('BY','Par');
 define('TFOR', 'Pour');
 define('THE','le');
 define('AT','à');
 define('AUTHOR','Auteur');
-
 define('TOVOTE','Voter');
 define('RESULT','Résultat');
 define('OTHERPOLL','Autres sondages');
-
 define('BTHEMESELECT', 'Choix du thème');
 define('ERROROPENRSS', 'Echec lors de l\'ouverture du fichier');
-
 define('MEMBERREG','enregistré le');
 define('ADDED','ajouté le');
 define('VISITNK', 'Visiter le site de Nuked-Klan');
 define('ADMINISTRATION', 'Administration');
+define('VISITOR','Visiteur');
 
 /*******News***********/
 define('UNKNOWAUTHOR', 'Auteur inconnu');
@@ -175,7 +169,6 @@ define('BLACKLISTARGUMENT', 'La valeur de cet argument a été mis sur liste noi
 define('NOTUNIQIDARGUMENT', 'La valeur de cet argument doit contenir 20 caractères alphanumérique !');
 
 /* USER */
-
 define('POSTEDTHE','Posté le');
 define('COUNTRY','Pays');
 define('GAME','Jeu');
@@ -188,8 +181,11 @@ define("WOMEN","Femme");
 define("BIRTHDAY","Date de naissance");
 define("CITY","Ville");
 define("SIGNING","Signature");
-
 define('LOSTPASS','Perdu votre Password ?');
+define('CHOOSE','Choisir');
+define('TIMES','fois');
+define('COMMENTED','commentaire');
+define('SUGGESTED','suggestion');
 
 
 ?>

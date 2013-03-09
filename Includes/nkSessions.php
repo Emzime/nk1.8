@@ -156,30 +156,30 @@ function nkSessionInit() {
     $time         = time();
     $timelimit    = $time + $lifetime;
     $sessionlimit = $time + $timesession;
-    $user_theme   = '';
-    $user_langue  = '';
+    $userTheme    = '';
+    $userLangue   = '';
 
     // Recherche de l'adresse IP
     $uip = (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
     
     // Prepare session cookie name
-    $cookie_session = $GLOBALS['nuked']['cookiename'] . '_sess_id';
-    $cookie_theme   = $GLOBALS['nuked']['cookiename'] . '_user_theme';
-    $cookie_langue  = $GLOBALS['nuked']['cookiename'] . '_user_langue';
-    $cookie_visit   = $GLOBALS['nuked']['cookiename'] . '_last_visit';
-    $cookie_admin   = $GLOBALS['nuked']['cookiename'] . '_admin_session';
-    $cookie_forum   = $GLOBALS['nuked']['cookiename'] . '_forum_read';
-    $cookie_userid  = $GLOBALS['nuked']['cookiename'] . '_userid';
-    $cookie_captcha = $GLOBALS['nuked']['cookiename'] . '_captcha';
+    $cookieSession = $GLOBALS['nuked']['cookiename'] . '_sessId';
+    $cookieTheme   = $GLOBALS['nuked']['cookiename'] . '_userTheme';
+    $cookieLangue  = $GLOBALS['nuked']['cookiename'] . '_userLangue';
+    $cookie_visit  = $GLOBALS['nuked']['cookiename'] . '_lastVisit';
+    $cookie_admin  = $GLOBALS['nuked']['cookiename'] . '_adminSession';
+    $cookieForum   = $GLOBALS['nuked']['cookiename'] . '_forumRead';
+    $cookieUserId  = $GLOBALS['nuked']['cookiename'] . '_userId';
+    $cookieCaptcha = $GLOBALS['nuked']['cookiename'] . '_captcha';
     
     // Get theme cookie of user if exists
-    if  (isset($_COOKIE[$cookie_theme]) && $_COOKIE[$cookie_theme] != '') {
-        $user_theme = $_COOKIE[$cookie_theme];
+    if  (isset($_COOKIE[$cookieTheme]) && $_COOKIE[$cookieTheme] != '') {
+        $user_theme = $_COOKIE[$cookieTheme];
     }
 
     // Get language cookie of user if exists
-    if (isset( $_COOKIE[$cookie_langue] ) && $_COOKIE[$cookie_langue] != '') {
-        $user_langue = $_COOKIE[$cookie_langue];
+    if (isset( $_COOKIE[$cookieLangue] ) && $_COOKIE[$cookieLangue] != '') {
+        $user_langue = $_COOKIE[$cookieLangue];
     }
 
     // Check IP address user validity and get user IP
@@ -190,22 +190,22 @@ function nkSessionInit() {
     }
     
     // Prepares global vars of session
-    $GLOBALS['lifetime']       = $lifetime;
-    $GLOBALS['timesession']    = $timesession;
-    $GLOBALS['timelimit']      = $timelimit;
-    $GLOBALS['sessionlimit']   = $sessionlimit ;
-    $GLOBALS['cookie_session'] = $cookie_session;
-    $GLOBALS['cookie_theme']   = $cookie_theme;
-    $GLOBALS['cookie_langue']  = $cookie_langue;
-    $GLOBALS['cookie_visit']   = $cookie_visit ;
-    $GLOBALS['cookie_admin']   = $cookie_admin;
-    $GLOBALS['cookie_forum']   = $cookie_forum ;
-    $GLOBALS['cookie_userid']  = $cookie_userid;
-    $GLOBALS['cookie_captcha'] = $cookie_captcha;
-    $GLOBALS['time']           = $time;
-    $GLOBALS['user_ip']        = $user_ip;
-    $GLOBALS['user_theme']     = $user_theme;
-    $GLOBALS['user_langue']    = $user_langue;
+    $GLOBALS['lifetime']      = $lifetime;
+    $GLOBALS['timesession']   = $timesession;
+    $GLOBALS['timelimit']     = $timelimit;
+    $GLOBALS['sessionlimit']  = $sessionlimit ;
+    $GLOBALS['cookieSession'] = $cookieSession;
+    $GLOBALS['cookieTheme']   = $cookieTheme;
+    $GLOBALS['cookieLangue']  = $cookieLangue;
+    $GLOBALS['cookieVisit']   = $cookie_visit ;
+    $GLOBALS['cookieAdmin']   = $cookie_admin;
+    $GLOBALS['cookieForum']   = $cookieForum ;
+    $GLOBALS['cookieUserId']  = $cookieUserId;
+    $GLOBALS['cookieCaptcha'] = $cookieCaptcha;
+    $GLOBALS['time']          = $time;
+    $GLOBALS['user_ip']       = $user_ip;
+    $GLOBALS['userTheme']     = $userTheme;
+    $GLOBALS['userLangue']    = $userLangue;
 }
 
 
@@ -227,17 +227,17 @@ function nkSessionInit() {
 //    $timelimit = $time + $lifetime;
 //    $sessionlimit = $time + $timesession;
 //    
-//    $cookie_session = $nuked['cookiename'] . '_sess_id';
-//    $cookie_theme = $nuked['cookiename'] . '_user_theme';
-//    $cookie_langue = $nuked['cookiename'] . '_user_langue';
+//    $cookieSession = $nuked['cookiename'] . '_sess_id';
+//    $cookieTheme = $nuked['cookiename'] . '_user_theme';
+//    $cookieLangue = $nuked['cookiename'] . '_user_langue';
 //    $cookie_visit = $nuked['cookiename'] . '_last_visit';
 //    $cookie_admin = $nuked['cookiename'] . '_admin_session';
-//    $cookie_forum = $nuked['cookiename'] . '_forum_read';
-//    $cookie_userid = $nuked['cookiename'] . '_userid';
+//    $cookieForum = $nuked['cookiename'] . '_forum_read';
+//    $cookieUserId = $nuked['cookiename'] . '_userid';
 //
 //    // Création d'un cookie captcha
-//    $cookie_captcha = $nuked['cookiename'] . '_captcha';
-//    setcookie($cookie_captcha, 1);
+//    $cookieCaptcha = $nuked['cookiename'] . '_captcha';
+//    setcookie($cookieCaptcha, 1);
 //
 //    // Recherche de l'adresse IP
 //    $uip = (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
@@ -257,7 +257,7 @@ function nkSessionInit() {
  * @return array : Numeric indexed array of user data
  */
 function secure(){
-    global $nuked, $user_ip, $time, $cookie_visit, $cookie_session, $cookie_userid, $cookie_forum, $sessionlimit, $timesession, $timelimit;
+    global $nuked, $user_ip, $time, $cookieVisit, $cookieSession, $cookieUserId, $cookieForum, $sessionlimit, $timesession, $timelimit;
 
     $id_user = '';
     $user_type = 0;
@@ -266,10 +266,10 @@ function secure(){
     $nb_mess = 0;
     $id_de_session = '';
 
-    if (isset($_COOKIE[$cookie_session]) && !empty($_COOKIE[$cookie_session]))
-        $id_de_session = $_COOKIE[$cookie_session];
-    if (isset($_COOKIE[$cookie_userid]) && !empty($_COOKIE[$cookie_userid]))
-        $id_user = $_COOKIE[$cookie_userid];
+    if (isset($_COOKIE[$cookieSession]) && !empty($_COOKIE[$cookieSession]))
+        $id_de_session = $_COOKIE[$cookieSession];
+    if (isset($_COOKIE[$cookieUserId]) && !empty($_COOKIE[$cookieUserId]))
+        $id_user = $_COOKIE[$cookieUserId];
 
     if ($id_de_session != null && $id_user != null) {
         $sql = mysql_query("SELECT created, ip, lastUsed FROM " . SESSIONS_TABLE . " WHERE id = '" . $id_de_session . "' AND userId = '" . $id_user . "'");
@@ -292,13 +292,13 @@ function secure(){
                 list($max_mess_id) = mysql_fetch_array($sql_thread);
 
                 if ($max_mess_id > 0) {
-                    if (isset($_REQUEST[$cookie_forum]) && !empty($_REQUEST[$cookie_forum])){
-                        $id_read_forum = $_REQUEST[$cookie_forum];
+                    if (isset($_REQUEST[$cookieForum]) && !empty($_REQUEST[$cookieForum])){
+                        $id_read_forum = $_REQUEST[$cookieForum];
                         if (preg_match("`[^0-9,]`i", $id_read_forum)) $id_read_forum = '';
                         $table_read_forum = explode(',',$id_read_forum);
-                        if (!in_array($max_mess_id, $table_read_forum)) setcookie($cookie_forum, $id_read_forum.",".$max_mess_id, $timelimit);
+                        if (!in_array($max_mess_id, $table_read_forum)) setcookie($cookieForum, $id_read_forum.",".$max_mess_id, $timelimit);
                     }
-                    else setcookie($cookie_forum, $max_mess_id, $timelimit);
+                    else setcookie($cookieForum, $max_mess_id, $timelimit);
                 }
             }
         }
@@ -331,9 +331,9 @@ function admin_check() {
 
 
 function session_check() {
-    global $nuked, $user_ip, $cookie_session, $time, $timesession;
+    global $nuked, $user_ip, $cookieSession, $time, $timesession;
 
-    if (isset($_COOKIE[$cookie_session]) && !empty($_COOKIE[$cookie_session])) {
+    if (isset($_COOKIE[$cookieSession]) && !empty($_COOKIE[$cookieSession])) {
         $session = 1;
     }
     else {
@@ -351,18 +351,18 @@ function make_seed() {
 }
 
 function init_cookie() {
-    global $cookie_session, $cookie_userid, $cookie_theme, $cookie_langue, $cookie_forum, $cookie_captcha;
-    $test = setcookie($cookie_session, '');
-    setcookie($cookie_userid, '');
-    setcookie($cookie_theme, '');
-    setcookie($cookie_langue, '');
-    setcookie($cookie_forum, '');
-    setcookie($cookie_captcha, 1);
+    global $cookieSession, $cookieUserId, $cookieTheme, $cookieLangue, $cookieForum, $cookieCaptcha;
+    $test = setcookie($cookieSession, '');
+    setcookie($cookieUserId, '');
+    setcookie($cookieTheme, '');
+    setcookie($cookieLangue, '');
+    setcookie($cookieForum, '');
+    setcookie($cookieCaptcha, 1);
     return($test);
 }
 
-function session_new($userid, $remember_me) {
-    global $nuked, $cookie_session, $cookie_userid, $cookie_theme, $cookie_langue, $cookie_forum, $user_ip, $timelimit, $sessionlimit, $time;
+function session_new($userid, $rememberMe) {
+    global $nuked, $cookieSession, $cookieUserId, $cookieTheme, $cookieLangue, $cookieForum, $user_ip, $timelimit, $sessionlimit, $time;
 
 
     //On prend un ID de session unique
@@ -381,13 +381,13 @@ function session_new($userid, $remember_me) {
     
     if ($upd !== FALSE && $ins !== FALSE) {
 
-        if ($remember_me == "ok") {
-            setcookie($cookie_session, $session_id, $timelimit);
-            setcookie($cookie_userid, $userid, $timelimit);
+        if ($rememberMe == "ok") {
+            setcookie($cookieSession, $session_id, $timelimit);
+            setcookie($cookieUserId, $userid, $timelimit);
 
         } else {
-            setcookie($cookie_session, $session_id);
-            setcookie($cookie_userid, $userid);
+            setcookie($cookieSession, $session_id);
+            setcookie($cookieUserId, $userid);
         }
     }
     else {

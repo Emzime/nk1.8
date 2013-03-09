@@ -875,6 +875,7 @@ if (!isset($GLOBALS['nkInitError'])) {
         }
 
 
+
         switch ($_REQUEST['op']) {
 
             case "doDownload":

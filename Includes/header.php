@@ -32,13 +32,13 @@
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
         <script type="text/javascript" src="media/js/nkPopupBox.js"></script>
         <script type="text/javascript" src="media/js/nkTotop.js"></script>
-        <script type="text/javascript" src="media/js/menuUser.js"></script>
         
         <script type="text/javascript" src="media/js/nkTooltipPlugin.js"></script>
         <script type="text/javascript" src="media/js/nkTooltipConfig.js"></script>
 
         <!-- A VOIR POUR L INTEGRATION AUTOMATIQUE -->
         <script type="text/javascript" src="media/template/<?php echo $theme; ?>/js/menu.js"></script>
+        <script type="text/javascript" src="media/template/<?php echo $theme; ?>/js/menuUser.js"></script>
         <script type="text/javascript" src="media/template/<?php echo $theme; ?>/js/sliderConfig.js"></script>
         <script type="text/javascript" src="media/template/<?php echo $theme; ?>/js/slider.js"></script>
         

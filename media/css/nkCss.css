@@ -1142,7 +1142,6 @@ option {
     -webkit-box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);        
     box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);
     border: 1px solid;
-    margin-bottom: 5px;
     color: #000;
     font-size: 14px;
     padding: 15px;
@@ -1237,7 +1236,7 @@ option {
 #menuProfil li {
     border-bottom: 1px solid #222;
     color: #808080;
-    font-size: 12px;
+    font-size: 11px;
     height: 25px;
     line-height: 25px;
     padding-left: 5px;
@@ -1269,6 +1268,7 @@ option {
 }
 #contentProfilRight span:first-child {
     color: #446DD7;
+    margin-bottom: 15px;
 }
 
 #contentProfilRight span:last-child {
@@ -1276,7 +1276,7 @@ option {
 }
 #contentProfil {
     border: 1px solid #222;
-    margin-top: 5px;
+    margin-top: 20px;
     min-height: 185px;
     border-radius: 4px;
     padding: 5px;

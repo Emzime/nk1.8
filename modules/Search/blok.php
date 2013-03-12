@@ -18,7 +18,7 @@ $arrayanswer = array(
     'matchexact' => MATCHEXACT,
     'matchor' => MATCHOR
 );                        
-$keyword = $GLOBALS['nkFunctions']->nkRadioBox('label', TYPEOFSEARCH.'&nbsp;:&nbsp;', '3', 'searchtype', $arrayanswer, 'searchtype', 'nkLabelSpacing nkValignTop nkInlineBlock', null, 'nkBlock');
+$keyword = $GLOBALS['nkFunctions']->nkRadioBox('label', TYPEOFSEARCH.'&nbsp;:&nbsp;', '3', 'searchtype', $arrayanswer, '', 'searchtype', 'nkLabelSpacing nkValignTop nkInlineBlock', null, 'nkBlock');
 
 // Nombre de reponse a retrouner
 $arrayanswers = array(
@@ -26,7 +26,7 @@ $arrayanswers = array(
     '50' => 50,
     '100' => 100
 );                      
-$numberOfResponse =  $GLOBALS['nkFunctions']->nkRadioBox( 'label',NBANSWERS.'&nbsp;:&nbsp;', '3', 'limit', $arrayanswers, 'answers', 'nkLabelSpacing nkMarginLRAuto');
+$numberOfResponse =  $GLOBALS['nkFunctions']->nkRadioBox( 'label',NBANSWERS.'&nbsp;:&nbsp;', '3', 'limit', $arrayanswers, '','answers', 'nkLabelSpacing nkMarginLRAuto');
 
 $blackList = array(
     'Stats', 

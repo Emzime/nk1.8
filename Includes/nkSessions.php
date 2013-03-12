@@ -23,7 +23,7 @@ defined('INDEX_CHECK') or die;
  * @param string $sessionName
  * @return boolean : true session opened 
  */
-function session_open($savePath, $sessionName){
+function session_open($savePath, $sessionName) {
     return true;
 }
 
@@ -76,7 +76,7 @@ function session_write($sessionId, $data) {
  * @param string $id : session id
  * @return mixed : resource if session deleted, else false 
  */
-function session_delete($sessionId){
+function session_delete($sessionId) {
     nkTryConnect();
     
     $rs = nkDB_delete( TMPSES_TABLE, 'session_id = ' . nkDB_escape($sessionId));
@@ -109,12 +109,13 @@ function nkConfigureSessions() {
      */
     if (ini_get('session.save_handler') == 'files') {
         session_set_save_handler(
-                'session_open',
-                'session_close',
-                'session_read',
-                'session_write',
-                'session_delete',
-                'session_gc');
+            'session_open',
+            'session_close',
+            'session_read',
+            'session_write',
+            'session_delete',
+            'session_gc'
+        );
     }
     
     /**
@@ -166,27 +167,27 @@ function nkSessionInit() {
     $cookieSession = $GLOBALS['nuked']['cookiename'] . '_sessId';
     $cookieTheme   = $GLOBALS['nuked']['cookiename'] . '_userTheme';
     $cookieLangue  = $GLOBALS['nuked']['cookiename'] . '_userLangue';
-    $cookie_visit  = $GLOBALS['nuked']['cookiename'] . '_lastVisit';
-    $cookie_admin  = $GLOBALS['nuked']['cookiename'] . '_adminSession';
+    $cookieVisit   = $GLOBALS['nuked']['cookiename'] . '_lastVisit';
+    $cookieAdmin   = $GLOBALS['nuked']['cookiename'] . '_adminSession';
     $cookieForum   = $GLOBALS['nuked']['cookiename'] . '_forumRead';
     $cookieUserId  = $GLOBALS['nuked']['cookiename'] . '_userId';
     $cookieCaptcha = $GLOBALS['nuked']['cookiename'] . '_captcha';
     
     // Get theme cookie of user if exists
     if  (isset($_COOKIE[$cookieTheme]) && $_COOKIE[$cookieTheme] != '') {
-        $user_theme = $_COOKIE[$cookieTheme];
+        $userTheme = $_COOKIE[$cookieTheme];
     }
 
     // Get language cookie of user if exists
     if (isset( $_COOKIE[$cookieLangue] ) && $_COOKIE[$cookieLangue] != '') {
-        $user_langue = $_COOKIE[$cookieLangue];
+        $userLangue = $_COOKIE[$cookieLangue];
     }
 
     // Check IP address user validity and get user IP
     if (isset($uip) && filter_var($uip, FILTER_VALIDATE_IP) !== FALSE) {
-        $user_ip = $uip;
+        $userIp = $uip;
     } else {
-        $user_ip = '';
+        $userIp = '';
     }
     
     // Prepares global vars of session
@@ -197,13 +198,13 @@ function nkSessionInit() {
     $GLOBALS['cookieSession'] = $cookieSession;
     $GLOBALS['cookieTheme']   = $cookieTheme;
     $GLOBALS['cookieLangue']  = $cookieLangue;
-    $GLOBALS['cookieVisit']   = $cookie_visit ;
-    $GLOBALS['cookieAdmin']   = $cookie_admin;
+    $GLOBALS['cookieVisit']   = $cookieVisit ;
+    $GLOBALS['cookieAdmin']   = $cookieAdmin;
     $GLOBALS['cookieForum']   = $cookieForum ;
     $GLOBALS['cookieUserId']  = $cookieUserId;
     $GLOBALS['cookieCaptcha'] = $cookieCaptcha;
     $GLOBALS['time']          = $time;
-    $GLOBALS['user_ip']       = $user_ip;
+    $GLOBALS['userIp']        = $userIp;
     $GLOBALS['userTheme']     = $userTheme;
     $GLOBALS['userLangue']    = $userLangue;
 }
@@ -228,10 +229,10 @@ function nkSessionInit() {
 //    $sessionlimit = $time + $timesession;
 //    
 //    $cookieSession = $nuked['cookiename'] . '_sess_id';
-//    $cookieTheme = $nuked['cookiename'] . '_user_theme';
-//    $cookieLangue = $nuked['cookiename'] . '_user_langue';
-//    $cookie_visit = $nuked['cookiename'] . '_last_visit';
-//    $cookie_admin = $nuked['cookiename'] . '_admin_session';
+//    $cookieTheme = $nuked['cookiename'] . '_userTheme';
+//    $cookieLangue = $nuked['cookiename'] . '_userLangue';
+//    $cookieVisit = $nuked['cookiename'] . '_last_visit';
+//    $cookieAdmin = $nuked['cookiename'] . '_admin_session';
 //    $cookieForum = $nuked['cookiename'] . '_forum_read';
 //    $cookieUserId = $nuked['cookiename'] . '_userid';
 //
@@ -244,9 +245,9 @@ function nkSessionInit() {
 //    
 //    // Validité adresse IP v4 / v6
 //    //if(isset($uip) && !empty($uip)) {
-//    //    if(preg_match('/^(([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]).){3}([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/', $uip)) $user_ip = $uip;
-//    //    elseif(preg_match('/^(([A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4})$|^([A-Fa-f0-9]{1,4}::([A-Fa-f0-9]{1,4}:){0,5}[A-Fa-f0-9]{1,4})$|^(([A-Fa-f0-9]{1,4}:){2}:([A-Fa-f0-9]{1,4}:){0,4}[A-Fa-f0-9]{1,4})$|^(([A-Fa-f0-9]{1,4}:){3}:([A-Fa-f0-9]{1,4}:){0,3}[A-Fa-f0-9]{1,4})$|^(([A-Fa-f0-9]{1,4}:){4}:([A-Fa-f0-9]{1,4}:){0,2}[A-Fa-f0-9]{1,4})$|^(([A-Fa-f0-9]{1,4}:){5}:([A-Fa-f0-9]{1,4}:){0,1}[A-Fa-f0-9]{1,4})$|^(([A-Fa-f0-9]{1,4}:){6}:[A-Fa-f0-9]{1,4})$/', $uip)) $user_ip = $uip;
-//    //    else $user_ip = '';
+//    //    if(preg_match('/^(([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]).){3}([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/', $uip)) $userIp = $uip;
+//    //    elseif(preg_match('/^(([A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4})$|^([A-Fa-f0-9]{1,4}::([A-Fa-f0-9]{1,4}:){0,5}[A-Fa-f0-9]{1,4})$|^(([A-Fa-f0-9]{1,4}:){2}:([A-Fa-f0-9]{1,4}:){0,4}[A-Fa-f0-9]{1,4})$|^(([A-Fa-f0-9]{1,4}:){3}:([A-Fa-f0-9]{1,4}:){0,3}[A-Fa-f0-9]{1,4})$|^(([A-Fa-f0-9]{1,4}:){4}:([A-Fa-f0-9]{1,4}:){0,2}[A-Fa-f0-9]{1,4})$|^(([A-Fa-f0-9]{1,4}:){5}:([A-Fa-f0-9]{1,4}:){0,1}[A-Fa-f0-9]{1,4})$|^(([A-Fa-f0-9]{1,4}:){6}:[A-Fa-f0-9]{1,4})$/', $uip)) $userIp = $uip;
+//    //    else $userIp = '';
 //    //}
 
 
@@ -257,7 +258,7 @@ function nkSessionInit() {
  * @return array : Numeric indexed array of user data
  */
 function secure(){
-    global $nuked, $user_ip, $time, $cookieVisit, $cookieSession, $cookieUserId, $cookieForum, $sessionlimit, $timesession, $timelimit;
+    global $nuked, $userIp, $time, $cookieVisit, $cookieSession, $cookieUserId, $cookieForum, $sessionlimit, $timesession, $timelimit;
 
     $id_user = '';
     $user_type = 0;
@@ -266,39 +267,47 @@ function secure(){
     $nb_mess = 0;
     $id_de_session = '';
 
-    if (isset($_COOKIE[$cookieSession]) && !empty($_COOKIE[$cookieSession]))
+    if (isset($_COOKIE[$cookieSession]) && !empty($_COOKIE[$cookieSession])) {
         $id_de_session = $_COOKIE[$cookieSession];
-    if (isset($_COOKIE[$cookieUserId]) && !empty($_COOKIE[$cookieUserId]))
+    }
+    if (isset($_COOKIE[$cookieUserId]) && !empty($_COOKIE[$cookieUserId])) {
         $id_user = $_COOKIE[$cookieUserId];
+    }
 
     if ($id_de_session != null && $id_user != null) {
         $sql = mysql_query("SELECT created, ip, lastUsed FROM " . SESSIONS_TABLE . " WHERE id = '" . $id_de_session . "' AND userId = '" . $id_user . "'");
         $secu_user = mysql_num_rows($sql);
         $row = mysql_fetch_assoc($sql);
-        if ($row['created'] > $time - $timesession && $row['ip'] != $user_ip)
+        if ($row['created'] > $time - $timesession && $row['ip'] != $userIp) {
             $secu_user = 0;
+        }
         if ($secu_user  == 1) {
-            $last_used = $row['lastUsed'];
-            $sql2 = mysql_query("SELECT level, pseudo FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
-            list($user_type, $user_name) = mysql_fetch_array($sql2);
+            $lastUsed = $row['lastUsed'];
+            $sql2 = mysql_query("SELECT level, pseudo, userTheme FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
+            list($user_type, $user_name, $userTheme) = mysql_fetch_array($sql2);
             
-            $last_visite = $last_used;
+            $last_visite = $lastUsed;
             
             $upd = mysql_query("UPDATE " . SESSIONS_TABLE . "  lastUsed = '" . $time . "' WHERE id = '" . $id_de_session . "'");
 
-            if (isset($_REQUEST['file']) && isset($_REQUEST['thread_id']) && $_REQUEST['file'] == 'Forum' && is_numeric($_REQUEST['thread_id']) && $_REQUEST['thread_id'] > 0 && $secu_user > 0) {
-                $select_thread = "SELECT MAX(id) FROM " . FORUM_MESSAGES_TABLE . " WHERE created > '" . $last_used . "' AND threadId = '" . $_REQUEST['thread_id'] . "' ";
+            if (isset($_REQUEST['file']) && isset($_REQUEST['threadId']) && $_REQUEST['file'] == 'Forum' && is_numeric($_REQUEST['threadId']) && $_REQUEST['threadId'] > 0 && $secu_user > 0) {
+                $select_thread = "SELECT MAX(id) FROM " . FORUM_MESSAGES_TABLE . " WHERE created > '" . $lastUsed . "' AND threadId = '" . $_REQUEST['threadId'] . "' ";
                 $sql_thread = mysql_query($select_thread);
                 list($max_mess_id) = mysql_fetch_array($sql_thread);
 
                 if ($max_mess_id > 0) {
                     if (isset($_REQUEST[$cookieForum]) && !empty($_REQUEST[$cookieForum])){
                         $id_read_forum = $_REQUEST[$cookieForum];
-                        if (preg_match("`[^0-9,]`i", $id_read_forum)) $id_read_forum = '';
+                        if (preg_match("`[^0-9,]`i", $id_read_forum)) {
+                            $id_read_forum = '';
+                        }
                         $table_read_forum = explode(',',$id_read_forum);
-                        if (!in_array($max_mess_id, $table_read_forum)) setcookie($cookieForum, $id_read_forum.",".$max_mess_id, $timelimit);
+                        if (!in_array($max_mess_id, $table_read_forum)) {
+                            setcookie($cookieForum, $id_read_forum.",".$max_mess_id, $timelimit);
+                        }
+                    } else {
+                        setcookie($cookieForum, $max_mess_id, $timelimit);
                     }
-                    else setcookie($cookieForum, $max_mess_id, $timelimit);
                 }
             }
         }
@@ -317,7 +326,7 @@ function secure(){
     if ($secu_user == 1) {
         $sql_mess = mysql_query("SELECT id FROM " . USERBOX_TABLE . " WHERE userFor = '" . $id_user . "' AND status = 0");
         $nb_mess = mysql_num_rows($sql_mess);
-        $user = array($id_user, $user_type, mysql_real_escape_string($user_name), $user_ip, $last_visite, $nb_mess);
+        $user = array($id_user, $user_type, mysql_real_escape_string($user_name), $userIp, $last_visite, $nb_mess, $userTheme);
     }
     else {
         $user = array();
@@ -331,7 +340,7 @@ function admin_check() {
 
 
 function session_check() {
-    global $nuked, $user_ip, $cookieSession, $time, $timesession;
+    global $nuked, $userIp, $cookieSession, $time, $timesession;
 
     if (isset($_COOKIE[$cookieSession]) && !empty($_COOKIE[$cookieSession])) {
         $session = 1;
@@ -362,7 +371,7 @@ function init_cookie() {
 }
 
 function session_new($userid, $rememberMe) {
-    global $nuked, $cookieSession, $cookieUserId, $cookieTheme, $cookieLangue, $cookieForum, $user_ip, $timelimit, $sessionlimit, $time;
+    global $nuked, $cookieSession, $cookieUserId, $cookieTheme, $cookieLangue, $cookieForum, $userIp, $timelimit, $sessionlimit, $time;
 
 
     //On prend un ID de session unique
@@ -373,11 +382,11 @@ function session_new($userid, $rememberMe) {
 
     $test = init_cookie();
 
-    $upd = mysql_query("UPDATE " . SESSIONS_TABLE . " SET `id` = '" . $session_id . "', lastUsed = created, `created` =  '" . $time . "', `ip` = '" . $user_ip . "' WHERE userId = '" . $userid . "'");
+    $upd = mysql_query("UPDATE " . SESSIONS_TABLE . " SET `id` = '" . $session_id . "', lastUsed = created, `created` =  '" . $time . "', `ip` = '" . $userIp . "' WHERE userId = '" . $userid . "'");
 
     $ins = '';
     if (mysql_affected_rows() == 0) 
-        $ins = mysql_query("INSERT INTO " . SESSIONS_TABLE . " ( `id` , `userId` , `created` , `ip` , `vars` ) VALUES( '" . $session_id . "' , '" . $userid . "' , '" . $time . "' , '" . $user_ip . "', '' )");
+        $ins = mysql_query("INSERT INTO " . SESSIONS_TABLE . " ( `id` , `userId` , `created` , `ip` , `vars` ) VALUES( '" . $session_id . "' , '" . $userid . "' , '" . $time . "' , '" . $userIp . "', '' )");
     
     if ($upd !== FALSE && $ins !== FALSE) {
 

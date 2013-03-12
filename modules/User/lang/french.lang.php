@@ -50,6 +50,7 @@ define("MYFORUM","Participation forum");
 define("MYCOMMENT","Mes commentaires");
 define("MYSUGGEST","Mes suggestions");
 define("MYUSERBOX","Messagerie privé");
+define("MYVISITOR","Mes visiteurs");
 
 
 define("INFOUSER","Informations de contact");
@@ -101,6 +102,11 @@ define("THEMESELECT","Changer de Thème");
 define("SELECTTHEME","Sélectionner un thème dans la liste");
 define("UPDATEDTHEME","Merci de patienter quelques secondes, nous appliquons le thème");
 define("UPDATEDTHEMES","à votre compte.");
+define("INFOMODIF","Compte mis à jour avec succès.");
+define("REMOVECONFIRM","Etes vous sur de vouloir supprimer votre compte ?");
+define("BADAGE","Vous ne pouvez pas être né(e) cette année");
+define("BYDEFAULT","par défaut");
+define("FUNCTIONOFF","Cette fonction n'est pas activée");
 
 
 /*

@@ -20,6 +20,13 @@ define('PREVIOUSPAGE','Page précédente');
 define('NEXTPAGE','Page suivante');
 define('BANFINISHED','n\'est plus banni, sa période est arrivée à expiration');
 define('UNKNOW', 'Non renseigné');
+define('CANCEL', 'Annuler');
+
+// update librairie
+define('NOUPLOAD', 'Vous devez sélectionner un fichier a envoyer');
+define('NOUPLOADVALID', 'L\'extention de ce fichier n\'est pas autorisé');
+define('NOUPLOADAVALABLE', 'Erreur: impossible de copier le fichier');
+define("NOUPLOADED","Avatar non envoyé");
 
 /*********  AJOUT PAR MAXXI **********/
 // Nom des modules

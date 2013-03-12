@@ -12,8 +12,8 @@
     			min: 50,
     			inDelay:600,
     			outDelay:400,
-      			containerID: 'toTop',
-    			containerHoverID: 'toTopHover',
+      			containerID: 'nkToTop',
+    			containerHoverID: 'nkToTop',
     			scrollSpeed: 1200,
     			easingType: 'linear'
  		    },

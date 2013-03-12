@@ -161,12 +161,10 @@ function top() {
                                 echo getBlok('Center');
                             }
                         }
-                        ?>
-<?php
 }
 
 function footer() {
-    global $nuked, $theme, $language, $complet, $footerMenu, $activeWars, $activePartners, $htmlPartners, $htmlWars;
+    global $nuked, $theme, $language, $complet, $footerMenu, $activeWars, $activePartners, $htmlPartners, $htmlWars, $htmlUnikWars;
 
     // Vérifie si le bock match est actif
     if ($activeWars == 0 && $activePartners == 0) {

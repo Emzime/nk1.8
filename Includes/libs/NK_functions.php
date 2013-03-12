@@ -29,11 +29,10 @@ class NK_functions {
     private function __construct() {
     }
     
-     /**
-      * Single instance of class.
-      * @param void
-      * @return Singleton
-      */
+    /**
+     * Single instance of class
+     * @return Singleton [description]
+     */
     public static function getInstance() {
         if (is_null(self::$_instance)) {
            self::$_instance = new NK_functions();
@@ -42,73 +41,94 @@ class NK_functions {
     }
 
     /**
-     * Fonction pour afficher le menu
-     * @param $module       -> Nom du module à interroger
-     * @param $arrayMenu    -> Liens du menu (array / string)
-     * @param $selected     -> Nom de l'op selectionné pour mettre en gras
-     * @param $navClass     -> css for nav
-     * @param $ulClass      -> css for ul
-     * @param $liClass      -> class for li
-     * @param $active       -> class for active link
-     * @param $separator1   -> séparateur ouvrant ex: [
-     * @param $separator2   -> séparateur fermant ex: ]   
-     * @param $pipe         -> séparateur entre lien ex: |
-     * @param $title        -> séparateur entre lien ex: |
-     * return a menu for module administration
-    **/
+     * [nkMenu description]
+     * @param  string $module     module name questioned
+     * @param  string $arrayMenu  Menu Links (array / string)
+     * @param  string $selected   Name of the selected op for bold
+     * @param  string $navClass   css for nav
+     * @param  string $ulClass    css for ul
+     * @param  string $liClass    class for li
+     * @param  string $active     class for active link
+     * @param  string $separator1 opening delimiter ex: [
+     * @param  string $separator2 closing delimiter ex: ]
+     * @param  string $pipe       separator between link ex: |
+     * @param  string $title      title of li (optional)
+     * @return mixed             [description]
+     */
     public function nkMenu($module, $arrayMenu, $selected, $navClass = null, $ulClass = null, $liClass = null, $active = null, $separator1 = null, $separator2 = null, $pipe = null, $title=null) {
-
-        if($navClass != null){$navClass = $navClass;}else{$navClass = '';}
-        if($ulClass != null){$ulClass = 'class="'.$ulClass.'"';}else{$ulClass = '';}
-        if($liClass != null){$liClass = $liClass;}else{$liClass = '';}
-        if($title != null){$title = '<li class="'.$liClass.'">'.$title.'</li>';}else{$title = '';}
-
+        if ($navClass != null) {
+            $navClass = $navClass;
+        } else {
+            $navClass = '';
+        }
+        if ($ulClass != null) {
+            $ulClass = 'class="'.$ulClass.'"';
+        } else {
+            $ulClass = '';
+        }
+        if ($liClass != null) {
+            $liClass = $liClass;
+        } else {
+            $liClass = '';
+        }
+        if ($title != null) {
+            $title = '<li class="'.$liClass.'">'.$title.'</li>';
+        } else {
+            $title = '';
+        }
         $module = strtolower($module);
+        $return = ' <nav id="moduleMenuNav" class="'.$module.'_menuNav '.$navClass.'">
+                        <ul '.$ulClass.'>
+                            '.$title.'&nbsp;
+                            '.$separator1.'&nbsp;';                
+                            $i = 0;
+                            foreach($arrayMenu as $arrayLink => $key) {
+                                if($i>0) $return .= '&nbsp;'.$pipe.'&nbsp;';
 
-        $return = '<nav id="moduleMenuNav" class="'.$module.'_menuNav '.$navClass.'">
-                <ul '.$ulClass.'>
-                    '.$title.'&nbsp;
-                    '.$separator1.'&nbsp;';
-                
-                $i = 0;
-                foreach($arrayMenu as $arrayLink => $key) {
-                    if($i>0) $return .= '&nbsp;'.$pipe.'&nbsp;';
-
-                    if($key == $selected) {
-                        $return .= '<li class="'.$active.' '.$liClass.'">';
-                        $return .= $key;
-                    }
-                    else{
-                        $return .= '<li class="'.$liClass.'">';
-                        $return .= '<a href="'.$arrayLink.'" >'.$key.'</a>';
-                    }            
-                    $return .= '</li>';
-                    $i++;
-                }            
-                $return .= '&nbsp;'.$separator2.'
-                </ul>
-            </nav>';
-
-            return $return;
+                                if($key == $selected) {
+                                    $return .= '<li class="'.$active.' '.$liClass.'">';
+                                    $return .= $key;
+                                }
+                                else{
+                                    $return .= '<li class="'.$liClass.'">';
+                                    $return .= '<a href="'.$arrayLink.'" >'.$key.'</a>';
+                                }            
+                                $return .= '</li>';
+                                $i++;
+                            }            
+                            $return .= '&nbsp;'.$separator2.'
+                        </ul>
+                    </nav>';
+        return $return;
     }
 
-
-    /** 
-     * @param $link => array
-     * @param $template => template use for breadcrumb
-     * @param $navClass => css for nav
-     * @param $ulClass => css for ul 
-     * @param $liClass => class for li
-    **/
-    public function nkBreadCrumb($link, $template, $navClass=null, $ulClass=null, $liClass=null){
-
-        if($navClass != null){$navClass = 'class="'.$navClass.'"';}else{$navClass = '';}
-        if($ulClass != null){$ulClass = $ulClass;}else{$ulClass = '';}
-        if($liClass != null){$liClass = 'class="'.$liClass.'"';}else{$liClass = '';}
-
+    /**
+     * display breadcrumb in module
+     * @param  string $link     array
+     * @param  string $template template use for breadcrumb
+     * @param  string $navClass class for nav
+     * @param  string $ulClass  class for ul
+     * @param  string $liClass  class for li
+     * @return mixed           [description]
+     */
+    public function nkBreadCrumb($link, $template, $navClass=null, $ulClass=null, $liClass=null) {
+        if ($navClass != null) {
+            $navClass = 'class="'.$navClass.'"';
+        } else {
+            $navClass = '';
+        }
+        if ($ulClass != null) {
+            $ulClass = $ulClass;
+        } else {
+            $ulClass = '';
+        }
+        if ($liClass != null) {
+            $liClass = 'class="'.$liClass.'"';
+        } else {
+            $liClass = '';
+        }
         $return = ' <nav id="nkBreadCrumb" '.$navClass.'>
                         <ul class="'.$template.' '.$ulClass.'">';
-
                         $i = 0;
                         $nbCount = count($link);                        
                         foreach($link as $k => $v) {   
@@ -120,20 +140,18 @@ class NK_functions {
                         }
         $return .= '    </ul>
                     </nav>';
-
         return $return;
     }
 
 
     /**
-    * Cut a chain keeping HTML formatting
-    * @param string $text       -> Text to be cut
-    * @param integer $length    -> Length to keep
-    * @param string $ending     -> Characters to add at the end
-    * @param boolean $exact     -> exact cut
-    * @return string
-    * exemple: $GLOBALS['nkFunctions']->nkCutText($description, '100');
-    **/
+     * Cut a chain keeping HTML formatting
+     * @param string $text     Text to be cut
+     * @param integer $length  Length to keep
+     * @param string $ending   Characters to add at the end
+     * @param boolean $exact   exact cut
+     * @return mixed
+     */
     public function nkCutText($text, $length, $ending = '...', $exact = false) {
         if (strlen(preg_replace('/<.*?>/', '', $text)) <= $length) {
             return $text;
@@ -141,7 +159,7 @@ class NK_functions {
         preg_match_all('/(<.+?>)?([^<>]*)/is', $text, $matches, PREG_SET_ORDER);
         $total_length = 0;
         $arr_elements = array();
-        $truncate = '';
+        $truncate     = '';
         foreach($matches as $element) {
             if (!empty($element[1])) {
                 if(preg_match('/^<\s*.+?\/\s*>$/s', $element[1])) {
@@ -191,52 +209,48 @@ class NK_functions {
     }
 
     /**
-     * Create tooltip CSS                                                     
-     * @param $content      ->  Content displayed in tooltip
-     * @param $lien         ->  Url link  ex: index.php?file=Download
-     * @param $text         ->  Text for button ex: [ '.LISTING.' ] ou MYTEXT
-     * @param $class        ->  Class for href (exemple: nkPopupBox for open link in nkPopup) (optional)
-     * @param $themeUse     ->  Theme use for tooltip (see media/css/themes or use in administration of module) (optional)
-     * @param $placement    ->  Placement of tooltip (top - left - right - bottom) (optional)
-     * @param $animation    ->  Animation for tooltip (fade, grow, swing, slide, fall) (optional)
-     * @param $maxWidth     ->  Set a max width for the tooltip (optional)
-     * @param $arrowColor   ->  Color for arrow hex code / rgb (optional)
-     *
-     * http://calebjacob.com/tooltipster/#options   
-     * exemple: echo $GLOBALS['nkFunctions']->nkTooltip($description, 'index.php?file=Downloads&amp;op=description&amp;nuked_nude=index&amp;idDownload='.$idDownload, $title, 'nkPopupBox', $modulePref['tooltipTheme'], $modulePref['tooltipPosition'], $modulePref['tooltipAnimation'], $modulePref['tooltipMaxWidth'], $modulePref['tooltipArrowColor']);
-     **/
+     * Create tooltip CSS
+     * @param  string $content    Content displayed in tooltip
+     * @param  string $lien       Url link  ex: index.php?file=Download
+     * @param  string $text       Text for button ex: [ '.LISTING.' ] ou MYTEXT
+     * @param  string $class      Class for href (exemple: nkPopupBox for open link in nkPopup) (optional)
+     * @param  string $themeUse   Theme use for tooltip (see media/css/themes or use in administration of module) (optional)
+     * @param  string $placement  Placement of tooltip (top - left - right - bottom) (optional)
+     * @param  string $animation  Animation for tooltip (fade, grow, swing, slide, fall) (optional)
+     * @param  integer $maxWidth   Set a max width for the tooltip (optional)
+     * @param  string $arrowColor Color for arrow hex code / rgb (optional)
+     * @return mixed             [description]
+     */
     public function nkTooltip($content, $lien='#', $text, $class=null, $themeUse=null, $placement=null, $animation=null, $maxWidth=null, $arrowColor=null) {
-
-        $class          = !is_null($class)          ? 'class="'.$class.'"'                  : ''; 
-        $placement      = !is_null($placement)      ? 'data-placement="'.$placement.'"'     : '';
-        $animation      = !is_null($animation)      ? 'data-animation="'.$animation.'"'     : ''; 
-        $themeUse       = !is_null($themeUse)       ? 'data-themeuse="'.$themeUse.'"'       : ''; 
-        $maxWidth       = !is_null($maxWidth)       ? 'data-maxwidth="'.$maxWidth.'"'       : ''; 
-        $arrowColor     = !is_null($arrowColor)     ? 'data-arrowcolor="'.$arrowColor.'"'   : ''; 
-        $content = str_replace('"', "'", $content);
-        $return = '<a '.$class.' href="'.$lien.'" data-api="tooltip" data-content="'.$content.'" '.$placement.' '.$animation.' '.$themeUse.' '.$maxWidth.' '.$arrowColor.'>'.$text.'</a>';
+        $class      = !is_null($class)          ? 'class="'.$class.'"'                  : ''; 
+        $placement  = !is_null($placement)      ? 'data-placement="'.$placement.'"'     : '';
+        $animation  = !is_null($animation)      ? 'data-animation="'.$animation.'"'     : ''; 
+        $themeUse   = !is_null($themeUse)       ? 'data-themeuse="'.$themeUse.'"'       : ''; 
+        $maxWidth   = !is_null($maxWidth)       ? 'data-maxwidth="'.$maxWidth.'"'       : ''; 
+        $arrowColor = !is_null($arrowColor)     ? 'data-arrowcolor="'.$arrowColor.'"'   : ''; 
+        $content    = str_replace('"', "'", $content);
+        $return     = '<a '.$class.' href="'.$lien.'" data-api="tooltip" data-content="'.$content.'" '.$placement.' '.$animation.' '.$themeUse.' '.$maxWidth.' '.$arrowColor.'>'.$text.'</a>';
         return $return;
     }
 
     /**
-     * Return to previous page.
-     * @param string $url : url for back button
-     *
-     * return back button
+     * Return to previous page
+     * @param  string $url   url for back button
+     * @param  string $class class for div
+     * @return mixed         [description]
      */
     public function nkHistoryBack($url=null, $class = null) { 
         $referer = is_null($url) ? $_SERVER['HTTP_REFERER'] : $url;
         $class = !is_null($class) ? 'class="'.$class.'"' : 'nkAlignCenter';
-        return('<a href="'.$referer.'" '.$class.' >'.BACK.'</a>');    
+        return('<div '.$class.' ><a href="'.$referer.'">'.BACK.'</a></div>');    
     }
 
     /**
      * Level Select function for assigning levels of modules 
-     * @param $name     ->  name menuSelect
-     * @param $checked  ->  parameter recovery of the variable for the edition
-     *
-     * Exemple: $GLOBAL['nkFunctions']->nkLevelSelect(‘level’, $level);
-     **/
+     * @param  string $name    name menuSelect
+     * @param  string $checked parameter recovery of the variable for the edition
+     * @return mixed          [description]
+     */
     public function nkLevelSelect($name, $checked = null) {
     ?>
         <select id="<?php echo $name; ?>" name="<?php echo $name; ?>">        
@@ -253,20 +267,18 @@ class NK_functions {
     <?php
     }
 
-    /** 
-    * Create Checkbox simply
-    * @param inputName      -> Name of select
-    * @param inputClass     -> Class for input
-    * @param inputId        -> ID for input
-    * @param labelClass     -> Class for label (optional)
-    * @param labelContent   -> Content for label (lang Name)
-    * @param inputValue     -> Value for Input (lang: OK ...)
-    * @param check          -> Value for checking checked="checked" (optional = true) 
-    *
-    * Exemple: $GLOBALS['nkFunctions']->nkCheckBox('remember_me', 'Remember', 'BlockLoginRememberId', 'BlockLoginRemember', REMEMBERME, 'ok', true);
-    **/
-    public function nkCheckBox($inputName, $inputClass, $inputId, $labelClass, $labelContent, $inputValue, $check=null) {
-    
+    /**
+     * [nkCheckBox description]
+     * @param  string $inputName    Name of select
+     * @param  string $inputClass   Class for input
+     * @param  integer $inputId     ID for input
+     * @param  string $labelClass   Class for label (optional)
+     * @param  string $labelContent Content for label (lang Name)
+     * @param  string $inputValue   Value for Input (lang: OK ...)
+     * @param  string $check        Value for checking checked="checked" (optional = true)
+     * @return mixed               [description]
+     */
+    public function nkCheckBox($inputName, $inputClass, $inputId, $labelClass, $labelContent, $inputValue, $check=null) {    
         if (!is_null($check)) {
             $checked = 'checked="checked"';
         } else {
@@ -282,31 +294,35 @@ class NK_functions {
         return $return;
     }
 
-
     /**
      * nkRadioBox display bouton radio
-     * @param  string $typeTag     specify type of tag
-     * @param  string $tagContent  content for typeTag
+     * @param  string $typeTag      specify type of tag
+     * @param  string $tagContent   content for typeTag
      * @param  integer $numberRadio number option for radio button
-     * @param  string $inputName   name for input
-     * @param  string $inputValue  value for input
-     * @param  string $inputFor    id for input
-     * @param  string $tagClass    class for typeTag
-     * @param  string $divClass    class for div
-     * @param  string $labelClass  class for label
-     * @return mixed
+     * @param  string $inputName    name for input
+     * @param  string $inputValue   value for input
+     * @param  string $inputFor     id for input
+     * @param  string $tagClass     class for typeTag
+     * @param  string $divClass     class for div
+     * @param  string $labelClass   class for label
+     * @param  string $checked      value was checked
+     * @return mixed               [description]
      */
-    public function nkRadioBox($typeTag, $tagContent, $numberRadio, $inputName, $inputValue, $tagSeparate, $inputFor=null, $tagClass=null, $divClass=null, $labelClass=null) {
+    public function nkRadioBox($typeTag, $tagContent, $numberRadio, $inputName, $inputValue, $tagSeparate, $inputFor=null, $tagClass=null, $divClass=null, $labelClass=null, $checked=null) {
         foreach($inputValue as $key => $arrayValue) {
-
-                $value[] = $arrayValue;
-                $keyValue[] = $key;
+            $value[]    = $arrayValue;
+            $keyValue[] = $key;
         }
         $return = ' <'.$typeTag.' class="'.$tagClass.'">'.$tagContent.'</'.$typeTag.'>'.$tagSeparate.'
                         <div class="nkRadioBox '.$divClass.'">';
                             $i = 0;
                             for ($i = 0; $i < $numberRadio; $i++) {
-                                $return .= '<input type="radio" class="nkRadioBoxInput" name="'.$inputName.'" value="'.$keyValue[$i].'" id="'.$inputFor.$i.'" checked>
+                                if ($checked == $keyValue[$i]) {
+                                    $check = 'checked';
+                                } else {
+                                    $check = '';
+                                }
+                                $return .= '<input type="radio" class="nkRadioBoxInput" name="'.$inputName.'" value="'.$keyValue[$i].'" id="'.$inputFor.$i.'" '.$check.'>
                                                 <label for="'.$inputFor.$i.'" class="nkRadioBoxLabel nkRadioBoxLabel-off '.$labelClass.'">'.$value[$i].'</label>';                               
                             }
         $return .= '        <span class="nkRadioBoxSelection"></span>
@@ -314,24 +330,21 @@ class NK_functions {
         return $return;
     }
 
-
     /**
-     *  Insert dans la table action les actions effectué dans l'aministration
-     *  @param 
-     *
-     **/
+     * Insert in action table actions do in aministration
+     * @param  string $content description of actions
+     * @return mixed          [description]
+     */
     public function nkTextAction($content) {
         $acdate = time();
         $sqlaction = mysql_query('INSERT INTO '.ACTION_TABLE.' (`date`, `pseudo`, `action`) VALUES ("'.$acdate.'", "'.$user[0].'", "'.$content.'")');
     }
 
-
     /**
-     *  Fonction d'interrogation sur les tables de configuration des modules
-     *  @param $module -> Nom du module à interroger
-     *
-     *  Appel de la fonction $GLOBALS['nkFunctions']->nkModsPrefs($modName); (modName defini par $modName = basename(dirname(__FILE__)); dans le module)
-     **/
+     * Query function on module configuration tables
+     * @param  string $mods module name questioned
+     * @return mixed       [description]
+     */
     public function nkModsPrefs($mods) {
         $mods = strtoupper($mods);
         $constantMods = constant($mods.'_CONFIG_TABLE');
@@ -344,12 +357,13 @@ class NK_functions {
     }
 
     /**
-     * Validation function links             
-     * @param $url -> link / file  to the page  
-     **/
+     * Validation function links
+     * @param  string $url   link / file  to the page
+     * @param  string $check [description]
+     * @return mixed        [description]
+     */
     public function nkVerifyUrl($url, $check=null) {
         global $nuked;
-
         /* On verifie le format de l'url */
         if (version_compare(PHP_VERSION, '5.2.0', '>')) {
             if (filter_var($url, FILTER_VALIDATE_URL)) {               
@@ -365,7 +379,6 @@ class NK_functions {
                 $urlVerify = $nuked['url'].'/'. $url;
             }
         }
-
         if (!is_null($check)) {
             $urlReturn = @get_headers($urlVerify);
 
@@ -378,21 +391,21 @@ class NK_functions {
         } else {
             $linkUrlVerify = $urlVerify;
         }
-
         return $linkUrlVerify;
     }
 
     /**
      * nkInitRequest initializes the elements of the array
-     * @param array $array 
+     * @param  string $array array
+     * @param  string $index array for init index.php (don't touch)
+     * @return mixed        [description]
      */
-    public function nkInitRequest($array,$index = null) {
-
+    public function nkInitRequest($array, $index = null) {
         if (!isset($GLOBALS['nkInitError'])) {
             $GLOBALS['nkInitError'] = null;
         }
         if (!is_null($index)) {
-            $mergeArray = array_merge_recursive($array,$index);
+            $mergeArray      = array_merge_recursive($array,$index);
             $valueMergeArray = array();
             foreach ($mergeArray as $key => $value) {
                 $valueMergeArray = array_merge($value,$valueMergeArray);
@@ -466,6 +479,7 @@ class NK_functions {
 
     /**
      * infoBlocks display block
+     * @return mixed [description]
      */
     function infoBlocks() {
         $dbsActiveBlock = ' SELECT id, side, placing, module, title, content, type, level, page 
@@ -500,7 +514,7 @@ class NK_functions {
 
     /**
      * infoModules return all information on modules
-     * @return array array of all informations
+     * @return array  array of all informations
      */
     function infoModules() {
         $dbsActiveModule = 'SELECT id, name, newName, level, admin 
@@ -540,58 +554,114 @@ class NK_functions {
         return $return;
     }
 
-
+    /**
+     * generated Pdf file
+     * @param  [type] $html       [description]
+     * @param  [type] $fileName   [description]
+     * @param  [type] $modulePref [description]
+     * @return [type]             [description]
+     */
     public function generatedPdf($html, $fileName, $modulePref) {
         global $lang;
-
         require_once'Includes/tcpdf/config/nkLang/'.$lang.'.php';
         require_once'Includes/tcpdf/tcpdf.php';
-
         $copyright = "http://www.nuked-klan.org\n";
         // create new PDF document
-        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);        
-
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
         // set default header data
         $pdf->SetHeaderData('nkPdfLogo.png', 30, $GLOBALS['nuked']['name'], TFOR.' '.$copyright.''.POWERED. ' '.PDF_HEADER_STRING);
-
         // set header and footer fonts
         $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
         $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
-
         // set default monospaced font
         $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
         //set margins
         $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
         $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
         $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-
         //set auto page breaks
         $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-
         //set image scale factor
         $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-
         //set some language-dependent strings
         $pdf->setLanguageArray($l);
-
-        // ---------------------------------------------------------
-
         // set font
         $pdf->SetFont($modulePref['pdfFont'], $modulePref['pdfFontStyle'], $modulePref['pdfFontSize']);
-
         // add a page
         $pdf->AddPage($modulePref['pdfDirection'],$modulePref['pdfFormat']);
-
         // set some text to print
-
         // print a block of text using Write()
         //$pdf->Write($h=0, $txt, $link='', $fill=0, $align='C', $ln=true, $stretch=0, $firstline=false, $firstblock=false, $maxh=0);
         $pdf->writeHTML($html, true, false, true, false, '');
-        // ---------------------------------------------------------
         ob_clean();
         //Close and output PDF document
         $pdf->Output($fileName, $modulePref['pdfGeneratedType']);
+    }
+   
+   /**
+    * upload file function
+    * @param string $module        module name
+    * @param string $fileName      name of $_FILE
+    * @param string $urlTesting    value of input file without upload
+    */
+    public function UploadFiles($module, $fileName, $urlTesting=NULL) {
+        global $user;
+        // initialise variable
+        $name   = '';
+        $type   = '';
+        $handle = '';
+        $temp   = '';
+        // defini les extentions autorisées
+        $validTypes  = array('image/jpeg', 'image/png', 'image/gif');
+        // definition des variables
+        $module      = ucfirst($module);
+        if (!empty($_FILES)) {
+            $temp = $_FILES[$fileName]['tmp_name'];
+            $type = $_FILES[$fileName]['type'];
+            $name = $_FILES[$fileName]['name'];
+        }
+        if ($name != '') {
+            $extentionCheck = in_array($type, $validTypes);
+            if ($extentionCheck == false) {
+                echo $GLOBALS['nkTpl']->nkDisplayError(NOUPLOADVALID, 'nkAlert nkAlertError');
+                echo $this->nkHistoryBack(null, 'nkAlignCenter nkMarginTop15');
+                footer();
+                exit();
+            } 
+            // si la fonction mkdir existe on crée un dossier par membre sinon on upload dans upload/nom du module            
+            if (function_exists('mkdir')) {
+                $handle = 'upload/'.$module.'/'.$user[2].'/';
+                if (!is_dir($handle)) {
+                    mkdir($handle, 0777);
+                    if (!is_file($handle.'/index.html') && function_exists('copy')) {
+                        copy('upload/'.$module.'/index.html', $handle.'/index.html');
+                    }
+                }
+            } else {
+                $handle = 'upload/'.$module.'/';
+            } 
+            $userDir = $handle.$name;
+            if(!is_uploaded_file($temp)) {
+                echo $GLOBALS['nkTpl']->nkDisplayError(NOUPLOAD, 'nkAlert nkAlertError');
+                footer();
+                exit();
+            } elseif (!move_uploaded_file($temp, $userDir)) {
+                echo $GLOBALS['nkTpl']->nkDisplayError(NOUPLOADAVALABLE, 'nkAlert nkAlertError');
+                footer();
+                exit();
+            } else {
+                move_uploaded_file($temp, $name);
+                chmod ($handle, 0644);
+                $avatar   = $userDir;
+                return $avatar;
+            }
+        } elseif (!is_null($urlTesting)) {
+            $avatar   = $urlTesting;
+            return $avatar;
+        } else {
+            $avatar   = '';
+            return $avatar;
+        }
     }
 }
 ?>

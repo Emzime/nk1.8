@@ -9,14 +9,14 @@
 *   @copyright 2001-2013 Nuked Klan 
 */
 defined('INDEX_CHECK') or die ('<div class="nkAlignCenter">'.CANTOPENPAGE.'</div>');
-global $user, $visiteur, $levelMod, $cookie_captcha;
+global $user, $visiteur, $levelMod, $cookieCaptcha;
 $modName = basename(dirname(__FILE__));
 
 // Vérification des variables
 $requestArray = array(
     'integer' => array('error', 'codeConfirm'),
     'uniqid'  => array('userId'),
-    'boolean' => array('captcha'),
+    'boolean' => array('captcha', 'refere'),
     'string'  => array('rememberMe', 'pseudo')
 );
 $GLOBALS['nkFunctions']->nkInitRequest($requestArray, $GLOBALS['indexRequestArray']);
@@ -28,7 +28,7 @@ if (!isset($GLOBALS['nkInitError'])) {
     $langTest = strtoupper($modName);
     $langTest = constant('TESTLANGUEFILE'.$langTest);
 
-    if($langTest == true) { 
+    if($langTest == true) {
 
         // Inclusion syst?me Captcha
         include_once('Includes/nkCaptcha.php');
@@ -44,6 +44,7 @@ if (!isset($GLOBALS['nkInitError'])) {
         }
 
         $modulePref = $GLOBALS['nkFunctions']->nkModsPrefs($modName);
+        // $forumPref = $GLOBALS['nkFunctions']->nkModsPrefs('Forum');
 
         function index(){
             global $user, $nuked, $modName, $modulePref;
@@ -97,7 +98,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                         $date = nkDate($messCreated);
 
                         //////////// A VOIR (mess_forum_page) CE SONT DES PREFERENCE DU MODULE FORUM ///////////
-                        if ($nbForumMessage > $nuked['mess_forum_page']) {
+                        if ($nbForumMessage > $nuked['mess_forum_page']) { // $forumPref[''];
                             $topicpages = $nbForumMessage / $nuked['mess_forum_page'];
                             $topicpages = ceil($topicpages);
                             $linkMessage = "index.php?file=Forum&amp;page=viewtopic&amp;forumId=" . $forumId . "&amp;threadId=" . $threadId . "&amp;p=" . $topicpages . "#" . $messId;
@@ -180,7 +181,6 @@ if (!isset($GLOBALS['nkInitError'])) {
                                         FROM '.COMMENT_TABLE.'
                                         WHERE autorId = "'.$user['0'].'"
                                         ORDER BY created DESC LIMIT '.$modulePref['nbComment'];
-                    // echo $dbsMessageInfo;
                     $dbeCommentInfo = mysql_query($dbsCommentInfo);
                     while (list($commentId, $commentTitle, $commentContent, $module, $created) = mysql_fetch_array($dbeCommentInfo)) {
                         $commentTitle = printSecuTags($commentTitle);
@@ -192,6 +192,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                         } else {
                             $title = $module;
                         }
+
                         // A FAIRE
                         if ($module == "News") {
                             $linkTitle = '<a href="index.php?file=News&amp;op=index_comment&amp;id='.$commentId.'">'.$title.'</a>';
@@ -239,6 +240,18 @@ if (!isset($GLOBALS['nkInitError'])) {
                     $suggestUser = '<div class="nkAlignCenter nkMarginTop15">'.NOUSERSUGGEST.'</div>';
                 }
 
+                if ($modulePref['activeTheme'] == 'on') {
+                    $activeThemeLink = '<li><a href="profilThemes">'.THEMESELECT.'</a></li>';
+                    $activeThemeHtml = '<div id="profilThemes" class="profilContent nkNone">
+                                            <header>
+                                                <h3>'.THEMESELECT.'</h3>
+                                            </header>';
+                    $activeThemeHtml .=     changeTheme();
+                    $activeThemeHtml .= '</div>';
+                } else {
+                    $activeThemeLink = '';
+                    $activeThemeHtml = '';
+                }
 
                 ?>
 
@@ -257,11 +270,14 @@ if (!isset($GLOBALS['nkInitError'])) {
                                     <li><a href="profilStats"><?php echo MYSTATS; ?></a></li>
                                     <li><a href="profilFriends"><?php echo MYFRIENDS; ?></a></li>
                                     <li><a href="profilUserBox"><?php echo MYUSERBOX; ?></a></li>
-                                    <li><a href="profilThemes"><?php echo THEMESELECT; ?></a></li>
+                                    <?php
+                                        echo $activeThemeLink;
+                                    ?>
                                     <li><a href="profilForum"><?php echo MYFORUM; ?></a></li>
                                     <li><a href="profilComment"><?php echo MYCOMMENT; ?></a></li>
                                     <li><a href="profilSuggest"><?php echo MYSUGGEST; ?></a></li>
                                     <li><a href="profilInfos"><?php echo MYPROFIL; ?></a></li>
+                                    <li><a href="profilVisitor"><?php echo MYVISITOR; ?></a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -342,7 +358,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                                     </header>
                                     <nav>
                                         <input class="nkButton" type="button" value="<?php echo READPV; ?>" onclick="document.location='index.php?file=Userbox'" />&nbsp;
-                                        <input class="nkButton" type="button" value="<?php echo REQUESTPV; ?>" onclick="document.location='index.php?file=Userbox&amp;op=post_message'" />
+                                        <input class="nkButton" type="button" value="<?php echo REQUESTPV; ?>" onclick="document.location='index.php?file=Userbox&amp;op=postMessage'" />
                                     </nav>
                                 </div>
 
@@ -354,16 +370,9 @@ if (!isset($GLOBALS['nkInitError'])) {
                                             editAccount();
                                         ?>
                                 </div>
-
-                                <div id="profilThemes" class="profilContent nkNone">
-                                    <header>
-                                        <h3><?php echo THEMESELECT; ?></h3>
-                                    </header>
-                                    <?php
-                                        changeTheme();
-                                    ?>
-                                </div>
-
+                                <?php
+                                    echo $activeThemeHtml;
+                                ?>
                                 <div id="profilForum" class="profilContent nkNone">
                                     <header>
                                         <h3><?php echo YOUR.'&nbsp;'.$modulePref['nbForumMessage'].'&nbsp;'.LASTUSERMESS; ?></h3>
@@ -384,7 +393,7 @@ if (!isset($GLOBALS['nkInitError'])) {
 
                                 <div id="profilSuggest" class="profilContent nkNone">
                                     <header>
-                                        <h3><?php echo YOUR.'&nbsp;'.$modulePref['nbComment'].'&nbsp;'.LASTUSERSUGGEST; ?></h3>
+                                        <h3><?php echo YOUR.'&nbsp;'.$modulePref['nbSuggest'].'&nbsp;'.LASTUSERSUGGEST; ?></h3>
                                     </header>
                                     <?php
                                         echo $suggestUser;
@@ -397,6 +406,15 @@ if (!isset($GLOBALS['nkInitError'])) {
                                     </header>
                                     <?php
                                         echo $myFriends;
+                                    ?>
+                                </div>
+
+                                <div id="profilVisitor" class="profilContent nkNone">
+                                    <header>
+                                        <h3><?php echo MYVISITOR; ?></h3>
+                                    </header>
+                                    <?php
+                                        echo $myVisitor;
                                     ?>
                                 </div>
                             </div>
@@ -427,25 +445,45 @@ if (!isset($GLOBALS['nkInitError'])) {
         function modifTheme() {
             global $user, $nuked, $cookieTheme, $timelimit;
 
-            $dir = 'themes/'.$_REQUEST['userTheme'];
-            if (is_dir($dir) && $_REQUEST['userTheme']) {
-                setcookie($cookieTheme, $_REQUEST['userTheme'], $timelimit);
+            if (empty($_REQUEST['userTheme'])) {
+                setcookie($cookieTheme, '', $timelimit);
 
                 if ($user) {
                     $dbuTheme = '   UPDATE '.USER_TABLE.' 
                                     SET userTheme = "'.$_REQUEST['userTheme'].'"
                                     WHERE id = "'.$user[0].'"';
-                $dbeTheme = mysql_query($dbuTheme);
+                    $dbeTheme = mysql_query($dbuTheme);
+                }
+            } else {
+                $dir = 'themes/'.$_REQUEST['userTheme'];
+                if (is_dir($dir) && $_REQUEST['userTheme']) {
+                    setcookie($cookieTheme, $_REQUEST['userTheme'], $timelimit);
+
+                    if ($user) {
+                        $dbuTheme = '   UPDATE '.USER_TABLE.' 
+                                        SET userTheme = "'.$_REQUEST['userTheme'].'"
+                                        WHERE id = "'.$user[0].'"';
+                    $dbeTheme = mysql_query($dbuTheme);
+                    }
                 }
             }
             redirect('index.php?file=User&op=applyTheme', 0);
         }
 
         function applyTheme() {
-            global $user, $nuked, $cookieTheme, $timelimit;
-
-            echo $GLOBALS['nkTpl']->nkDisplaySuccess(UPDATEDTHEME.'&nbsp;'.$_REQUEST['userTheme'].'&nbsp;'.UPDATEDTHEMES, 'nkAlert nkAlertSuccess');
-            redirect('index.php', 4);
+            global $user, $nuked, $cookieTheme, $modulePref;
+            if (empty($_COOKIE[$GLOBALS['cookieTheme']])) {
+                $themeApply = BYDEFAULT;
+            } else {
+                $themeApply = $_COOKIE[$GLOBALS['cookieTheme']];
+            }
+            if ($modulePref['activeTheme'] === 'on') {
+                echo $GLOBALS['nkTpl']->nkDisplaySuccess(UPDATEDTHEME.'&nbsp;'.$themeApply.'&nbsp;'.UPDATEDTHEMES, 'nkAlert nkAlertSuccess');
+                redirect('index.php', 2);
+            } else {
+                echo $GLOBALS['nkTpl']->nkDisplayError(FUNCTIONOFF, 'nkAlert nkAlertError');
+                redirect('index.php', 2);
+            }
         }
 
 
@@ -470,44 +508,40 @@ if (!isset($GLOBALS['nkInitError'])) {
                 }
             }            
             closedir($repertory);
-            ?>
-            <form action="index.php?file=User&amp;nuked_nude=index&amp;op=modifTheme" method="post">
-            <article class="nkAlignCenter nkMarginTop15">
-                <label for="userTheme"><?php echo SELECTTHEME; ?></label>&nbsp;:&nbsp;
-                    <select id="userTheme" class="nkInput" name="userTheme" onChange="javascript:submit();">
-                        <option><?php echo CHOOSE; ?>...</option>
-                        <?php
-                        echo $themeView;
-                        ?>
-                    </select>
-            </article>
-            </form>
-        <?php
+            $activeThemeForm = '<form action="index.php?file=User&amp;nuked_nude=index&amp;op=modifTheme" method="post">
+                                <article class="nkAlignCenter nkMarginTop15">
+                                    <label for="userTheme">'.SELECTTHEME.'</label>&nbsp;:&nbsp;
+                                        <select id="userTheme" class="nkInput" name="userTheme" onChange="javascript:submit();">
+                                            <option value="">'.$nuked['defaultTemplate'].'&nbsp;-&nbsp;'.BYDEFAULT.'</option>
+                                            '.$themeView.'
+                                        </select>
+                                </article>
+                                </form>';
+            return $activeThemeForm;
         }
 
         function oubliPass() {
         ?>
             <form action="index.php?file=User&amp;op=envoiMail" method="post">
-                <div class="nkAlignCenter nkSize16 nkBold nkMarginTop15 nkMarginBottom15"><?php echo LOSTPASS; ?></div>
-                <div class="nkMarginLRAuto nkWidthHalf nkMarginBottom15"><?php echo LOSTPASSTXT; ?></div>
-                <table class="nkWidthHalf nkMarginLRAuto">
-                    <tr>
-                        <td><?php echo PRIVATEMAIL; ?>&nbsp;:&nbsp;</td>
-                        <td><input class="nkInput" type="text" name="email" size="30" maxlength="80" /></td>
-                    </tr>
-                </table>
-                <table class="nkWidthHalf nkMarginLRAuto nkMarginTop15 nkAlignCenter">
-                    <tr>
-                        <td><input class="nkButton" type="submit" value="<?php echo SEND; ?>" /></td>
-                    </tr>
-                </table>
+                <header class="nkMarginLRAuto nkWidth3Quarter nkMarginBottom15">
+                    <h3 class="nkAlignCenter nkSize16 nkBold nkMarginTop15 nkMarginBottom15">
+                        <?php echo LOSTPASS; ?>
+                    </h3>
+                    <span>
+                        <?php echo LOSTPASSTXT; ?>
+                    </span>
+                </header>
+                <article class="nkWidthHalf nkMarginLRAuto nkAlignCenter">
+                    <label for="sendEmail"><?php echo PRIVATEMAIL; ?></label>&nbsp;:&nbsp;
+                        <input class="nkInput" type="text" id="sendEmail" name="email" size="30" maxlength="80" />
+                        <input class="nkButton nkAlignCenter nkMarginTop15" type="submit" value="<?php echo SEND; ?>" />
+                </article>
             </form>
         <?php
         }
 
         function login($pseudo, $pass, $rememberMe) {
-            global $captcha, $nuked, $theme, $cookieTheme, $cookieLangue, $timelimit, $cookieSession, $sessionlimit, $user_ip, $userlang;
-            $cookiename = $nuked['cookiename'];
+            global $captcha, $nuked, $theme, $cookieTheme, $cookieLangue, $timelimit, $cookieSession, $sessionlimit, $userIp, $userlang;
 
             if ($pseudo == '' || $pass == '') {
                 $error = 3;
@@ -569,7 +603,8 @@ if (!isset($GLOBALS['nkInitError'])) {
                                             WHERE pseudo = \'' . htmlentities($pseudo, ENT_QUOTES) . '\'';
                             $dbeError = mysql_query($dbuError);
 
-                            $test = session_new($userId, $rememberMe);
+                            //reinitialisation
+                            session_new($userId, $rememberMe);
 
                             if ($userTheme != '') {
                                 setcookie($cookieTheme, $userTheme, $timelimit);
@@ -578,72 +613,53 @@ if (!isset($GLOBALS['nkInitError'])) {
                             if ($userLang != '') {
                                 setcookie($cookieLangue, $userLang, $timelimit);
                             }
-                            
-                            $referer = $_SERVER['HTTP_REFERER'];
-                            $_SESSION['admin'] = false;
-                            
-                            if (isset($_COOKIE[$cookieSession]) && $_COOKIE[$cookieSession] != '') {
-                                $testCookie = $_COOKIE[$cookieSession];
-                            } else {
-                                $testCookie = null;
-                            }
 
-                            if (!is_null($testCookie)) {
-                                htmlHeader(LOGINPROGRESS);
-                                redirect($referer, 3);
+                            $referer = $_SERVER['HTTP_REFERER'];
+                            $_SESSION['admin'] = false;  
+
+                            if (!empty($referer) && stripos($referer, 'User&op=reg')) {
+                                $refere = '&refere=true';
                             } else {
-                                if ($nuked['sess_inactivemins'] > 0 && $user_ip != '' && $user_ip != '127.0.0.1') {
-                                    $loginText = '  <span class="nkBlock">'.LOGINPROGRESS.'</span>
-                                                    <span class="nkBlock">'.SESSIONIPOPEN.'</span>
-                                                    <span class="nkBlock">'.ERRORCOOKIE.'</span>';
-                                } else {
-                                    $loginText = ERRORCOOKIE;
-                                }
-                                htmlHeader($loginText);
-                                redirect($referer, 5);
-                            }                            
+                                $refere = '';
+                            }
+                            redirect('index.php?file=User&op=loginMessage'.$refere, 0);
                         }
                     }
                 }
             }
         }
 
-/*        function loginMessage() {
-            global $nuked, $theme, $cookieSession, $sessionlimit, $user_ip;
+        function loginMessage() {
+            global $nuked, $theme, $cookieSession, $sessionlimit, $userIp;
 
             if (isset($_COOKIE[$cookieSession]) && $_COOKIE[$cookieSession] != '') {
                 $testCookie = $_COOKIE[$cookieSession];
             } else {
-                $testCookie = '';
+                $testCookie = null;
             }
 
-            $referer = urldecode($_REQUEST['referer']);
-            $referer = str_replace('&amp;', '&', $referer); 
+            $refere = $_REQUEST['refere'];
 
-            if (!empty($referer) && !stripos($referer, 'User&op=reg')) {
-                $url = 'index.php?'.$referer;
+            if ($refere == true) {
+                $msgLog = $GLOBALS['nkTpl']->nkDisplaySuccess(REGISTERSUCCES, 'nkAlert nkAlertSuccess');
             } else {
-                $url = 'index.php';
+                $msgLog = $GLOBALS['nkTpl']->nkDisplaySuccess(LOGINPROGRESS, 'nkAlert nkAlertSuccess');
             }
 
-            if ($testCookie != '') {
-
-                htmlHeader(LOGINPROGRESS);
-                redirect($url, 3);
+            if (!is_null($testCookie)) {
+                echo $msgLog;
             } else {
-                if ($nuked['sess_inactivemins'] > 0 && $user_ip != '' && $user_ip != '127.0.0.1'){
-                    $loginText = '  <span class="nkBlock">'.LOGINPROGRESS.'</span>
+
+                if ($nuked['sess_inactivemins'] > 0 && $userIp != '' && $userIp != '127.0.0.1') {
+                    $loginText =    $msgLog.'
                                     <span class="nkBlock">'.SESSIONIPOPEN.'</span>
                                     <span class="nkBlock">'.ERRORCOOKIE.'</span>';
-                }
-                else{
+                } else {
                     $loginText = ERRORCOOKIE;
                 }
-
-                htmlHeader($loginText);
-                redirect($url, 10);
             }
-        }*/
+            redirect('index.php?file=User', 2);
+        }
 
         function loginScreen() {
             global $nuked, $user;
@@ -672,7 +688,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                 ?>
 
                 <div class="nkAlignCenter nkMarginTop15 nkMarginBottom15"><?php echo LOGINUSER; ?></div>
-                <form action="index.php?file=User&amp;nuked_nude=index&amp;op=login" method="post">
+                <form class="nkAjaxForm" action="index.php?file=User&amp;nuked_nude=index&amp;op=login" method="post">
                 <table class="nkMarginLRAuto nkMarginTop15 nkMarginBottom15">
                     <tr>
                         <td class="nkPaddingTB5"><?php echo PSEUDO; ?>&nbsp;:&nbsp;</td>
@@ -716,7 +732,7 @@ if (!isset($GLOBALS['nkInitError'])) {
             }
         }
 
-        function htmlHeader($content) {
+        function htmlDisconnect($content) {
             global $nuked;
         ?>
             <!DOCTYPE html>
@@ -763,12 +779,12 @@ if (!isset($GLOBALS['nkInitError'])) {
             setcookie($cookieLangue, '', time() - 3600);
             setcookie($cookieForum, '', time() - 3600);
             $_SESSION['admin'] = false;
-            htmlHeader(USERLOGOUTINPROGRESS);
+            htmlDisconnect(USERLOGOUTINPROGRESS);
             redirect('index.php', 2);
         }
 
         function editAccount() {
-            global $nuked, $user, $modulePref;
+            global $nuked, $user, $modulePref, $modName;
 
             define('EDITOR_CHECK', 1);
             if ($user) {
@@ -780,9 +796,19 @@ if (!isset($GLOBALS['nkInitError'])) {
 
                 // Check du jour
                 $dateExtract = explode('/', $age);
+                $flag = substr($country, 0, 2);
+                $flag = strtoupper($flag);
                 $dayView   = '';
                 $monthView = '';
                 $yearView  = '';
+
+                // affichage sex
+                $sexArray = array(
+                    'man'   => MAN, 
+                    'women' => WOMEN
+                );
+                $sexView = $GLOBALS['nkFunctions']->nkRadioBox('span', SEX, 2, 'sex', $sexArray, '&nbsp;:&nbsp;','sex', 'nkLabelSpacing nkNoPadding nkMarginTop15', '', '', $sex);
+
                 for ($d=1; $d <= 31; $d++) {
                     if ($dateExtract[0] == $d) {
                         $selectDay   = 'selected="selected"';
@@ -812,36 +838,25 @@ if (!isset($GLOBALS['nkInitError'])) {
                     }
                     $yearView  .= '<option value="'.$y.'" '.$selectYear.'>'.$y.'</option>';
                 }
-                if ($modulePref['avatarUpload'] != "on") {
-                    $disable = 'disabled="disabled"';
-                } else {
-                    $disable = '';
-                }
-                $sexArray = array(
-                    'man'   => MAN, 
-                    'women' => WOMEN
-                );
-                $sexView = $GLOBALS['nkFunctions']->nkRadioBox('span', SEX, 2, 'sexe', $sexArray, '&nbsp;:&nbsp;','sex', 'nkLabelSpacing', 'nkRadioBoxcontainer');
 
+                // affichage avatar upload et url
                 if ($modulePref['avatarUpload'] == "on" || $modulePref['avatarUrl'] == "on") {
-                
-                    if($modulePref['avatarUrl'] != "on") {
-                        $disable = 'DISABLED="DISABLED"';
-                    } else {
-                        $disable = '';
-                    }
-
+                   
                     $avatarView = '<label class="nkLabelSpacing" for="editPhoto">'.AVATAR.'</label>&nbsp;:&nbsp;
-                                        <input class="nkInput" type="text" id="editPhoto" name="avatarUrl" size="30" maxlength="150" '.$disable.' />';
+                                        <input class="nkInput" type="text" id="editPhoto" name="avatarUrl" size="35" maxlength="150" value="'.$avatar.'" />';
 
                     if ($modulePref['avatarUpload'] == "on") {
-                        $avatarUpload = '<label class="nkLabelSpacing" for="editAvatar">'.AVATARUPLOAD.'</label>&nbsp;:&nbsp;
-                                            <input class="nkInput" type="file" id="editAvatar" name="avatarUpload" />';
+                        $avatarUploadLink = '<label class="nkLabelSpacing" for="editAvatar">'.AVATARUPLOAD.'</label>&nbsp;:&nbsp;
+                                                <input class="nkInput" type="file" id="editAvatar" name="avatarUpload" size="23" />';
                     }
                 }
 
                 if ($modulePref['userAccountDelete'] == "on") {
-                    $delMyAccount = $GLOBALS['nkFunctions']->nkCheckBox('remove', '', 'removeMyAccount', 'nkPaddingTB5', DELMYACCOUNT, 'ok');
+                    $removeArray = array(
+                        YES,
+                        NO
+                    );
+                    $delMyAccount = $GLOBALS['nkFunctions']->nkRadioBox('span', DELMYACCOUNT, 2, 'remove', $removeArray, '', 'editRemove', null, 'removeMyAccount', '', 1);
                 }
 
                 ?>
@@ -851,7 +866,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                 <article class="nkWidthFully">
                     <div>
                         <label class="nkLabelSpacing" for="editPseudo"><?php echo PSEUDO; ?> *</label>&nbsp;:&nbsp;
-                            <input class="nkInput" id="editPseudo" type="text" name="pseudo" size="38" maxlength="30" value="<?php echo $pseudo; ?>" />
+                            <input class="nkInput" id="editPseudo" type="text" name="pseudo" size="35" maxlength="30" value="<?php echo $pseudo; ?>" />
                     </div>
                     <div>
                         <label class="nkLabelSpacing" for="editPass"><?php echo USERPASSWORD; ?></label>&nbsp;:&nbsp;
@@ -867,15 +882,15 @@ if (!isset($GLOBALS['nkInitError'])) {
                     </div>
                     <div>
                         <label class="nkLabelSpacing" for="editPrivateMail"><?php echo PRIVATEMAIL; ?> *</label>&nbsp;:&nbsp;
-                            <input class="nkInput" id="editPrivateMail" type="text" name="privateMail" size="38" maxlength="80" value="<?php echo $privateMail; ?>" />
+                            <input class="nkInput" id="editPrivateMail" type="text" name="privateMail" size="35" maxlength="80" value="<?php echo $privateMail; ?>" />
                     </div>
                     <div>
                         <label class="nkLabelSpacing" for="editPublicMail"><?php echo PUBLICMAIL; ?></label>&nbsp;:&nbsp;
-                            <input class="nkInput" type="text" id="editPublicMail" name="publicMail" size="38" maxlength="80" value="<?php echo $publicMail; ?>" />
+                            <input class="nkInput" type="text" id="editPublicMail" name="publicMail" size="35" maxlength="80" value="<?php echo $publicMail; ?>" />
                     </div>
                     <div>
                         <label class="nkLabelSpacing" for="editFirstName"><?php echo FIRSTNAME; ?></label>&nbsp;:&nbsp;
-                            <input class="nkInput" id="editFirstName" type="text" name="firstName" size="38" maxlength="30" value="<?php echo $firstName; ?>" />
+                            <input class="nkInput" id="editFirstName" type="text" name="firstName" size="35" maxlength="30" value="<?php echo $firstName; ?>" />
                     </div>
                     <div>
                         <label class="nkLabelSpacing" for="editAge"><?php echo BIRTHDAY; ?></label>&nbsp;:&nbsp;
@@ -896,31 +911,38 @@ if (!isset($GLOBALS['nkInitError'])) {
                             </select>
                     </div>
                     <div>
-                        <label class="nkLabelSpacing" for="editSexe"><?php echo SEX; ?></label>&nbsp;:&nbsp;
-                            <input class="nkInput" id="editSexe" type="text" name="sexe" size="38" maxlength="30" value="<?php echo $sex; ?>" />
+                        <?php 
+                        echo $sexView; 
+                        ?>
                     </div>
                     <div>
                         <label class="nkLabelSpacing" for="editCity"><?php echo CITY; ?></label>&nbsp;:&nbsp;
-                            <input class="nkInput" type="text" id="editCity" name="city" size="38" maxlength="80" value="<?php echo $city; ?>" />
+                            <input class="nkInput" type="text" id="editCity" name="city" size="35" maxlength="80" value="<?php echo $city; ?>" />
                     </div>
                     <div>
                         <label class="nkLabelSpacing" for="editCountry"><?php echo COUNTRY; ?></label>&nbsp;:&nbsp;
-                            <input class="nkInput" type="text" id="editCountry" name="country" size="38" maxlength="80" value="<?php echo $country; ?>" />
+                            <select class="nkInput" id="editCountry" name="country">
+                                <option value="<?php echo $country; ?>">France</option>
+                            </select>
+                            <span class="nkFlags<?php echo $flag; ?> nkMarginLeft"></span>
                     </div>
                     <div>
                         <label class="nkLabelSpacing" for="editWebsite"><?php echo WEBSITE; ?></label>&nbsp;:&nbsp;
-                            <input class="nkInput" type="text" id="editWebsite" name="website" size="38" maxlength="80" value="<?php echo $website; ?>" />
-                    </div>
-                    <div>
-                        <label class="nkLabelSpacing" for="e_basic"><?php echo SIGN; ?></label>&nbsp;:&nbsp;
-                            <textarea class="nkTextArea" id="e_basic" name="signing" rows="10" cols="35"><?php echo $signing; ?></textarea>
+                            <input class="nkInput" type="text" id="editWebsite" name="website" size="35" maxlength="80" value="<?php echo $website; ?>" />
                     </div>
                     <?php
-                        echo $delMyAccount;
+                        echo $avatarView;
+                        echo $avatarUploadLink;
+                    ?>
+                    <div>
+                        <label class="nkLabelSpacing" for="e_basic"><?php echo SIGN; ?></label>&nbsp;:&nbsp;
+                            <textarea class="nkTextArea" id="e_basic" name="signing" rows="5" cols="33"><?php echo $signing; ?></textarea>
+                    </div>
+                    <?php
+                        echo '<div class="nkAlignCenter nkMarginTop15">'.$delMyAccount.'</div>';
                     ?>
                     <div class="nkPadding nkAlignCenter nkMarginTop15">
                         <input class="nkButton" type="submit" name="Submit" value="<?php echo SEND; ?>" />
-                        <input type="hidden" name="pass" value="<?php echo $pass; ?>" />
                     </div>
                 </article>
                 </form>
@@ -1005,69 +1027,29 @@ if (!isset($GLOBALS['nkInitError'])) {
                         'man'   => MAN, 
                         'women' => WOMEN
                     );
-                    $sexView = $GLOBALS['nkFunctions']->nkRadioBox('span', SEX, 2, 'sexe', $sexArray, '&nbsp;:&nbsp;','sex', 'nkLabelSpacing', 'nkRadioBoxcontainer');
+                    $sexView = $GLOBALS['nkFunctions']->nkRadioBox('span', SEX, 2, 'sex', $sexArray, '&nbsp;:&nbsp;','sex', 'nkLabelSpacing', 'nkRadioBoxcontainer');
 
+                    // affichage avatar upload et url
                     if ($modulePref['avatarUpload'] == "on" || $modulePref['avatarUrl'] == "on") {
-                    
-                        if($modulePref['avatarUrl'] != "on") {
-                            $disable = 'DISABLED="DISABLED"';
-                        } else {
-                            $disable = '';
-                        }
-
-                            $avatarView = '<label class="nkLabelSpacing" for="regPhoto">'.AVATAR.'</label>&nbsp;:&nbsp;
-                                            <input class="nkInput" type="text" id="regPhoto" name="avatarUrl" size="38" maxlength="150" '.$disable.' />';
+                       
+                        $avatarView = '<label class="nkLabelSpacing" for="editPhoto">'.AVATAR.'</label>&nbsp;:&nbsp;
+                                            <input class="nkInput" type="text" id="editPhoto" name="avatarUrl" size="35" maxlength="150" />';
 
                         if ($modulePref['avatarUpload'] == "on") {
-                            $avatarUpload = '<label class="nkLabelSpacing" for="regAvatar">'.AVATARUPLOAD.'</label>&nbsp;:&nbsp;
-                                                <input class="nkInput" id="regAvatar" type="file" name="avatarUpload" />';
+                            $avatarUploadLink = '<label class="nkLabelSpacing" for="editAvatar">'.AVATARUPLOAD.'</label>&nbsp;:&nbsp;
+                                                    <input class="nkInput" type="file" id="editAvatar" name="avatarUpload" size="23" />';
                         }
                     }
+
                 ?>
-
-                    <script type="text/javascript">
-                    <!-- //
-                        function trim(string) {
-                            return string.replace(/(^\s*)|(\s*$)/g,'');
-                        }
-                        function verifchamps() {
-                            pseudo = trim(document.getElementById('regPseudo').value);
-                        
-                            if (pseudo.length < 3) {
-                                alert('<?php echo TYPEMIN3; ?>');
-                                return false;
-                            }
-
-                            if ($modulePref['inscription'] != "mail") {                           
-                                pass = trim(document.getElementById('regPass').value);
-                                if (pass.length < 4) {
-                                    alert('<?php echo TYPEMIN4; ?>');
-                                    return false;
-                                }
-                                if (document.getElementById('regPass').value != document.getElementById('confPass').value) {
-                                    alert('<?php echo PASSFAILED; ?>');
-                                    return false;
-                               }
-                            }
-
-                            if (document.getElementById('privateMail').value.indexOf('@') == -1) {
-                                alert('<?php echo MAILFAILED; ?>');
-                                return false;
-                            }
-                            return true;
-                        }
-                    // -->
-                    </script>
-
                     <link rel="stylesheet" href="media/css/checkSecurityPass.css" type="text/css" media="screen" />
                     <script type="text/javascript" src="media/js/checkSecurityPass.js"></script>
-
                     <header class="nkAlignCenter nkMarginBottom15 nkMarginTop15 nkSize14 nkBold"><?php echo NEWUSERREGISTRATION; ?></header>
-                    <form method="post" action="index.php?file=User&amp;op=reg" onsubmit="return verifchamps();">
+                    <form method="post" action="index.php?file=User&amp;nuked_nude=index&amp;op=reg">
                     <article class="nkWidthFull nkMargin">
                         <div>
                             <label class="nkLabelSpacing" for="regPseudo"><?php echo PSEUDO; ?> (<?php echo REQUIRED; ?>) *</label>&nbsp;:&nbsp;
-                                <input class="nkInput" id="regPseudo" type="text" name="pseudo" size="38" maxlength="30" />
+                                <input class="nkInput" id="regPseudo" type="text" name="pseudo" size="35" maxlength="30" />
                         </div>
                     <?php
                     if ($modulePref['inscription'] != "mail") {
@@ -1096,15 +1078,15 @@ if (!isset($GLOBALS['nkInitError'])) {
                     ?>
                         <div>
                             <label class="nkLabelSpacing" for="privateMail"><?php echo PRIVATEMAIL; ?> (<?php echo REQUIRED; ?>) *</label>&nbsp;:&nbsp;
-                                <input class="nkInput" id="privateMail" type="text" name="privateMail" size="38" maxlength="80" />
+                                <input class="nkInput" id="privateMail" type="text" name="privateMail" size="35" maxlength="80" />
                         </div>
                         <div>
                             <label class="nkLabelSpacing" for="publicMail"><?php echo PUBLICMAIL; ?> (<?php echo OPTIONAL; ?>)</label>&nbsp;:&nbsp;
-                                <input class="nkInput" type="text" id="publicMail" name="publicMail" size="38" maxlength="80" />
+                                <input class="nkInput" type="text" id="publicMail" name="publicMail" size="35" maxlength="80" />
                         </div>                        
                         <div>
                             <label class="nkLabelSpacing" for="regFirstName"><?php echo FIRSTNAME; ?></label>&nbsp;:&nbsp;
-                                <input class="nkInput" id="regFirstName" type="text" name="firstName" size="38" maxlength="30" />
+                                <input class="nkInput" id="regFirstName" type="text" name="firstName" size="35" maxlength="30" />
                         </div>
                         <div>
                             <label class="nkLabelSpacing" for="regAge"><?php echo BIRTHDAY; ?></label>&nbsp;:&nbsp;
@@ -1132,7 +1114,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                         <!-- A FAIRE COMPLETTION JS POUR LES VILLES ??? -->
                         <div>
                             <label class="nkLabelSpacing" for="regCity"><?php echo CITY; ?></label>&nbsp;:&nbsp;
-                                <input class="nkInput" id="regCity" type="text" name="city" size="38" maxlength="30" />
+                                <input class="nkInput" id="regCity" type="text" name="city" size="35" maxlength="30" />
                         </div>                        
                         <div>
                             <label class="nkLabelSpacing" for="country"><?php echo COUNTRY; ?> (<?php echo OPTIONAL; ?>)</label>&nbsp;:&nbsp;
@@ -1145,17 +1127,17 @@ if (!isset($GLOBALS['nkInitError'])) {
                         </div>                        
                         <div>
                             <label class="nkLabelSpacing" for="regWebSite"><?php echo WEBSITE; ?></label>&nbsp;:&nbsp;
-                                <input class="nkInput" id="regWebSite" type="text" name="website" size="38" maxlength="30" />
+                                <input class="nkInput" id="regWebSite" type="text" name="website" size="35" maxlength="30" />
                         </div>                        
                         <div>                            
                             <?php
                                 echo $avatarView;
-                                echo $avatarUpload;
+                                echo $avatarUploadLink;
                             ?>
                         </div>                        
                         <div>
                             <label class="nkLabelSpacing" for="e_basic"><?php echo SIGNING; ?></label>&nbsp;:&nbsp;
-                                <textarea class="nkTextArea" id="e_basic" name="signing" rows="10" cols="35"></textarea>
+                                <textarea class="nkTextArea" id="e_basic" name="signing" rows="5" cols="33"></textarea>
                         </div>
                         <?php
                         if ($captcha == 1) {
@@ -1177,8 +1159,8 @@ if (!isset($GLOBALS['nkInitError'])) {
             }
         }
 
-        function reg($pseudo, $privateMail, $publicMail, $passReg, $passConf, $country, $firstName, $day, $month, $year, $sexe, $city, $website, $avatarUpload, $avatarUrl, $signing) {
-            global $nuked, $captcha, $cookieForum, $user_ip, $modulePref;
+        function reg($pseudo, $privateMail, $publicMail, $passReg, $passConf, $country, $firstName, $day, $month, $year, $sex, $city, $website, $avatarUrl, $signing) {
+            global $nuked, $captcha, $cookieForum, $userIp, $modulePref, $modName;
 
             // Verification code captcha
             if (!ValidCaptchaCode($_REQUEST['codeConfirm'])) {                
@@ -1188,36 +1170,33 @@ if (!isset($GLOBALS['nkInitError'])) {
                 echo '</div>';
             } else {
 
-                $privateMail  = mysql_real_escape_string(stripslashes($privateMail));
-                $publicMail   = mysql_real_escape_string(stripslashes($publicMail));
-                $game         = mysql_real_escape_string(stripslashes($game));
-                $country      = mysql_real_escape_string(stripslashes($country));
-                $sexe         = mysql_real_escape_string(stripslashes($sexe));
-                $city         = mysql_real_escape_string(stripslashes($city));
-                $website      = mysql_real_escape_string(stripslashes($website));
-                $signing      = mysql_real_escape_string(stripslashes($signing));
-                $avatarUrl    = mysql_real_escape_string(stripslashes($avatarUrl));
-                $avatarUpload = mysql_real_escape_string(stripslashes($avatarUpload));
-                $pseudo       = htmlentities($pseudo, ENT_QUOTES);    
-                $firstName    = htmlentities($firstName, ENT_QUOTES); 
-                $privateMail  = htmlentities($privateMail); 
-                $publicMail   = htmlentities($publicMail);
-                $game         = htmlentities($game);
-                $country      = htmlentities($country);
-                $sexe         = htmlentities($sexe);
-                $city         = htmlentities($city);
-                $website      = htmlentities($website);
-                $avatarUrl    = htmlentities($avatarUrl);
-                $avatarUpload = htmlentities($avatarUpload);       
-                $pseudo       = htmlentities($pseudo);
-                $firstName    = htmlentities($firstName); 
-                $signing      = secu_html(html_entity_decode($signing));
-                $date         = time();
+                $privateMail = mysql_real_escape_string(stripslashes($privateMail));
+                $publicMail  = mysql_real_escape_string(stripslashes($publicMail));
+                $country     = mysql_real_escape_string(stripslashes($country));
+                $sex         = mysql_real_escape_string(stripslashes($sex));
+                $city        = mysql_real_escape_string(stripslashes($city));
+                $website     = mysql_real_escape_string(stripslashes($website));
+                $signing     = mysql_real_escape_string(stripslashes($signing));
+                $avatarUrl   = mysql_real_escape_string(stripslashes($avatarUrl));
+                $pseudo      = htmlentities($pseudo, ENT_QUOTES);    
+                $firstName   = htmlentities($firstName, ENT_QUOTES); 
+                $privateMail = htmlentities($privateMail); 
+                $publicMail  = htmlentities($publicMail);
+                $country     = htmlentities($country);
+                $sex         = htmlentities($sex);
+                $city        = htmlentities($city);
+                $website     = htmlentities($website);
+                $avatarUrl   = htmlentities($avatarUrl);      
+                $pseudo      = htmlentities($pseudo);
+                $firstName   = htmlentities($firstName); 
+                $signing     = secu_html(html_entity_decode($signing));
+                $date        = time();
 
-                if ($year < date('Y')) {
-                    $age = $day.'/'.$month.'/'.$year;
+                if ($year >= date('Y')) {
+                    $GLOBALS['nkTpl']->nkExitAfterError(BADAGE, 'nkAlert nkAlertError');
+                    echo $redir;
                 } else {
-                    $age = '';
+                    $age = $day.'/'.$month.'/'.$year;
                 }
 
                 $redir = redirect("index.php?file=User&op=regScreen", 2);
@@ -1278,26 +1257,32 @@ if (!isset($GLOBALS['nkInitError'])) {
                     $level = 0;
                 }
 
+                // verification si avatar Url est rempli
+                if ($avatarUrl == '') {
+                    $avatarUrl = null;
+                }
+
+                //Upload du fichier et choix du répertoire de destination
+                $avatar = $GLOBALS['nkFunctions']->UploadFiles($modName, 'avatarUpload', $avatarUrl);
+
                 do {
                     $userId = substr(sha1(uniqid()), 0, 20);
                     $dbsuserId = '  SELECT * 
                                     FROM '.USER_TABLE.' 
                                     WHERE id = \''.$userId.'\'';
-                    $dbeuserId = mysql_query($dbsuserId);                    
+                    $dbeuserId = mysql_query($dbsuserId);
                 } 
                 while (mysql_num_rows($dbeuserId) != 0);
 
 
                 // CREER LA FONCTION D UPLOAD POUR L AVATAR
-                $avatar = '';
-                debug($_REQUEST);
-                $dbiUser = 'INSERT INTO '.USER_TABLE.' ( `id` , `pseudo` , `firstName` , `age` , `sex` , `city` , `privateMail` , `publicMail`, `website` , `pass` , `level` , `created` , `avatar` , `signing` , `userTheme` , `userLanguage` , `country` ) VALUES ( "'.$userId.'" , "'.$pseudo.'" , "'.$firstName.'" , "'.$age.'" , "'.$sexe.'" , "'.$city.'" , "'.$privateMail.'" , "'.$publicMail.'" , "'.$website.'" , "'.$cryptpass.'" , "'.$level.'" , "'.$date.'" , "'.$avatar.'" , "'.$signing.'" , "" , "" , "'.$country.'" )';
+                $dbiUser = 'INSERT INTO '.USER_TABLE.' ( `id` , `pseudo` , `firstName` , `age` , `sex` , `city` , `privateMail` , `publicMail`, `website` , `pass` , `level` , `created` , `avatar` , `signing` , `userTheme` , `userLanguage` , `country` ) VALUES ( "'.$userId.'" , "'.$pseudo.'" , "'.$firstName.'" , "'.$age.'" , "'.$sex.'" , "'.$city.'" , "'.$privateMail.'" , "'.$publicMail.'" , "'.$website.'" , "'.$cryptpass.'" , "'.$level.'" , "'.$date.'" , "'.$avatar.'" , "'.$signing.'" , "" , "" , "'.$country.'" )';
                 $dbeUser = mysql_query($dbiUser);
 
 
-                // Mark read all topics in the forum
+                // Mark read all topics in the forum A FAIRE
                 $_COOKIE['cookieForum'] = '';
-                $dbuSession = ' UPDATE ' . SESSIONS_TABLE . ' 
+                $dbuSession = ' UPDATE '.SESSIONS_TABLE.' 
                                 SET lastUsed = date 
                                 WHERE userId = "'.$userId.'"';
                 $dbeSession = mysql_query($dbuSession);
@@ -1353,7 +1338,7 @@ if (!isset($GLOBALS['nkInitError'])) {
 
                 if ($modulePref['inscriptionAvert'] == "on" || $modulePref['validation'] == "admin") {
                     $subject = NEWUSER.'&nbsp;:&nbsp;'.$pseudo.',&nbsp;'.$date2;
-                    $corps   =  $pseudo.'&nbsp;(IP&nbsp;:&nbsp;'.$user_ip.')&nbsp;'.NEWREGISTRATION.'&nbsp;'.$nuked['name'].'&nbsp;'.NEWREGSUITE.'\r\n\r\n\r\n'.$nuked['name'].'&nbsp;-&nbsp;'.$nuked['slogan'];
+                    $corps   =  $pseudo.'&nbsp;(IP&nbsp;:&nbsp;'.$userIp.')&nbsp;'.NEWREGISTRATION.'&nbsp;'.$nuked['name'].'&nbsp;'.NEWREGSUITE.'\r\n\r\n\r\n'.$nuked['name'].'&nbsp;-&nbsp;'.$nuked['slogan'];
                     $from    = 'From:&nbsp;'.$nuked['name'].'&nbsp;<'.$nuked['mail'].'>\r\nReply-To:&nbsp;'.$nuked['mail'];
                     $subject = @html_entity_decode($subject);
                     $corps   = @html_entity_decode($corps);
@@ -1372,15 +1357,8 @@ if (!isset($GLOBALS['nkInitError'])) {
                     echo $GLOBALS['nkTpl']->nkDisplaySuccess(USERMAILSUCCES.'&nbsp;'.$mail, 'nkAlert nkAlertSuccess');
                     redirect('index.php?file=User&op=loginScreen', 5);
                 } else {
-                    echo $GLOBALS['nkTpl']->nkDisplaySuccess(REGISTERSUCCES, 'nkAlert nkAlertSuccess');
-                    ?>
-                    <imput type="hidden" name="pseudo" value="'.urlencode($pseudo).'" />
-                    <imput type="hidden" name="pass" value="'.urlencode($passReg).'" />
-                    <imput type="hidden" name="rememberMe" value="ok" />
-                    <?php
-                    redirect('index.php?file=User&nuked_nude=index&op=login', 2);
 
-                    // redirect('index.php?file=User&nuked_nude=index&op=login&pseudo='.urlencode($pseudo).'&pass='.urlencode($passReg).'&rememberMe=ok', 2);
+                    login($pseudo, $passReg, 'ok');
                 }
             }
         }
@@ -1391,22 +1369,28 @@ if (!isset($GLOBALS['nkInitError'])) {
 
         }
 
-        function updateAccount($pseudo, $privateMail, $publicMail, $passReg, $passConf, $passOld, $country, $firstName, $day, $month, $year, $sexe, $city, $website, $avatarUpload, $avatarUrl, $signing, $remove) {
-            global $nuked, $user;
+        function updateAccount($pseudo, $privateMail, $publicMail, $passReg, $passConf, $passOld, $country, $firstName, $day, $month, $year, $sex, $city, $website, $avatarUrl, $signing, $remove) {
+            global $nuked, $user, $modulePref, $modName;
 
-            if ($remove == "ok" && $modulePref['userAccountDelete'] == "on") {
+            if ($remove == 0 && $modulePref['userAccountDelete'] == "on") {
             ?>
 
                 <form action="index.php?file=User&amp;op=delAccount" method="post">
-                    <header class="nkAlignCenter"><?php echo DELMYACCOUNT; ?></header>
-                    <span><?php echo REMOVECONFIRM; ?></span>
-                    <label><?php echo USERPASSWORD; ?></label>&nbsp;:&nbsp;
-                        <input class="nkInput" type="password" name="pass" size="15" maxlength="15" />
-                    <div class="nkAlignCenter">
-                        <input class="nkInput" type="submit" value="<?php echo SEND; ?>" />
-                        &nbsp;
-                        <input class="nkInput" type="button" value="<?php echo CANCEL; ?>" onclick="document.location='index.php?file=User&amp;op=editAccount'" />
-                    </div>
+                    <article>
+                        <header class="nkAlignCenter">
+                            <h3><?php echo DELMYACCOUNT; ?></h3>
+                        </header>
+                        <div class="nkAlignCenter">
+                            <span class="nkBlock"><?php echo REMOVECONFIRM; ?></span>
+                            <label><?php echo USERPASSWORD; ?></label>&nbsp;:&nbsp;
+                                <input class="nkInput nkMarginTop15" type="password" name="pass" size="15" maxlength="15" />
+                        </div>
+                        <div class="nkAlignCenter nkMarginTop15">
+                            <input class="nkButton" type="submit" value="<?php echo SEND; ?>" />
+                            &nbsp;
+                            <input class="nkButton" type="button" value="<?php echo CANCEL; ?>" onclick="document.location='index.php?file=User&amp;op=editAccount'" />
+                        </div>
+                    </article>
                 </form>
             <?php
             } else {
@@ -1416,9 +1400,10 @@ if (!isset($GLOBALS['nkInitError'])) {
                 $pseudo      = htmlentities($pseudo, ENT_QUOTES);
                 $privateMail = htmlentities($privateMail);
                 $publicMail  = htmlentities($publicMail);
+                $age         = $day.'/'.$month.'/'.$year;
 
-                $dbsUserInfo = 'SELECT ut.pseudo, ut.privateMail, ut.pass, 
-                                  ( 
+                $dbsUserInfo = 'SELECT ut.pseudo, ut.privateMail, ut.pass, ut.avatar,
+                                  (
                                       SELECT COUNT(bt.pseudo) 
                                       FROM '.BANNED_TABLE.' AS bt 
                                       WHERE bt.pseudo = "'.$pseudo.'" 
@@ -1443,7 +1428,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                                 FROM '.USER_TABLE.' AS ut 
                                 WHERE ut.id = "'.$user[0].'"';
                 $dbeUserInfo = mysql_query($dbsUserInfo);
-                list($oldPseudo, $oldMail, $oldPass, $bannedPseudo, $reservedPseudo, $bannedMail, $reservedMail) = mysql_fetch_array($dbeUserInfo);
+                list($oldPseudo, $oldMail, $oldPass, $oldAvatar, $bannedPseudo, $reservedPseudo, $bannedMail, $reservedMail) = mysql_fetch_array($dbeUserInfo);
 
                 if ($pseudo != $oldPseudo) {
                     if (!$pseudo || ($pseudo == "") || (preg_match("`[\$\^\(\)'\"?%#<>,;:]`", $pseudo))) {
@@ -1478,7 +1463,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                     if ($bannedMail > 0) {
                         $GLOBALS['nkTpl']->nkExitAfterError(MAILBANNED, 'nkAlert nkAlertError');
                         redirect('index.php?file=User&op=editAccount', 2);
-                    } elseif (!Check_Hash($pass_old, $oldPass) || !$pass_old) {
+                    } elseif (!Check_Hash($passOld, $oldPass) || !$passOld) {
                         $GLOBALS['nkTpl']->nkExitAfterError(BADOLDPASS, 'nkAlert nkAlertError');
                         redirect('index.php?file=User&op=editAccount', 2);
                     } else {
@@ -1493,7 +1478,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                     if ($passReg != $passConf) {
                         $GLOBALS['nkTpl']->nkExitAfterError(PASSFAILED, 'nkAlert nkAlertError');
                         redirect('index.php?file=User&op=editAccount', 2);
-                    } elseif (!Check_Hash($pass_old, $oldPass) || !$pass_old) {
+                    } elseif (!Check_Hash($passOld, $oldPass) || !$passOld) {
                         $GLOBALS['nkTpl']->nkExitAfterError(BADOLDPASS, 'nkAlert nkAlertError');
                         redirect('index.php?file=User&op=editAccount', 2);
                     } else {
@@ -1504,56 +1489,40 @@ if (!isset($GLOBALS['nkInitError'])) {
                         $dbeUserInfo = mysql_query($dbuUserInfo);
                     }
                 }
-                
 
                 if (!empty($website) && !is_int(stripos($website, 'http://'))) {
                     $website = 'http://'.$website;
                 }
 
-                // A FAIRE
-                $filename = $_FILES['fichiernom']['name'];
-                $filesize = $_FILES['fichiernom']['size'];
-                if ($filename != '' && $filesize <= 100000) {
-                    $ext = pathinfo($filename, PATHINFO_EXTENSION);
-                    if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'JPG' || $ext == 'JPEG' || $ext == 'gif' || $ext == 'GIF' || $ext == 'png' || $ext == 'PNG') {
-                        $url_avatar = 'upload/User/'.time().'.'.$ext;
-                        move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_avatar) or die ('<br /><br /><div style="text-align: center;"><b>Upload file failed !!!</b></div><br /><br />');
-                        @chmod ($url_avatar, 0644);
-                    } else {
-                        $GLOBALS['nkTpl']->nkExitAfterError(BADFILEFORMAT, 'nkAlert nkAlertError');
-                        redirect('index.php?file=User&op=editAccount', 5);
-                    }
-                } elseif ($filename != '') {
-                    $GLOBALS['nkTpl']->nkExitAfterError(FILETOOBIG, 'nkAlert nkAlertError');
-                    redirect('index.php?file=User&op=editAccount', 5);
-                } elseif ($avatar != '') {
-                    $ext = strrchr($avatar, '.');
-                    $ext = substr($ext, 1);
-
-                    if (!preg_match('`.php`i', $avatar) && !preg_match('`.htm`i', $avatar) && (preg_match('`jpg`i', $ext) || preg_match('`jpeg`i', $ext) || preg_match('`gif`i', $ext) || preg_match('`png`i', $ext))) {
-                        $avatarUrl = $avatar;
-                    } else {
-                        $GLOBALS['nkTpl']->nkExitAfterError(BADFILEFORMAT, 'nkAlert nkAlertError');
-                        redirect('index.php?file=User&op=editAccount', 5);
-                    }
-                } else {
-                    $avatarUrl = '';
+                // verification si avatar Url est rempli
+                if ($avatarUrl == '') {
+                    $avatarUrl = null;
                 }
 
-                $age = $day.'/'.$month.'/'.$year;
+                //Upload du fichier et choix du répertoire de destination
+                $avatar = $GLOBALS['nkFunctions']->UploadFiles($modName, 'avatarUpload', $avatarUrl);
+
+                // recuperation de l'ancien avatar 
+                if ($avatar != $oldAvatar) {
+                    if (is_file($oldAvatar) && function_exists('unlink')) {
+                        unlink($oldAvatar);
+                    }
+                }
+
                 $dbuUpdate = '  UPDATE '.USER_TABLE.' 
                                 SET publicMail = "'.$publicMail.'", 
-                                    country    = "'.$country.'",
-                                    firstName  = "'.$firstName.'",
-                                    age        = "'.$age.'",
-                                    sexe       = "'.$sexe.'",
-                                    city       = "'.$city.'",
-                                    website    = "'.$website.'",
-                                    avatar     = "'.$avatar.'",
-                                    signing    = "'.$signing.'"';
+                                    country   = "'.$country.'",
+                                    firstName = "'.$firstName.'",
+                                    age       = "'.$age.'",
+                                    sex       = "'.$sex.'",
+                                    city      = "'.$city.'",
+                                    website   = "'.$website.'",
+                                    avatar    = "'.$avatar.'",
+                                    signing   = "'.$signing.'"
+                                WHERE id = "'.$user[0].'"';
                 $dbeUpdate = mysql_query($dbuUpdate);
                 echo $GLOBALS['nkTpl']->nkDisplaySuccess(INFOMODIF, 'nkAlert nkAlertSuccess');
-                //redirect("index.php?file=User", 1);
+                redirect("index.php?file=User", 1);
             }
         }
 
@@ -1601,7 +1570,7 @@ if (!isset($GLOBALS['nkInitError'])) {
 
 
 
-        function updatePref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $cpu, $ram, $video, $resolution, $sons, $ecran, $souris, $clavier, $connexion, $osystem, $photo, $fichiernom, $game_id, $pref1, $pref2, $pref3, $pref4, $pref5){
+        function updatePref($prenom, $jour, $mois, $an, $sex, $ville, $motherboard, $cpu, $ram, $video, $resolution, $sons, $ecran, $souris, $clavier, $connexion, $osystem, $photo, $avatarUpload, $game_id, $pref1, $pref2, $pref3, $pref4, $pref5){
             global $nuked, $user;
 
             $prenom = htmlentities($prenom);
@@ -1634,15 +1603,15 @@ if (!isset($GLOBALS['nkInitError'])) {
             $osystem = mysql_real_escape_string(stripslashes($osystem));
             $photo = mysql_real_escape_string(stripslashes($photo));
 
-            $filename = $_FILES['fichiernom']['name'];
-            $filesize = $_FILES['fichiernom']['size'];
+            $filename = $_FILES['avatarUpload']['name'];
+            $filesize = $_FILES['avatarUpload']['size'];
 
             if ($filename != "" && $filesize <= 100000){
                 $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
                 if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG"){
                     $url_photo = "upload/User/" . time() . "." . $ext;
-                    move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_photo) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
+                    move_uploaded_file($_FILES['avatarUpload']['tmp_name'], $url_photo) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
                     @chmod ($url_photo, 0644);
                 }
                 else{
@@ -1683,10 +1652,10 @@ if (!isset($GLOBALS['nkInitError'])) {
             $res = mysql_num_rows($verif);
 
             if ($res > 0){
-                $upd = mysql_query("UPDATE " . USER_DETAIL_TABLE . " SET prenom = '" . $prenom . "', age = '" . $age . "', sexe = '" . $sexe . "', ville = '" . $ville . "', motherboard = '" . $motherboard . "', cpu = '" . $cpu . "', ram = '" . $ram . "', video = '" . $video . "', resolution = '" . $resolution . "', son = '" . $sons . "', ecran = '" . $ecran . "', souris = '" . $souris . "', clavier = '" . $clavier . "', connexion = '" . $connexion . "', system = '" . $osystem . "', photo = '" . $url_photo . "' WHERE userId = '" . $user[0] . "'");
+                $upd = mysql_query("UPDATE " . USER_DETAIL_TABLE . " SET prenom = '" . $prenom . "', age = '" . $age . "', sex = '" . $sex . "', ville = '" . $ville . "', motherboard = '" . $motherboard . "', cpu = '" . $cpu . "', ram = '" . $ram . "', video = '" . $video . "', resolution = '" . $resolution . "', son = '" . $sons . "', ecran = '" . $ecran . "', souris = '" . $souris . "', clavier = '" . $clavier . "', connexion = '" . $connexion . "', system = '" . $osystem . "', photo = '" . $url_photo . "' WHERE userId = '" . $user[0] . "'");
             }
             else{
-                $sql = mysql_query("INSERT INTO " . USER_DETAIL_TABLE . " ( `userId` , `prenom` , `age` , `sexe` , `ville` , `photo` , `motherboard` , `cpu` , `ram` , `video` , `resolution` , `son` , `ecran` , `souris` , `clavier` , `connexion` , `system` , `pref_1` , `pref_2` , `pref_3` , `pref_4` , `pref_5` ) VALUES( '" . $user[0] . "' , '" . $prenom . "' , '" . $age . "' , '" . $sexe . "' , '" . $ville . "' , '" . $url_photo . "' , '" . $motherboard . "' , '" . $cpu . "' , '" . $ram . "' , '" . $video . "' , '" . $resolution . "' , '" . $sons . "' , '" . $ecran . "' , '" . $souris . "' , '" . $clavier . "' , '" . $connexion . "' , '" . $osystem . "' , '' , '' , '' , '' , '' )");
+                $sql = mysql_query("INSERT INTO " . USER_DETAIL_TABLE . " ( `userId` , `prenom` , `age` , `sex` , `ville` , `photo` , `motherboard` , `cpu` , `ram` , `video` , `resolution` , `son` , `ecran` , `souris` , `clavier` , `connexion` , `system` , `pref_1` , `pref_2` , `pref_3` , `pref_4` , `pref_5` ) VALUES( '" . $user[0] . "' , '" . $prenom . "' , '" . $age . "' , '" . $sex . "' , '" . $ville . "' , '" . $url_photo . "' , '" . $motherboard . "' , '" . $cpu . "' , '" . $ram . "' , '" . $video . "' , '" . $resolution . "' , '" . $sons . "' , '" . $ecran . "' , '" . $souris . "' , '" . $clavier . "' , '" . $connexion . "' , '" . $osystem . "' , '' , '' , '' , '' , '' )");
             }
 
             $sql_game = mysql_query("SELECT game FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
@@ -1803,8 +1772,7 @@ if (!isset($GLOBALS['nkInitError'])) {
             $pattern = '#^[a-z0-9]+[a-z0-9._-]*@[a-z0-9.-]+.[a-z0-9]{2,3}$#';
             if(!preg_match($pattern, $email)){
                 echo '<div style="text-align:center;margin:30px;">'._WRONGMAIL.'</div>';
-                redirect("index.php?file=User&op=oubliPass", 3);
-                
+                redirect("index.php?file=User&op=oubliPass", 3);                
                 footer();
                 exit();
             }
@@ -1816,8 +1784,7 @@ if (!isset($GLOBALS['nkInitError'])) {
             if($count > 0){
                 if($data['token'] != null && (time() - $data['token_time']) < 3600){
                     echo '<div style="text-align:center;margin:30px;">'._LINKALWAYSACTIVE.'</div>';
-                    redirect("index.php", 3);
-                    
+                    redirect("index.php", 3);                    
                     footer();
                     exit();
                 }
@@ -2033,7 +2000,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                 break;
 
             case"reg":                
-                reg($_REQUEST['pseudo'], $_REQUEST['privateMail'], $_REQUEST['publicMail'], $_REQUEST['passReg'], $_REQUEST['passConf'], $_REQUEST['country'], $_REQUEST['firstName'], $_REQUEST['day'], $_REQUEST['month'], $_REQUEST['year'], $_REQUEST['sexe'], $_REQUEST['city'], $_REQUEST['website'], $_REQUEST['avatarUpload'], $_REQUEST['avatarUrl'], $_REQUEST['signing']);
+                reg($_REQUEST['pseudo'], $_REQUEST['privateMail'], $_REQUEST['publicMail'], $_REQUEST['passReg'], $_REQUEST['passConf'], $_REQUEST['country'], $_REQUEST['firstName'], $_REQUEST['day'], $_REQUEST['month'], $_REQUEST['year'], $_REQUEST['sex'], $_REQUEST['city'], $_REQUEST['website'], $_REQUEST['avatarUrl'], $_REQUEST['signing']);
                 break;
 
             case"login":
@@ -2053,7 +2020,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                 break;
 
             case"updateAccount": 
-                updateAccount($_REQUEST['pseudo'], $_REQUEST['privateMail'], $_REQUEST['publicMail'], $_REQUEST['passReg'], $_REQUEST['passConf'], $_REQUEST['passOld'], $_REQUEST['country'], $_REQUEST['firstName'], $_REQUEST['day'], $_REQUEST['month'], $_REQUEST['year'], $_REQUEST['sexe'], $_REQUEST['city'], $_REQUEST['website'], $_REQUEST['avatarUpload'], $_REQUEST['avatarUrl'], $_REQUEST['signing'], $_REQUEST['remove'] );                
+                updateAccount($_REQUEST['pseudo'], $_REQUEST['privateMail'], $_REQUEST['publicMail'], $_REQUEST['passReg'], $_REQUEST['passConf'], $_REQUEST['passOld'], $_REQUEST['country'], $_REQUEST['firstName'], $_REQUEST['day'], $_REQUEST['month'], $_REQUEST['year'], $_REQUEST['sex'], $_REQUEST['city'], $_REQUEST['website'], $_REQUEST['avatarUrl'], $_REQUEST['signing'], $_REQUEST['remove']);                
                 break;
 
             case"showAvatar":

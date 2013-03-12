@@ -44,6 +44,14 @@ include ROOT_PATH . 'Includes/constants.php';
 // Initialize session
 nkSessionInit();
 
+$session = session_check();
+if ($session == 1) {
+    $user = secure();
+} else {
+    $user = array();
+}
+$session_admin = admin_check();
+
 /******** REQUIRE AJOUT PAR MAXXI *******/
 require ROOT_PATH . 'Includes/libs/NK_comment.php';
 
@@ -178,7 +186,7 @@ function getTimeZoneDateTime($GMT) {
  */
 function banip() {
     // Delete last number for dynamic IP's
-    $ipDyn = substr($GLOBALS['user_ip'], 0, -1);
+    $ipDyn = substr($GLOBALS['userIp'], 0, -1);
 
     // SQL condition : dynamic IP or user account
     $whereClause = ' WHERE (ip LIKE "%'.$ipDyn.'%") OR pseudo = "'.$GLOBALS['user'][2];
@@ -188,7 +196,7 @@ function banip() {
 
     // If positive result with banish search, assign new ip
     if (nkDB_numRows() > 0) {
-        $ipBanned = $GLOBALS['user_ip'];
+        $ipBanned = $GLOBALS['userIp'];
     } else if (isset($_COOKIE['ip_ban']) && !empty($_COOKIE['ip_ban'])) { // Seach cookie banish
         // On supprime le dernier chiffre de l'adresse IP contenu dans le cookie
         $ipDynCookie = substr($_COOKIE['ip_ban'], 0, -1);
@@ -199,7 +207,7 @@ function banip() {
             $banCookieQuery  = nkDB_select('SELECT `id` FROM '.BANNED_TABLE.' WHERE (ip LIKE "%'.$ipDynCookie.'%")');
             // If positive result, do new ban and assign new IP
             if (nkDB_numRows() > 0) {
-                $ipBanned = $GLOBALS['user_ip'];
+                $ipBanned = $GLOBALS['userIp'];
             }
         }
     } else{
@@ -224,8 +232,8 @@ function banip() {
                 $whereUser = '';
             }
             $fields = array('ip', 'pseudo');
-            $values = array($GLOBALS['user_ip'], $whereUser);
-            $rs = nkDB_update( BANNED_TABLE, $fields, $values, 'ip = '.nkDB_escape($GLOBALS['user_ip']. $whereUser . $whereClause));
+            $values = array($GLOBALS['userIp'], $whereUser);
+            $rs = nkDB_update( BANNED_TABLE, $fields, $values, 'ip = '.nkDB_escape($GLOBALS['userIp']. $whereUser . $whereClause));
                 
             // Redirection to banish page
             $urlBan = 'ban.php?ip_ban='.$ipBanned;
@@ -870,10 +878,10 @@ function nbvisiteur() {
         $time = time();
         $limite = $time + (int) $GLOBALS['nuked']['nbc_timeout'];
 
-        $rsDel = nkDB_delete(NBCONNECTE_TABLE, 'date < ' . nkDB_escape($time));
+        $rsDel = nkDB_delete(NBCONNECTE_TABLE, 'created < ' . nkDB_escape($time));
 
-        if (isset($GLOBALS['user_ip'])) {
-            updateUserConnectData($GLOBALS['user'], $GLOBALS['user_ip'], $limite);
+        if (isset($GLOBALS['userIp'])) {
+            updateUserConnectData($GLOBALS['user'], $GLOBALS['userIp'], $limite);
         }
 
         $req = nkDB_select('SELECT COUNT(*) AS recordcount FROM '. NBCONNECTE_TABLE .' WHERE type = 0' );
@@ -1096,8 +1104,8 @@ function visits() {
         $strReq = 'SELECT id, date FROM ' . STATS_VISITOR_TABLE . ' WHERE user_id = ' . nkDB_escape($GLOBALS['user'][0]);
         $userID = $GLOBALS['user'][0];
     } else {
-        $strReq = 'SELECT id, date FROM ' . STATS_VISITOR_TABLE . ' WHERE ip = ' . nkDB_escape($GLOBALS['user_ip']);
-        $userID = $GLOBALS['user_ip'];
+        $strReq = 'SELECT id, date FROM ' . STATS_VISITOR_TABLE . ' WHERE ip = ' . nkDB_escape($GLOBALS['userIp']);
+        $userID = $GLOBALS['userIp'];
     }
     
     $statsData = nkDB_select($strQuery, array( 'date' ), 'DESC', 1);
@@ -1119,10 +1127,10 @@ function visits() {
             $userReferer = '';
         }
         
-        $userHost = strtolower(@gethostbyaddr($GLOBALS['user_ip']));
+        $userHost = strtolower(@gethostbyaddr($GLOBALS['userIp']));
         
         // Get hostname of user
-        if ($userHost == $GLOBALS['user_ip']) {
+        if ($userHost == $GLOBALS['userIp']) {
             $host = '';
         } else if (preg_match(
                 '#([^.]{1,})((\.(co|com|net|org|edu|gov|mil))|())((\.(ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|az|ba|bb|
@@ -1146,7 +1154,7 @@ function visits() {
         nkDB_insert(
                 STATS_VISITOR_TABLE,
                 array('`user_id`', '`ip`', '`host`', '`browser`', '`os`', '`referer`', '`day`', '`month`', '`year`', '`hour`', '`date`'),
-                array($userID, $GLOBALS['user_ip'], $host, $browser, $os, $user_referer, $day, $month, $year, $hour, $limite)
+                array($userID, $GLOBALS['userIp'], $host, $browser, $os, $user_referer, $day, $month, $year, $hour, $limite)
         );
     }
 }
@@ -1479,9 +1487,9 @@ function accessModule($module,$type = 'level') {
  * Set theme
  */
 // SELECT THEME, USER THEME OR NOT FOUND THEME : ERROR
-if (isset($_REQUEST[$GLOBALS['nuked']['cookiename'] . '_userTheme']) && is_file(ROOT_PATH . 'themes/' . $GLOBALS['nuked']['user_theme'] . '/theme.php')) {
+if (isset($_COOKIE[$GLOBALS['nuked']['cookiename'] . '_userTheme']) && is_file(ROOT_PATH . 'themes/' . $_COOKIE[$GLOBALS['nuked']['cookiename'] . '_userTheme'] . '/theme.php')) {
 
-    $theme = trim($_REQUEST[$GLOBALS['nuked']['cookiename'] . '_userTheme']);
+    $theme = trim($_COOKIE[$GLOBALS['nuked']['cookiename'] . '_userTheme']);
 
 } elseif (is_file(ROOT_PATH . 'themes/' . $GLOBALS['nuked']['theme'] . '/theme.php')) {
 
@@ -1489,12 +1497,12 @@ if (isset($_REQUEST[$GLOBALS['nuked']['cookiename'] . '_userTheme']) && is_file(
 
 } else {
     // mettre une variable pour gamer ou non
-    $theme = trim('nk18Gamers');
+    $theme = $nuked['defaultTemplate'];
 }
 
 // SELECT LANGUAGE AND USER LANGUAGE
-if (isset($_REQUEST[$GLOBALS['nuked']['cookiename'] . '_userLangue']) && is_file(ROOT_PATH . 'lang/' . $GLOBALS['nuked']['user_lang'] . '.lang.php')) {
-    $language = trim($_REQUEST[$GLOBALS['nuked']['cookiename'] . '_userLangue']);    
+if (isset($_COOKIE[$GLOBALS['nuked']['cookiename'] . '_userLangue']) && is_file(ROOT_PATH . 'lang/' . $_COOKIE[$GLOBALS['nuked']['cookiename'] . '_userLangue'] . '.lang.php')) {
+    $language = trim($_COOKIE[$GLOBALS['nuked']['cookiename'] . '_userLangue']);    
 } else {
     $language =  trim($GLOBALS['nuked']['langue']);    
 }

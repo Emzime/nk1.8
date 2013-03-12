@@ -14,8 +14,7 @@
  * @name NK_tpl
  * @desc Custom class for include template
  */
-class NK_tpl {
-    
+class NK_tpl {    
     
     /**
      * @var instance
@@ -121,7 +120,6 @@ class NK_tpl {
         return($return);
     }
 
-
     /**
      * Display if disabled module.
      * @param string $url : url for back button
@@ -133,9 +131,6 @@ class NK_tpl {
         $return .= $GLOBALS['nkFunctions']->nkHistoryBack($url);
         return($return);
     }
-
-
-
 
     /**
      * Return identification required.
@@ -158,6 +153,4 @@ $nkTpl = NK_tpl::getInstance();
 echo $nkTpl->nkContentTag('div', 'my text', 'nkError nkCenter', 'idTest');
 echo $nkTpl->nkDisplayError('my text');
  */
- 
-
 ?>

@@ -39,7 +39,7 @@
         }
 
         $logOut  = '<a href="index.php?file=User&amp;nuked_nude=index&amp;op=logout"><span id="mp" class="nkIcon24LogOut nkNoMargin marg" title="'.LOGOUTME.'"></span></a>';
-        $account = '<a href="index.php?file=user"><span id="mp" class="nkIcon24Home nkNoMargin marg" title="'.ACCESMYACCOUNT.'"></span></a>';
+        $account = '<a href="index.php?file=User"><span id="mp" class="nkIcon24Home nkNoMargin marg" title="'.ACCESMYACCOUNT.'"></span></a>';
     ?>
         <span id="RL_mainLogin" class="nkInlineBlock nkValignTop nkSize14">
             <?php 

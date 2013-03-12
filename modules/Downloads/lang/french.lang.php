@@ -37,7 +37,6 @@ define('EDITTHE', 'Edité le');
 define('SIZE', 'Taille');
 define('COMPATIBLE', 'Compatibilité');
 define('DOWNLOADED', 'Téléchargé');
-define('TIMES', 'fois');
 define('AUTOR', 'Auteur');
 define('SITE', 'Site Web');
 define('SEEN', 'Vu');

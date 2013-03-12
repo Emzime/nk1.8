@@ -21,6 +21,13 @@ define('THEMELANGEN', 'in the theme');
 define('THEMELANGFR', 'dans le thème');
 define('MODULELANGEN', 'in the module');
 define('MODULELANGFR', 'dans le module');
+define('CSSTHEMENOTFOUND', 'Le fichier css du thème');
+define('CSSTHEMEMODULENOTFOUND', 'Le fichier css du module');
+define('CSSTHEMEMODULENOTFOUNDS', 'dans le thème');
+define('NOTFOUND', 'n\'existe pas');
+define('COMPATIBILITYMODULEMODE', '<br />Le fichier css du template par defaut est utilisé');
+define('DEFAUTTEMPLATEDELETED', 'n\'a pas été trouvé dans le template par defaut');
+define('ANDS', 'et');
 
 /* ---------------------------------- */
 /* Start version fusion 1.8 */
@@ -75,6 +82,8 @@ $errorModuleLangMessage = constant('MODULELANG'.$langUpper);
 $loadLangGlobalFileError = '';
 $loadLangModuleFileError = '';
 $loadLangThemeFileError = '';
+$loadCssThemeFileError = '';
+$loadCssThemeFileModuleError = '';
 
 // Chargement du fichier de lang global
 if (is_file(ROOT_PATH .'lang/'.$language.'.lang.php')) {
@@ -91,10 +100,11 @@ if (is_file(ROOT_PATH .'lang/modules/'.$language.'.lang.php')) {
 
 // GESTION DES ERREURS SQL - SQL ERROR MANAGEMENT
 //if(ini_get('set_error_handler')) set_error_handler('erreursql');
-
+/*
 $session = session_check();
 $user = ($session == 1) ? secure() : array();
-$session_admin = admin_check();
+$session_admin = admin_check();*/
+
 
 if (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'ajax') {
     if ($nuked['stats_share'] == 1) {
@@ -183,7 +193,7 @@ if (!empty($activeCssBlock)) {
                 if (is_file(ROOT_PATH .'themes/'.$theme.'/css/modules/'.$keyActivedBlock['module'].'.css')) {
                     $loadCss .= '<link type="text/css" rel="stylesheet" href="themes/'.$theme.'/css/modules/'.$keyActivedBlock['module'].'.css" media="screen" />';
                 } else {
-                    $loadCss .= '<link type="text/css" rel="stylesheet" href="media/template/'.$theme.'/css/modules/'.$keyActivedBlock['module'].'.css" media="screen" />';
+                    $loadCss .= '<link type="text/css" rel="stylesheet" href="media/template/'.$nuked['defaultTemplate'].'/css/modules/'.$keyActivedBlock['module'].'.css" media="screen" />';
                 }  
                 $arrayCss[$keyActivedBlock['module']] = $keyActivedBlock['type']; 
             }
@@ -204,9 +214,9 @@ if (is_file(ROOT_PATH .'themes/'.$theme.'/lang/'.$language.'.lang.php')) {
     include_once ROOT_PATH .'themes/'.$theme.'/lang/'.$language.'.lang.php';
 
 // si le theme n'existe pas on inclu le template par defaut
-} elseif (is_file(ROOT_PATH .'media/template/'.$theme.'/lang/'.$language.'.lang.php')) {
+} elseif (is_file(ROOT_PATH .'media/template/'.$nuked['defaultTemplate'].'/lang/'.$language.'.lang.php')) {
 
-    include_once ROOT_PATH .'media/template/'.$theme.'/lang/'.$language.'.lang.php';
+    include_once ROOT_PATH .'media/template/'.$nuked['defaultTemplate'].'/lang/'.$language.'.lang.php';
 // sinon on met une erreur
 } else {
     $loadLangThemeFileError = $GLOBALS['nkTpl']->nkDisplayError($errorLangMessage.'&nbsp;'.$errorThemeLangMessage.'&nbsp;'.$theme, 'nkAlert nkAlertError');
@@ -215,17 +225,33 @@ if (is_file(ROOT_PATH .'themes/'.$theme.'/lang/'.$language.'.lang.php')) {
 $loadLangFileError = $loadLangGlobalFileError.$loadLangModuleFileError.$loadLangThemeFileError;
 
 
-// Inclusion du Css personalisé pour le module actif
-if (is_file(ROOT_PATH .'themes/'.$theme.'/css/modules/'.$_REQUEST['file'].'.css') && !array_key_exists($_REQUEST['file'], $arrayCss)) {
-
-    $loadCss .= '<link type="text/css" rel="stylesheet" href="themes/'.$theme.'/css/modules/'.$_REQUEST['file'].'.css" media="screen" />';
-
-} elseif (is_file(ROOT_PATH .'media/template/'.$theme.'/css/modules/'.$_REQUEST['file'].'.css') && !array_key_exists($_REQUEST['file'], $arrayCss)) {
-    $loadCss .= '<link type="text/css" rel="stylesheet" href="media/template/'.$theme.'/css/modules/'.$theme.'.css" media="screen" />';
+// on inclu le css du theme
+if (is_file('themes/'.$theme.'/css/'.$theme.'.css')) {
+    $loadCss .= '<link type="text/css" rel="stylesheet" href="themes/'.$theme.'/css/'.$theme.'.css" media="screen" />';
+} elseif ($theme === $nuked['defaultTemplate']) {
+    $loadCss .= '<link type="text/css" rel="stylesheet" href="media/template/'.$nuked['defaultTemplate'].'/css/'.$nuked['defaultTemplate'].'.css" media="screen" />';
 } else {
-    $loadCss ='';
+    $loadCssThemeFileError = $GLOBALS['nkTpl']->nkDisplayError(CSSTHEMENOTFOUND.'&nbsp;'.$theme.'&nbsp;'.NOTFOUND, 'nkAlert nkAlertError');
 }
 
+
+// Inclusion du Css personalisé pour le module actif
+if (is_file(ROOT_PATH .'themes/'.$theme.'/css/modules/'.$_REQUEST['file'].'.css') && !array_key_exists($_REQUEST['file'], $arrayCss)) {
+    $loadCss .= '<link type="text/css" rel="stylesheet" href="themes/'.$theme.'/css/modules/'.$_REQUEST['file'].'.css" media="screen" />';
+} elseif (is_file(ROOT_PATH .'media/template/'.$nuked['defaultTemplate'].'/css/modules/'.$_REQUEST['file'].'.css') && !array_key_exists($_REQUEST['file'], $arrayCss)) {
+    if ($theme != $nuked['defaultTemplate']) {
+        // A CHANGER POUR NOTIFICATION ADMIN
+        $loadCssThemeFileModuleError .= $GLOBALS['nkTpl']->nkDisplayError(CSSTHEMEMODULENOTFOUND.'&nbsp;'.$_REQUEST['file'].'&nbsp;'.CSSTHEMEMODULENOTFOUNDS.'&nbsp;'.$theme.'&nbsp;'.NOTFOUND.COMPATIBILITYMODULEMODE, 'nkAlert nkAlertError');
+    }
+    $loadCss .= '<link type="text/css" rel="stylesheet" href="media/template/'.$nuked['defaultTemplate'].'/css/modules/'.$_REQUEST['file'].'.css" media="screen" />';
+} else {
+    // A CHANGER POUR NOTIFICATION ADMIN
+    if ($theme != $nuked['defaultTemplate']) {
+        $loadCssThemeFileModuleError .= $GLOBALS['nkTpl']->nkDisplayError(CSSTHEMEMODULENOTFOUND.'&nbsp;'.$_REQUEST['file'].'&nbsp;'.CSSTHEMEMODULENOTFOUNDS.'&nbsp;'.$theme.'&nbsp;'.NOTFOUND.'&nbsp;'.ANDS.'&nbsp;'.DEFAUTTEMPLATEDELETED, 'nkAlert nkAlertError');
+    } else {
+        $loadCssThemeFileModuleError .= $GLOBALS['nkTpl']->nkDisplayError(CSSTHEMEMODULENOTFOUND.'&nbsp;'.$_REQUEST['file'].'&nbsp;'.DEFAUTTEMPLATEDELETED, 'nkAlert nkAlertError');
+    }
+}
 
 
 // Si le site est fermé
@@ -259,20 +285,20 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
         }
     } else {
         // on inclu le theme     
-        if ($loadLangThemeFileError == '') {
-            if (isset($_COOKIE[$GLOBALS['cookieTheme']])) {
+        if ($loadLangThemeFileError == '' && $loadCssThemeFileError == '') {
+/*            if (isset($_COOKIE[$GLOBALS['cookieTheme']])) {
                 $theme = $_COOKIE[$GLOBALS['cookieTheme']];
             } else {
                 $theme = $theme;
             }
+*/
             // récupération du theme utilisateur et vérification de l'existance de celui-ci
             if (is_file(ROOT_PATH .'themes/'.$theme.'/theme.php')) { 
                 // affichage du theme utilisateur si existant sinon affichage du theme admin si existant               
                 include_once ROOT_PATH .'themes/'.$theme.'/theme.php';
-
             // sinon affichage du template par defaut
             } else {
-                include_once ROOT_PATH .'/media/template/'.$theme.'/theme.php';
+                include_once ROOT_PATH .'/media/template/'.$nuked['defaultTemplate'].'/theme.php';
             }
 
         }
@@ -287,8 +313,10 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
         // on inclu le header
         include_once ROOT_PATH .'Includes/header.php';
         // on inclu le top du theme
-        if ($loadLangThemeFileError == '') {
+        if ($loadLangThemeFileError == '' && $loadCssThemeFileError == '') {
             top();
+
+            echo'<div id="nkGlobalModules">';
         }
         // on affiche les messages de suppression des INSTALL / UPDATE si level admin et en dehors de l'administration
         if ($visiteur == 9 && defined('TESTLANGUE')) { 
@@ -301,9 +329,12 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
             if (file_exists(ROOT_PATH .'update.php')) {   
                 echo $nkTpl->nkContentTag('div', REMOVEUPDATE, 'nkAlert nkAlertError nkAlignCenter');      
             }
+            if (isset($loadCssThemeFileModuleError)) {
+                echo $loadCssThemeFileModuleError;
+            }
         }
         if (!isset($GLOBALS['nkInitError'])) {
-            if ($loadLangFileError == '') {
+            if ($loadLangFileError == '' && $loadCssThemeFileError == '') {
                 // si le module existe on l'inclu
                 if (is_file( ROOT_PATH .'modules/'.$_REQUEST['file'].'/'.$_REQUEST['im_file'].'.php')) {
                     include ROOT_PATH .'modules/'.$_REQUEST['file'].'/'.$_REQUEST['im_file'].'.php';
@@ -314,6 +345,7 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
                 }        
             } else {
                 echo $loadLangFileError;
+                echo $loadCssThemeFileError;
             }   
         } else { 
             echo $GLOBALS['nkInitError'];
@@ -340,7 +372,8 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
         <?php
         }
         
-        if ($loadLangThemeFileError == '') {
+        if ($loadLangThemeFileError == '' && $loadCssThemeFileError == '') {
+            echo'</div>';
             footer();
             //@todo reactive and test it when head inclusion is done
             //sendStatsNk();
@@ -361,7 +394,7 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
         include_once ROOT_PATH .'themes/'.$theme.'/theme.php';                
     } else {
         // sinon affichage du template par defaut
-        include_once ROOT_PATH .'/media/template/'.$theme.'/theme.php';
+        include_once ROOT_PATH .'/media/template/'.$nuked['defaultTemplate'].'/theme.php';
     }
 
     // on inclu le header

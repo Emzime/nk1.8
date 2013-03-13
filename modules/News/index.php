@@ -298,7 +298,7 @@ if (!isset($GLOBALS['nkInitError'])) {
 
             $subject = $nuked['name'].', '.$date2;
             $corps = $pseudo." (IP : $user_ip) ".READNEWS." $title, ".NEWSURL."\r\n{$nuked['url']}/index.php?file=News&op=index_comment&news_id=$news_id\r\n\r\n".YCOMMENT." : $comment\r\n\r\n\r\n{$nuked['name']} - {$nuked['slogan']}";
-            $from = "From: {$nuked['name']} <{$nuked['mail']}>\r\nReply-To: ".$nuked['mail'];
+            $from = "From: {$nuked['name']} <{$nuked['contactMail']}>\r\nReply-To: ".$nuked['contactMail'];
 
             $subject = @html_entity_decode($subject);
             $corps = @html_entity_decode($corps);

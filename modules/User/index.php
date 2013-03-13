@@ -1307,7 +1307,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                 if ($modulePref['validation'] == "mail" && $modulePref['inscription'] == "on") {
                     $subject = USERREGISTER.',&nbsp;'.$date2;
                     $corps   = USERVALID.'\r\n'.$nuked['url'].'/index.php?file=User&op=validation&userId='.$userId.'\r\n\r\n'.USERMAIL.'\r\n'.PSEUDO.'&nbsp;:&nbsp;'.$pseudo.'\r\n'.PASSWORD.'&nbsp;:&nbsp;'.$passReg.'\r\n\r\n\r\n'.$nuked['name'].'&nbsp;-&nbsp;'.$nuked['slogan'];
-                    $from    = 'From:&nbsp;'.$nuked['name'].'&nbsp;<'.$nuked['mail'].'>\r\nReply-To:&nbsp;'.$nuked['mail'];
+                    $from    = 'From:&nbsp;'.$nuked['name'].'&nbsp;<'.$nuked['contactMail'].'>\r\nReply-To:&nbsp;'.$nuked['contactMail'];
                     $subject = @html_entity_decode($subject);
                     $corps   = @html_entity_decode($corps);
                     $from    = @html_entity_decode($from);
@@ -1324,7 +1324,7 @@ if (!isset($GLOBALS['nkInitError'])) {
 
                         $subject = USERREGISTER.',&nbsp;'.$date2;
                         $corps   = $inscriptionMail.'<br /><br />'.PSEUDO.'&nbsp;:&nbsp;'.$pseudo.'<br /><br />'.PASSWORD.'&nbsp;:&nbsp;'.$passReg.'<br /><br /><br /><br />'.$nuked['name'].'&nbsp;-&nbsp;'.$nuked['slogan'];
-                        $from    = 'From:&nbsp;'.$nuked['name'].'&nbsp;<'.$nuked['mail'].'>\r\nReply-To:&nbsp;'.$nuked['mail'];
+                        $from    = 'From:&nbsp;'.$nuked['name'].'&nbsp;<'.$nuked['contactMail'].'>\r\nReply-To:&nbsp;'.$nuked['contactMail'];
                         $from   .= '\r\n'."MIME-Version: 1.0".'\r\n';
                         $from   .= "Content-type: text/html; charset=utf-8" . "\r\n";
                         $subject = @html_entity_decode($subject);
@@ -1339,12 +1339,12 @@ if (!isset($GLOBALS['nkInitError'])) {
                 if ($modulePref['inscriptionAvert'] == "on" || $modulePref['validation'] == "admin") {
                     $subject = NEWUSER.'&nbsp;:&nbsp;'.$pseudo.',&nbsp;'.$date2;
                     $corps   =  $pseudo.'&nbsp;(IP&nbsp;:&nbsp;'.$userIp.')&nbsp;'.NEWREGISTRATION.'&nbsp;'.$nuked['name'].'&nbsp;'.NEWREGSUITE.'\r\n\r\n\r\n'.$nuked['name'].'&nbsp;-&nbsp;'.$nuked['slogan'];
-                    $from    = 'From:&nbsp;'.$nuked['name'].'&nbsp;<'.$nuked['mail'].'>\r\nReply-To:&nbsp;'.$nuked['mail'];
+                    $from    = 'From:&nbsp;'.$nuked['name'].'&nbsp;<'.$nuked['contactMail'].'>\r\nReply-To:&nbsp;'.$nuked['contactMail'];
                     $subject = @html_entity_decode($subject);
                     $corps   = @html_entity_decode($corps);
                     $from    = @html_entity_decode($from);
 
-                    mail($nuked['mail'], $subject, $corps, $from);
+                    mail($nuked['contactMail'], $subject, $corps, $from);
                 }
 
                 if ($modulePref['validation'] == "mail" && $modulePref['inscription'] == "on") {
@@ -1795,8 +1795,8 @@ if (!isset($GLOBALS['nkInitError'])) {
                     $link = '<a href="'.$nuked['url'].'/index.php?file=User&op=envoiPass&email='.$email.'&token='.$new_token.'">'.$nuked['url'].'/index.php?file=User&op=envoiPass&email='.$email.'&token='.$new_token.'</a>';
 
                     $message = "<html><body><p>"._HI." ".$data['pseudo'].",<br/><br/>"._LINKTONEWPASSWORD." : <br/><br/>".$link."<br/><br/>"._LINKTIME."</p><p>".$nuked['name']." - ".$nuked['slogan']."</p></body></html>";
-                    $headers ='From: '.$nuked['name'].' <'.$nuked['mail'].'>'."\n";
-                    $headers .='Reply-To: '.$nuked['mail']."\n";
+                    $headers ='From: '.$nuked['name'].' <'.$nuked['contactMail'].'>'."\n";
+                    $headers .='Reply-To: '.$nuked['contactMail']."\n";
                     $headers .='Content-Type: text/html; charset="iso-8859-1"'."\n";
                     $headers .='Content-Transfer-Encoding: 8bit'; 
 
@@ -1845,8 +1845,8 @@ if (!isset($GLOBALS['nkInitError'])) {
                         $new_pass = makePass();
 
                         $message = "<html><body><p>"._HI." ".$data['pseudo'].",<br/><br/>"._NEWPASSWORD." : <br/><br/><strong>".$new_pass."</strong><br/></p><p>".$nuked['name']." - ".$nuked['slogan']."</p></body></html>";
-                        $headers ='From: '.$nuked['name'].' <'.$nuked['mail'].'>'."\n";
-                        $headers .='Reply-To: '.$nuked['mail']."\n";
+                        $headers ='From: '.$nuked['name'].' <'.$nuked['contactMail'].'>'."\n";
+                        $headers .='Reply-To: '.$nuked['contactMail']."\n";
                         $headers .='Content-Type: text/html; charset="iso-8859-1"'."\n";
                         $headers .='Content-Transfer-Encoding: 8bit'; 
 

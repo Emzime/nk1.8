@@ -512,7 +512,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                                 <article class="nkAlignCenter nkMarginTop15">
                                     <label for="userTheme">'.SELECTTHEME.'</label>&nbsp;:&nbsp;
                                         <select id="userTheme" class="nkInput" name="userTheme" onChange="javascript:submit();">
-                                            <option value="">'.$nuked['defaultTemplate'].'&nbsp;-&nbsp;'.BYDEFAULT.'</option>
+                                            <option value="">'.$nuked['themeDefault'].'&nbsp;-&nbsp;'.BYDEFAULT.'</option>
                                             '.$themeView.'
                                         </select>
                                 </article>

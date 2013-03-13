@@ -1497,7 +1497,7 @@ if (isset($_COOKIE[$GLOBALS['nuked']['cookiename'] . '_userTheme']) && is_file(R
 
 } else {
     // mettre une variable pour gamer ou non
-    $theme = $nuked['defaultTemplate'];
+    $theme = $nuked['themeDefault'];
 }
 
 // SELECT LANGUAGE AND USER LANGUAGE

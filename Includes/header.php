@@ -25,12 +25,12 @@
             Shadowbox.init();
         </script>        
         <?php
-        if ($theme === $nuked['defaultTemplate']) {
+        if ($theme === $nuked['themeDefault']) {
         ?>
-            <link type="text/css" rel="stylesheet" href="media/template/<?php echo $nuked['defaultTemplate']; ?>/css/<?php echo $nuked['defaultTemplate']; ?>.css" media="screen" />
-            <script type="text/javascript" src="media/template/<?php echo $nuked['defaultTemplate']; ?>/js/menu.js"></script>
-            <script type="text/javascript" src="media/template/<?php echo $nuked['defaultTemplate']; ?>/js/sliderConfig.js"></script>
-            <script type="text/javascript" src="media/template/<?php echo $nuked['defaultTemplate']; ?>/js/slider.js"></script>
+            <link type="text/css" rel="stylesheet" href="media/template/<?php echo $nuked['themeDefault']; ?>/css/<?php echo $nuked['themeDefault']; ?>.css" media="screen" />
+            <script type="text/javascript" src="media/template/<?php echo $nuked['themeDefault']; ?>/js/menu.js"></script>
+            <script type="text/javascript" src="media/template/<?php echo $nuked['themeDefault']; ?>/js/sliderConfig.js"></script>
+            <script type="text/javascript" src="media/template/<?php echo $nuked['themeDefault']; ?>/js/slider.js"></script>
         <?php
         } else {
             echo includeJsTheme();

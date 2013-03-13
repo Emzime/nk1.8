@@ -34,7 +34,7 @@
             
             mysql_query('TRUNCATE TABLE `'.$_SESSION['db_prefix'].'_users`');            
             mysql_query("INSERT INTO `".$_SESSION['db_prefix']."_users` 
-                            VALUES ('".$user_id."', '" .$pseudo."', '', '', '', '', '".$mail."', '', '', '".$pass."', 9, '".$date."', '', '', '', '', 'France', '0', '0', '0', '0', '', '0', '', '0')");      
+                            VALUES ('".$user_id."', '" .$pseudo."', '', '', 'man', '', '".$mail."', '', '', '".$pass."', 9, '".$date."', '', '', '', '', 'France', '0', '0', '0', '0', '', '0', '', '0')");      
             mysql_query("INSERT INTO `".$_SESSION['db_prefix']."_news` VALUES (1, 1, '".mysql_real_escape_string(FIRSTNEWSTITLE)."', '".$pseudo."', '".$user_id."', '".mysql_real_escape_string(FIRSTNEWSCONTENT)."', '', '".$date."', '', '')");    
             mysql_query("INSERT INTO `".$_SESSION['db_prefix']."_shoutbox` VALUES (1, '".$pseudo. "', '".$ip."', '".mysql_real_escape_string(FIRSTNEWSTITLE)."', '".$date."')");  
             mysql_query("UPDATE `".$_SESSION['db_prefix']."_config` SET value = '".$mail."' WHERE name = 'contactMail'");

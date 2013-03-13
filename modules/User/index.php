@@ -795,6 +795,10 @@ if (!isset($GLOBALS['nkInitError'])) {
                 list($pseudo, $firstName, $age, $sex, $city, $privateMail, $publicMail, $website, $avatar, $userTheme, $userLanguage, $signing, $country) = mysql_fetch_array($dbeUserInfo);
 
                 // Check du jour
+                if ($age == '') {
+                    $age = '1/1/1900';
+                }
+                
                 $dateExtract = explode('/', $age);
                 $flag = substr($country, 0, 2);
                 $flag = strtoupper($flag);

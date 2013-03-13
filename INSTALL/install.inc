@@ -151,7 +151,7 @@
                             ('langue', '".$this->data['lang_install']."'),
                             ('stats_share', '".$stats_share."'),
                             ('stats_timestamp', '0'),
-                            ('name', 'Nuked-klaN 1.7.9'),
+                            ('name', 'Nuked-klaN 1.8'),
                             ('slogan', 'PHP 4 Gamers'),
                             ('tag_pre', ''),
                             ('tag_suf', ''),

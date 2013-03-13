@@ -12,6 +12,7 @@
     $dbcWars = mysql_num_rows($dbeWars);
 
     $returnResults = '';
+    $buttonTous  = '';
     if ($dbcWars > 0) {
         $buttonTous = ' <nav class="backgroundTous nkInlineBlock"><a href="index.php?file=Wars" title="'.SEEALL.'" >
                             <img src="images/pixel.gif" width="53" height="15" alt="" /></a>

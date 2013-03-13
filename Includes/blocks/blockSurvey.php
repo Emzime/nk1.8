@@ -45,7 +45,7 @@ if (defined('TESTLANGUE')) {
 
                 $test[$voteid] = $optiontext;                
             }
-            $blok['content'] .= $GLOBALS['nkFunctions']->nkRadioBox('h3', $pollTitle, $dbcOptions, 'voteID', $test, null, 'nkAlignCenter nkBlock', 'nkWidthFull', 'nkBlock');
+            $blok['content'] .= $GLOBALS['nkFunctions']->nkRadioBox('h3', $pollTitle, $dbcOptions, 'voteID', $test, null, 'voteID', 'nkAlignCenter nkBlock', 'nkWidthFull', 'nkBlock', 1);
             $blok['content'] .= '
                                 <div class="nkAlignCenter nkMarginTop15">
                                     <input type="hidden" name="poll_id" value="'.$pollId.'" />

@@ -1196,7 +1196,6 @@
 
                          $sql = "INSERT INTO `" . $db_prefix . "_users_config` VALUES
                             ('inscription', 'on'),
-                            ('validation', 'auto'),
                             ('inscriptionAvert', ''),
                             ('inscriptionCharte', ''),
                             ('inscriptionMail', ''),
@@ -1205,7 +1204,10 @@
                             ('maxMembers', '30'),
                             ('userAccountDelete', 'on'),
                             ('nbForumMessage', '5'),
-                            ('nbComment', '5');";
+                            ('nbComment', '5'),
+                            ('nbSuggest', '5'),
+                            ('activeTheme', 'on'),
+                            ('validation', 'auto');";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;

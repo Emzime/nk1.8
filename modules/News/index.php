@@ -102,9 +102,7 @@ if (!isset($GLOBALS['nkInitError'])) {
             <?php
             } else {
                 // Génération des news en fonction des requests pour la fonction news()
-                $dbsNews = 'SELECT nt.id, nt.autorId, nt.created, 
-                                    nt.title, nt.content, nt.continuation, 
-                                    nt.category, nct.title AS catTitle, nct.image AS catImage, ut.pseudo AS author,
+                $dbsNews = 'SELECT nt.id, nt.autorId, nt.created, nt.title, nt.content, nt.continuation, nt.category, nct.title AS catTitle, nct.image AS catImage, ut.pseudo AS author, ut.avatar AS authorAvatar,
                                 (
                                     SELECT COUNT(id) 
                                     FROM '.COMMENT_TABLE.'
@@ -120,11 +118,11 @@ if (!isset($GLOBALS['nkInitError'])) {
                 while ($tabNews = mysql_fetch_assoc($dbeNews)) {
                     if (empty($tabNews['author'])) {
                         $tabNews['author'] = UNKNOWAUTHOR;
-                    } else {
-                        $tabNews['author'] = '<a href="index.php?file=Members&op=detail&autor='.urlencode($tabNews['author']).'">'.$tabNews['author'].'</a>';
                     }
-                    $commentLink = '<a href="index.php?file=News&amp;full=true&amp;newsId=' . $tabNews['id'] . '">'.NEWSCOMMENT.'</a>';
 
+                    $commentLink            = '<a href="index.php?file=News&amp;full=true&amp;newsId=' . $tabNews['id'] . '">'.COMMENT.'</a>';
+                    $data['authorUrl']      = 'index.php?file=Members&amp;op=detail&amp;autor='.urlencode($tabNews['author']);
+                    $data['authorAvatar']   = $tabNews['authorAvatar'];
                     $data['date']           = nkDate($tabNews['created']);
                     $data['date_timestamp'] = $tabNews['created'];
                     $data['catTitle']       = printSecuTags($tabNews['catTitle']);
@@ -133,9 +131,10 @@ if (!isset($GLOBALS['nkInitError'])) {
                     $data['title']          = printSecuTags($tabNews['title']);
                     $data['author']         = $tabNews['author'];
                     $data['comment']        = $commentLink;
+                    $data['linkComment']    = 'index.php?file=News&amp;full=true&amp;newsId='.$tabNews['id'];
                     $data['nbComment']      = $tabNews['nbComment'];
                     $data['printPage']      = '<a title="'.PDF.'" href="index.php?file=News&amp;nuked_nude=index&amp;op=pdf&amp;newsId='.$tabNews['id'].'" onclick="window.open(this.href); return false;"><span class="nkIcon24Pdf"></span></a>';
-                    //$data['printPage']      = '<a title="'.PDF.'" href="Includes/tcpdf/examples/example_001.php" onclick="window.open(this.href); return false;"><span class="nkIcon24Pdf"></span></a>';
+
                     $data['friend']         = '<a title="'.FSEND.'" href="index.php?file=News&amp;op=sendfriend&amp;newsId='.$tabNews['id'].'"><span class="nkIcon24MailSend"></span></a>';
 
                     if (!empty($tabNews['catImage'])) {

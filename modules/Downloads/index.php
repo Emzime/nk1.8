@@ -128,7 +128,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                 // Affichage si orderby n'est pas present dans le lien 
                 if (!$orderby) {
                     // Requete pour la nav des catégories 
-                    $sqlCat = ' SELECT a.id, a.title AS Cat, a.shortContent,                
+                    $sqlCat = ' SELECT a.id, a.title AS Cat, a.shortContent,
                                 GROUP_CONCAT(b.id SEPARATOR "|") AS subCatId, 
                                 GROUP_CONCAT(b.title SEPARATOR "|") AS subCatTitle
                                 FROM '.DOWNLOADS_CAT_TABLE.' AS a

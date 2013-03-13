@@ -16,25 +16,16 @@ $modName = basename(dirname(__FILE__));
 $requestArray = array(
     'integer' => array('error', 'codeConfirm'),
     'uniqid'  => array('userId'),
-    'boolean' => array('captcha', 'refere'),
+    'boolean' => array('captcha', 'refere', 'userReg'),
     'string'  => array('rememberMe', 'pseudo')
 );
 $GLOBALS['nkFunctions']->nkInitRequest($requestArray, $GLOBALS['indexRequestArray']);
-
-// Verification qu'il n'y a aucune erreur dans le request
 if (!isset($GLOBALS['nkInitError'])) {
-
-    // Veridication du chargement du fichier langue
     $langTest = strtoupper($modName);
     $langTest = constant('TESTLANGUEFILE'.$langTest);
-
     if($langTest == true) {
-
-        // Inclusion syst?me Captcha
         include_once('Includes/nkCaptcha.php');
         include_once('Includes/hash.php');
-
-        // On determine si le captcha est actif ou non
         if (NKCAPTCHA == 'off') {
             $captcha = 0;
         } elseif ((NKCAPTCHA == 'auto' OR NKCAPTCHA == 'on') && $visiteur > 0)  {
@@ -467,7 +458,11 @@ if (!isset($GLOBALS['nkInitError'])) {
                     }
                 }
             }
-            redirect('index.php?file=User&op=applyTheme', 0);
+            $userReg = '';
+            if (isset($_REQUEST['userReg']) && $_REQUEST['userReg'] == true) {
+                $userReg = '&userReg='.$_REQUEST['userReg'];
+            }
+            redirect('index.php?file=User&op=applyTheme'.$userReg, 0);
         }
 
         function applyTheme() {
@@ -479,7 +474,12 @@ if (!isset($GLOBALS['nkInitError'])) {
             }
             if ($modulePref['activeTheme'] === 'on') {
                 echo $GLOBALS['nkTpl']->nkDisplaySuccess(UPDATEDTHEME.'&nbsp;'.$themeApply.'&nbsp;'.UPDATEDTHEMES, 'nkAlert nkAlertSuccess');
-                redirect('index.php', 2);
+                if (isset($_REQUEST['userReg']) && $_REQUEST['userReg'] == true) {
+                    $url = 'index.php?file=User';
+                } else {
+                    $url = 'index.php';
+                }
+                redirect($url, 2);
             } else {
                 echo $GLOBALS['nkTpl']->nkDisplayError(FUNCTIONOFF, 'nkAlert nkAlertError');
                 redirect('index.php', 2);
@@ -512,10 +512,11 @@ if (!isset($GLOBALS['nkInitError'])) {
                                 <article class="nkAlignCenter nkMarginTop15">
                                     <label for="userTheme">'.SELECTTHEME.'</label>&nbsp;:&nbsp;
                                         <select id="userTheme" class="nkInput" name="userTheme" onChange="javascript:submit();">
-                                            <option value="">'.$nuked['themeDefault'].'&nbsp;-&nbsp;'.BYDEFAULT.'</option>
+                                            <option value="">'.$nuked['themeDefault'].'</option>
                                             '.$themeView.'
                                         </select>
                                 </article>
+                                <input type="hidden" name="userReg" value="true" />
                                 </form>';
             return $activeThemeForm;
         }
@@ -811,7 +812,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                     'man'   => MAN, 
                     'women' => WOMEN
                 );
-                $sexView = $GLOBALS['nkFunctions']->nkRadioBox('span', SEX, 2, 'sex', $sexArray, '&nbsp;:&nbsp;','sex', 'nkLabelSpacing nkNoPadding nkMarginTop15', '', '', $sex);
+                $sexView = $GLOBALS['nkFunctions']->nkRadioBox('label', SEX, 2, 'sex', $sexArray, '&nbsp;:&nbsp;','sex', 'nkLabelSpacing nkNoPadding nkMarginTop15', '', '', $sex);
 
                 for ($d=1; $d <= 31; $d++) {
                     if ($dateExtract[0] == $d) {

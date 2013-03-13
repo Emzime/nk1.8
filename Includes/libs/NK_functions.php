@@ -519,7 +519,7 @@ class NK_functions {
     function infoModules() {
         $dbsActiveModule = 'SELECT id, name, newName, level, admin 
                             FROM '. MODULES_TABLE;
-        $dbeActiveModule = mysql_query($dbsActiveModule)or die(mysql_error());
+        $dbeActiveModule = mysql_query($dbsActiveModule);
         while($row = mysql_fetch_assoc($dbeActiveModule)) {
             $moduleArray[$row['name']] = array(
                     'id'      => $row['id'],

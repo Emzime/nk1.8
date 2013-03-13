@@ -955,6 +955,7 @@ function updateUserConnectData($user, $ipUser, $limite) {
  * @return int $requiredLvl : if module exists, return int : the required level for using module,
  * else FALSE
  */
+// A SUPPRIMER REMPLACER PAR accessModule()
 function nivo_mod($moduleName){
     $data = getModuleData();
 
@@ -971,6 +972,7 @@ function nivo_mod($moduleName){
  * @return mixed $requiredLvl : if module exists, return int : the required admin level for administrate module,
  * else FALSE
  */
+// A SUPPRIMER REMPLACER PAR accessModule()
 function admin_mod($moduleName){
     $data = getModuleData();
 
@@ -989,6 +991,8 @@ function admin_mod($moduleName){
  *  $data[$moduleName][1] : required level for using module
  *  $data[$moduleName][1] : required level for administrating module
  */
+
+// A SUPPRIMER REMPLACER PAR  activatedModules()
 function getModuleData() {
     
     static $data = array();
@@ -1006,7 +1010,9 @@ function getModuleData() {
 /**
  * activeMods liste les modules actifs
  */
-function activeMods() {
+
+//  A FAIRE  (modification a faire dans le block suggest)
+/*function activeMods() {
         $dbsActiveMods = '  SELECT nom, niveau, admin 
                             FROM '.MODULES_TABLE.' 
                             WHERE niveau != -1';
@@ -1016,7 +1022,7 @@ function activeMods() {
             $modsActive[] = array('module' => $row['nom'], 'niveau' => $row['niveau'], 'admin' => $row['admin']);
         }
         return $modsActive;
-}
+}*/
 
 
 /**

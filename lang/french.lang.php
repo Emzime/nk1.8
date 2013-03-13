@@ -193,6 +193,8 @@ define('CHOOSE','Choisir');
 define('TIMES','fois');
 define('COMMENTED','commentaire');
 define('SUGGESTED','suggestion');
+define("BYDEFAULT","par défaut");
+define("SELECTTHEME","Choix du thème");
 
 
 ?>

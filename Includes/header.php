@@ -27,7 +27,6 @@
         <?php
         if ($theme === $nuked['themeDefault']) {
         ?>
-            <link type="text/css" rel="stylesheet" href="media/template/<?php echo $nuked['themeDefault']; ?>/css/<?php echo $nuked['themeDefault']; ?>.css" media="screen" />
             <script type="text/javascript" src="media/template/<?php echo $nuked['themeDefault']; ?>/js/menu.js"></script>
             <script type="text/javascript" src="media/template/<?php echo $nuked['themeDefault']; ?>/js/sliderConfig.js"></script>
             <script type="text/javascript" src="media/template/<?php echo $nuked['themeDefault']; ?>/js/slider.js"></script>

@@ -1527,6 +1527,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                     }
                 }
 
+
                 $dbuUpdate = '  UPDATE '.USER_TABLE.' 
                                 SET publicMail   = "'.$publicMail.'", 
                                     userLanguage = "'.$userLang.'",

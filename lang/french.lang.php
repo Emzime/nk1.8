@@ -11,7 +11,6 @@
 // Test si le fichier langue est chargé
 define('TESTLANGUE', true);
 
-
 define('LINK','Lien');
 define('PAGE','Page');
 define('FIRSTPAGE','Première page');

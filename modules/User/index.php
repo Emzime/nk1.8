@@ -244,6 +244,12 @@ if (!isset($GLOBALS['nkInitError'])) {
                     $activeThemeHtml = '';
                 }
 
+                if ($user[6] != '') {
+                    $themeUse = $user[6];
+                } else {
+                    $themeUse = BYDEFAULT;
+                }
+
                 ?>
 
                 <div id="globalContentProfil">
@@ -289,6 +295,9 @@ if (!isset($GLOBALS['nkInitError'])) {
                                 </span>
                                 <span class="nkBlock nkBold nkSize11"><?php echo PUBLICMAIL; ?>&nbsp;:&nbsp;
                                     <span id="publicMail" class="nkNoFont"><?php echo $publicMail; ?></span>
+                                </span>
+                                <span class="nkBlock nkBold nkSize11"><?php echo THEMEUSE; ?>&nbsp;:&nbsp;
+                                    <span id="themeUse" class="nkNoFont"><?php echo $themeUse; ?></span>
                                 </span>
                             </article>
                             <aside id="profilLogOut" class="nkInlineBlock nkValignTop nkFloatRight">
@@ -508,16 +517,15 @@ if (!isset($GLOBALS['nkInitError'])) {
                 }
             }            
             closedir($repertory);
-            $activeThemeForm = '<form action="index.php?file=User&amp;nuked_nude=index&amp;op=modifTheme" method="post">
-                                <article class="nkAlignCenter nkMarginTop15">
-                                    <label for="userTheme">'.SELECTTHEME.'</label>&nbsp;:&nbsp;
-                                        <select id="userTheme" class="nkInput" name="userTheme" onChange="javascript:submit();">
+            $activeThemeForm = '<div class="nkAlignCenter nkMarginTop15">'.SELECTTHEME.'&nbsp;:&nbsp;
+                                <form class="nkInline" action="index.php?file=User&amp;nuked_nude=index&amp;op=modifTheme" method="post">
+                                        <span class="nkNoFont"><select id="userTheme" class="nkInput" name="userTheme" onChange="javascript:submit();">
                                             <option value="">'.$nuked['themeDefault'].'</option>
                                             '.$themeView.'
-                                        </select>
-                                </article>
+                                        </select></span>
                                 <input type="hidden" name="userReg" value="true" />
-                                </form>';
+                                </form>
+                                </div>';
             return $activeThemeForm;
         }
 
@@ -864,6 +872,13 @@ if (!isset($GLOBALS['nkInitError'])) {
                     $delMyAccount = $GLOBALS['nkFunctions']->nkRadioBox('span', DELMYACCOUNT, 2, 'remove', $removeArray, '', 'editRemove', null, 'removeMyAccount', '', 1);
                 }
 
+                if ($modulePref['activeCountry'] == "on") {
+                    $countryView = '<div>
+                                        <label class="nkLabelSpacing" for="editCountry">'.COUNTRY.'</label>&nbsp;:&nbsp;&nbsp;';                                            
+                    $countryView .=         $GLOBALS['nkFunctions']->selectCountry($country, $user[7]);                                            
+                    $countryView .= '</div>';
+                }
+
                 ?>
 
                 <div class="nkAlignCenter nkMarginTop15 nkMarginBottom15"><?php echo PASSFIELD; ?></div>
@@ -924,13 +939,10 @@ if (!isset($GLOBALS['nkInitError'])) {
                         <label class="nkLabelSpacing" for="editCity"><?php echo CITY; ?></label>&nbsp;:&nbsp;
                             <input class="nkInput" type="text" id="editCity" name="city" size="35" maxlength="80" value="<?php echo $city; ?>" />
                     </div>
-                    <div>
-                        <label class="nkLabelSpacing" for="editCountry"><?php echo COUNTRY; ?></label>&nbsp;:&nbsp;
-                            <select class="nkInput" id="editCountry" name="country">
-                                <option value="<?php echo $country; ?>">France</option>
-                            </select>
-                            <span class="nkFlags<?php echo $flag; ?> nkMarginLeft"></span>
-                    </div>
+                    <!-- Affichage du pays et de la langue -->
+                    <?php
+                    echo $countryView;
+                    ?>
                     <div>
                         <label class="nkLabelSpacing" for="editWebsite"><?php echo WEBSITE; ?></label>&nbsp;:&nbsp;
                             <input class="nkInput" type="text" id="editWebsite" name="website" size="35" maxlength="80" value="<?php echo $website; ?>" />
@@ -1374,7 +1386,7 @@ if (!isset($GLOBALS['nkInitError'])) {
 
         }
 
-        function updateAccount($pseudo, $privateMail, $publicMail, $passReg, $passConf, $passOld, $country, $firstName, $day, $month, $year, $sex, $city, $website, $avatarUrl, $signing, $remove) {
+        function updateAccount($pseudo, $privateMail, $publicMail, $passReg, $passConf, $passOld, $userLang, $country, $firstName, $day, $month, $year, $sex, $city, $website, $avatarUrl, $signing, $remove) {
             global $nuked, $user, $modulePref, $modName;
 
             if ($remove == 0 && $modulePref['userAccountDelete'] == "on") {
@@ -1513,21 +1525,22 @@ if (!isset($GLOBALS['nkInitError'])) {
                         unlink($oldAvatar);
                     }
                 }
-
+debug($_REQUEST);
                 $dbuUpdate = '  UPDATE '.USER_TABLE.' 
-                                SET publicMail = "'.$publicMail.'", 
-                                    country   = "'.$country.'",
-                                    firstName = "'.$firstName.'",
-                                    age       = "'.$age.'",
-                                    sex       = "'.$sex.'",
-                                    city      = "'.$city.'",
-                                    website   = "'.$website.'",
-                                    avatar    = "'.$avatar.'",
-                                    signing   = "'.$signing.'"
+                                SET publicMail   = "'.$publicMail.'", 
+                                    userLanguage = "'.$userLang.'",
+                                    country      = "'.$country.'",
+                                    firstName    = "'.$firstName.'",
+                                    age          = "'.$age.'",
+                                    sex          = "'.$sex.'",
+                                    city         = "'.$city.'",
+                                    website      = "'.$website.'",
+                                    avatar       = "'.$avatar.'",
+                                    signing      = "'.$signing.'"
                                 WHERE id = "'.$user[0].'"';
                 $dbeUpdate = mysql_query($dbuUpdate);
                 echo $GLOBALS['nkTpl']->nkDisplaySuccess(INFOMODIF, 'nkAlert nkAlertSuccess');
-                redirect("index.php?file=User", 1);
+                //redirect("index.php?file=User", 1);
             }
         }
 
@@ -2025,7 +2038,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                 break;
 
             case"updateAccount": 
-                updateAccount($_REQUEST['pseudo'], $_REQUEST['privateMail'], $_REQUEST['publicMail'], $_REQUEST['passReg'], $_REQUEST['passConf'], $_REQUEST['passOld'], $_REQUEST['country'], $_REQUEST['firstName'], $_REQUEST['day'], $_REQUEST['month'], $_REQUEST['year'], $_REQUEST['sex'], $_REQUEST['city'], $_REQUEST['website'], $_REQUEST['avatarUrl'], $_REQUEST['signing'], $_REQUEST['remove']);                
+                updateAccount($_REQUEST['pseudo'], $_REQUEST['privateMail'], $_REQUEST['publicMail'], $_REQUEST['passReg'], $_REQUEST['passConf'], $_REQUEST['passOld'], $_REQUEST['userLang'], $_REQUEST['country'], $_REQUEST['firstName'], $_REQUEST['day'], $_REQUEST['month'], $_REQUEST['year'], $_REQUEST['sex'], $_REQUEST['city'], $_REQUEST['website'], $_REQUEST['avatarUrl'], $_REQUEST['signing'], $_REQUEST['remove']);                
                 break;
 
             case"showAvatar":

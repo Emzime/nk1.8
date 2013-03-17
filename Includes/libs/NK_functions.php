@@ -695,7 +695,7 @@ class NK_functions {
             }    
             $myLang .= '<div class="nkLang'.$code.' nkWidthFully nkNone">
                             <label class="nkLabelSpacing" for="editLang">'.LANGUAGE.'</label>&nbsp;:&nbsp;&nbsp;
-                                <select id="editLang" class="nkInput" name="editLang">'.$lang.'</select>
+                                <select id="editLang" class="nkInput" name="userLang">'.$lang.'</select>
                         </div>';
             if ($checkedCountry == $countryList) {
                 $check    = 'selected="selected"';

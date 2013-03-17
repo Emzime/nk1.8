@@ -1526,7 +1526,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                         unlink($oldAvatar);
                     }
                 }
-debug($_REQUEST);
+
                 $dbuUpdate = '  UPDATE '.USER_TABLE.' 
                                 SET publicMail   = "'.$publicMail.'", 
                                     userLanguage = "'.$userLang.'",

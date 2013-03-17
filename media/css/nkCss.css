@@ -1218,9 +1218,7 @@ option {
     }
 }
 #editCountry {
-    display: inline-block;
     max-width: 150px;
-    vertical-align: middle;
 }
 .flagNoActive {
     display: none;

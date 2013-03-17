@@ -821,7 +821,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                     'man'   => MAN, 
                     'women' => WOMEN
                 );
-                $sexView = $GLOBALS['nkFunctions']->nkRadioBox('label', SEX, 2, 'sex', $sexArray, '&nbsp;:&nbsp;','sex', 'nkLabelSpacing nkNoPadding nkMarginTop15', '', '', $sex);
+                $sexView = $GLOBALS['nkFunctions']->nkRadioBox('label', SEX, 2, 'sex', $sexArray, '&nbsp;:&nbsp;','sex', 'nkLabelSpacing nkNoPadding nkMarginTop', '', '', $sex);
 
                 for ($d=1; $d <= 31; $d++) {
                     if ($dateExtract[0] == $d) {

@@ -797,11 +797,11 @@ if (!isset($GLOBALS['nkInitError'])) {
 
             define('EDITOR_CHECK', 1);
             if ($user) {
-                $dbsUserInfo = 'SELECT pseudo, firstName, age, sex, city, privateMail, publicMail, website, avatar, userTheme, userLanguage, signing, country 
+                $dbsUserInfo = 'SELECT pseudo, firstName, age, sex, city, privateMail, publicMail, website, avatar, userTheme, signing, country 
                                 FROM '.USER_TABLE.' 
                                 WHERE id = "'.$user[0].'"';
                 $dbeUserInfo = mysql_query($dbsUserInfo);
-                list($pseudo, $firstName, $age, $sex, $city, $privateMail, $publicMail, $website, $avatar, $userTheme, $userLanguage, $signing, $country) = mysql_fetch_array($dbeUserInfo);
+                list($pseudo, $firstName, $age, $sex, $city, $privateMail, $publicMail, $website, $avatar, $userTheme, $signing, $country) = mysql_fetch_array($dbeUserInfo);
 
                 // Check du jour
                 if ($age == '') {
@@ -876,7 +876,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                 if ($modulePref['activeCountry'] == "on") {
                     $countryView = '<div>
                                         <label class="nkLabelSpacing" for="editCountry">'.COUNTRY.'</label>&nbsp;:&nbsp;&nbsp;';                                            
-                    $countryView .=         $GLOBALS['nkFunctions']->selectCountry($country, $user[7]);                                            
+                    $countryView .=         $GLOBALS['nkFunctions']->nkSelectCountry($country, $user[7]);                                            
                     $countryView .= '</div>';
                 }
 
@@ -1526,7 +1526,6 @@ if (!isset($GLOBALS['nkInitError'])) {
                         unlink($oldAvatar);
                     }
                 }
-
 
                 $dbuUpdate = '  UPDATE '.USER_TABLE.' 
                                 SET publicMail   = "'.$publicMail.'", 

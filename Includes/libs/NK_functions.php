@@ -670,42 +670,53 @@ class NK_functions {
      * @param  string $checkedLang  string check user lang
      * @return mixed                return country and language for user
      */
-    public function selectCountry($checkedCountry=null, $checkedLang=null) {
+    public function nkSelectCountry($checkedCountry=null, $checkedLang=null) {
         $dbsCountry = ' SELECT ct.code, ct.name, ft.language
                         FROM '.COUNTRY_TABLE.' AS ct 
                         LEFT JOIN '.COUNTRY_TABLE.' AS ft ON ft.name = ct.name 
                         WHERE ct.active = 1
                         ORDER BY ct.name, ct.language';
         $dbeCountry = mysql_query($dbsCountry);
-        // initialize
         $country = '';
-        $check   = '';
-        $myLang  = '';
-        $countryLang = array();
+        $lang    = '';
+        $return = '<script type="text/javascript"> var arrayCountry = new Array(); ';
         while (list($code, $countryList, $countryLangTxt) = mysql_fetch_array($dbeCountry)) {
-            $countryLangTmp = explode('|', $countryLangTxt);    
-            $lang = '';
+            $countryLangTmp = explode('|', $countryLangTxt);
+           
+            if ($checkedCountry == $countryList) {
+                $check   = 'selected="selected"';
+                $codeSelected = $code;
+            } else {
+                $check = '';
+            }
+            // On créer un sous tableau par pays
+            $return .= 'arrayCountry["'.$code.'"] = new Array(';
             foreach ($countryLangTmp as $lg) {
                 if ($checkedLang == $lg) {
                     $checkLang = 'selected="selected"';
                 } else {
                     $checkLang = '';
                 }
-                $lang .= '<option value="'.$lg.'" '.$checkLang.'>'.$lg.'</option>';
-            }    
-            $myLang .= '<div class="nkLang'.$code.' nkWidthFully nkNone">
+                if($checkedCountry == $countryList){
+                    $lang .= '<option value="'.$lg.'" '.$checkLang.'>'.$lg.'</option>';
+                }
+                // On complete le sous tableau avec les langues correspondantes
+                $return .= '"'.$lg.'",';
+            }
+            $country .= '<option class="nkSelectFlags'.$code.'" data-iso="'.$code.'" value="'.$countryList.'" '.$check.'>'.$countryList.'</option>';
+            // On enlève la virgule en trop
+            $return = substr($return,0, -1);
+            // Fermeture du tableau des langues
+            $return .= ');'."\n";
+        }
+        $return .= '    </script>
+                        <select id="editCountry" class="nkInput nkSelectCountry" name="country">'.$country.'</select>&nbsp;
+                        <span id="viewFlags" class="nkFlags'.$codeSelected.'"></span>
+                        <div class="nkWidthFully">
                             <label class="nkLabelSpacing" for="editLang">'.LANGUAGE.'</label>&nbsp;:&nbsp;&nbsp;
                                 <select id="editLang" class="nkInput" name="userLang">'.$lang.'</select>
                         </div>';
-            if ($checkedCountry == $countryList) {
-                $check    = 'selected="selected"';
-            } else {
-                $check    = '';
-            }
-            $country .= '<option data-iso="'.$code.'" value="'.$countryList.'" '.$check.'>'.$countryList.'</option>';
-        }
-        $return = '<select id="editCountry" class="nkInput" name="country">'.$country.'</select>&nbsp;<span id="viewFlags" class="nkFlags'.$code.'"></span>';
-        return $return.$myLang;
+        return $return;
     }
 }
 ?>

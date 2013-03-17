@@ -412,258 +412,269 @@ div[id^='globalVoteResult_'] {
     vertical-align: text-bottom;
     margin-right: 5px;
 }
-.nkFlagsAD {background-position: -16px 0}
-.nkFlagsAE {background-position: -32px 0}
-.nkFlagsAF {background-position: -48px 0}
-.nkFlagsAG {background-position: -64px 0}
-.nkFlagsAI {background-position: -80px 0}
-.nkFlagsAL {background-position: -96px 0}
-.nkFlagsAM {background-position: -112px 0}
-.nkFlagsAN {background-position: -128px 0}
-.nkFlagsAO {background-position: -144px 0}
-.nkFlagsAQ {background-position: -192px -165px}
-.nkFlagsAR {background-position: -160px 0}
-.nkFlagsAS {background-position: -176px 0}
-.nkFlagsAT {background-position: -192px 0}
-.nkFlagsAU {background-position: -208px 0}
-.nkFlagsAW {background-position: -224px 0}
-.nkFlagsAX {background-position: -208px -165px}
-.nkFlagsAZ {background-position: -240px 0}
-.nkFlagsBA {background-position: 0 -11px}
-.nkFlagsBB {background-position: -16px -11px}
-.nkFlagsBD {background-position: -32px -11px}
-.nkFlagsBE {background-position: -48px -11px}
-.nkFlagsBF {background-position: -64px -11px}
-.nkFlagsBG {background-position: -80px -11px}
-.nkFlagsBH {background-position: -96px -11px}
-.nkFlagsBI {background-position: -112px -11px}
-.nkFlagsBJ {background-position: -128px -11px}
-.nkFlagsBM {background-position: -144px -11px}
-.nkFlagsBN {background-position: -160px -11px}
-.nkFlagsBO {background-position: -176px -11px}
-.nkFlagsBQ {background-position: -224px -165px}
-.nkFlagsBR {background-position: -192px -11px}
-.nkFlagsBS {background-position: -208px -11px}
-.nkFlagsBT {background-position: -224px -11px}
-.nkFlagsBV {background-position: -240px -11px}
-.nkFlagsBW {background-position: 0 -22px}
-.nkFlagsBL {background-position: 0 0}
-.nkFlagsBY {background-position: -16px -22px}
-.nkFlagsBZ {background-position: -32px -22px}
-.nkFlagsCA {background-position: -48px -22px}
-.nkFlagsCC {background-position: -240px -165px}
-.nkFlagsCD {background-position: -80px -22px}
-.nkFlagsCF {background-position: -96px -22px}
-.nkFlagsCG {background-position: -112px -22px}
-.nkFlagsCH {background-position: -128px -22px}
-.nkFlagsCI {background-position: -144px -22px}
-.nkFlagsCK {background-position: -160px -22px}
-.nkFlagsCL {background-position: -176px -22px}
-.nkFlagsCM {background-position: -192px -22px}
-.nkFlagsCN {background-position: -208px -22px}
-.nkFlagsCO {background-position: -224px -22px}
-.nkFlagsCR {background-position: -240px -22px}
-.nkFlagsCU {background-position: 0 -33px}
-.nkFlagsCV {background-position: -16px -33px}
-.nkFlagsCW {background-position: -32px -33px}
-.nkFlagsCX {background-position: -256px 0}
-.nkFlagsCY {background-position: -48px -33px}
-.nkFlagsCZ {background-position: -64px -33px}
-.nkFlagsDE {background-position: -80px -33px}
-.nkFlagsDJ {background-position: -96px -33px}
-.nkFlagsDK {background-position: -112px -33px}
-.nkFlagsDM {background-position: -128px -33px}
-.nkFlagsDO {background-position: -144px -33px}
-.nkFlagsDZ {background-position: -160px -33px}
-.nkFlagsEC {background-position: -176px -33px}
-.nkFlagsEE {background-position: -192px -33px}
-.nkFlagsEG {background-position: -208px -33px}
-.nkFlagsEH {background-position: -224px -33px}
-.nkFlagsEN {background-position: -240px -33px}
-.nkFlagsER {background-position: 0 -44px}
-.nkFlagsES {background-position: -16px -44px}
-.nkFlagsET {background-position: -32px -44px}
-.nkFlagsEU {background-position: -48px -44px}
-.nkFlagsFI {background-position: -64px -44px}
-.nkFlagsFJ {background-position: -80px -44px}
-.nkFlagsFK {background-position: -96px -44px}
-.nkFlagsFM {background-position: -112px -44px}
-.nkFlagsFO {background-position: -128px -44px}
-.nkFlagsFR {background-position: -144px -44px}
-.nkFlagsGA {background-position: -160px -44px}
-.nkFlagsGB {background-position: -176px -44px}
-.nkFlagsGD {background-position: -192px -44px}
-.nkFlagsGE {background-position: -208px -44px}
-.nkFlagsGF {background-position: -224px -44px}
-.nkFlagsGG {background-position: -240px -44px}
-.nkFlagsGH {background-position: 0 -55px}
-.nkFlagsGI {background-position: -16px -55px}
-.nkFlagsGL {background-position: -32px -55px}
-.nkFlagsGM {background-position: -48px -55px}
-.nkFlagsGN {background-position: -64px -55px}
-.nkFlagsGP {background-position: -80px -55px}
-.nkFlagsGQ {background-position: -96px -55px}
-.nkFlagsGR {background-position: -112px -55px}
-.nkFlagsGS {background-position: -128px -55px}
-.nkFlagsGT {background-position: -144px -55px}
-.nkFlagsGU {background-position: -160px -55px}
-.nkFlagsGW {background-position: -176px -55px}
-.nkFlagsGY {background-position: -192px -55px}
-.nkFlagsHK {background-position: -208px -55px}
-.nkFlagsHM {background-position: -224px -55px}
-.nkFlagsHN {background-position: -240px -55px}
-.nkFlagsHR {background-position: 0 -66px}
-.nkFlagsHT {background-position: -16px -66px}
-.nkFlagsHU {background-position: -32px -66px}
-.nkFlagsIC {background-position: -48px -66px}
-.nkFlagsID {background-position: -64px -66px}
-.nkFlagsIE {background-position: -80px -66px}
-.nkFlagsIL {background-position: -96px -66px}
-.nkFlagsIM {background-position: -112px -66px}
-.nkFlagsIN {background-position: -128px -66px}
-.nkFlagsIO {background-position: -144px -66px}
-.nkFlagsIQ {background-position: -160px -66px}
-.nkFlagsIR {background-position: -176px -66px}
-.nkFlagsIS {background-position: -192px -66px}
-.nkFlagsIT {background-position: -208px -66px}
-.nkFlagsJE {background-position: -224px -66px}
-.nkFlagsJM {background-position: -240px -66px}
-.nkFlagsJO {background-position: 0 -77px}
-.nkFlagsJP {background-position: -16px -77px}
-.nkFlagsKE {background-position: -32px -77px}
-.nkFlagsKG {background-position: -48px -77px}
-.nkFlagsKH {background-position: -64px -77px}
-.nkFlagsKI {background-position: -80px -77px}
-.nkFlagsKM {background-position: -96px -77px}
-.nkFlagsKN {background-position: -112px -77px}
-.nkFlagsKP {background-position: -128px -77px}
-.nkFlagsKR {background-position: -144px -77px}
-.nkFlagsKW {background-position: -176px -77px}
-.nkFlagsKY {background-position: -192px -77px}
-.nkFlagsKZ {background-position: -208px -77px}
-.nkFlagsLA {background-position: -224px -77px}
-.nkFlagsLB {background-position: -240px -77px}
-.nkFlagsLC {background-position: 0 -88px}
-.nkFlagsLI {background-position: -16px -88px}
-.nkFlagsLK {background-position: -32px -88px}
-.nkFlagsLR {background-position: -48px -88px}
-.nkFlagsLS {background-position: -64px -88px}
-.nkFlagsLT {background-position: -80px -88px}
-.nkFlagsLU {background-position: -96px -88px}
-.nkFlagsLV {background-position: -112px -88px}
-.nkFlagsLY {background-position: -128px -88px}
-.nkFlagsMA {background-position: -144px -88px}
-.nkFlagsMC {background-position: -160px -88px}
-.nkFlagsMD {background-position: -176px -88px}
-.nkFlagsME {background-position: -192px -88px}
-.nkFlagsMF {background-position: -144px -44px}
-.nkFlagsMG {background-position: -208px -88px}
-.nkFlagsMH {background-position: -224px -88px}
-.nkFlagsMK {background-position: -240px -88px}
-.nkFlagsML {background-position: 0 -99px}
-.nkFlagsMM {background-position: -16px -99px}
-.nkFlagsMN {background-position: -32px -99px}
-.nkFlagsMO {background-position: -48px -99px}
-.nkFlagsMP {background-position: -64px -99px}
-.nkFlagsMQ {background-position: -80px -99px}
-.nkFlagsMR {background-position: -96px -99px}
-.nkFlagsMS {background-position: -112px -99px}
-.nkFlagsMT {background-position: -128px -99px}
-.nkFlagsMU {background-position: -144px -99px}
-.nkFlagsMV {background-position: -160px -99px}
-.nkFlagsMW {background-position: -176px -99px}
-.nkFlagsMX {background-position: -192px -99px}
-.nkFlagsMY {background-position: -208px -99px}
-.nkFlagsMZ {background-position: -224px -99px}
-.nkFlagsNA {background-position: -240px -99px}
-.nkFlagsNC {background-position: -144px -44px}
-.nkFlagsNE {background-position: -16px -110px}
-.nkFlagsNF {background-position: -32px -110px}
-.nkFlagsNG {background-position: -48px -110px}
-.nkFlagsNI {background-position: -64px -110px}
-.nkFlagsNL {background-position: -80px -110px}
-.nkFlagsNO {background-position: -96px -110px}
-.nkFlagsNP {background-position: -112px -110px}
-.nkFlagsNR {background-position: -128px -110px}
-.nkFlagsNU {background-position: -144px -110px}
-.nkFlagsNZ {background-position: -160px -110px}
-.nkFlagsOM {background-position: -176px -110px}
-.nkFlagsPA {background-position: -192px -110px}
-.nkFlagsPE {background-position: -208px -110px}
-.nkFlagsPF {background-position: -224px -110px}
-.nkFlagsPG {background-position: -240px -110px}
-.nkFlagsPH {background-position: 0 -121px}
-.nkFlagsPK {background-position: -16px -121px}
-.nkFlagsPL {background-position: -32px -121px}
-.nkFlagsPM {background-position: -48px -121px}
-.nkFlagsPN {background-position: -64px -121px}
-.nkFlagsPR {background-position: -80px -121px}
-.nkFlagsPS {background-position: -96px -121px}
-.nkFlagsPT {background-position: -112px -121px}
-.nkFlagsPW {background-position: -128px -121px}
-.nkFlagsPY {background-position: -144px -121px}
-.nkFlagsQA {background-position: -160px -121px}
-.nkFlagsRE {background-position: -176px -121px}
-.nkFlagsRO {background-position: -192px -121px}
-.nkFlagsRS {background-position: -208px -121px}
-.nkFlagsRU {background-position: -224px -121px}
-.nkFlagsRW {background-position: -240px -121px}
-.nkFlagsSA {background-position: 0 -132px}
-.nkFlagsSB {background-position: -16px -132px}
-.nkFlagsSC {background-position: -32px -132px}
-.nkFlagsSD {background-position: -64px -132px}
-.nkFlagsSE {background-position: -80px -132px}
-.nkFlagsSG {background-position: -96px -132px}
-.nkFlagsSH {background-position: -112px -132px}
-.nkFlagsSI {background-position: -128px -132px}
-.nkFlagsSK {background-position: -144px -132px}
-.nkFlagsSL {background-position: -160px -132px}
-.nkFlagsSM {background-position: -176px -132px}
-.nkFlagsSN {background-position: -192px -132px}
-.nkFlagsSO {background-position: -208px -132px}
-.nkFlagsSR {background-position: -240px -132px}
-.nkFlagsSS {background-position: 0 -143px}
-.nkFlagsST {background-position: -16px -143px}
-.nkFlagsSV {background-position: -32px -143px}
-.nkFlagsSX {background-position: -48px -143px}
-.nkFlagsSY {background-position: -64px -143px}
-.nkFlagsSZ {background-position: -80px -143px}
-.nkFlagsTC {background-position: -96px -143px}
-.nkFlagsTD {background-position: -112px -143px}
-.nkFlagsTF {background-position: -128px -143px}
-.nkFlagsTG {background-position: -144px -143px}
-.nkFlagsTH {background-position: -160px -143px}
-.nkFlagsTJ {background-position: -176px -143px}
-.nkFlagsTK {background-position: -192px -143px}
-.nkFlagsTL {background-position: -208px -143px}
-.nkFlagsTM {background-position: -224px -143px}
-.nkFlagsTN {background-position: -240px -143px}
-.nkFlagsTO {background-position: 0 -154px}
-.nkFlagsTR {background-position: -16px -154px}
-.nkFlagsTT {background-position: -32px -154px}
-.nkFlagsTV {background-position: -48px -154px}
-.nkFlagsTW {background-position: -64px -154px}
-.nkFlagsTZ {background-position: -80px -154px}
-.nkFlagsUA {background-position: -96px -154px}
-.nkFlagsUG {background-position: -112px -154px}
-.nkFlagsUM {background-position: -128px -154px}
-.nkFlagsUS {background-position: -144px -154px}
-.nkFlagsUY {background-position: -160px -154px}
-.nkFlagsUZ {background-position: -176px -154px}
-.nkFlagsVA {background-position: -192px -154px}
-.nkFlagsVC {background-position: -208px -154px}
-.nkFlagsVE {background-position: -224px -154px}
-.nkFlagsVG {background-position: -240px -154px}
-.nkFlagsVI {background-position: 0 -165px}
-.nkFlagsVN {background-position: -16px -165px}
-.nkFlagsVU {background-position: -32px -165px}
-.nkFlagsWF {background-position: -64px -165px}
-.nkFlagsWS {background-position: -80px -165px}
-.nkFlagsYE {background-position: -96px -165px}
-.nkFlagsYT {background-position: -112px -165px}
-.nkFlagsZA {background-position: -128px -165px}
-.nkFlagsZM {background-position: -160px -165px}
-.nkFlagsZW {background-position: -176px -165px}
+.nkFlagsAD, .nkSelectFlagsAD:before {background-position: -16px 0 !important}
+.nkFlagsAE, .nkSelectFlagsAE:before {background-position: -32px 0 !important}
+.nkFlagsAF, .nkSelectFlagsAF:before {background-position: -48px 0 !important}
+.nkFlagsAG, .nkSelectFlagsAG:before {background-position: -64px 0 !important}
+.nkFlagsAI, .nkSelectFlagsAI:before {background-position: -80px 0 !important}
+.nkFlagsAL, .nkSelectFlagsAL:before {background-position: -96px 0 !important}
+.nkFlagsAM, .nkSelectFlagsAM:before {background-position: -112px 0 !important}
+.nkFlagsAN, .nkSelectFlagsAN:before {background-position: -128px 0 !important}
+.nkFlagsAO, .nkSelectFlagsAO:before {background-position: -144px 0 !important}
+.nkFlagsAQ, .nkSelectFlagsAQ:before {background-position: -192px -165px !important}
+.nkFlagsAR, .nkSelectFlagsAR:before {background-position: -160px 0 !important}
+.nkFlagsAS, .nkSelectFlagsAS:before {background-position: -176px 0 !important}
+.nkFlagsAT, .nkSelectFlagsAT:before {background-position: -192px 0 !important}
+.nkFlagsAU, .nkSelectFlagsAU:before {background-position: -208px 0 !important}
+.nkFlagsAW, .nkSelectFlagsAW:before {background-position: -224px 0 !important}
+.nkFlagsAX, .nkSelectFlagsAX:before {background-position: -208px -165px !important}
+.nkFlagsAZ, .nkSelectFlagsAZ:before {background-position: -240px 0 !important}
+.nkFlagsBA, .nkSelectFlagsBA:before {background-position: 0 -11px !important}
+.nkFlagsBB, .nkSelectFlagsBB:before {background-position: -16px -11px !important}
+.nkFlagsBD, .nkSelectFlagsBD:before {background-position: -32px -11px !important}
+.nkFlagsBE, .nkSelectFlagsBE:before {background-position: -48px -11px !important}
+.nkFlagsBF, .nkSelectFlagsBF:before {background-position: -64px -11px !important}
+.nkFlagsBG, .nkSelectFlagsBG:before {background-position: -80px -11px !important}
+.nkFlagsBH, .nkSelectFlagsBH:before {background-position: -96px -11px !important}
+.nkFlagsBI, .nkSelectFlagsBI:before {background-position: -112px -11px !important}
+.nkFlagsBJ, .nkSelectFlagsBJ:before {background-position: -128px -11px !important}
+.nkFlagsBM, .nkSelectFlagsBM:before {background-position: -144px -11px !important}
+.nkFlagsBN, .nkSelectFlagsBN:before {background-position: -160px -11px !important}
+.nkFlagsBO, .nkSelectFlagsBO:before {background-position: -176px -11px !important}
+.nkFlagsBQ, .nkSelectFlagsBQ:before {background-position: -224px -165px !important}
+.nkFlagsBR, .nkSelectFlagsBR:before {background-position: -192px -11px !important}
+.nkFlagsBS, .nkSelectFlagsBS:before {background-position: -208px -11px !important}
+.nkFlagsBT, .nkSelectFlagsBT:before {background-position: -224px -11px !important}
+.nkFlagsBV, .nkSelectFlagsBV:before {background-position: -240px -11px !important}
+.nkFlagsBW, .nkSelectFlagsBW:before {background-position: 0 -22px !important}
+.nkFlagsBL, .nkSelectFlagsBL:before {background-position: 0 0 !important}
+.nkFlagsBY, .nkSelectFlagsBY:before {background-position: -16px -22px !important}
+.nkFlagsBZ, .nkSelectFlagsBZ:before {background-position: -32px -22px !important}
+.nkFlagsCA, .nkSelectFlagsCA:before {background-position: -48px -22px !important}
+.nkFlagsCC, .nkSelectFlagsCC:before {background-position: -240px -165px !important}
+.nkFlagsCD, .nkSelectFlagsCD:before {background-position: -80px -22px !important}
+.nkFlagsCF, .nkSelectFlagsCF:before {background-position: -96px -22px !important}
+.nkFlagsCG, .nkSelectFlagsCG:before {background-position: -112px -22px !important}
+.nkFlagsCH, .nkSelectFlagsCH:before {background-position: -128px -22px !important}
+.nkFlagsCI, .nkSelectFlagsCI:before {background-position: -144px -22px !important}
+.nkFlagsCK, .nkSelectFlagsCK:before {background-position: -160px -22px !important}
+.nkFlagsCL, .nkSelectFlagsCL:before {background-position: -176px -22px !important}
+.nkFlagsCM, .nkSelectFlagsCM:before {background-position: -192px -22px !important}
+.nkFlagsCN, .nkSelectFlagsCN:before {background-position: -208px -22px !important}
+.nkFlagsCO, .nkSelectFlagsCO:before {background-position: -224px -22px !important}
+.nkFlagsCR, .nkSelectFlagsCR:before {background-position: -240px -22px}
+.nkFlagsCU, .nkSelectFlagsCU:before {background-position: 0 -33px !important}
+.nkFlagsCV, .nkSelectFlagsCV:before {background-position: -16px -33px !important}
+.nkFlagsCW, .nkSelectFlagsCW:before {background-position: -32px -33px !important}
+.nkFlagsCX, .nkSelectFlagsCX:before {background-position: -256px 0 !important}
+.nkFlagsCY, .nkSelectFlagsCY:before {background-position: -48px -33px !important}
+.nkFlagsCZ, .nkSelectFlagsCZ:before {background-position: -64px -33px !important}
+.nkFlagsDE, .nkSelectFlagsDE:before {background-position: -80px -33px !important}
+.nkFlagsDJ, .nkSelectFlagsDJ:before {background-position: -96px -33px !important}
+.nkFlagsDK, .nkSelectFlagsDK:before {background-position: -112px -33px !important}
+.nkFlagsDM, .nkSelectFlagsDM:before {background-position: -128px -33px !important}
+.nkFlagsDO, .nkSelectFlagsDO:before {background-position: -144px -33px !important}
+.nkFlagsDZ, .nkSelectFlagsDZ:before {background-position: -160px -33px !important}
+.nkFlagsEC, .nkSelectFlagsEC:before {background-position: -176px -33px !important}
+.nkFlagsEE, .nkSelectFlagsEE:before {background-position: -192px -33px !important}
+.nkFlagsEG, .nkSelectFlagsEG:before {background-position: -208px -33px !important}
+.nkFlagsEH, .nkSelectFlagsEH:before {background-position: -224px -33px !important}
+.nkFlagsEN, .nkSelectFlagsEN:before {background-position: -240px -33px !important}
+.nkFlagsER, .nkSelectFlagsER:before {background-position: 0 -44px !important}
+.nkFlagsES, .nkSelectFlagsES:before {background-position: -16px -44px !important}
+.nkFlagsET, .nkSelectFlagsET:before {background-position: -32px -44px !important}
+.nkFlagsEU, .nkSelectFlagsEU:before {background-position: -48px -44px !important}
+.nkFlagsFI, .nkSelectFlagsFI:before {background-position: -64px -44px !important}
+.nkFlagsFJ, .nkSelectFlagsFJ:before {background-position: -80px -44px !important}
+.nkFlagsFK, .nkSelectFlagsFK:before {background-position: -96px -44px !important}
+.nkFlagsFM, .nkSelectFlagsFM:before {background-position: -112px -44px !important}
+.nkFlagsFO, .nkSelectFlagsFO:before {background-position: -128px -44px !important}
+.nkFlagsFR, .nkSelectFlagsFR:before {background-position: -144px -44px !important}
+.nkFlagsGA, .nkSelectFlagsGA:before {background-position: -160px -44px !important}
+.nkFlagsGB, .nkSelectFlagsGB:before {background-position: -176px -44px !important}
+.nkFlagsGD, .nkSelectFlagsGD:before {background-position: -192px -44px !important}
+.nkFlagsGE, .nkSelectFlagsGE:before {background-position: -208px -44px !important}
+.nkFlagsGF, .nkSelectFlagsGF:before {background-position: -224px -44px !important}
+.nkFlagsGG, .nkSelectFlagsGG:before {background-position: -240px -44px !important}
+.nkFlagsGH, .nkSelectFlagsGH:before {background-position: 0 -55px !important}
+.nkFlagsGI, .nkSelectFlagsGI:before {background-position: -16px -55px !important}
+.nkFlagsGL, .nkSelectFlagsGL:before {background-position: -32px -55px !important}
+.nkFlagsGM, .nkSelectFlagsGM:before {background-position: -48px -55px !important}
+.nkFlagsGN, .nkSelectFlagsGN:before {background-position: -64px -55px !important}
+.nkFlagsGP, .nkSelectFlagsGP:before {background-position: -80px -55px !important}
+.nkFlagsGQ, .nkSelectFlagsGQ:before {background-position: -96px -55px !important}
+.nkFlagsGR, .nkSelectFlagsGR:before {background-position: -112px -55px !important}
+.nkFlagsGS, .nkSelectFlagsGS:before {background-position: -128px -55px !important}
+.nkFlagsGT, .nkSelectFlagsGT:before {background-position: -144px -55px !important}
+.nkFlagsGU, .nkSelectFlagsGU:before {background-position: -160px -55px !important}
+.nkFlagsGW, .nkSelectFlagsGW:before {background-position: -176px -55px !important}
+.nkFlagsGY, .nkSelectFlagsGY:before {background-position: -192px -55px !important}
+.nkFlagsHK, .nkSelectFlagsHK:before {background-position: -208px -55px !important}
+.nkFlagsHM, .nkSelectFlagsHM:before {background-position: -224px -55px !important}
+.nkFlagsHN, .nkSelectFlagsHN:before {background-position: -240px -55px !important}
+.nkFlagsHR, .nkSelectFlagsHR:before {background-position: 0 -66px !important}
+.nkFlagsHT, .nkSelectFlagsHT:before {background-position: -16px -66px !important}
+.nkFlagsHU, .nkSelectFlagsHU:before {background-position: -32px -66px !important}
+.nkFlagsIC, .nkSelectFlagsIC:before {background-position: -48px -66px !important}
+.nkFlagsID, .nkSelectFlagsID:before {background-position: -64px -66px !important}
+.nkFlagsIE, .nkSelectFlagsIE:before {background-position: -80px -66px !important}
+.nkFlagsIL, .nkSelectFlagsIL:before {background-position: -96px -66px !important}
+.nkFlagsIM, .nkSelectFlagsIM:before {background-position: -112px -66px !important}
+.nkFlagsIN, .nkSelectFlagsIN:before {background-position: -128px -66px !important}
+.nkFlagsIO, .nkSelectFlagsIO:before {background-position: -144px -66px !important}
+.nkFlagsIQ, .nkSelectFlagsIQ:before {background-position: -160px -66px !important}
+.nkFlagsIR, .nkSelectFlagsIR:before {background-position: -176px -66px !important}
+.nkFlagsIS, .nkSelectFlagsIS:before {background-position: -192px -66px !important}
+.nkFlagsIT, .nkSelectFlagsIT:before {background-position: -208px -66px !important}
+.nkFlagsJE, .nkSelectFlagsJE:before {background-position: -224px -66px !important}
+.nkFlagsJM, .nkSelectFlagsJM:before {background-position: -240px -66px !important}
+.nkFlagsJO, .nkSelectFlagsJO:before {background-position: 0 -77px !important}
+.nkFlagsJP, .nkSelectFlagsJP:before {background-position: -16px -77px !important}
+.nkFlagsKE, .nkSelectFlagsKE:before {background-position: -32px -77px !important}
+.nkFlagsKG, .nkSelectFlagsKG:before {background-position: -48px -77px !important}
+.nkFlagsKH, .nkSelectFlagsKH:before {background-position: -64px -77px !important}
+.nkFlagsKI, .nkSelectFlagsKI:before {background-position: -80px -77px !important}
+.nkFlagsKM, .nkSelectFlagsKM:before {background-position: -96px -77px !important}
+.nkFlagsKN, .nkSelectFlagsKN:before {background-position: -112px -77px !important}
+.nkFlagsKP, .nkSelectFlagsKP:before {background-position: -128px -77px !important}
+.nkFlagsKR, .nkSelectFlagsKR:before {background-position: -144px -77px !important}
+.nkFlagsKW, .nkSelectFlagsKW:before {background-position: -176px -77px !important}
+.nkFlagsKY, .nkSelectFlagsKY:before {background-position: -192px -77px !important}
+.nkFlagsKZ, .nkSelectFlagsKZ:before {background-position: -208px -77px !important}
+.nkFlagsLA, .nkSelectFlagsLA:before {background-position: -224px -77px !important}
+.nkFlagsLB, .nkSelectFlagsLB:before {background-position: -240px -77px !important}
+.nkFlagsLC, .nkSelectFlagsLC:before {background-position: 0 -88px !important}
+.nkFlagsLI, .nkSelectFlagsLI:before {background-position: -16px -88px !important}
+.nkFlagsLK, .nkSelectFlagsLK:before {background-position: -32px -88px !important}
+.nkFlagsLR, .nkSelectFlagsLR:before {background-position: -48px -88px !important}
+.nkFlagsLS, .nkSelectFlagsLS:before {background-position: -64px -88px !important}
+.nkFlagsLT, .nkSelectFlagsLT:before {background-position: -80px -88px !important}
+.nkFlagsLU, .nkSelectFlagsLU:before {background-position: -96px -88px !important}
+.nkFlagsLV, .nkSelectFlagsLV:before {background-position: -112px -88px !important}
+.nkFlagsLY, .nkSelectFlagsLY:before {background-position: -128px -88px !important}
+.nkFlagsMA, .nkSelectFlagsMA:before {background-position: -144px -88px !important}
+.nkFlagsMC, .nkSelectFlagsMC:before {background-position: -160px -88px !important}
+.nkFlagsMD, .nkSelectFlagsMD:before {background-position: -176px -88px !important}
+.nkFlagsME, .nkSelectFlagsME:before {background-position: -192px -88px !important}
+.nkFlagsMF, .nkSelectFlagsMF:before {background-position: -144px -44px !important}
+.nkFlagsMG, .nkSelectFlagsMG:before {background-position: -208px -88px !important}
+.nkFlagsMH, .nkSelectFlagsMH:before {background-position: -224px -88px !important}
+.nkFlagsMK, .nkSelectFlagsMK:before {background-position: -240px -88px !important}
+.nkFlagsML, .nkSelectFlagsML:before {background-position: 0 -99px !important}
+.nkFlagsMM, .nkSelectFlagsMM:before {background-position: -16px -99px !important}
+.nkFlagsMN, .nkSelectFlagsMN:before {background-position: -32px -99px !important}
+.nkFlagsMO, .nkSelectFlagsMO:before {background-position: -48px -99px !important}
+.nkFlagsMP, .nkSelectFlagsMP:before {background-position: -64px -99px !important}
+.nkFlagsMQ, .nkSelectFlagsMQ:before {background-position: -80px -99px !important}
+.nkFlagsMR, .nkSelectFlagsMR:before {background-position: -96px -99px !important}
+.nkFlagsMS, .nkSelectFlagsMS:before {background-position: -112px -99px !important}
+.nkFlagsMT, .nkSelectFlagsMT:before {background-position: -128px -99px !important}
+.nkFlagsMU, .nkSelectFlagsMU:before {background-position: -144px -99px !important}
+.nkFlagsMV, .nkSelectFlagsMV:before {background-position: -160px -99px !important}
+.nkFlagsMW, .nkSelectFlagsMW:before {background-position: -176px -99px !important}
+.nkFlagsMX, .nkSelectFlagsMX:before {background-position: -192px -99px !important}
+.nkFlagsMY, .nkSelectFlagsMY:before {background-position: -208px -99px !important}
+.nkFlagsMZ, .nkSelectFlagsMZ:before {background-position: -224px -99px !important}
+.nkFlagsNA, .nkSelectFlagsNA:before {background-position: -240px -99px !important}
+.nkFlagsNC, .nkSelectFlagsNC:before {background-position: -144px -44px !important}
+.nkFlagsNE, .nkSelectFlagsNE:before {background-position: -16px -110px !important}
+.nkFlagsNF, .nkSelectFlagsNF:before {background-position: -32px -110px !important}
+.nkFlagsNG, .nkSelectFlagsNG:before {background-position: -48px -110px !important}
+.nkFlagsNI, .nkSelectFlagsNI:before {background-position: -64px -110px !important}
+.nkFlagsNL, .nkSelectFlagsNL:before {background-position: -80px -110px !important}
+.nkFlagsNO, .nkSelectFlagsNO:before {background-position: -96px -110px !important}
+.nkFlagsNP, .nkSelectFlagsNP:before {background-position: -112px -110px !important}
+.nkFlagsNR, .nkSelectFlagsNR:before {background-position: -128px -110px !important}
+.nkFlagsNU, .nkSelectFlagsNU:before {background-position: -144px -110px !important}
+.nkFlagsNZ, .nkSelectFlagsNZ:before {background-position: -160px -110px !important}
+.nkFlagsOM, .nkSelectFlagsOM:before {background-position: -176px -110px !important}
+.nkFlagsPA, .nkSelectFlagsPA:before {background-position: -192px -110px !important}
+.nkFlagsPE, .nkSelectFlagsPE:before {background-position: -208px -110px !important}
+.nkFlagsPF, .nkSelectFlagsPF:before {background-position: -224px -110px !important}
+.nkFlagsPG, .nkSelectFlagsPG:before {background-position: -240px -110px !important}
+.nkFlagsPH, .nkSelectFlagsPH:before {background-position: 0 -121px !important}
+.nkFlagsPK, .nkSelectFlagsPK:before {background-position: -16px -121px !important}
+.nkFlagsPL, .nkSelectFlagsPL:before {background-position: -32px -121px !important}
+.nkFlagsPM, .nkSelectFlagsPM:before {background-position: -48px -121px !important}
+.nkFlagsPN, .nkSelectFlagsPN:before {background-position: -64px -121px !important}
+.nkFlagsPR, .nkSelectFlagsPR:before {background-position: -80px -121px !important}
+.nkFlagsPS, .nkSelectFlagsPS:before {background-position: -96px -121px !important}
+.nkFlagsPT, .nkSelectFlagsPT:before {background-position: -112px -121px !important}
+.nkFlagsPW, .nkSelectFlagsPW:before {background-position: -128px -121px !important}
+.nkFlagsPY, .nkSelectFlagsPY:before {background-position: -144px -121px !important}
+.nkFlagsQA, .nkSelectFlagsQA:before {background-position: -160px -121px !important}
+.nkFlagsRE, .nkSelectFlagsRE:before {background-position: -176px -121px !important}
+.nkFlagsRO, .nkSelectFlagsRO:before {background-position: -192px -121px !important}
+.nkFlagsRS, .nkSelectFlagsRS:before {background-position: -208px -121px !important}
+.nkFlagsRU, .nkSelectFlagsRU:before {background-position: -224px -121px !important}
+.nkFlagsRW, .nkSelectFlagsRW:before {background-position: -240px -121px !important}
+.nkFlagsSA, .nkSelectFlagsSA:before {background-position: 0 -132px !important}
+.nkFlagsSB, .nkSelectFlagsSB:before {background-position: -16px -132px !important}
+.nkFlagsSC, .nkSelectFlagsSC:before {background-position: -32px -132px !important}
+.nkFlagsSD, .nkSelectFlagsSD:before {background-position: -64px -132px !important}
+.nkFlagsSE, .nkSelectFlagsSE:before {background-position: -80px -132px !important}
+.nkFlagsSG, .nkSelectFlagsSG:before {background-position: -96px -132px !important}
+.nkFlagsSH, .nkSelectFlagsSH:before {background-position: -112px -132px !important}
+.nkFlagsSI, .nkSelectFlagsSI:before {background-position: -128px -132px !important}
+.nkFlagsSK, .nkSelectFlagsSK:before {background-position: -144px -132px !important}
+.nkFlagsSL, .nkSelectFlagsSL:before {background-position: -160px -132px !important}
+.nkFlagsSM, .nkSelectFlagsSM:before {background-position: -176px -132px !important}
+.nkFlagsSN, .nkSelectFlagsSN:before {background-position: -192px -132px !important}
+.nkFlagsSO, .nkSelectFlagsSO:before {background-position: -208px -132px !important}
+.nkFlagsSR, .nkSelectFlagsSR:before {background-position: -240px -132px !important}
+.nkFlagsSS, .nkSelectFlagsSS:before {background-position: 0 -143px !important}
+.nkFlagsST, .nkSelectFlagsST:before {background-position: -16px -143px !important}
+.nkFlagsSV, .nkSelectFlagsSV:before {background-position: -32px -143px !important}
+.nkFlagsSX, .nkSelectFlagsSX:before {background-position: -48px -143px !important}
+.nkFlagsSY, .nkSelectFlagsSY:before {background-position: -64px -143px !important}
+.nkFlagsSZ, .nkSelectFlagsSZ:before {background-position: -80px -143px !important}
+.nkFlagsTC, .nkSelectFlagsTC:before {background-position: -96px -143px !important}
+.nkFlagsTD, .nkSelectFlagsTD:before {background-position: -112px -143px !important}
+.nkFlagsTF, .nkSelectFlagsTF:before {background-position: -128px -143px !important}
+.nkFlagsTG, .nkSelectFlagsTG:before {background-position: -144px -143px !important}
+.nkFlagsTH, .nkSelectFlagsTH:before {background-position: -160px -143px !important}
+.nkFlagsTJ, .nkSelectFlagsTJ:before {background-position: -176px -143px !important}
+.nkFlagsTK, .nkSelectFlagsTK:before {background-position: -192px -143px !important}
+.nkFlagsTL, .nkSelectFlagsTL:before {background-position: -208px -143px !important}
+.nkFlagsTM, .nkSelectFlagsTM:before {background-position: -224px -143px !important}
+.nkFlagsTN, .nkSelectFlagsTN:before {background-position: -240px -143px !important}
+.nkFlagsTO, .nkSelectFlagsTO:before {background-position: 0 -154px !important}
+.nkFlagsTR, .nkSelectFlagsTR:before {background-position: -16px -154px !important}
+.nkFlagsTT, .nkSelectFlagsTT:before {background-position: -32px -154px !important}
+.nkFlagsTV, .nkSelectFlagsTV:before {background-position: -48px -154px !important}
+.nkFlagsTW, .nkSelectFlagsTW:before {background-position: -64px -154px !important}
+.nkFlagsTZ, .nkSelectFlagsTZ:before {background-position: -80px -154px !important}
+.nkFlagsUA, .nkSelectFlagsUA:before {background-position: -96px -154px !important}
+.nkFlagsUG, .nkSelectFlagsUG:before {background-position: -112px -154px !important}
+.nkFlagsUM, .nkSelectFlagsUM:before {background-position: -128px -154px !important}
+.nkFlagsUS, .nkSelectFlagsUS:before {background-position: -144px -154px !important}
+.nkFlagsUY, .nkSelectFlagsUY:before {background-position: -160px -154px !important}
+.nkFlagsUZ, .nkSelectFlagsUZ:before {background-position: -176px -154px !important}
+.nkFlagsVA, .nkSelectFlagsVA:before {background-position: -192px -154px !important}
+.nkFlagsVC, .nkSelectFlagsVC:before {background-position: -208px -154px !important}
+.nkFlagsVE, .nkSelectFlagsVE:before {background-position: -224px -154px !important}
+.nkFlagsVG, .nkSelectFlagsVG:before {background-position: -240px -154px !important}
+.nkFlagsVI, .nkSelectFlagsVI:before {background-position: 0 -165px !important}
+.nkFlagsVN, .nkSelectFlagsVN:before {background-position: -16px -165px !important}
+.nkFlagsVU, .nkSelectFlagsVU:before {background-position: -32px -165px !important}
+.nkFlagsWF, .nkSelectFlagsWF:before {background-position: -64px -165px !important}
+.nkFlagsWS, .nkSelectFlagsWS:before {background-position: -80px -165px !important}
+.nkFlagsYE, .nkSelectFlagsYE:before {background-position: -96px -165px !important}
+.nkFlagsYT, .nkSelectFlagsYT:before {background-position: -112px -165px !important}
+.nkFlagsZA, .nkSelectFlagsZA:before {background-position: -128px -165px !important}
+.nkFlagsZM, .nkSelectFlagsZM:before {background-position: -160px -165px !important}
+.nkFlagsZW, .nkSelectFlagsZW:before {background-position: -176px -165px !important}
+
+
+.nkSelectCountry > option:before{
+    background-image: url(../../images/nkFlags.png);
+    content: "";
+    display: inline-block;
+    height: 11px;
+    margin-right: 5px;
+    vertical-align: middle;
+    width: 16px;
+}
 
 
 /* Affichage pour le Block Login */
@@ -1207,7 +1218,9 @@ option {
     }
 }
 #editCountry {
+    display: inline-block;
     max-width: 150px;
+    vertical-align: middle;
 }
 .flagNoActive {
     display: none;

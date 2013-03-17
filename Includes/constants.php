@@ -82,6 +82,9 @@ define('DOWNLOADS_CAT_TABLE', $nuked['prefix'] . '_downloads_cat');
 define('DOWNLOADS_CONFIG_TABLE', $nuked['prefix'] . '_downloads_config');
 define('NEWS_CONFIG_TABLE', $nuked['prefix'] . '_news_config');
 define('USER_CONFIG_TABLE', $nuked['prefix'] . '_users_config');
+define('CONTINENTS_TABLE', $nuked['prefix'] . '_world_continents');
+define('COUNTRY_TABLE', $nuked['prefix'] . '_world_countries');
+define('COUNTRYLANG_TABLE', $nuked['prefix'] . '_world_lang');
 
 
 ?>

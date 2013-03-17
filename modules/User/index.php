@@ -814,6 +814,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                 $dayView   = '';
                 $monthView = '';
                 $yearView  = '';
+                $countryView = '';
 
                 // affichage sex
                 $sexArray = array(

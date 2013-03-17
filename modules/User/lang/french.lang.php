@@ -105,6 +105,7 @@ define("INFOMODIF","Compte mis à jour avec succès.");
 define("REMOVECONFIRM","Etes vous sur de vouloir supprimer votre compte ?");
 define("BADAGE","Vous ne pouvez pas être né(e) cette année");
 define("FUNCTIONOFF","Cette fonction n'est pas activée");
+define("THEMEUSE","Thème utilisé");
 
 
 /*

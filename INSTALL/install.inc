@@ -1208,7 +1208,8 @@
                             ('nbComment', '5'),
                             ('nbSuggest', '5'),
                             ('activeTheme', 'on'),
-                            ('validation', 'auto');";
+                            ('validation', 'auto'),
+                            ('activeCountry', 'on');";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;

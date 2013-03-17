@@ -20,6 +20,7 @@
         <script type="text/javascript" src="media/js/nkTooltipPlugin.js"></script>
         <script type="text/javascript" src="media/js/nkTooltipConfig.js"></script>
         <script type="text/javascript" src="media/js/menuUser.js"></script>
+        <script type="text/javascript" src="media/js/showFlags.js"></script>
         <script type="text/javascript" src="media/js/shadowbox.js"></script>
         <script type="text/javascript">
             Shadowbox.init();

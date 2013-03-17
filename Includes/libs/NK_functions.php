@@ -519,7 +519,7 @@ class NK_functions {
     function infoModules() {
         $dbsActiveModule = 'SELECT id, name, newName, level, admin 
                             FROM '. MODULES_TABLE;
-        $dbeActiveModule = mysql_query($dbsActiveModule);
+        $dbeActiveModule = mysql_query($dbsActiveModule)or die(mysql_error());
         while($row = mysql_fetch_assoc($dbeActiveModule)) {
             $moduleArray[$row['name']] = array(
                     'id'      => $row['id'],
@@ -662,6 +662,50 @@ class NK_functions {
             $avatar   = '';
             return $avatar;
         }
+    }
+
+    /**
+     * see country and auto select language
+     * @param  string $checked      string check user country
+     * @param  string $checkedLang  string check user lang
+     * @return mixed                return country and language for user
+     */
+    public function selectCountry($checkedCountry=null, $checkedLang=null) {
+        $dbsCountry = ' SELECT ct.code, ct.name, ft.language
+                        FROM '.COUNTRY_TABLE.' AS ct 
+                        LEFT JOIN '.COUNTRY_TABLE.' AS ft ON ft.name = ct.name 
+                        WHERE ct.active = 1
+                        ORDER BY ct.name, ct.language';
+        $dbeCountry = mysql_query($dbsCountry);
+        // initialize
+        $country = '';
+        $check   = '';
+        $myLang  = '';
+        $countryLang = array();
+        while (list($code, $countryList, $countryLangTxt) = mysql_fetch_array($dbeCountry)) {
+            $countryLangTmp = explode('|', $countryLangTxt);    
+            $lang = '';
+            foreach ($countryLangTmp as $lg) {
+                if ($checkedLang == $lg) {
+                    $checkLang = 'selected="selected"';
+                } else {
+                    $checkLang = '';
+                }
+                $lang .= '<option value="'.$lg.'" '.$checkLang.'>'.$lg.'</option>';
+            }    
+            $myLang .= '<div class="nkLang'.$code.' nkWidthFully nkNone">
+                            <label class="nkLabelSpacing" for="editLang">'.LANGUAGE.'</label>&nbsp;:&nbsp;&nbsp;
+                                <select id="editLang" class="nkInput" name="editLang">'.$lang.'</select>
+                        </div>';
+            if ($checkedCountry == $countryList) {
+                $check    = 'selected="selected"';
+            } else {
+                $check    = '';
+            }
+            $country .= '<option data-iso="'.$code.'" value="'.$countryList.'" '.$check.'>'.$countryList.'</option>';
+        }
+        $return = '<select id="editCountry" class="nkInput" name="country">'.$country.'</select>&nbsp;<span id="viewFlags" class="nkFlags'.$code.'"></span>';
+        return $return.$myLang;
     }
 }
 ?>

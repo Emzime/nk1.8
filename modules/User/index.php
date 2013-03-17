@@ -1541,7 +1541,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                                 WHERE id = "'.$user[0].'"';
                 $dbeUpdate = mysql_query($dbuUpdate);
                 echo $GLOBALS['nkTpl']->nkDisplaySuccess(INFOMODIF, 'nkAlert nkAlertSuccess');
-                //redirect("index.php?file=User", 1);
+                redirect("index.php?file=User", 1);
             }
         }
 

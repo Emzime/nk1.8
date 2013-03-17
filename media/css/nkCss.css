@@ -421,11 +421,13 @@ div[id^='globalVoteResult_'] {
 .nkFlagsAM {background-position: -112px 0}
 .nkFlagsAN {background-position: -128px 0}
 .nkFlagsAO {background-position: -144px 0}
+.nkFlagsAQ {background-position: -192px -165px}
 .nkFlagsAR {background-position: -160px 0}
 .nkFlagsAS {background-position: -176px 0}
 .nkFlagsAT {background-position: -192px 0}
 .nkFlagsAU {background-position: -208px 0}
 .nkFlagsAW {background-position: -224px 0}
+.nkFlagsAX {background-position: -208px -165px}
 .nkFlagsAZ {background-position: -240px 0}
 .nkFlagsBA {background-position: 0 -11px}
 .nkFlagsBB {background-position: -16px -11px}
@@ -439,14 +441,17 @@ div[id^='globalVoteResult_'] {
 .nkFlagsBM {background-position: -144px -11px}
 .nkFlagsBN {background-position: -160px -11px}
 .nkFlagsBO {background-position: -176px -11px}
+.nkFlagsBQ {background-position: -224px -165px}
 .nkFlagsBR {background-position: -192px -11px}
 .nkFlagsBS {background-position: -208px -11px}
 .nkFlagsBT {background-position: -224px -11px}
 .nkFlagsBV {background-position: -240px -11px}
 .nkFlagsBW {background-position: 0 -22px}
+.nkFlagsBL {background-position: 0 0}
 .nkFlagsBY {background-position: -16px -22px}
 .nkFlagsBZ {background-position: -32px -22px}
 .nkFlagsCA {background-position: -48px -22px}
+.nkFlagsCC {background-position: -240px -165px}
 .nkFlagsCD {background-position: -80px -22px}
 .nkFlagsCF {background-position: -96px -22px}
 .nkFlagsCG {background-position: -112px -22px}
@@ -461,11 +466,12 @@ div[id^='globalVoteResult_'] {
 .nkFlagsCU {background-position: 0 -33px}
 .nkFlagsCV {background-position: -16px -33px}
 .nkFlagsCW {background-position: -32px -33px}
+.nkFlagsCX {background-position: -256px 0}
 .nkFlagsCY {background-position: -48px -33px}
 .nkFlagsCZ {background-position: -64px -33px}
 .nkFlagsDE {background-position: -80px -33px}
 .nkFlagsDJ {background-position: -96px -33px}
-.nkFlagsDk {background-position: -112px -33px}
+.nkFlagsDK {background-position: -112px -33px}
 .nkFlagsDM {background-position: -128px -33px}
 .nkFlagsDO {background-position: -144px -33px}
 .nkFlagsDZ {background-position: -160px -33px}
@@ -550,6 +556,7 @@ div[id^='globalVoteResult_'] {
 .nkFlagsMC {background-position: -160px -88px}
 .nkFlagsMD {background-position: -176px -88px}
 .nkFlagsME {background-position: -192px -88px}
+.nkFlagsMF {background-position: -144px -44px}
 .nkFlagsMG {background-position: -208px -88px}
 .nkFlagsMH {background-position: -224px -88px}
 .nkFlagsMK {background-position: -240px -88px}
@@ -569,7 +576,7 @@ div[id^='globalVoteResult_'] {
 .nkFlagsMY {background-position: -208px -99px}
 .nkFlagsMZ {background-position: -224px -99px}
 .nkFlagsNA {background-position: -240px -99px}
-.nkFlagsNC {background-position: 0 -110px}
+.nkFlagsNC {background-position: -144px -44px}
 .nkFlagsNE {background-position: -16px -110px}
 .nkFlagsNF {background-position: -32px -110px}
 .nkFlagsNG {background-position: -48px -110px}
@@ -1044,7 +1051,6 @@ option {
 .nkMarginLeft15{
     margin-left: 15px;
 }
-
 /* Global pour les Text-align */
 .nkAlignLeft{
     text-align: left !important;
@@ -1200,4 +1206,12 @@ option {
         background-position: -80px 0;
     }
 }
-
+#editCountry {
+    max-width: 150px;
+}
+.flagNoActive {
+    display: none;
+}
+.flagActive {
+    display: inline-block;
+}

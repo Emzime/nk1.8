@@ -239,8 +239,16 @@ class NK_functions {
      * @param  string $class class for div
      * @return mixed         [description]
      */
-    public function nkHistoryBack($url=null, $class = null) { 
-        $referer = is_null($url) ? $_SERVER['HTTP_REFERER'] : $url;
+    public function nkHistoryBack($url=null, $class = null) {
+        if (!is_null($url)) {
+            $referer = $url;
+        } else {
+            if (isset($_SERVER['HTTP_REFERER']) === false) {
+                $referer = 'index.php';
+            } else {
+                $referer = $_SERVER['HTTP_REFERER'];
+            }
+        }
         $class = !is_null($class) ? 'class="'.$class.'"' : 'nkAlignCenter';
         return('<div '.$class.' ><a href="'.$referer.'">'.BACK.'</a></div>');    
     }

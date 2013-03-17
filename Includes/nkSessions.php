@@ -283,8 +283,8 @@ function secure(){
         }
         if ($secu_user  == 1) {
             $lastUsed = $row['lastUsed'];
-            $sql2 = mysql_query("SELECT level, pseudo, userTheme FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
-            list($user_type, $user_name, $userTheme) = mysql_fetch_array($sql2);
+            $sql2 = mysql_query("SELECT level, pseudo, userTheme, userLanguage FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
+            list($user_type, $user_name, $userTheme, $userLanguage) = mysql_fetch_array($sql2);
             
             $last_visite = $lastUsed;
             
@@ -326,7 +326,7 @@ function secure(){
     if ($secu_user == 1) {
         $sql_mess = mysql_query("SELECT id FROM " . USERBOX_TABLE . " WHERE userFor = '" . $id_user . "' AND status = 0");
         $nb_mess = mysql_num_rows($sql_mess);
-        $user = array($id_user, $user_type, mysql_real_escape_string($user_name), $userIp, $last_visite, $nb_mess, $userTheme);
+        $user = array($id_user, $user_type, mysql_real_escape_string($user_name), $userIp, $last_visite, $nb_mess, $userTheme, $userLanguage);
     }
     else {
         $user = array();

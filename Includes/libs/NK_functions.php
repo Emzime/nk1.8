@@ -673,21 +673,62 @@ class NK_functions {
     }
 
     /**
+     * transform unicode to utf8
+     * @param  string $content value to convert
+     * @return string          [description]
+     */
+    private function unicodeToUtf8($content) {
+        $return = html_entity_decode(preg_replace("/U\+([0-9A-F]{4})/", "&#x\\1;", $content), ENT_NOQUOTES, 'UTF-8');
+        return $return;
+    }
+
+    /**
      * see country and auto select language
      * @param  string $checked      string check user country
      * @param  string $checkedLang  string check user lang
-     * @return mixed                return country and language for user
+     * @return string                return country and language for user
      */
     public function nkSelectCountry($checkedCountry=null, $checkedLang=null) {
+        global $nuked;
+
+        $country = '';
+        $lang    = '';
+
+        if ($checkedLang == '') {
+            // affichage pays / lang cms default
+            $dbsDefault = ' SELECT def.code, def.language, def.name
+                            FROM `nuked_world_countries` AS def
+                            WHERE def.name = "'.$nuked['country'].'"';
+            $dbeDefault = mysql_query($dbsDefault);
+            $defaultRow = mysql_fetch_assoc($dbeDefault);
+            $countryLangDefaultTmp = explode('|', $defaultRow['language']);
+            if ($nuked['country'] == $defaultRow['name']) {
+                $codeSelected = $defaultRow['code'];
+            }
+            foreach ($countryLangDefaultTmp as $defaultLang) {
+                // convertion en utf 8
+                $defaultNukedLang = $this->unicodeToUtf8($nuked['language']);
+                $defaultLang      = $this->unicodeToUtf8($defaultLang);
+
+                if ($defaultNukedLang == $defaultLang) {
+                    $checkDefaultLang = 'selected="selected"';
+                } else {
+                    $checkDefaultLang = '';
+                }
+                $lang .= '<option value="'.$defaultLang.'" '.$checkDefaultLang.'>'.$defaultLang.'</option>';
+            }
+            $country .= '<option class="nkSelectFlags'.$codeSelected.'" data-iso="'.$codeSelected.'" value="'.$nuked['country'].'" selected="selected">'.$nuked['country'].'</option>';
+
+        }      
+
+        // affichage pays / langue utilisateur
         $dbsCountry = ' SELECT ct.code, ct.name, ft.language
                         FROM '.COUNTRY_TABLE.' AS ct 
                         LEFT JOIN '.COUNTRY_TABLE.' AS ft ON ft.name = ct.name 
                         WHERE ct.active = 1
                         ORDER BY ct.name, ct.language';
         $dbeCountry = mysql_query($dbsCountry);
-        $country = '';
-        $lang    = '';
-        $return = '<script type="text/javascript"> var arrayCountry = new Array(); ';
+        $return  = '<script type="text/javascript"> var arrayCountry = new Array(); ';
         while (list($code, $countryList, $countryLangTxt) = mysql_fetch_array($dbeCountry)) {
             $countryLangTmp = explode('|', $countryLangTxt);
            
@@ -705,7 +746,7 @@ class NK_functions {
                 } else {
                     $checkLang = '';
                 }
-                if($checkedCountry == $countryList){
+                if($checkedCountry == $countryList) {
                     $lang .= '<option value="'.$lg.'" '.$checkLang.'>'.$lg.'</option>';
                 }
                 // On complete le sous tableau avec les langues correspondantes
@@ -717,11 +758,12 @@ class NK_functions {
             // Fermeture du tableau des langues
             $return .= ');'."\n";
         }
-        $return .= '    </script>
-                        <select id="editCountry" class="nkInput nkSelectCountry" name="country">'.$country.'</select>&nbsp;
-                        <span id="viewFlags" class="nkFlags'.$codeSelected.'"></span>
+        $return .= '</script>';
+
+        $return .= '    <span id="viewFlags" class="nkFlags'.$codeSelected.'"></span>
+                        <select id="editCountry" class="nkInput nkSelectCountry" name="country">'.$country.'</select>
                         <div class="nkWidthFully">
-                            <label class="nkLabelSpacing" for="editLang">'.LANGUAGE.'</label>&nbsp;:&nbsp;&nbsp;
+                            <label class="nkLabelSpacing" for="editLang">'.LANGUAGE.'</label>&nbsp;:&nbsp;
                                 <select id="editLang" class="nkInput" name="userLang">'.$lang.'</select>
                         </div>';
         return $return;

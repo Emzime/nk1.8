@@ -884,7 +884,7 @@ if (!isset($GLOBALS['nkInitError'])) {
 
                 <div class="nkAlignCenter nkMarginTop15 nkMarginBottom15"><?php echo PASSFIELD; ?></div>
                 <form method="post" action="index.php?file=User&amp;op=updateAccount" enctype="multipart/form-data">
-                <article class="nkWidthFully">
+                <article id="nkPersonalUser" class="nkWidthFully">
                     <div>
                         <label class="nkLabelSpacing" for="editPseudo"><?php echo PSEUDO; ?> *</label>&nbsp;:&nbsp;
                             <input class="nkInput" id="editPseudo" type="text" name="pseudo" size="35" maxlength="30" value="<?php echo $pseudo; ?>" />
@@ -1041,11 +1041,12 @@ if (!isset($GLOBALS['nkInitError'])) {
                         $year++;
                     }
 
+                    // affichage sex
                     $sexArray = array(
                         'man'   => MAN, 
                         'women' => WOMEN
                     );
-                    $sexView = $GLOBALS['nkFunctions']->nkRadioBox('span', SEX, 2, 'sex', $sexArray, '&nbsp;:&nbsp;','sex', 'nkLabelSpacing', 'nkRadioBoxcontainer');
+                    $sexView = $GLOBALS['nkFunctions']->nkRadioBox('label', SEX, 2, 'sex', $sexArray, '&nbsp;:&nbsp;','sex', 'nkLabelSpacing nkNoPadding', ' nkMargin', '', 'man');
 
                     // affichage avatar upload et url
                     if ($modulePref['avatarUpload'] == "on" || $modulePref['avatarUrl'] == "on") {
@@ -1059,12 +1060,20 @@ if (!isset($GLOBALS['nkInitError'])) {
                         }
                     }
 
+                    $countryView = '';
+                    if ($modulePref['activeCountry'] == "on") {
+                        $countryView = '<div>
+                                            <label class="nkLabelSpacing" for="editCountry">'.COUNTRY.'</label>&nbsp;:&nbsp;&nbsp;';                                            
+                        $countryView .=         $GLOBALS['nkFunctions']->nkSelectCountry();                                            
+                        $countryView .= '</div>';
+                    }
+
                 ?>
                     <link rel="stylesheet" href="media/css/checkSecurityPass.css" type="text/css" media="screen" />
                     <script type="text/javascript" src="media/js/checkSecurityPass.js"></script>
                     <header class="nkAlignCenter nkMarginBottom15 nkMarginTop15 nkSize14 nkBold"><?php echo NEWUSERREGISTRATION; ?></header>
-                    <form method="post" action="index.php?file=User&amp;nuked_nude=index&amp;op=reg">
-                    <article class="nkWidthFull nkMargin">
+                    <form method="post" action="index.php?file=User&amp;op=reg">
+                    <article id="nkPersonalUser" class="nkWidthFull nkMargin">
                         <div>
                             <label class="nkLabelSpacing" for="regPseudo"><?php echo PSEUDO; ?> (<?php echo REQUIRED; ?>) *</label>&nbsp;:&nbsp;
                                 <input class="nkInput" id="regPseudo" type="text" name="pseudo" size="35" maxlength="30" />
@@ -1133,16 +1142,10 @@ if (!isset($GLOBALS['nkInitError'])) {
                         <div>
                             <label class="nkLabelSpacing" for="regCity"><?php echo CITY; ?></label>&nbsp;:&nbsp;
                                 <input class="nkInput" id="regCity" type="text" name="city" size="35" maxlength="30" />
-                        </div>                        
-                        <div>
-                            <label class="nkLabelSpacing" for="country"><?php echo COUNTRY; ?> (<?php echo OPTIONAL; ?>)</label>&nbsp;:&nbsp;
-                                <select class="nkInput" id="country" name="country">
-                                    <!-- A FAIRE -->
-                                    <?php
-                                    echo '<option value="France">France</option>';
-                                    ?>
-                                </select>
-                        </div>                        
+                        </div>
+                        <?php
+                        echo $countryView;
+                        ?>                      
                         <div>
                             <label class="nkLabelSpacing" for="regWebSite"><?php echo WEBSITE; ?></label>&nbsp;:&nbsp;
                                 <input class="nkInput" id="regWebSite" type="text" name="website" size="35" maxlength="30" />
@@ -1177,7 +1180,7 @@ if (!isset($GLOBALS['nkInitError'])) {
             }
         }
 
-        function reg($pseudo, $privateMail, $publicMail, $passReg, $passConf, $country, $firstName, $day, $month, $year, $sex, $city, $website, $avatarUrl, $signing) {
+        function reg($pseudo, $privateMail, $publicMail, $passReg, $passConf, $userLang, $country, $firstName, $day, $month, $year, $sex, $city, $website, $avatarUrl, $signing) {
             global $nuked, $captcha, $cookieForum, $userIp, $modulePref, $modName;
 
             // Verification code captcha
@@ -1273,6 +1276,11 @@ if (!isset($GLOBALS['nkInitError'])) {
                     $level = 1;
                 } else {
                     $level = 0;
+                }
+
+                if ($sex == '') {
+                    $GLOBALS['nkTpl']->nkExitAfterError(NOSEXENTRY, 'nkAlert nkAlertError');
+                    echo $redir;
                 }
 
                 // verification si avatar Url est rempli
@@ -2019,7 +2027,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                 break;
 
             case"reg":                
-                reg($_REQUEST['pseudo'], $_REQUEST['privateMail'], $_REQUEST['publicMail'], $_REQUEST['passReg'], $_REQUEST['passConf'], $_REQUEST['country'], $_REQUEST['firstName'], $_REQUEST['day'], $_REQUEST['month'], $_REQUEST['year'], $_REQUEST['sex'], $_REQUEST['city'], $_REQUEST['website'], $_REQUEST['avatarUrl'], $_REQUEST['signing']);
+                reg($_REQUEST['pseudo'], $_REQUEST['privateMail'], $_REQUEST['publicMail'], $_REQUEST['passReg'], $_REQUEST['passConf'], $_REQUEST['userLang'], $_REQUEST['country'], $_REQUEST['firstName'], $_REQUEST['day'], $_REQUEST['month'], $_REQUEST['year'], $_REQUEST['sex'], $_REQUEST['city'], $_REQUEST['website'], $_REQUEST['avatarUrl'], $_REQUEST['signing']);
                 break;
 
             case"login":

@@ -35,8 +35,6 @@
 }
 #menuProfil li {
     border-bottom: 1px solid #222;
-    color: #808080;
-    font-size: 11px;
     height: 25px;
     line-height: 25px;
     padding-left: 5px;
@@ -161,6 +159,6 @@
     color: #999;
 }
 
-#profilPrefs select, #profilPrefs input, #profilPrefs div {
+#profilPrefs select, #profilPrefs input, #profilPrefs div, #nkPersonnalUser div {
     vertical-align: middle;
 }

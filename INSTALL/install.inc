@@ -152,6 +152,8 @@
                             ('footmessage', ''),
                             ('index_site', 'News'),
                             ('keyword', ''),
+                            ('country', 'France'),
+                            ('language', n'Français'),
                             ('langue', '".$this->data['lang_install']."'),
                             ('level_analys', '-1'),
                             ('mail', 'mail@hotmail.com'),
@@ -1288,19 +1290,18 @@
                               `id` int(11) NOT NULL DEFAULT '0',
                               `code` char(2) NOT NULL COMMENT 'Continent code',
                               `name` varchar(255) DEFAULT NULL,
-                              `active` int(1) NOT NULL DEFAULT '0',
                               PRIMARY KEY (`id`)
                           ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
                           $req = mysql_query($sql) or die (mysql_error());
 
                           $sql = "INSERT INTO `" . $db_prefix . "_world_continents` VALUES
-                            (1, 'AF', 'Africa', 0),
-                            (2, 'AN', 'Antarctica', 0),
-                            (3, 'AS', 'Asia', 0),
-                            (4, 'EU', 'Europe', 0),
-                            (5, 'NA', 'North America', 0),
-                            (6, 'OC', 'Oceania', 0),
-                            (7, 'SA', 'South America', 0);";
+                            (1, 'AF', 'Africa'),
+                            (2, 'AN', 'Antarctica'),
+                            (3, 'AS', 'Asia'),
+                            (4, 'EU', 'Europe'),
+                            (5, 'NA', 'North America'),
+                            (6, 'OC', 'Oceania'),
+                            (7, 'SA', 'South America');";
                           $req = mysql_query($sql) or die (mysql_error());
                           echo 'OK';
         break;

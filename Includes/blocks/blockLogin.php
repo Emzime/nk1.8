@@ -34,7 +34,7 @@ if (defined('TESTLANGUE')) {
                                         <nav>
                                             <small>
                                                 <a href="index.php?file=User&amp;op=reg_screen">'.REGISTER.'</a>&nbsp;/&nbsp;
-                                                <a href="index.php?file=User&amp;op=oubli_pass">'.PASSFORGET.' ?</a>
+                                                <a href="index.php?file=User&amp;op=oubli_pass">'.LOSTPASS.' ?</a>
                                             </small>
                                         </nav>
                                     </form>';

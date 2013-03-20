@@ -30,7 +30,7 @@
     include_once dirname(__FILE__) . '/blocks/partners.php';
 
 function top() {
-    global $nuked, $user, $language, $theme, $cookie_langue, $complet, $bgComplet, $mainCenter, $linkSubMenu, $rssLink, $facebookLink, $twitterLink, $googleLink, $steamLink, $tsLink, $activeSlider, $linkMenu, $activeWars, $activePartners;
+    global $nuked, $user, $language, $theme, $cookieLangue, $cookieCountry, $complet, $bgComplet, $mainCenter, $linkSubMenu, $rssLink, $facebookLink, $twitterLink, $googleLink, $steamLink, $tsLink, $activeSlider, $linkMenu, $activeWars, $activePartners;
 
     // Vérifie si les liens existe sur les reseaux sociaux
     if ($rssLink      == '') { $visibilityRss = 'nkNone'; } else { $visibilityRss = '';}
@@ -40,39 +40,30 @@ function top() {
     if ($steamLink    == '') { $visibilitySte = 'nkNone'; } else { $visibilitySte = '';}
     if ($tsLink       == '') { $visibilityTs3 = 'nkNone'; } else { $visibilityTs3 = '';}
 
-    // Vérifie si le visiteur est enregistré
-    if ($user) {
-        $htmlLang = '<span id="changeLanguage" class="nkAlignRight">                            
-                        <form method="post" action="index.php?file=User&amp;nuked_nude=index&amp;op=modifLang">
-                            <select class="nkInput" name="userLang" onchange="submit();">
-                                <option value="">'.LANGUAGE.'</option>';
-                                if ($rep = @opendir('lang/')) {
-                                    while (false !== ($f = readdir($rep))) {
-                                        if ($f != '..' && $f != '.' && $f != 'index.html' && $f != 'modules') {
-                                            list($langfile, ,) = explode ('.', $f);
-                                            
-                                            if ($cookie_langue == $langfile) {
-                                                $checked = 'selected="selected"';
-                                            } else {
-                                                $checked = '';
-                                            }
-
-                                            $htmlLang .= '<option value="'.$langfile.'" '.$checked.'>'.$langfile.'</option>';
-                                        }
-                                    }
-                                    closedir($rep);
-                                    clearstatcache();
-                                }
-                            $htmlLang .= '</select>
-                        </form>
-                    </span>';
+    if (isset($_COOKIE[$cookieLangue])) {
+        $useLanguage = $_COOKIE[$cookieLangue];
+    } elseif (isset($user[7]) && $user[7] != '') {
+        $useLanguage = $user[7];
     } else {
-        $htmlLang = '';
+        $useLanguage = $nuked['language'];
     }
 
-    // Vérifie si le slider est actif
-    if ($activeSlider == 1) {  
+    if (isset($_COOKIE[$cookieCountry])) {
+        $useCountry = $_COOKIE[$cookieCountry];
+    } elseif (isset($user[8]) && $user[8] != '') {
+        $useCountry = $user[8];
+    } else {
+        $useCountry = $nuked['country'];
+    }
 
+    $htmlLang = '   <span id="changeLanguage" class="nkAlignRight">                            
+                        <form method="post" action="index.php?file=User&amp;nuked_nude=index&amp;op=modifLang">';
+    $htmlLang .=            $GLOBALS['nkFunctions']->nkSelectCountry($useCountry, $useLanguage, null, true, 'nkValignMiddle nkMarginBottom', 'nkInline', 'nkNone');
+    $htmlLang .= '      </form>
+                    </span>';
+
+    // Vérifie si le slider est actif
+    if ($activeSlider == 1) {
         $slideFile = 'media/template/'.$theme.'/images/slide';         
         $htmlSlider = ' <figure id="coin-slider" class="coin-slider">';
                             if ($handle = opendir($slideFile)) {

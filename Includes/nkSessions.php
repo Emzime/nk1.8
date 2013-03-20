@@ -154,11 +154,14 @@ function nkSessionInit() {
     // Prepare sessions vars
     $lifetime     = $GLOBALS['nuked']['sess_days_limit'] * 86400;
     $timesession  = $GLOBALS['nuked']['sess_inactivemins'] * 60;
+    $lifetimeCookie = $GLOBALS['nuked']['cookieTimeLimit'] * 86400;
     $time         = time();
     $timelimit    = $time + $lifetime;
+    $cookieTimeLimit = $time + $lifetimeCookie;
     $sessionlimit = $time + $timesession;
     $userTheme    = '';
-    $userLangue   = '';
+    $userLanguage = '';
+    $userCountry  = '';
 
     // Recherche de l'adresse IP
     $uip = (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
@@ -166,7 +169,8 @@ function nkSessionInit() {
     // Prepare session cookie name
     $cookieSession = $GLOBALS['nuked']['cookiename'] . '_sessId';
     $cookieTheme   = $GLOBALS['nuked']['cookiename'] . '_userTheme';
-    $cookieLangue  = $GLOBALS['nuked']['cookiename'] . '_userLangue';
+    $cookieLangue  = $GLOBALS['nuked']['cookiename'] . '_userLanguage';
+    $cookieCountry = $GLOBALS['nuked']['cookiename'] . '_userCountry';
     $cookieVisit   = $GLOBALS['nuked']['cookiename'] . '_lastVisit';
     $cookieAdmin   = $GLOBALS['nuked']['cookiename'] . '_adminSession';
     $cookieForum   = $GLOBALS['nuked']['cookiename'] . '_forumRead';
@@ -180,7 +184,12 @@ function nkSessionInit() {
 
     // Get language cookie of user if exists
     if (isset( $_COOKIE[$cookieLangue] ) && $_COOKIE[$cookieLangue] != '') {
-        $userLangue = $_COOKIE[$cookieLangue];
+        $userLanguage = $_COOKIE[$cookieLangue];
+    }
+
+    // Get country cookie of user if exists
+    if (isset( $_COOKIE[$cookieCountry] ) && $_COOKIE[$cookieCountry] != '') {
+        $userCountry = $_COOKIE[$cookieCountry];
     }
 
     // Check IP address user validity and get user IP
@@ -194,10 +203,12 @@ function nkSessionInit() {
     $GLOBALS['lifetime']      = $lifetime;
     $GLOBALS['timesession']   = $timesession;
     $GLOBALS['timelimit']     = $timelimit;
+    $GLOBALS['cookieTimeLimit'] = $cookieTimeLimit;
     $GLOBALS['sessionlimit']  = $sessionlimit ;
     $GLOBALS['cookieSession'] = $cookieSession;
     $GLOBALS['cookieTheme']   = $cookieTheme;
     $GLOBALS['cookieLangue']  = $cookieLangue;
+    $GLOBALS['cookieCountry'] = $cookieCountry;
     $GLOBALS['cookieVisit']   = $cookieVisit ;
     $GLOBALS['cookieAdmin']   = $cookieAdmin;
     $GLOBALS['cookieForum']   = $cookieForum ;
@@ -206,7 +217,8 @@ function nkSessionInit() {
     $GLOBALS['time']          = $time;
     $GLOBALS['userIp']        = $userIp;
     $GLOBALS['userTheme']     = $userTheme;
-    $GLOBALS['userLangue']    = $userLangue;
+    $GLOBALS['userLangue']    = $userLanguage;
+    $GLOBALS['userCountry']   = $userCountry;
 }
 
 
@@ -283,8 +295,8 @@ function secure(){
         }
         if ($secu_user  == 1) {
             $lastUsed = $row['lastUsed'];
-            $sql2 = mysql_query("SELECT level, pseudo, userTheme, userLanguage FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
-            list($user_type, $user_name, $userTheme, $userLanguage) = mysql_fetch_array($sql2);
+            $sql2 = mysql_query("SELECT level, pseudo, userTheme, userLanguage, country FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
+            list($user_type, $user_name, $userTheme, $userLanguage, $userCountry) = mysql_fetch_array($sql2);
             
             $last_visite = $lastUsed;
             
@@ -326,7 +338,7 @@ function secure(){
     if ($secu_user == 1) {
         $sql_mess = mysql_query("SELECT id FROM " . USERBOX_TABLE . " WHERE userFor = '" . $id_user . "' AND status = 0");
         $nb_mess = mysql_num_rows($sql_mess);
-        $user = array($id_user, $user_type, mysql_real_escape_string($user_name), $userIp, $last_visite, $nb_mess, $userTheme, $userLanguage);
+        $user = array($id_user, $user_type, mysql_real_escape_string($user_name), $userIp, $last_visite, $nb_mess, $userTheme, $userLanguage, $userCountry);
     }
     else {
         $user = array();
@@ -360,18 +372,19 @@ function make_seed() {
 }
 
 function init_cookie() {
-    global $cookieSession, $cookieUserId, $cookieTheme, $cookieLangue, $cookieForum, $cookieCaptcha;
+    global $cookieSession, $cookieUserId, $cookieTheme, $cookieLangue, $cookieCountry, $cookieForum, $cookieCaptcha;
     $test = setcookie($cookieSession, '');
     setcookie($cookieUserId, '');
     setcookie($cookieTheme, '');
     setcookie($cookieLangue, '');
+    setcookie($cookieCountry, '');
     setcookie($cookieForum, '');
     setcookie($cookieCaptcha, 1);
     return($test);
 }
 
 function session_new($userid, $rememberMe) {
-    global $nuked, $cookieSession, $cookieUserId, $cookieTheme, $cookieLangue, $cookieForum, $userIp, $timelimit, $sessionlimit, $time;
+    global $nuked, $cookieSession, $cookieUserId, $cookieTheme, $cookieLangue, $cookieCountry, $cookieForum, $userIp, $timelimit, $sessionlimit, $time;
 
 
     //On prend un ID de session unique

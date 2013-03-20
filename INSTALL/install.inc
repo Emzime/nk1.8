@@ -145,6 +145,7 @@
                         $sql = "INSERT INTO `" . $db_prefix . "_config` VALUES
                             ('contactMail', 'mail@hotmail.com'),
                             ('cookiename', 'nuked'),
+                            ('cookieTimeLimit', '7'),
                             ('date_install', '".$date."'),
                             ('dateformat', '" . $dateFormat. "'),
                             ('datezone', '" . $dateZone . "'),

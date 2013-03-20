@@ -684,87 +684,100 @@ class NK_functions {
 
     /**
      * see country and auto select language
-     * @param  string $checked      string check user country
-     * @param  string $checkedLang  string check user lang
-     * @return string                return country and language for user
+     * @param  string $checked          check user country
+     * @param  string $checkedLang      check user lang
+     * @param  string $submitButton    value button if you want a button
+     * @param  string $divClass         class for div lang
+     * @param  string $labelClass       class for label lang
+     * @param  string $submitOnSelect   create onChange function on <select>
+     * @return string                   return country and language for user
      */
-    public function nkSelectCountry($checkedCountry=null, $checkedLang=null) {
-        global $nuked;
+    public function nkSelectCountry($checkedCountry=null, $checkedLang=null, $submitButton=null, $submitOnSelect=null, $flagClass=null, $divClass=null, $labelClass=null) {
+        global $nuked, $user;
 
-        $country = '';
-        $lang    = '';
+        if (!is_null($divClass)) {
+            $divClass = $divClass;
+        } else {
+            $divClass = '';
+        }
+        if (!is_null($labelClass)) {
+            $labelClass = $labelClass;
+        } else {
+            $labelClass = '';
+        }
+        if (!is_null($flagClass)) {
+            $flagClass = $flagClass;
+        } else {
+            $flagClass = '';
+        }
+        if (!is_null($submitOnSelect) && is_null($submitButton)) {
+            $submitOnSelect = 'data-submit="1"';
+        } elseif (is_null($submitOnSelect) && !is_null($submitButton)) {
+            $submitOnSelect = 'data-submit="2"';
+        } else {
+            $submitOnSelect = 'data-submit="0"';
+        }
 
-        if ($checkedLang == '') {
-            // affichage pays / lang cms default
-            $dbsDefault = ' SELECT def.code, def.language, def.name
-                            FROM `nuked_world_countries` AS def
-                            WHERE def.name = "'.$nuked['country'].'"';
-            $dbeDefault = mysql_query($dbsDefault);
-            $defaultRow = mysql_fetch_assoc($dbeDefault);
-            $countryLangDefaultTmp = explode('|', $defaultRow['language']);
-            if ($nuked['country'] == $defaultRow['name']) {
-                $codeSelected = $defaultRow['code'];
-            }
-            foreach ($countryLangDefaultTmp as $defaultLang) {
-                // convertion en utf 8
-                $defaultNukedLang = $this->unicodeToUtf8($nuked['language']);
-                $defaultLang      = $this->unicodeToUtf8($defaultLang);
-
-                if ($defaultNukedLang == $defaultLang) {
-                    $checkDefaultLang = 'selected="selected"';
-                } else {
-                    $checkDefaultLang = '';
-                }
-                $lang .= '<option value="'.$defaultLang.'" '.$checkDefaultLang.'>'.$defaultLang.'</option>';
-            }
-            $country .= '<option class="nkSelectFlags'.$codeSelected.'" data-iso="'.$codeSelected.'" value="'.$nuked['country'].'" selected="selected">'.$nuked['country'].'</option>';
-
-        }      
-
-        // affichage pays / langue utilisateur
-        $dbsCountry = ' SELECT ct.code, ct.name, ft.language
+        // initialize
+        $viewCountry = '';
+        $viewLang    = '';
+        $codeSelected = '';
+        // suppression des \ pour les langues spéciales
+        $checkedLang = stripslashes($checkedLang);        
+        // sélection du pays et des langues
+        $dbsCountry = ' SELECT ct.code, ct.name, ct.language
                         FROM '.COUNTRY_TABLE.' AS ct 
-                        LEFT JOIN '.COUNTRY_TABLE.' AS ft ON ft.name = ct.name 
                         WHERE ct.active = 1
                         ORDER BY ct.name, ct.language';
         $dbeCountry = mysql_query($dbsCountry);
-        $return  = '<script type="text/javascript"> var arrayCountry = new Array(); ';
-        while (list($code, $countryList, $countryLangTxt) = mysql_fetch_array($dbeCountry)) {
-            $countryLangTmp = explode('|', $countryLangTxt);
-           
+        // création du tableau pour le changement des langues
+        $return  = '<script type="text/javascript">
+                        var arrayCountry = new Array();
+                        var buttonLang = "'.$submitButton.'";
+                    ';
+        while (list($code, $countryList, $langText) = mysql_fetch_array($dbeCountry)) {
+            $langTmp = explode('|', $langText);
+            // check si la langue utilisé existe dans le tableau
             if ($checkedCountry == $countryList) {
+                // création du selected si la langue existe dans le tableau
                 $check   = 'selected="selected"';
+                // ajout de l'iso code
                 $codeSelected = $code;
             } else {
                 $check = '';
             }
             // On créer un sous tableau par pays
             $return .= 'arrayCountry["'.$code.'"] = new Array(';
-            foreach ($countryLangTmp as $lg) {
+            foreach ($langTmp as $lg) {
+                // cherche si la langue existe dans le tableau
                 if ($checkedLang == $lg) {
+                    // ajout d'un selected si la langue existe dans le tableau
                     $checkLang = 'selected="selected"';
                 } else {
                     $checkLang = '';
                 }
+                // vérification que le pays utilisé existe dans le tableau
                 if($checkedCountry == $countryList) {
-                    $lang .= '<option value="'.$lg.'" '.$checkLang.'>'.$lg.'</option>';
+                    // ajout de la langue du pays vérifié
+                    $viewLang .= '<option value="'.$lg.'" '.$checkLang.'>'.$lg.'</option>';
                 }
                 // On complete le sous tableau avec les langues correspondantes
                 $return .= '"'.$lg.'",';
             }
-            $country .= '<option class="nkSelectFlags'.$code.'" data-iso="'.$code.'" value="'.$countryList.'" '.$check.'>'.$countryList.'</option>';
+            // création de la liste des pays
+            $viewCountry .= '<option class="nkSelectFlags'.$code.'" data-iso="'.$code.'" value="'.$countryList.'" '.$check.'>'.$countryList.'</option>';            
             // On enlève la virgule en trop
             $return = substr($return,0, -1);
             // Fermeture du tableau des langues
             $return .= ');'."\n";
         }
         $return .= '</script>';
-
-        $return .= '    <span id="viewFlags" class="nkFlags'.$codeSelected.'"></span>
-                        <select id="editCountry" class="nkInput nkSelectCountry" name="country">'.$country.'</select>
-                        <div class="nkWidthFully">
-                            <label class="nkLabelSpacing" for="editLang">'.LANGUAGE.'</label>&nbsp;:&nbsp;
-                                <select id="editLang" class="nkInput" name="userLang">'.$lang.'</select>
+        // création du formulaire
+        $return .= '    <span class="nkFlags'.$codeSelected.' '.$flagClass.'"></span>
+                        <select class="nkInput nkSelectCountry editCountry" name="country" '.$submitOnSelect.' >'.$viewCountry.'</select>
+                        <div class="nkWidthFully '.$divClass.'">
+                            <label class="nkLabelSpacing '.$labelClass.'" for="editLang">'.LANGUAGE.'</label>&nbsp;:&nbsp;
+                                <select class="nkInput editLang" name="userLang"  '.$submitOnSelect.'>'.$viewLang.'</select>
                         </div>';
         return $return;
     }

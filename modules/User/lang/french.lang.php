@@ -5,7 +5,6 @@ defined('INDEX_CHECK') or die ('<div class="align-center">You cannot open this p
 define('TESTLANGUEFILEUSER', true);
 
 define("LOGIN","Login");
-define("IDENTIFIER","Identifiant");
 define("CONNECTION","Connexion");
 define("REGISTRATION","Inscription");
 define("THEME","Thème");
@@ -107,6 +106,7 @@ define("BADAGE","Vous ne pouvez pas être né(e) cette année");
 define("FUNCTIONOFF","Cette fonction n'est pas activée");
 define("THEMEUSE","Thème utilisé");
 define("NOSEXENTRY","Vous n'avez pas sélectionné votre sexe");
+define("LANGUSE","Langue utilisée");
 
 
 /*

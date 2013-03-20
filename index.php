@@ -74,25 +74,51 @@ if ($nuked['time_generate'] == 'on') {
 }
 
 // Initialisation des variables pour le chargement des fichiers de lang
-$langUpper = strtoupper($lang);
-$errorLangMessage = constant('UNKNOWLANGFILE'.$langUpper);
-$errorGlobalLangMessage = constant('GLOBALLANG'.$langUpper);
-$errorThemeLangMessage = constant('THEMELANG'.$langUpper);
-$errorModuleLangMessage = constant('MODULELANG'.$langUpper);
-$loadLangGlobalFileError = '';
-$loadLangModuleFileError = '';
-$loadLangThemeFileError = '';
-$loadCssThemeFileError = '';
+$langUpper                   = strtoupper($lang);
+$errorLangMessage            = constant('UNKNOWLANGFILE'.$langUpper);
+$errorGlobalLangMessage      = constant('GLOBALLANG'.$langUpper);
+$errorThemeLangMessage       = constant('THEMELANG'.$langUpper);
+$errorModuleLangMessage      = constant('MODULELANG'.$langUpper);
+$loadLangGlobalFileError     = '';
+$loadLangModuleFileError     = '';
+$loadLangThemeFileError      = '';
+$loadCssThemeFileError       = '';
 $loadCssThemeFileModuleError = '';
 
+// si le visiteur a un cookie de langue, on effectue la requete
+if (isset($_COOKIE[$cookieCountry])) {
+    $dbsCookieLang = '  SELECT fileLang 
+                        FROM '.COUNTRYLANG_TABLE.' 
+                        WHERE lang = "'.$_COOKIE[$cookieLangue].'"';
+    $dbeCookieLang = mysql_query($dbsCookieLang);
+    list($userCookieLang) = mysql_fetch_array($dbeCookieLang);
+}
+
 // Chargement du fichier de lang global
-if (is_file(ROOT_PATH .'lang/'.$language.'.lang.php')) {
+if (isset($_COOKIE[$cookieCountry])) {
+    if (is_file(ROOT_PATH .'lang/'.$userCookieLang.'.lang.php')) {
+        include_once ROOT_PATH .'lang/'.$userCookieLang.'.lang.php';
+    } else {
+        include_once ROOT_PATH .'lang/'.$language.'.lang.php';
+    }
+} elseif (isset($user[7]) != '' && is_file(ROOT_PATH .'lang/'.isset($user[7]).'.lang.php')) {
+    include_once ROOT_PATH .'lang/'.isset($user[7]).'.lang.php';
+} elseif (is_file(ROOT_PATH .'lang/'.$language.'.lang.php')) {
     include_once ROOT_PATH .'lang/'.$language.'.lang.php';
 } else {
     $loadLangGlobalFileError = $GLOBALS['nkTpl']->nkDisplayError($errorLangMessage.'&nbsp;'.$errorGlobalLangMessage, 'nkAlert nkAlertError');
 }
+
 // inclusion du fichier lang de nom de module personnalisé
-if (is_file(ROOT_PATH .'lang/modules/'.$language.'.lang.php')) {
+if (isset($_COOKIE[$cookieCountry])) {
+    if (is_file(ROOT_PATH .'lang/modules/'.$userCookieLang.'.lang.php')) {
+        include_once ROOT_PATH .'lang/modules/'.$userCookieLang.'.lang.php';
+    } else {
+        include_once ROOT_PATH .'lang/modules/'.$language.'.lang.php';
+    }
+} elseif (isset($user[7]) != '' && is_file(ROOT_PATH .'lang/modules/'.isset($user[7]).'.lang.php')) {
+    include_once ROOT_PATH .'lang/modules/'.isset($user[7]).'.lang.php';
+} elseif (is_file(ROOT_PATH .'lang/modules/'.$language.'.lang.php')) {
     include_once ROOT_PATH .'lang/modules/'.$language.'.lang.php';
 } else {
     $loadLangGlobalFileError = $GLOBALS['nkTpl']->nkDisplayError($errorLangMessage.'&nbsp;'.$errorGlobalLangMessage, 'nkAlert nkAlertError');
@@ -186,7 +212,15 @@ if (!empty($activeCssBlock)) {
                 // Récupération du coté du block
                 $blockSide[$keyActivedBlock['module']] = $keyActivedBlock['side'];
                 // on inclu la langue du module
-                if (is_file(ROOT_PATH .'modules/'.$keyActivedBlock['module'].'/lang/'.$language.'.lang.php')) {
+                if (isset($_COOKIE[$cookieCountry])) {
+                    if (is_file(ROOT_PATH .'modules/'.$keyActivedBlock['module'].'/lang/'.$userCookieLang.'.lang.php')) {
+                        include_once ROOT_PATH .'modules/'.$keyActivedBlock['module'].'/lang/'.$userCookieLang.'.lang.php';
+                    } else {
+                        include_once ROOT_PATH .'modules/'.$keyActivedBlock['module'].'/lang/'.$language.'.lang.php';
+                    }
+                } elseif (isset($user[7]) != '' && is_file(ROOT_PATH .'modules/'.$keyActivedBlock['module'].'/lang/'.isset($user[7]).'.lang.php')) {
+                    include_once ROOT_PATH .'modules/'.$keyActivedBlock['module'].'/lang/'.isset($user[7]).'.lang.php';
+                } elseif (is_file(ROOT_PATH .'modules/'.$keyActivedBlock['module'].'/lang/'.$language.'.lang.php')) {
                     include_once ROOT_PATH .'modules/'.$keyActivedBlock['module'].'/lang/'.$language.'.lang.php';
                 }
                 // Inclusion du Css personalisé du module depuis le theme            
@@ -203,25 +237,44 @@ if (!empty($activeCssBlock)) {
 
 
 // Inlusion des fichiers lang du module visualisé
-if (is_file(ROOT_PATH .'modules/'.$_REQUEST['file'].'/lang/'.$language.'.lang.php')) {
+if (isset($_COOKIE[$cookieCountry])) {
+    if (is_file(ROOT_PATH .'modules/'.$_REQUEST['file'].'/lang/'.$userCookieLang.'.lang.php')) {
+        include_once ROOT_PATH .'modules/'.$_REQUEST['file'].'/lang/'.$userCookieLang.'.lang.php';
+    } else {
+        include_once ROOT_PATH .'modules/'.$_REQUEST['file'].'/lang/'.$language.'.lang.php';
+    }
+} elseif (isset($user[7]) != '' && is_file(ROOT_PATH .'modules/'.$_REQUEST['file'].'/lang/'.isset($user[7]).'.lang.php')) {
+    include_once ROOT_PATH .'modules/'.$_REQUEST['file'].'/lang/'.isset($user[7]).'.lang.php';
+} elseif (is_file(ROOT_PATH .'modules/'.$_REQUEST['file'].'/lang/'.$language.'.lang.php')) {
     include_once ROOT_PATH .'modules/'.$_REQUEST['file'].'/lang/'.$language.'.lang.php';
 } else {
     $loadLangModuleFileError = $GLOBALS['nkTpl']->nkDisplayError($errorLangMessage.'&nbsp;'.$errorModuleLangMessage.'&nbsp;'.$_REQUEST['file'] , 'nkAlert nkAlertError');
 }
+
+
 // Inclusion des fichiers lang pour le theme defini par l'admin
-if (is_file(ROOT_PATH .'themes/'.$theme.'/lang/'.$language.'.lang.php')) {
-
+if (isset($_COOKIE[$cookieCountry])) {
+    if (is_file(ROOT_PATH .'themes/'.$theme.'/lang/'.$userCookieLang.'.lang.php')) {
+        include_once ROOT_PATH .'themes/'.$theme.'/lang/'.$userCookieLang.'.lang.php';
+    } elseif (is_file(ROOT_PATH .'themes/'.$theme.'/lang/'.$language.'.lang.php')) {
+        include_once ROOT_PATH .'themes/'.$theme.'/lang/'.$language.'.lang.php';
+    } else {
+        include_once ROOT_PATH .'media/template/'.$nuked['themeDefault'].'/lang/'.$language.'.lang.php';
+    }
+} elseif (isset($user[7]) != '' && is_file(ROOT_PATH .'themes/'.$theme.'/lang/'.isset($user[7]).'.lang.php')) {
+    include_once ROOT_PATH .'themes/'.$theme.'/lang/'.isset($user[7]).'.lang.php';
+} elseif (is_file(ROOT_PATH .'themes/'.$theme.'/lang/'.$language.'.lang.php')) {
     include_once ROOT_PATH .'themes/'.$theme.'/lang/'.$language.'.lang.php';
-
-// si le theme n'existe pas on inclu le template par defaut
+} elseif (isset($user[7]) != '' && is_file(ROOT_PATH .'media/template/'.$nuked['themeDefault'].'/lang/'.isset($user[7]).'.lang.php')) {    
+    include_once ROOT_PATH .'media/template/'.$nuked['themeDefault'].'/lang/'.isset($user[7]).'.lang.php';
 } elseif (is_file(ROOT_PATH .'media/template/'.$nuked['themeDefault'].'/lang/'.$language.'.lang.php')) {
-
     include_once ROOT_PATH .'media/template/'.$nuked['themeDefault'].'/lang/'.$language.'.lang.php';
-// sinon on met une erreur
 } else {
     $loadLangThemeFileError = $GLOBALS['nkTpl']->nkDisplayError($errorLangMessage.'&nbsp;'.$errorThemeLangMessage.'&nbsp;'.$theme, 'nkAlert nkAlertError');
 }
-// Regroupement des mesaage d'erreur de langue
+
+
+// Regroupement des messages d'erreurs de langue
 $loadLangFileError = $loadLangGlobalFileError.$loadLangModuleFileError.$loadLangThemeFileError;
 
 
@@ -339,6 +392,17 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
                 if (is_file( ROOT_PATH .'modules/'.$_REQUEST['file'].'/'.$_REQUEST['im_file'].'.php')) {
                     include ROOT_PATH .'modules/'.$_REQUEST['file'].'/'.$_REQUEST['im_file'].'.php';
                 // sinon on affiche le 404
+                } elseif (isset($_COOKIE[$cookieCountry])) {
+                    if (is_file(ROOT_PATH .'modules/404/lang/'.$userCookieLang.'.lang.php')) {
+                        include_once ROOT_PATH .'modules/404/lang/'.$userCookieLang.'.lang.php';
+                        include_once ROOT_PATH .'modules/404/index.php'; 
+                    } else {
+                        include_once ROOT_PATH .'modules/404/lang/'.$language.'.lang.php';
+                        include_once ROOT_PATH .'modules/404/index.php'; 
+                    }
+                } elseif (isset($user[7]) != '' && is_file(ROOT_PATH .'modules/404/lang/'.isset($user[7]).'.lang.php')) {
+                    include_once ROOT_PATH .'modules/404/lang/'.isset($user[7]).'.lang.php';
+                    include_once ROOT_PATH .'modules/404/index.php'; 
                 } else {
                     include_once ROOT_PATH .'modules/404/lang/'.$language.'.lang.php';
                     include_once ROOT_PATH .'modules/404/index.php'; 

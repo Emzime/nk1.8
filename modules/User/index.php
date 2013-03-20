@@ -49,7 +49,13 @@ if (!isset($GLOBALS['nkInitError'])) {
                                         SELECT count( id )
                                         FROM '.USERBOX_TABLE.'
                                         WHERE userFor = "'.$user[0].'" AND status = 1 
-                                    )  AS nbMessRead
+                                    )  AS nbMessRead,
+                                    (
+                                        SELECT uct.name
+                                        FROM '.CONTINENTS_TABLE.' AS uct
+                                        LEFT JOIN '.COUNTRY_TABLE.' AS ct ON ct.name = "'.$user[8].'"
+                                        WHERE uct.id = ct.continentId
+                                    ) AS userContinent
                                 FROM '.USER_TABLE.' AS U 
                                 LEFT JOIN '.SESSIONS_TABLE.' AS S ON U.id = S.userId 
                                 WHERE U.id = "'.$user[0].'"';
@@ -61,6 +67,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                 $nbSuggest      = $userData['countSuggest'];  
                 $nbForumMessage = $userData['countForum']; 
                 $nbVisitor      = $userData['countVisitor']; 
+                $continent      = $userData['userContinent']; 
 
                 // initialisation
                 $msgForum    = '';
@@ -92,9 +99,9 @@ if (!isset($GLOBALS['nkInitError'])) {
                         if ($nbForumMessage > $nuked['mess_forum_page']) { // $forumPref[''];
                             $topicpages = $nbForumMessage / $nuked['mess_forum_page'];
                             $topicpages = ceil($topicpages);
-                            $linkMessage = "index.php?file=Forum&amp;page=viewtopic&amp;forumId=" . $forumId . "&amp;threadId=" . $threadId . "&amp;p=" . $topicpages . "#" . $messId;
+                            $linkMessage = 'index.php?file=Forum&amp;page=viewtopic&amp;forumId='.$forumId.'&amp;threadId='.$threadId.'&amp;p='.$topicpages.'#'.$messId;
                         } else {
-                            $linkMessage = "index.php?file=Forum&amp;page=viewtopic&amp;forumId=" . $forumId . "&amp;threadId=" . $threadId . "#" . $messId;
+                            $linkMessage = 'index.php?file=Forum&amp;page=viewtopic&amp;forumId='.$forumId.'&amp;threadId='.$threadId.'#'.$messId;
                         }
                         $msgForum .= '  <article class="profilMessageForum">
                                             <span class="profilMessageTitle nkBlock">'.INSUBJECT.'&nbsp;:&nbsp;<a href="'.$linkMessage.'"">'.$subject.'</a></span>
@@ -250,6 +257,13 @@ if (!isset($GLOBALS['nkInitError'])) {
                     $themeUse = BYDEFAULT;
                 }
 
+                $langUse = '';
+                if ($user[7] != '' && $modulePref['activeCountry'] == 'on') {
+                    $langUse = '  <span class="nkBlock nkBold nkSize11">'.LANGUSE.'&nbsp;:&nbsp;
+                                            <span id="themeUse" class="nkNoFont">'.$user[7].'</span>
+                                        </span>';
+                }
+
                 ?>
 
                 <div id="globalContentProfil">
@@ -299,6 +313,9 @@ if (!isset($GLOBALS['nkInitError'])) {
                                 <span class="nkBlock nkBold nkSize11"><?php echo THEMEUSE; ?>&nbsp;:&nbsp;
                                     <span id="themeUse" class="nkNoFont"><?php echo $themeUse; ?></span>
                                 </span>
+                                <?php
+                                echo $langUse;
+                                ?>
                             </article>
                             <aside id="profilLogOut" class="nkInlineBlock nkValignTop nkFloatRight">
                                 <a href="index.php?file=User&amp;op=logout&amp;nuked_nude=index" title="<?php echo LOGOUT; ?>"><span class="nkIcon24LogOut"></span></a>
@@ -427,19 +444,23 @@ if (!isset($GLOBALS['nkInitError'])) {
             }
         }
 
+        // A FAIRE  adaptation avec la nouvelle fonction pays / langue
         function modifLang() {
-            global $user, $nuked, $cookieLangue, $timelimit;
+            global $user, $nuked, $cookieLangue, $cookieCountry, $timelimit, $cookieTimeLimit;
 
             if ($_REQUEST['userLang'] != "") {
-                setcookie($cookieLangue, $_REQUEST['userLang'], $timelimit);
                 if ($user) {
                     $dbuLang = '    UPDATE '.USER_TABLE.' 
-                                    SET userLanguage = "'.$_REQUEST['userLang'].'"
+                                    SET userLanguage = "'.$_REQUEST['userLang'].'", 
+                                        country = "'.$_REQUEST['country'].'"
                                     WHERE id = "'.$user[0].'"';
                     $dbeLang = mysql_query($dbuLang);
+                } else {
+                    setcookie($cookieCountry, $_REQUEST['country'], $cookieTimeLimit);
+                    setcookie($cookieLangue, $_REQUEST['userLang'], $cookieTimeLimit);
                 }
             }
-            redirect('index.php', 2);
+            redirect('index.php', 0);
         }
 
         function modifTheme() {
@@ -550,7 +571,7 @@ if (!isset($GLOBALS['nkInitError'])) {
         }
 
         function login($pseudo, $pass, $rememberMe) {
-            global $captcha, $nuked, $theme, $cookieTheme, $cookieLangue, $timelimit, $cookieSession, $sessionlimit, $userIp, $userlang;
+            global $captcha, $nuked, $theme, $cookieTheme, $cookieLangue, $cookieCountry, $timelimit, $cookieSession, $sessionlimit, $userIp, $userlang;
 
             if ($pseudo == '' || $pass == '') {
                 $error = 3;
@@ -619,8 +640,21 @@ if (!isset($GLOBALS['nkInitError'])) {
                                 setcookie($cookieTheme, $userTheme, $timelimit);
                             }
 
-                            if ($userLang != '') {
-                                setcookie($cookieLangue, $userLang, $timelimit);
+                            // si l'utilisateur enregistré a un cookie de pays, on le supprime
+                            if (isset($_COOKIE[$cookieCountry])) {
+                                $dbuCountry = '   UPDATE ' . USER_TABLE . ' 
+                                                SET country = "'.$_COOKIE[$cookieCountry].'" 
+                                                WHERE pseudo = \'' . htmlentities($pseudo, ENT_QUOTES) . '\'';
+                                $dbeCountry = mysql_query($dbuCountry);
+                                setcookie($cookieCountry, '', time() - 3600);
+                            }
+                            // si l'utilisateur enregistré a un cookie de langue, on le supprime
+                            if (isset($_COOKIE[$cookieLangue])) {
+                                $dbuCountry = '   UPDATE ' . USER_TABLE . ' 
+                                                SET userLanguage = "'.$_COOKIE[$cookieLangue].'" 
+                                                WHERE pseudo = \'' . htmlentities($pseudo, ENT_QUOTES) . '\'';
+                                $dbeCountry = mysql_query($dbuCountry);
+                                setcookie($cookieLangue, '', time() - 3600);
                             }
 
                             $referer = $_SERVER['HTTP_REFERER'];
@@ -785,7 +819,6 @@ if (!isset($GLOBALS['nkInitError'])) {
             setcookie($cookieCaptcha, '', time() - 3600);
             setcookie($cookieUserId, '', time() - 3600);
             setcookie($cookieTheme, '', time() - 3600);
-            setcookie($cookieLangue, '', time() - 3600);
             setcookie($cookieForum, '', time() - 3600);
             $_SESSION['admin'] = false;
             htmlDisconnect(USERLOGOUTINPROGRESS);
@@ -797,11 +830,11 @@ if (!isset($GLOBALS['nkInitError'])) {
 
             define('EDITOR_CHECK', 1);
             if ($user) {
-                $dbsUserInfo = 'SELECT pseudo, firstName, age, sex, city, privateMail, publicMail, website, avatar, userTheme, signing, country 
+                $dbsUserInfo = 'SELECT pseudo, firstName, age, sex, city, privateMail, publicMail, website, avatar, userTheme, signing 
                                 FROM '.USER_TABLE.' 
                                 WHERE id = "'.$user[0].'"';
                 $dbeUserInfo = mysql_query($dbsUserInfo);
-                list($pseudo, $firstName, $age, $sex, $city, $privateMail, $publicMail, $website, $avatar, $userTheme, $signing, $country) = mysql_fetch_array($dbeUserInfo);
+                list($pseudo, $firstName, $age, $sex, $city, $privateMail, $publicMail, $website, $avatar, $userTheme, $signing) = mysql_fetch_array($dbeUserInfo);
 
                 // Check du jour
                 if ($age == '') {
@@ -809,7 +842,11 @@ if (!isset($GLOBALS['nkInitError'])) {
                 }
                 
                 $dateExtract = explode('/', $age);
-                $flag = substr($country, 0, 2);
+                if ($user[8] != '') {
+                    $flag = substr($user[8], 0, 2);
+                } else {
+                    $flag = substr($nuked['country'], 0, 2);
+                }
                 $flag = strtoupper($flag);
                 $dayView   = '';
                 $monthView = '';
@@ -874,9 +911,21 @@ if (!isset($GLOBALS['nkInitError'])) {
                 }
 
                 if ($modulePref['activeCountry'] == "on") {
-                    $countryView = '<div>
+                    if ($user[7] != '') {
+                        $useLanguage = $user[7];
+                    } else {
+                        $useLanguage = null;
+                    }
+
+                    if ($user[8] != '') {
+                        $country = $user[8];
+                    } else {
+                        $country = $nuked['country'];
+                    }
+
+                    $countryView =  '<div>
                                         <label class="nkLabelSpacing" for="editCountry">'.COUNTRY.'</label>&nbsp;:&nbsp;&nbsp;';                                            
-                    $countryView .=         $GLOBALS['nkFunctions']->nkSelectCountry($country, $user[7]);                                            
+                    $countryView .=         $GLOBALS['nkFunctions']->nkSelectCountry($country, $useLanguage);
                     $countryView .= '</div>';
                 }
 

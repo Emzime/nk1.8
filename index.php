@@ -101,8 +101,8 @@ if (isset($_COOKIE[$cookieCountry])) {
     } else {
         include_once ROOT_PATH .'lang/'.$language.'.lang.php';
     }
-} elseif (isset($user[7]) != '' && is_file(ROOT_PATH .'lang/'.isset($user[7]).'.lang.php')) {
-    include_once ROOT_PATH .'lang/'.isset($user[7]).'.lang.php';
+} elseif (isset($user[7]) && is_file(ROOT_PATH .'lang/'.$user[7].'.lang.php')) {
+    include_once ROOT_PATH .'lang/'.$user[7].'.lang.php';
 } elseif (is_file(ROOT_PATH .'lang/'.$language.'.lang.php')) {
     include_once ROOT_PATH .'lang/'.$language.'.lang.php';
 } else {
@@ -116,8 +116,8 @@ if (isset($_COOKIE[$cookieCountry])) {
     } else {
         include_once ROOT_PATH .'lang/modules/'.$language.'.lang.php';
     }
-} elseif (isset($user[7]) != '' && is_file(ROOT_PATH .'lang/modules/'.isset($user[7]).'.lang.php')) {
-    include_once ROOT_PATH .'lang/modules/'.isset($user[7]).'.lang.php';
+} elseif (isset($user[7]) && is_file(ROOT_PATH .'lang/modules/'.$user[7].'.lang.php')) {
+    include_once ROOT_PATH .'lang/modules/'.$user[7].'.lang.php';
 } elseif (is_file(ROOT_PATH .'lang/modules/'.$language.'.lang.php')) {
     include_once ROOT_PATH .'lang/modules/'.$language.'.lang.php';
 } else {
@@ -218,8 +218,8 @@ if (!empty($activeCssBlock)) {
                     } else {
                         include_once ROOT_PATH .'modules/'.$keyActivedBlock['module'].'/lang/'.$language.'.lang.php';
                     }
-                } elseif (isset($user[7]) != '' && is_file(ROOT_PATH .'modules/'.$keyActivedBlock['module'].'/lang/'.isset($user[7]).'.lang.php')) {
-                    include_once ROOT_PATH .'modules/'.$keyActivedBlock['module'].'/lang/'.isset($user[7]).'.lang.php';
+                } elseif (isset($user[7]) && is_file(ROOT_PATH .'modules/'.$keyActivedBlock['module'].'/lang/'.$user[7].'.lang.php')) {
+                    include_once ROOT_PATH .'modules/'.$keyActivedBlock['module'].'/lang/'.$user[7].'.lang.php';
                 } elseif (is_file(ROOT_PATH .'modules/'.$keyActivedBlock['module'].'/lang/'.$language.'.lang.php')) {
                     include_once ROOT_PATH .'modules/'.$keyActivedBlock['module'].'/lang/'.$language.'.lang.php';
                 }
@@ -243,8 +243,8 @@ if (isset($_COOKIE[$cookieCountry])) {
     } else {
         include_once ROOT_PATH .'modules/'.$_REQUEST['file'].'/lang/'.$language.'.lang.php';
     }
-} elseif (isset($user[7]) != '' && is_file(ROOT_PATH .'modules/'.$_REQUEST['file'].'/lang/'.isset($user[7]).'.lang.php')) {
-    include_once ROOT_PATH .'modules/'.$_REQUEST['file'].'/lang/'.isset($user[7]).'.lang.php';
+} elseif (isset($user[7]) && is_file(ROOT_PATH .'modules/'.$_REQUEST['file'].'/lang/'.$user[7].'.lang.php')) {
+    include_once ROOT_PATH .'modules/'.$_REQUEST['file'].'/lang/'.$user[7].'.lang.php';
 } elseif (is_file(ROOT_PATH .'modules/'.$_REQUEST['file'].'/lang/'.$language.'.lang.php')) {
     include_once ROOT_PATH .'modules/'.$_REQUEST['file'].'/lang/'.$language.'.lang.php';
 } else {
@@ -261,12 +261,12 @@ if (isset($_COOKIE[$cookieCountry])) {
     } else {
         include_once ROOT_PATH .'media/template/'.$nuked['themeDefault'].'/lang/'.$language.'.lang.php';
     }
-} elseif (isset($user[7]) != '' && is_file(ROOT_PATH .'themes/'.$theme.'/lang/'.isset($user[7]).'.lang.php')) {
-    include_once ROOT_PATH .'themes/'.$theme.'/lang/'.isset($user[7]).'.lang.php';
+} elseif (isset($user[7]) && is_file(ROOT_PATH .'themes/'.$theme.'/lang/'.$user[7].'.lang.php')) {
+    include_once ROOT_PATH .'themes/'.$theme.'/lang/'.$user[7].'.lang.php';
 } elseif (is_file(ROOT_PATH .'themes/'.$theme.'/lang/'.$language.'.lang.php')) {
     include_once ROOT_PATH .'themes/'.$theme.'/lang/'.$language.'.lang.php';
-} elseif (isset($user[7]) != '' && is_file(ROOT_PATH .'media/template/'.$nuked['themeDefault'].'/lang/'.isset($user[7]).'.lang.php')) {    
-    include_once ROOT_PATH .'media/template/'.$nuked['themeDefault'].'/lang/'.isset($user[7]).'.lang.php';
+} elseif (isset($user[7]) && is_file(ROOT_PATH .'media/template/'.$nuked['themeDefault'].'/lang/'.$user[7].'.lang.php')) {    
+    include_once ROOT_PATH .'media/template/'.$nuked['themeDefault'].'/lang/'.$user[7].'.lang.php';
 } elseif (is_file(ROOT_PATH .'media/template/'.$nuked['themeDefault'].'/lang/'.$language.'.lang.php')) {
     include_once ROOT_PATH .'media/template/'.$nuked['themeDefault'].'/lang/'.$language.'.lang.php';
 } else {
@@ -400,8 +400,8 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
                         include_once ROOT_PATH .'modules/404/lang/'.$language.'.lang.php';
                         include_once ROOT_PATH .'modules/404/index.php'; 
                     }
-                } elseif (isset($user[7]) != '' && is_file(ROOT_PATH .'modules/404/lang/'.isset($user[7]).'.lang.php')) {
-                    include_once ROOT_PATH .'modules/404/lang/'.isset($user[7]).'.lang.php';
+                } elseif (isset($user[7]) && is_file(ROOT_PATH .'modules/404/lang/'.$user[7].'.lang.php')) {
+                    include_once ROOT_PATH .'modules/404/lang/'.$user[7].'.lang.php';
                     include_once ROOT_PATH .'modules/404/index.php'; 
                 } else {
                     include_once ROOT_PATH .'modules/404/lang/'.$language.'.lang.php';

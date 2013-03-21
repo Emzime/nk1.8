@@ -1493,18 +1493,17 @@ function accessModule($module,$type = 'level') {
  * Set theme
  */
 // SELECT THEME, USER THEME OR NOT FOUND THEME : ERROR
-if (isset($_COOKIE[$GLOBALS['nuked']['cookiename'] . '_userTheme']) && is_file(ROOT_PATH . 'themes/' . $_COOKIE[$GLOBALS['nuked']['cookiename'] . '_userTheme'] . '/theme.php')) {
-
-    $theme = trim($_COOKIE[$GLOBALS['nuked']['cookiename'] . '_userTheme']);
-
+// redéfinition de la variable $theme selon l'utilisateur
+if (isset($_COOKIE[$GLOBALS['cookieTheme']]) && is_file(ROOT_PATH . 'themes/' . $_COOKIE[$GLOBALS['nuked']['cookiename'] . '_userTheme'] . '/theme.php')) {
+    $theme = $_COOKIE[$GLOBALS['cookieTheme']];
+} elseif (isset($user[6]) && is_file(ROOT_PATH . 'themes/'.$user[6].'/theme.php')) {
+    $theme = $user[6];
 } elseif (is_file(ROOT_PATH . 'themes/' . $GLOBALS['nuked']['theme'] . '/theme.php')) {
-
-    $theme = trim($GLOBALS['nuked']['theme']);
-
+    $theme = $GLOBALS['nuked']['theme'];
 } else {
-    // mettre une variable pour gamer ou non
     $theme = $nuked['themeDefault'];
 }
+
 
 // SELECT LANGUAGE AND USER LANGUAGE
 if (isset($_COOKIE[$GLOBALS['nuked']['cookiename'] . '_userLangue']) && is_file(ROOT_PATH . 'lang/' . $_COOKIE[$GLOBALS['nuked']['cookiename'] . '_userLangue'] . '.lang.php')) {

@@ -20,7 +20,6 @@ define('COMMENTS', 'Commentaire');
 define('SEECOMMENT', 'Voir les commentaires');
 define('POSTCOMMENT', 'Poster un commentaire');
 define('NOMATCH', 'Aucun match dans la base de donnée');
-define('LANGUAGE', 'Choisir sa langue');
 define('ACTUALITY', 'Actualitées');
 define('SEEMP', 'Voir mes messages');
 define('NOMP', 'Aucun nouveau message');

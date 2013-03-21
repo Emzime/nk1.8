@@ -464,46 +464,55 @@ if (!isset($GLOBALS['nkInitError'])) {
         }
 
         function modifTheme() {
-            global $user, $nuked, $cookieTheme, $timelimit;
+            global $user, $nuked, $cookieTheme, $timelimit, $cookieTimeLimit;
 
-            if (empty($_REQUEST['userTheme'])) {
-                setcookie($cookieTheme, '', $timelimit);
-
-                if ($user) {
+            // chemin contenant les themes
+            if ($_REQUEST['userTheme'] === $nuked['themeDefault']) {
+                $repertory = 'media/template/'.$_REQUEST['userTheme'];
+            } else {
+                $repertory = 'themes/'.$_REQUEST['userTheme'];
+            }
+            // verification si le theme existe
+            if (is_dir($repertory)) {
+                // si le visiteur est enregistré
+                if (isset($user[0])) {
+                    // mise a jour de son compte
                     $dbuTheme = '   UPDATE '.USER_TABLE.' 
                                     SET userTheme = "'.$_REQUEST['userTheme'].'"
                                     WHERE id = "'.$user[0].'"';
                     $dbeTheme = mysql_query($dbuTheme);
-                }
-            } else {
-                $dir = 'themes/'.$_REQUEST['userTheme'];
-                if (is_dir($dir) && $_REQUEST['userTheme']) {
-                    setcookie($cookieTheme, $_REQUEST['userTheme'], $timelimit);
-
-                    if ($user) {
-                        $dbuTheme = '   UPDATE '.USER_TABLE.' 
-                                        SET userTheme = "'.$_REQUEST['userTheme'].'"
-                                        WHERE id = "'.$user[0].'"';
-                    $dbeTheme = mysql_query($dbuTheme);
-                    }
+                } else {
+                    // si le membre est un visiteur, création d'un cookie
+                   setcookie($cookieTheme, $_REQUEST['userTheme'], $cookieTimeLimit);
                 }
             }
+
+            // récupération du lien so l'utilisateur etait dans son compte
             $userReg = '';
             if (isset($_REQUEST['userReg']) && $_REQUEST['userReg'] == true) {
                 $userReg = '&userReg='.$_REQUEST['userReg'];
             }
+            // stockage de la variable pour la passer a applytheme()
+            $_SESSION['userTheme'] = $_REQUEST['userTheme'];           
             redirect('index.php?file=User&op=applyTheme'.$userReg, 0);
         }
 
         function applyTheme() {
             global $user, $nuked, $cookieTheme, $modulePref;
-            if (empty($_COOKIE[$GLOBALS['cookieTheme']])) {
+
+            // définition du message a afficher
+            if ($_SESSION['userTheme'] === $nuked['themeDefault']) {
                 $themeApply = BYDEFAULT;
-            } else {
-                $themeApply = $_COOKIE[$GLOBALS['cookieTheme']];
+            } elseif ($_SESSION['userTheme'] === $nuked['theme']) {
+                $themeApply = BYDEFAULTADMIN;
+            }else {
+                $themeApply = $_SESSION['userTheme'];
             }
+            // si l'admin autorise le changement de theme
             if ($modulePref['activeTheme'] === 'on') {
+                // affichage d'un message de confirmation
                 echo $GLOBALS['nkTpl']->nkDisplaySuccess(UPDATEDTHEME.'&nbsp;'.$themeApply.'&nbsp;'.UPDATEDTHEMES, 'nkAlert nkAlertSuccess');
+                // redirection si ^l'utilisateur etait dans son compte
                 if (isset($_REQUEST['userReg']) && $_REQUEST['userReg'] == true) {
                     $url = 'index.php?file=User';
                 } else {
@@ -511,6 +520,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                 }
                 redirect($url, 2);
             } else {
+                // affichage d'un message d'erreur
                 echo $GLOBALS['nkTpl']->nkDisplayError(FUNCTIONOFF, 'nkAlert nkAlertError');
                 redirect('index.php', 2);
             }
@@ -518,15 +528,22 @@ if (!isset($GLOBALS['nkInitError'])) {
 
 
         function changeTheme() {
-            global $nuked, $cookieTheme;
+            global $nuked, $user, $cookieTheme;
 
-            if ($cookieTheme != '') {
-                $personalTheme = isset($_COOKIE[$GLOBALS['cookieTheme']]);
-            } else {
+            if (isset($_COOKIE[$GLOBALS['cookieTheme']]) && $cookieTheme != '') {
+                $personalTheme = $_COOKIE[$GLOBALS['cookieTheme']];
+            } elseif (isset($user) && $user[6] != '') {
+                $personalTheme = $user[6];
+            } elseif ($nuked['theme'] != '') {
                 $personalTheme = $nuked['theme'];
-            }    
+            } else {
+                $personalTheme = $nuked['themeDefault'];
+            }
+
             $themeView = '';
+            // ouverture du repertoire des themes
             $repertory = opendir('themes');
+            // lecture du contenu
             while (false !== ($themeList = readdir($repertory))) {
                 if ($themeList != "." && $themeList != ".." && $themeList != "CVS" && $themeList != "index.html" && !preg_match("`[.]`", $themeList)) {
                     if ($personalTheme == $themeList) {
@@ -534,16 +551,18 @@ if (!isset($GLOBALS['nkInitError'])) {
                     } else {
                         $themeChecked = '';
                     }
+                    $themeView .= '<option value="'.$nuked['themeDefault'].'" '.$themeChecked.'>'.$nuked['themeDefault'].'</option>';
                     $themeView .= '<option value="'.$themeList.'" '.$themeChecked.'>'.$themeList.'</option>';
                 }
             }            
             closedir($repertory);
             $activeThemeForm = '<div class="nkAlignCenter nkMarginTop15">'.SELECTTHEME.'&nbsp;:&nbsp;
                                 <form class="nkInline" action="index.php?file=User&amp;nuked_nude=index&amp;op=modifTheme" method="post">
-                                        <span class="nkNoFont"><select id="userTheme" class="nkInput" name="userTheme" onChange="javascript:submit();">
-                                            <option value="">'.$nuked['themeDefault'].'</option>
+                                    <span class="nkNoFont">
+                                        <select id="userTheme" class="nkInput" name="userTheme" onChange="javascript:submit();">
                                             '.$themeView.'
-                                        </select></span>
+                                        </select>
+                                    </span>
                                 <input type="hidden" name="userReg" value="true" />
                                 </form>
                                 </div>';
@@ -636,12 +655,18 @@ if (!isset($GLOBALS['nkInitError'])) {
                             //reinitialisation
                             session_new($userId, $rememberMe);
 
-                            if ($userTheme != '') {
-                                setcookie($cookieTheme, $userTheme, $timelimit);
+                            // si l'utilisateur enregistré a un cookie de theme, on le supprime
+                            if (isset($_COOKIE[$cookieTheme])) {
+                                // on ajoute a son le contenu du cookie supprimé
+                                $dbuCountry = '   UPDATE ' . USER_TABLE . ' 
+                                                SET userTheme = "'.$_COOKIE[$cookieTheme].'" 
+                                                WHERE pseudo = \'' . htmlentities($pseudo, ENT_QUOTES) . '\'';
+                                $dbeCountry = mysql_query($dbuCountry);
+                                setcookie($cookieTheme, '', time() - 3600);
                             }
-
                             // si l'utilisateur enregistré a un cookie de pays, on le supprime
                             if (isset($_COOKIE[$cookieCountry])) {
+                                // on ajoute a son le contenu du cookie supprimé
                                 $dbuCountry = '   UPDATE ' . USER_TABLE . ' 
                                                 SET country = "'.$_COOKIE[$cookieCountry].'" 
                                                 WHERE pseudo = \'' . htmlentities($pseudo, ENT_QUOTES) . '\'';
@@ -650,6 +675,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                             }
                             // si l'utilisateur enregistré a un cookie de langue, on le supprime
                             if (isset($_COOKIE[$cookieLangue])) {
+                                // on ajoute a son le contenu du cookie supprimé
                                 $dbuCountry = '   UPDATE ' . USER_TABLE . ' 
                                                 SET userLanguage = "'.$_COOKIE[$cookieLangue].'" 
                                                 WHERE pseudo = \'' . htmlentities($pseudo, ENT_QUOTES) . '\'';

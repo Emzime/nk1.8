@@ -339,21 +339,21 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
     } else {
         // on inclu le theme     
         if ($loadLangThemeFileError == '' && $loadCssThemeFileError == '') {
-/*            if (isset($_COOKIE[$GLOBALS['cookieTheme']])) {
-                $theme = $_COOKIE[$GLOBALS['cookieTheme']];
-            } else {
-                $theme = $theme;
-            }
-*/
-            // récupération du theme utilisateur et vérification de l'existance de celui-ci
-            if (is_file(ROOT_PATH .'themes/'.$theme.'/theme.php')) { 
-                // affichage du theme utilisateur si existant sinon affichage du theme admin si existant               
-                include_once ROOT_PATH .'themes/'.$theme.'/theme.php';
-            // sinon affichage du template par defaut
-            } else {
-                include_once ROOT_PATH .'/media/template/'.$nuked['themeDefault'].'/theme.php';
-            }
 
+            // definition du répertoire ou chercher le theme.php
+            if ($theme == $nuked['themeDefault']) {
+                $rep = ROOT_PATH .'media/template/'.$theme.'/theme.php';
+            } else {
+                $rep = ROOT_PATH .'themes/'.$theme.'/theme.php';
+            }  
+            // vérification de l'existance du theme dans le répertoire
+            if (is_file($rep)) {
+                // inclusion du theme.php
+                include_once $rep;
+            } else {
+                // sinon affichage du template par defaut
+                include_once ROOT_PATH .'/media/template/'.$nuked['themeDefault'].'/theme.php';
+            } 
         }
          // on inclu les stats de visite si elles sont actives
         if ($nuked['level_analys'] != -1) {
@@ -444,22 +444,21 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
         }
     }
 } else {
-    // récupération du theme utilisateur et vérification de l'existance de celui-ci
-    if ($GLOBALS['cookieTheme'] && is_file(ROOT_PATH .'themes/'.$_COOKIE[$GLOBALS['cookieTheme']].'/theme.php')) {
-        // définition du theme utilisateur si existant
-        $theme = $_COOKIE[$GLOBALS['cookieTheme']];
+
+    // definition du répertoire ou chercher le theme.php
+    if ($theme == $nuked['themeDefault']) {
+        $rep = ROOT_PATH .'media/template/'.$theme.'/theme.php';
     } else {
-        // sinon définition du theme défini par l'admin
-        $theme = $theme;
-    }
-    // vérification que le theme défini par l'admin existe
-    if (is_file(ROOT_PATH .'themes/'.$theme.'/theme.php')) { 
-        // affichage du theme utilisateur si existant sinon affichage du theme admin si existant               
-        include_once ROOT_PATH .'themes/'.$theme.'/theme.php';                
+        $rep = ROOT_PATH .'themes/'.$theme.'/theme.php';
+    }  
+    // vérification de l'existance du theme dans le répertoire
+    if (is_file($rep)) {
+        // inclusion du theme.php
+        include_once $rep;
     } else {
         // sinon affichage du template par defaut
         include_once ROOT_PATH .'/media/template/'.$nuked['themeDefault'].'/theme.php';
-    }
+    } 
 
     // on inclu le header
     include_once ROOT_PATH .'Includes/header.php';

@@ -13,13 +13,18 @@ defined('INDEX_CHECK') or die ('<div style="text-align: center;">'.CANTOPENPAGE.
 if (defined('TESTLANGUE')) { 
 
     function affichBlockTheme($blok) {
-        global $nuked, $cookieTheme;
+        global $nuked, $user, $cookieTheme;
 
-        if ($cookieTheme != '') {
-            $personalTheme = isset($_COOKIE[$GLOBALS['cookieTheme']]);
-        } else {
+        if (isset($_COOKIE[$GLOBALS['cookieTheme']]) && $cookieTheme != '') {
+            $personalTheme = $_COOKIE[$GLOBALS['cookieTheme']];
+        } elseif (isset($user) && $user[6] != '') {
+            $personalTheme = $user[6];
+        } elseif ($nuked['theme'] != '') {
             $personalTheme = $nuked['theme'];
-        }    
+        } else {
+            $personalTheme = $nuked['themeDefault'];
+        }
+
         $themeView = '';
         $repertory = opendir('themes');
         while (false !== ($themeList = readdir($repertory))) {
@@ -29,6 +34,7 @@ if (defined('TESTLANGUE')) {
                 } else {
                     $themeChecked = '';
                 }
+                $themeView .= '<option value="'.$nuked['themeDefault'].'" '.$themeChecked.'>'.$nuked['themeDefault'].'</option>';
                 $themeView .= '<option value="'.$themeList.'" '.$themeChecked.'>'.$themeList.'</option>';
             }
         }
@@ -36,8 +42,7 @@ if (defined('TESTLANGUE')) {
         $blok['content'] .= '   <form action="index.php?file=User&amp;nuked_nude=index&amp;op=modifTheme" method="post">
                                 <article class="nkAlignCenter nkMarginTop15">
                                     <label for="userTheme">'.SELECTTHEME.'</label>&nbsp;:&nbsp;
-                                        <select id="userTheme" class="nkInput" name="userTheme" onChange="javascript:submit();">
-                                            <option value="">'.$nuked['themeDefault'].'</option>
+                                        <select id="userTheme" class="nkInput" name="userTheme" onChange="javascript:submit();">                                            
                                             '.$themeView.'
                                         </select>
                                 </article>

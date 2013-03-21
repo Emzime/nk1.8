@@ -20,7 +20,6 @@ define('COMMENTS', 'Comment');
 define('SEECOMMENT', 'See commments');
 define('POSTCOMMENT', 'Post comment');
 define('NOMATCH', 'No match in database');
-define('LANGUAGE', 'Choose your language');
 define('ACTUALITY', 'Current news');
 define('SEEMP', 'See my message');
 define('NOMP', 'No new message');

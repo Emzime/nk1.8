@@ -192,6 +192,7 @@ define('COMMENTED','comment');
 define('SUGGESTED','suggest');
 define("BYDEFAULT","by default");
 define("SELECTTHEME","Choice of theme");
+define('LANGUAGE', 'Choose your language');
 
 
 ?>

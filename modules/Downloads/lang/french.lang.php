@@ -4,7 +4,6 @@ defined('INDEX_CHECK') or die ('<div class="align-center">You cannot open this p
 // Test si le fichier langue est chargé
 define('TESTLANGUEFILEDOWNLOADS', true);
 
-// Ajout convertion 1.8
 define('INFO', 'Informations');
 define('NOTKNOW','Non renseigné');
 define('DOWNLOADIDERROR','Le téléchargement que vous demandez n\'existe pas');

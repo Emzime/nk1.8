@@ -37,7 +37,7 @@ if (!isset($GLOBALS['nkInitError'])) {
         $modulePref = $GLOBALS['nkFunctions']->nkModsPrefs($modName);
         // $forumPref = $GLOBALS['nkFunctions']->nkModsPrefs('Forum');
 
-        function index(){
+        function index() {
             global $user, $nuked, $modName, $modulePref;
 
             // orderSelect a faire
@@ -327,31 +327,31 @@ if (!isset($GLOBALS['nkInitError'])) {
                                     <header>
                                         <h3><?php echo MYPROFIL; ?></h3>
                                     </header>
-                                    <div id="userLeft" class="nkInlineBlock nkWidthHalf nkValignTop">
-                                        <section id="userInfo" class="nkBlock nkAlignCenter nkMarginBottom15">
-                                            <header class="nkSize12"><?php echo STATSUSER; ?></header>
-                                            <article>
-
-                                            </article>
-                                        </section>
-                                        <section id="userInfoContact" class="nkBlock nkAlignCenter nkMarginBottom15">
-                                            <header class="nkSize12"><?php echo INFOUSER; ?></header>
-                                            <article>
+                                    <div id="userLeft" class="nkInlineBlock nkWidthFully  nkValignTop">
+                                        <section id="userFriends" class="nkBlock nkAlignLeft nkMarginBottom15">
+                                            <header class="nkSize14 nkAlignCenter nkPadding nkBold"><?php echo INFOUSER; ?></header>
+                                            <article class="nkPadding">
                                                 <?php
                                                     infoUser($user[0]);
                                                 ?>
                                             </article>
                                         </section>
-                                    </div>
-                                    <div id="userRight" class="nkInlineBlock nkWidthHalf nkValignTop">
-                                        <aside id="userFriends" class="nkBlock nkAlignCenter nkMarginBottom15">
-                                            <section>
-                                                <header class="nkSize12"><?php echo LASTVISITOR; ?></header>
-                                                <article>
-
-                                                </article>
-                                            </section>
-                                        </aside>
+                                        <section id="userInfo" class="nkBlock nkAlignLeft nkMarginBottom15">
+                                            <header class="nkSize14 nkAlignCenter nkPadding nkBold"><?php echo STATSUSER; ?></header>
+                                            <article>
+                                                <?php
+                                                    statsUser($user[0]);
+                                                ?>
+                                            </article>
+                                        </section>
+                                        <section id="userInfoContact" class="nkBlock nkAlignLeft nkMarginBottom15">
+                                            <header class="nkSize14 nkAlignCenter nkPadding nkBold"><?php echo LASTVISITOR; ?></header>
+                                            <article>
+                                                <?php
+                                                    infoVisitor($user[0]);
+                                                ?>
+                                            </article>
+                                        </section>
                                     </div>
                                 </div>
 
@@ -882,7 +882,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                 // affichage sex
                 $sexArray = array(
                     'man'   => MAN, 
-                    'women' => WOMEN
+                    'woman' => WOMAN
                 );
                 $sexView = $GLOBALS['nkFunctions']->nkRadioBox('label', SEX, 2, 'sex', $sexArray, '&nbsp;:&nbsp;','sex', 'nkLabelSpacing nkNoPadding nkMarginTop', '', '', $sex);
 
@@ -1119,7 +1119,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                     // affichage sex
                     $sexArray = array(
                         'man'   => MAN, 
-                        'women' => WOMEN
+                        'woman' => WOMAN
                     );
                     $sexView = $GLOBALS['nkFunctions']->nkRadioBox('label', SEX, 2, 'sex', $sexArray, '&nbsp;:&nbsp;','sex', 'nkLabelSpacing nkNoPadding', ' nkMargin', '', 'man');
 
@@ -1466,8 +1466,204 @@ if (!isset($GLOBALS['nkInitError'])) {
 
         // Fonction montrant les infos d'un utilisteur
         function infoUser($userId) {
+            global $nuked, $modName;
+
+                $dbsUserInfo = 'SELECT U.pseudo, U.firstName, U.age, U.sex, U.website, U.publicMail, U.created, U.avatar, U.userTheme, U.userLanguage, U.country, S.lastUsed,
+                                    (
+                                        SELECT uct.name
+                                        FROM '.CONTINENTS_TABLE.' AS uct
+                                        LEFT JOIN '.COUNTRY_TABLE.' AS ct ON ct.name = "'.$userId.'"
+                                        WHERE uct.id = ct.continentId
+                                    ) AS userContinent
+                                FROM '.USER_TABLE.' AS U 
+                                LEFT JOIN '.SESSIONS_TABLE.' AS S ON U.id = S.userId 
+                                WHERE U.id = "'.$userId.'"';
+                $dbeUserInfo = mysql_query($dbsUserInfo);
+                $userData    = mysql_fetch_array($dbeUserInfo);
+                $continent      = $userData['userContinent']; 
+
+                if ($userData['lastUsed'] > 0) {
+                    $lastUsed = nkDate($userData['lastUsed'], TRUE);
+                } else {
+                    $lastUsed = nkDate($userData['created'], TRUE);
+                }
+                if ($userData['website']) {
+                    $website = '<a href="'.$userData['website'].'" target="_blank">'.VISITWEBSITE.'</a>';
+                } else {
+                    $website = UNKNOW;
+                }
+                if ($userData['age']) {
+                    $age = $userData['age'];
+                } else {
+                    $age = UNKNOW;
+                }
+                if ($userData['sex']) {
+                    $sex = constant(strtoupper($userData['sex']));
+                } else {
+                    $sex = UNKNOW;
+                }
+                if ($userData['avatar']) {
+                    $avatar = checkimg($userData['avatar']);
+                } else {
+                    $avatar = 'images/noavatar.png';
+                }
+                if ($userData['firstName']) {
+                    $firstName = $userData['firstName'];
+                } else {
+                    $firstName = UNKNOW;
+                }
+                if ($userData['publicMail']) {
+                    $publicMail = '<a href="mailto:'.$userData['publicMail'].'">'.MAILHIM.'</a>';
+                } else {
+                    $publicMail = UNKNOW;
+                }
+                if ($userData['userTheme'] != '') {
+                    $themeUse = $userData['userTheme'];
+                } else {
+                    $themeUse = BYDEFAULT;
+                }
+                if ($userData['userLanguage'] != '') {
+                    $langUse = $userData['userLanguage'];
+                } else {
+                    $langUse = $nuked['language'];
+                }
+                if ($userData['country'] != '') {
+                    $country = $userData['country'];
+                } else {
+                    $country = $nuked['country'];
+                }
+
+
+            ?>
+            <article class="nkInlineBlock nkValignTop nkMarginRight nkAlignLeft">
+                <span class="nkBlock nkBold nkSize11"><?php echo FIRSTNAME; ?>&nbsp;:&nbsp;
+                    <span class="nkNoFont"><?php echo $firstName; ?></span>
+                </span>
+                <span class="nkBlock nkBold nkSize11"><?php echo SEX; ?>&nbsp;:&nbsp;
+                    <span class="nkNoFont nkImgProfile"><?php echo $sex; ?></span>
+                </span>
+                <span class="nkBlock nkBold nkSize11"><?php echo BIRTHDAY; ?>&nbsp;:&nbsp;
+                    <span class="nkNoFont"><?php echo $age; ?></span>
+                </span>
+                <span class="nkBlock nkBold nkSize11"><?php echo PUBLICMAIL; ?>&nbsp;:&nbsp;
+                    <span id="publicMail" class="nkNoFont"><?php echo $publicMail; ?></span>
+                </span>
+            </article>
+            <article class="nkInlineBlock nkValignTop nkMarginRight nkMarginLeft nkAlignLeft">
+                <span class="nkBlock nkBold nkSize11"><?php echo WEBSITE; ?>&nbsp;:&nbsp;
+                    <span id="website" class="nkNoFont"><?php echo $website; ?></span>
+                </span>
+                <span class="nkBlock nkBold nkSize11"><?php echo COUNTRY; ?>&nbsp;:&nbsp;
+                    <span id="website" class="nkNoFont"><?php echo $country; ?></span>
+                </span>
+                <span class="nkBlock nkBold nkSize11"><?php echo LANGUSE; ?>&nbsp;:&nbsp;
+                    <span id="langUse" class="nkNoFont"><?php echo $langUse; ?></span>
+                </span>
+            </article>
+            <article class="nkInlineBlock nkValignTop nkMarginRight nkMarginLeft nkAlignLeft">
+                <span class="nkBlock nkBold nkSize11"><?php echo DATEUSER; ?>&nbsp;:&nbsp;
+                    <span class="nkNoFont"><?php echo nkDate($userData['created'], TRUE); ?></span>
+                </span>
+                <span class="nkBlock nkBold nkSize11"><?php echo LASTVISIT; ?>&nbsp;:&nbsp;
+                    <span class="nkNoFont"><?php echo $lastUsed; ?></span>
+                </span>
+                <span class="nkBlock nkBold nkSize11"><?php echo THEMEUSE; ?>&nbsp;:&nbsp;
+                    <span id="themeUse" class="nkNoFont"><?php echo $themeUse; ?></span>
+                </span>
+            </article>
+
+        <?php
+        }
+
+        // Fonction montrant les infos d'un utilisteur
+        function infoVisitor($userId) {
+            global $nuked, $modName;
+
+            $dbsUserInfos = '   SELECT lastVisitor
+                                FROM '.USER_TABLE.'
+                                WHERE id = "'.$userId.'"';
+            $dbeUserInfos = mysql_query($dbsUserInfos);
+            while(list($visitor) = mysql_fetch_array($dbeUserInfos)) {
+                $visitor = explode('|', $visitor);
+                for ($i = 0;$i < count($visitor);$i++) {
+                    $dbsVisitorInfos = 'SELECT pseudo, avatar
+                                        FROM '.USER_TABLE.'
+                                        WHERE id = "'.$visitor[$i].'"';
+                    $dbeVisitorInfos = mysql_query($dbsVisitorInfos);
+                    list($visitorPseudo, $visitorAvatar) = mysql_fetch_array($dbeVisitorInfos);
+
+                    $visitorCut = $GLOBALS['nkFunctions']->nkCutText($visitorPseudo, 15, true);
+
+                    if ($visitorAvatar == '') {
+                        $visitorAvatarImg = '<img src="modules/'.$modName.'/images/noavatar.png" alt="" />';
+                    } else {                        
+                        $visitorAvatarImg = '<img src="'.$visitorAvatar.'" alt="" />';
+                    }
+
+                    if ($visitor[$i] != '') {
+                    ?>
+                        <figure class="nkVisitor nkInlineBlock nkValignTop">
+                            <a href="index.php?file=User&amp;op=userDetail&amp;userId=<?php echo $visitor[$i]; ?>" title="<?php echo SEEPROFILOF.'&nbsp;'.$visitorPseudo; ?>"><?php echo $visitorAvatarImg; ?></a>
+                            <figcaption>
+                                <a href="index.php?file=User&amp;op=userDetail&amp;userId=<?php echo $visitor[$i]; ?>" title="<?php echo SEEPROFILOF.'&nbsp;'.$visitorPseudo; ?>"><?php echo $visitorCut; ?></a>
+                            </figcaption>
+                        </figure>
+                    <?php
+                    } else {
+                    ?>
+                        <div class="nkAlignCenter nkMarginTop15"><?php echo NOUSERVISITOR; ?></div>
+                    <?php
+                    }
+                }              
+            }
+        }
+
+        // Fonction montrant les infos d'un utilisteur
+        function statsUser($userId) {
             global $nuked;
 
+            $dbsCommentInfo = ' SELECT pseudo, countForum, countComment, countSuggest, countVisitor
+                                FROM '.USER_TABLE.'
+                                WHERE id = "'.$userId.'"';
+            $dbeCommentInfo = mysql_query($dbsCommentInfo);
+            list($pseudo, $countForum, $countComment, $countSuggest, $countVisitor) = mysql_fetch_array($dbeCommentInfo);
+
+            if ($countForum > 0) {
+                $CF = '';
+                if ($countForum > 1) { 
+                    $CF = 's';
+                }
+                $countForum = '<a href="index.php?file=Search&amp;autor='.$pseudo.'&amp;module=Forum">'.$countForum.'&nbsp;'.MESSAGES.$CF.'</a>';
+            } else {
+                $countForum = $countForum;
+            }
+            if ($countComment > 0) {
+                $CC = '';
+                if ($countComment > 1) { 
+                    $CC = 's';
+                }
+                $countComment = '<a href="index.php?file=Search&amp;autor='.$pseudo.'&amp;module=Comment">'.$countComment.'&nbsp;'.MESSAGES.$CC.'</a>';
+            } else {
+                $countComment = $countComment;
+            }
+            if ($countSuggest > 0) {
+                $CS = '';
+                if ($countSuggest > 1) { 
+                    $CS = 's';
+                }
+                $countSuggest = '<a href="index.php?file=Search&amp;autor='.$pseudo.'&amp;module=Suggest">'.$countSuggest.'&nbsp;'.MESSAGES.$CS.'</a>';
+            } else {
+                $countSuggest = $countSuggest;
+            }
+
+            ?>
+            <ul>
+                <li><?php echo MESSINFORUM; ?>&nbsp;:&nbsp;<?php echo $countForum; ?></li>
+                <li><?php echo USERCOMMENT; ?>&nbsp;:&nbsp;<?php echo $countComment; ?></li>
+                <li><?php echo USERSUGGEST; ?>&nbsp;:&nbsp;<?php echo $countSuggest; ?></li>
+                <li><?php echo USERVISITOR; ?>&nbsp;:&nbsp;<?php echo $countVisitor; ?></li>
+            </ul>
+        <?php
         }
 
         function updateAccount($pseudo, $privateMail, $publicMail, $passReg, $passConf, $passOld, $userLang, $country, $firstName, $day, $month, $year, $sex, $city, $website, $avatarUrl, $signing, $remove) {
@@ -1628,7 +1824,6 @@ if (!isset($GLOBALS['nkInitError'])) {
             }
         }
 
-
         function showAvatar() {
             global $theme;
         ?>
@@ -1661,7 +1856,48 @@ if (!isset($GLOBALS['nkInitError'])) {
         <?php
         }
 
+        function userDetail($userId) {
+            global $nuked, $language;
+                $dbsUserInfo = 'SELECT U.pseudo, U.website, U.privateMail, U.publicMail, U.created, U.avatar, U.countForum, U.countComment, U.countSuggest, S.lastUsed, U.countVisitor, U.lastVisitor            FROM '.USER_TABLE.' AS U 
+                                LEFT JOIN '.SESSIONS_TABLE.' AS S ON U.id = S.userId 
+                                WHERE U.id = "'.$userId.'"';
+                $dbeUserInfo = mysql_query($dbsUserInfo);
+                list($pseudo, $website, $privateMail, $publicMail, $created, $avatar, $countForum, $countComment, $countSuggest, $lastUsed, $countVisitor, $lastVisitor) = mysql_fetch_array($dbeUserInfo);
+                ?>
 
+                <div class="userDetailContent">
+                    <header>
+                        <h3 class="nkAlignCenter"><?php echo PROFILOF.'&nbsp;'.$pseudo; ?></h3>
+                    </header>
+                    <div id="userDetailContent" class="nkWidthFull nkValignTop nkMarginLRAuto">
+                        <section class="nkAlignLeft nkMarginBottom15">
+                            <header class="nkSize14 nkAlignCenter nkPadding nkBold"><?php echo INFOUSER; ?></header>
+                            <article class="nkPadding nkAlignCenter">
+                                <?php
+                                    infoUser($userId);
+                                ?>
+                            </article>
+                        </section>
+                        <section class="nkAlignLeft nkMarginBottom15">
+                            <header class="nkSize14 nkAlignCenter nkPadding nkBold"><?php echo STATSUSER; ?></header>
+                            <article class="nkPadding">
+                                <?php
+                                    statsUser($userId);
+                                ?>
+                            </article>
+                        </section>
+                        <section class="nkAlignLeft nkMarginBottom15">
+                            <header class="nkSize14 nkAlignCenter nkPadding nkBold"><?php echo LASTVISITOR; ?></header>
+                            <article class="nkPadding">
+                                <?php
+                                    infoVisitor($userId);
+                                ?>
+                            </article>
+                        </section>
+                    </div>
+                </div>
+        <?php
+        }
 
 
 
@@ -2139,6 +2375,10 @@ if (!isset($GLOBALS['nkInitError'])) {
 
             case"modifLang":
                 modifLang($_REQUEST);
+                break;
+
+            case"userDetail":
+                userDetail($_REQUEST['userId']);
                 break;
 
 

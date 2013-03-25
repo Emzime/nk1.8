@@ -60,22 +60,6 @@
     color: #222;
     font-weight: bold;
 }
-#contentProfilRight {
-    display: table-cell;
-    padding: 10px;
-    width: 75%;
-    border-left: 1px solid #222;
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-}
-#contentProfilRight span:first-child {
-    color: #446DD7;
-    margin-bottom: 15px;
-}
-
-#contentProfilRight span:last-child {
-    color: #999999;
-}
 #contentProfil {
     border: 1px solid #222;
     margin-top: 20px;
@@ -105,8 +89,6 @@
     width: 100%;
 }
 .profilContent li {
-    border-left: 1px solid #222;
-    border-right: 1px solid #222;
     border-bottom: 1px solid #222;
     padding: 5px;
 }
@@ -115,7 +97,7 @@
 }
 .profilContent li:last-child {
     border-top: 0;
-    border-bottom: 1px solid #222;
+    border-bottom: 0;
 }
 .userMessId {
     width: 8%;
@@ -139,7 +121,7 @@
     opacity: 0.7;
 }
 #userInfo, #userFriends, #userInfoContact {
-    border: 1px solid;
+    border: 1px solid #222;
     border-radius: 4px;
 }
 #userInfo header, #userFriends header, #userInfoContact header {
@@ -148,11 +130,8 @@
     background-color: #666;
     color: #222;
 }
-#userInfo > article, #userInfoContact > article {
-    min-height: 50px;
-}
-#userFriends article {
-    min-height: 133px;
+#userFriends article, #userInfo article, #userInfoContact article {
+    min-height: 105px;
 }
 
 #profilPrefs span:first-child {
@@ -161,4 +140,62 @@
 
 #profilPrefs select, #profilPrefs input, #profilPrefs div, #nkPersonnalUser div {
     vertical-align: middle;
+}
+
+.nkVisitor {
+    padding: 5px;
+}
+.nkVisitor img {
+    max-height: 60px;
+    max-width: 60px;
+}
+.nkVisitor figcaption {
+    max-width: 80px;
+    text-align: center;
+}
+.nkVisitor a {
+    display: block;
+}
+
+
+.profilContent {
+    margin-bottom: 15px;
+}
+
+.userProfilContent > header {
+    background-color: #222;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.userProfilContent h3 {
+    font-size: 14px;
+    text-align: center;
+    margin: 0;
+    padding: 5px 0;
+}
+.userProfilContent nav {
+    margin: 20px auto;
+    text-align: center;
+    width: 100%;
+}
+.userProfilContent li {
+    border-bottom: 1px solid #222;
+    padding: 5px;
+}
+.userProfilContent li:first-child {
+    border-top: 1px solid #222;
+}
+.userProfilContent li:last-child {
+    border-top: 0;
+    border-bottom: 0;
+}
+#userDetailContent header {
+    background-color: #666;
+    color: #222;
+    text-align: center;
+        border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.nkImgProfile > img {
+    width: 10px;
 }

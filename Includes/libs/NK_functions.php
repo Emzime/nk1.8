@@ -543,12 +543,20 @@ class NK_functions {
     /**
      * nkSeeModule list module actived
      * @param  array $blackListMods list blacklisted module
+     * @param  array $checked       module selected
      * @return mixed option for select list module where module doesn't blacklisted
      */
-    public function nkSeeModule($blackListMods) {
+    public function nkSeeModule($blackListMods, $checked=null) {
         $activMods = activatedModules($blackListMods);
         $return = '';
         foreach ($activMods as $key => $value) {
+
+            if ($checked == $value['name']) {
+                $optionMod = 'selected="selected"';
+            } else {
+                $optionMod = '';
+            }
+
             $nameModule = strtoupper($key);
             $nameModule = constant($nameModule);
 
@@ -557,7 +565,7 @@ class NK_functions {
             } elseif (!empty($value['newName'])) {
                 $nameModule = $value['newName'];
             }
-            $return .= '<option value="'.$key.'">'.$nameModule.'</option>';
+            $return .= '<option value="'.$key.'" '.$optionMod.'>'.$nameModule.'</option>';
         }
         return $return;
     }

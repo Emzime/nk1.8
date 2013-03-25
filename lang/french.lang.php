@@ -181,7 +181,7 @@ define('AVATARUPLOAD','Upload Avatar');
 define("FIRSTNAME","Prénom");
 define("SEX","Sexe");
 define("MAN","Homme");
-define("WOMEN","Femme");
+define("WOMAN","Femme");
 define("BIRTHDAY","Date de naissance");
 define("CITY","Ville");
 define("SIGNING","Signature");

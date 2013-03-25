@@ -97,5 +97,6 @@ define("FUNCTIONOFF","This function is not activated");
 define("THEMEUSE","Theme used");
 define("NOSEXENTRY","You have not selected your gender");
 define("LANGUSE","Language");
+define("SEEPROFILOF","see the profile of");
 
 ?>

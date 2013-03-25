@@ -1179,7 +1179,7 @@
                           `countComment` int(10) NOT NULL DEFAULT '0',
                           `countSuggest` int(10) NOT NULL DEFAULT '0',
                           `countVisitor` int(10) NOT NULL DEFAULT '0',
-                          `lastVisitor` varchar(20) NOT NULL,
+                          `lastVisitor` text NOT NULL,
                           `error` int(10) NOT NULL DEFAULT '0',
                           `token` varchar(13) DEFAULT NULL,
                           `tokenTime` varchar(10) NOT NULL DEFAULT '0',

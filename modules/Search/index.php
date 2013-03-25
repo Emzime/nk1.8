@@ -22,27 +22,28 @@ if($langTest == true) {
 
     // Vérification des variables
     $requestArray = array(
-            'main',
-            'searchtype',
-            'limit',
-            'autor',
-            'p',
-            'result',
-            'tab',
-            'module'
-        );
-    $GLOBALS['nkFunctions']->nkInitRequest($requestArray);
+        'integer' => array(),
+        'uniqid'  => array(),
+        'boolean' => array(),
+        'string'  => array('module', 'tab', 'result', 'p', 'autor', 'limit', 'searchtype', 'main')
+    );
+    $GLOBALS['nkFunctions']->nkInitRequest($requestArray, $GLOBALS['indexRequestArray']);
 
         function index($main, $searchtype, $limit, $autor, $module) {
             global $nuked, $user;
 
+            if (!is_null($autor)) {
+                $autor = printSecuTags($autor);
+            } else {
+                $autor = '';
+            }
             // Bouton radio de sélection
             $arrayanswer = array(
                 'matchand' => MATCHAND,
                 'matchexact' => MATCHEXACT,
                 'matchor' => MATCHOR
             );
-            $keyword = $GLOBALS['nkFunctions']->nkRadioBox('label', TYPEOFSEARCH, '3', 'searchtype', $arrayanswer, 'searchtype', 'nkWidthQuarter nkValignTop nkInlineBlock', null, 'nkBlock');
+            $keyword = $GLOBALS['nkFunctions']->nkRadioBox('label', TYPEOFSEARCH, '3', 'searchtype', $arrayanswer, null, 'searchtype', 'nkLabelSpacing nkAlignLeft nkValignTop', 'nkAlignLeft', 'nkBlock', 'matchand');
 
             // Nombre de reponse a retrouner
             $arrayanswers = array(
@@ -50,11 +51,13 @@ if($langTest == true) {
                 '50' => 50,
                 '100' => 100
             );                        
-            $numberOfResponse =  $GLOBALS['nkFunctions']->nkRadioBox( 'label',NBANSWERS, '3', 'limit', $arrayanswers, 'answers', 'nkLabelSpacing nkWidthQuarter nkMarginLRAuto'); 
+            $numberOfResponse =  $GLOBALS['nkFunctions']->nkRadioBox( 'label',NBANSWERS, '3', 'limit', $arrayanswers, null, 'answers', 'nkLabelSpacing nkAlignLeft', 'nkAlignLeft', null, 10); 
 
+
+            // A FAIRE blacklist definie par l'admin ????
             // Tableau des modules blacklisté
-            $blackListMods = array('Stats', 'Contact', 'Vote', 'Suggest', 'Defy', 'Recruit', 'Server');
-            $seeModule = $GLOBALS['nkFunctions']->nkSeeModule($blackListMods);
+            $blackListMods = array('Stats', 'Contact', 'Vote', 'Defy', 'Recruit', 'Server');
+            $seeModule = $GLOBALS['nkFunctions']->nkSeeModule($blackListMods, $module);
 
             $main = stripslashes($main);
 
@@ -73,6 +76,7 @@ if($langTest == true) {
             } else {
                 $checked5 = 'checked="checked"';
             }
+
             ?>
 
             <article>
@@ -84,22 +88,22 @@ if($langTest == true) {
                             ?>
                         </h2>
                     </div>
-                    <div class="nkWidth3Quarter  nkMarginLRAuto">
-                        <label for="main" class="nkLabelSpacing nkWidthQuarter nkMarginLRAuto"><?php echo KEYWORDS; ?></label>
-                            <input type="text" id="main" name="main" size="30" value="<?php echo printSecuTags($main); ?>" />
+                    <div class="nkWidth3Quarter nkMarginLRAuto">
+                        <label for="mains" class="nkLabelSpacing nkAlignLeft"><?php echo KEYWORDS; ?></label>
+                            <input class="nkInput" type="text" id="mains" name="main" size="30" value="<?php echo printSecuTags($main); ?>" />
                     </div>
-                    <div class="nkWidth3Quarter  nkMarginLRAuto">
+                    <div class="nkWidth3Quarter nkMarginLRAuto">
                         <?php  
                         echo $keyword; 
                         ?>
                     </div>
-                    <div class="nkWidth3Quarter  nkMarginLRAuto">
-                        <label for="autor" class="nkLabelSpacing nkWidthQuarter nkMarginLRAuto"><?php echo AUTHOR; ?>&nbsp;:&nbsp;</label>
-                            <input type="text" size="30" id="autor" name="autor"  value="<?php echo printSecuTags($autor); ?>" />
+                    <div class="nkWidth3Quarter nkMarginLRAuto">
+                        <label for="autor" class="nkLabelSpacing nkAlignLeft"><?php echo AUTHOR; ?>&nbsp;:&nbsp;</label>
+                            <input class="nkInput" type="text" size="30" id="autor" name="autor"  value="<?php echo $autor; ?>" />
                     </div>
-                    <div class="nkWidth3Quarter  nkMarginLRAuto">
-                        <label for="module" class="nkLabelSpacing nkWidthQuarter nkMarginLRAuto"><?php echo COLUMN; ?></label>
-                            <select id="module" name="module">
+                    <div class="nkWidth3Quarter nkMarginLRAuto">
+                        <label for="module" class="nkLabelSpacing nkAlignLeft"><?php echo COLUMN; ?></label>
+                            <select class="nkInput" id="module" name="module">
                                 <option value=""><?php echo SALL; ?></option>
                                 <?php
                                 // Affichage des modules                             
@@ -112,7 +116,7 @@ if($langTest == true) {
                         echo $numberOfResponse;
                         ?>
                     </div>
-                    <div class="nkAlignCenter nkMarginLRAuto nkMarginTop15">
+                    <div class="nkAlignCenter nkMarginTop15">
                         <input type="submit" class="nkButton" name="submit" value="<?php echo SEARCH; ?>" />
                     </div>
                 </form>
@@ -190,7 +194,7 @@ if($langTest == true) {
         }
 
 
-        function seeResult($main, $searchtype, $limit, $autor, $module){
+        function seeResult($main, $searchtype, $limit, $autor, $module) {
             global $nuked, $user, $path;
 
             if (!$limit) {
@@ -203,14 +207,15 @@ if($langTest == true) {
 
             index($main, $searchtype, $limit, $autor, $module);
 
-
             // Recuperation des champs
-            $tableName = constant(strtoupper($module).'_TABLE');
+            if ($module != '') {
+                $tableName = constant(strtoupper($module).'_TABLE');
 
-            $dbsListFields = 'SHOW FIELDS FROM '.$tableName;
-            $dbeListFields = mysql_query($dbsListFields);
-            while($row[] = mysql_fetch_assoc($dbeListFields));
-            deb($row);
+                $dbsListFields = 'SHOW FIELDS FROM '.$tableName;
+                $dbeListFields = mysql_query($dbsListFields);
+                while($row[] = mysql_fetch_assoc($dbeListFields));
+            }
+            
 
             $main = trim($main);
             $autor = trim($autor);
@@ -236,25 +241,27 @@ if($langTest == true) {
                     'link' => array()
                 );
 
-                $handle = opendir($path);
-                while ($mod = readdir($handle)) {
-                    if ($mod != '.' && $mod != '..' && $mod != 'index.html') {
-                        $i++;
-                        $mod = str_replace('.php', '', $mod);
-                        $perm = nivo_mod($mod);
-                        if (!$perm){
-                            $perm = 0;
-                        }
-                        
-                        if ($user[1] >= $perm && $perm > -1 && ($module == $mod || $module == '')) {
-                            $umod = strtoupper($mod);
-                            $modname = 'S'.$umod;
-                            if (defined($modname)) $modname = constant($modname);
-                            else $modname = $mod;
-                            require_once($path.$mod.'.php');
+                if ($module != '') {
+                    $handle = opendir($path);
+                    while ($mod = readdir($handle)) {
+                        if ($mod != '.' && $mod != '..' && $mod != 'index.html') {
+                            $i++;
+                            $mod = str_replace('.php', '', $mod);
+                            $perm = nivo_mod($mod);
+                            if (!$perm){
+                                $perm = 0;
+                            }
+                            
+                            if ($user[1] >= $perm && $perm > -1 && ($module == $mod || $module == '')) {
+                                $umod = strtoupper($mod);
+                                $modname = 'S'.$umod;
+                                if (defined($modname)) $modname = constant($modname);
+                                else $modname = $mod;
+                                require_once($path.$mod.'.php');
+                            } 
                         } 
                     } 
-                } 
+                }
 
                 $l = count($tab['module']);
 

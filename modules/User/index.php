@@ -76,12 +76,12 @@ if (!isset($GLOBALS['nkInitError'])) {
                 $myFriends   = '';
 
                 if ($myFriends == '') {
-                    $myFriends = '<div class="nkAlignCenter nkMarginTop15">'.NOFRIENDS.'</div>';
+                    $myFriends = '<div class="nkAlignCenter">'.NOFRIENDS.'</div>';
                 }
 
                 // affichage des messages forums
                 if ($nbForumMessage == 0) {
-                    $msgForum = '<div class="nkAlignCenter nkMarginTop15">'.NOUSERMESS.'</div>';
+                    $msgForum = '<div class="nkAlignCenter">'.NOUSERMESS.'</div>';
                 } else {
                     $dbsMessageInfo = ' SELECT F.id AS messId , F.title AS messTitle, F.content , F.created AS messCreated, F.threadId, F.forumId
                                         FROM '.FORUM_MESSAGES_TABLE.' AS F 
@@ -218,7 +218,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                     }
                 } else {
                     $nbComment   = $nbComment.'&nbsp;'.COMMENTED;
-                    $commentUser = '<div class="nkAlignCenter nkMarginTop15">'.NOUSERCOMMENT.'</div>';
+                    $commentUser = '<div class="nkAlignCenter">'.NOUSERCOMMENT.'</div>';
                 }
 
                 // A FAIRE
@@ -235,7 +235,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                                     </article>';
                 } else {
                     $nbSuggest = $nbSuggest.'&nbsp;'.SUGGESTED;
-                    $suggestUser = '<div class="nkAlignCenter nkMarginTop15">'.NOUSERSUGGEST.'</div>';
+                    $suggestUser = '<div class="nkAlignCenter">'.NOUSERSUGGEST.'</div>';
                 }
 
                 if ($modulePref['activeTheme'] == 'on') {
@@ -323,8 +323,8 @@ if (!isset($GLOBALS['nkInitError'])) {
 
                             <div id="contentProfil" class="nkBlock">
 
-                                <div id="profilInfos" class="profilContent nkNone">
-                                    <header>
+                                <div id="profilInfos" class="profilContent nkNone nkWidthFull nkMarginLRAuto">
+                                    <header class="nkMarginBottom15">
                                         <h3><?php echo MYPROFIL; ?></h3>
                                     </header>
                                     <div id="userLeft" class="nkInlineBlock nkWidthFully  nkValignTop">
@@ -355,7 +355,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                                     </div>
                                 </div>
 
-                                <div id="profilStats" class="profilContent nkNone">
+                                <div id="profilStats" class="profilContent nkNone nkWidthFull nkMarginLRAuto">
                                     <header>
                                         <h3><?php echo MYSTATS; ?></h3>
                                     </header>
@@ -369,7 +369,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                                     </ul>
                                 </div>
 
-                                <div id="profilUserBox" class="profilContent nkNone">
+                                <div id="profilUserBox" class="profilContent nkNone nkWidthFull nkMarginLRAuto">
                                     <header>
                                         <h3><?php echo MYUSERBOX; ?></h3>
                                     </header>
@@ -379,7 +379,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                                     </nav>
                                 </div>
 
-                                <div id="profilPrefs" class="profilContent nkBlock">
+                                <div id="profilPrefs" class="profilContent nkBlock nkWidthFull nkMarginLRAuto">
                                     <header>
                                         <h3><?php echo MYACCOUNT; ?></h3>
                                     </header>
@@ -390,7 +390,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                                 <?php
                                     echo $activeThemeHtml;
                                 ?>
-                                <div id="profilForum" class="profilContent nkNone">
+                                <div id="profilForum" class="profilContent nkNone nkWidthFull nkMarginLRAuto">
                                     <header>
                                         <h3><?php echo YOUR.'&nbsp;'.$modulePref['nbForumMessage'].'&nbsp;'.LASTUSERMESS; ?></h3>
                                     </header>
@@ -399,7 +399,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                                     ?>
                                 </div>
 
-                                <div id="profilComment" class="profilContent nkNone">
+                                <div id="profilComment" class="profilContent nkNone nkWidthFull nkMarginLRAuto">
                                     <header>
                                         <h3><?php echo YOUR.'&nbsp;'.$modulePref['nbComment'].'&nbsp;'.LASTUSERCOMMENT; ?></h3>
                                     </header>
@@ -408,7 +408,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                                     ?>
                                 </div>
 
-                                <div id="profilSuggest" class="profilContent nkNone">
+                                <div id="profilSuggest" class="profilContent nkNone nkWidthFull nkMarginLRAuto">
                                     <header>
                                         <h3><?php echo YOUR.'&nbsp;'.$modulePref['nbSuggest'].'&nbsp;'.LASTUSERSUGGEST; ?></h3>
                                     </header>
@@ -417,7 +417,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                                     ?>
                                 </div>
 
-                                <div id="profilFriends" class="profilContent nkNone">
+                                <div id="profilFriends" class="profilContent nkNone nkWidthFull nkMarginLRAuto">
                                     <header>
                                         <h3><?php echo MYFRIENDSLIST; ?></h3>
                                     </header>
@@ -426,12 +426,12 @@ if (!isset($GLOBALS['nkInitError'])) {
                                     ?>
                                 </div>
 
-                                <div id="profilVisitor" class="profilContent nkNone">
+                                <div id="profilVisitor" class="profilContent nkNone nkWidthFull nkMarginLRAuto">
                                     <header>
                                         <h3><?php echo MYVISITOR; ?></h3>
                                     </header>
                                     <?php
-                                        echo $myVisitor;
+                                        infoVisitor($user[0]);
                                     ?>
                                 </div>
                             </div>
@@ -556,7 +556,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                 }
             }            
             closedir($repertory);
-            $activeThemeForm = '<div class="nkAlignCenter nkMarginTop15">'.SELECTTHEME.'&nbsp;:&nbsp;
+            $activeThemeForm = '<div class="nkAlignCenter">'.SELECTTHEME.'&nbsp;:&nbsp;
                                 <form class="nkInline" action="index.php?file=User&amp;nuked_nude=index&amp;op=modifTheme" method="post">
                                     <span class="nkNoFont">
                                         <select id="userTheme" class="nkInput" name="userTheme" onChange="javascript:submit();">
@@ -957,9 +957,9 @@ if (!isset($GLOBALS['nkInitError'])) {
 
                 ?>
 
-                <div class="nkAlignCenter nkMarginTop15 nkMarginBottom15"><?php echo PASSFIELD; ?></div>
                 <form method="post" action="index.php?file=User&amp;op=updateAccount" enctype="multipart/form-data">
-                <article id="nkPersonalUser" class="nkWidthFully">
+                <article id="nkPersonalUser">
+                    <div class="nkAlignCenter"><?php echo PASSFIELD; ?></div>
                     <div>
                         <label class="nkLabelSpacing" for="editPseudo"><?php echo PSEUDO; ?> *</label>&nbsp;:&nbsp;
                             <input class="nkInput" id="editPseudo" type="text" name="pseudo" size="35" maxlength="30" value="<?php echo $pseudo; ?>" />
@@ -1023,10 +1023,16 @@ if (!isset($GLOBALS['nkInitError'])) {
                         <label class="nkLabelSpacing" for="editWebsite"><?php echo WEBSITE; ?></label>&nbsp;:&nbsp;
                             <input class="nkInput" type="text" id="editWebsite" name="website" size="35" maxlength="80" value="<?php echo $website; ?>" />
                     </div>
+                    <div>
                     <?php
                         echo $avatarView;
+                    ?>
+                    </div>
+                    <div>
+                    <?php
                         echo $avatarUploadLink;
                     ?>
+                    </div>
                     <div>
                         <label class="nkLabelSpacing" for="e_basic"><?php echo SIGN; ?></label>&nbsp;:&nbsp;
                             <textarea class="nkTextArea" id="e_basic" name="signing" rows="5" cols="33"><?php echo $signing; ?></textarea>
@@ -1535,7 +1541,7 @@ if (!isset($GLOBALS['nkInitError'])) {
 
 
             ?>
-            <article class="nkInlineBlock nkValignTop nkMarginRight nkAlignLeft">
+            <article class="nkInlineBlock nkValignTop nkAlignLeft">
                 <span class="nkBlock nkBold nkSize11"><?php echo FIRSTNAME; ?>&nbsp;:&nbsp;
                     <span class="nkNoFont"><?php echo $firstName; ?></span>
                 </span>
@@ -1549,7 +1555,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                     <span id="publicMail" class="nkNoFont"><?php echo $publicMail; ?></span>
                 </span>
             </article>
-            <article class="nkInlineBlock nkValignTop nkMarginRight nkMarginLeft nkAlignLeft">
+            <article class="nkInlineBlock nkValignTop nkAlignLeft">
                 <span class="nkBlock nkBold nkSize11"><?php echo WEBSITE; ?>&nbsp;:&nbsp;
                     <span id="website" class="nkNoFont"><?php echo $website; ?></span>
                 </span>
@@ -1560,7 +1566,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                     <span id="langUse" class="nkNoFont"><?php echo $langUse; ?></span>
                 </span>
             </article>
-            <article class="nkInlineBlock nkValignTop nkMarginRight nkMarginLeft nkAlignLeft">
+            <article class="nkInlineBlock nkValignTop nkAlignLeft">
                 <span class="nkBlock nkBold nkSize11"><?php echo DATEUSER; ?>&nbsp;:&nbsp;
                     <span class="nkNoFont"><?php echo nkDate($userData['created'], TRUE); ?></span>
                 </span>
@@ -1611,7 +1617,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                     <?php
                     } else {
                     ?>
-                        <div class="nkAlignCenter nkMarginTop15"><?php echo NOUSERVISITOR; ?></div>
+                        <div class="nkAlignCenter"><?php echo NOUSERVISITOR; ?></div>
                     <?php
                     }
                 }              

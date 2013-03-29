@@ -3,7 +3,12 @@ $(document).ready(function() {
     $('#menuProfil a').each(function() {
         var linkId = $(this).attr("href");
         $(this).click(function(event) {
-            event.preventDefault();
+            if (linkId == 'profilInfos') {
+                $(this).attr('href', 'index.php?file=User&op=userDetail');  
+
+            } else {
+                event.preventDefault();
+            };
             $(this).each(function() {
                 $(this).parent().siblings().removeClass("active");
             });

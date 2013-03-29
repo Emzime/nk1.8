@@ -322,39 +322,6 @@ if (!isset($GLOBALS['nkInitError'])) {
                             </aside>
 
                             <div id="contentProfil" class="nkBlock">
-
-                                <div id="profilInfos" class="profilContent nkNone nkWidthFull nkMarginLRAuto">
-                                    <header class="nkMarginBottom15">
-                                        <h3><?php echo MYPROFIL; ?></h3>
-                                    </header>
-                                    <div id="userLeft" class="nkInlineBlock nkWidthFully  nkValignTop">
-                                        <section id="userFriends" class="nkBlock nkAlignLeft nkMarginBottom15">
-                                            <header class="nkSize14 nkAlignCenter nkPadding nkBold"><?php echo INFOUSER; ?></header>
-                                            <article class="nkPadding">
-                                                <?php
-                                                    infoUser($user[0]);
-                                                ?>
-                                            </article>
-                                        </section>
-                                        <section id="userInfo" class="nkBlock nkAlignLeft nkMarginBottom15">
-                                            <header class="nkSize14 nkAlignCenter nkPadding nkBold"><?php echo STATSUSER; ?></header>
-                                            <article>
-                                                <?php
-                                                    statsUser($user[0]);
-                                                ?>
-                                            </article>
-                                        </section>
-                                        <section id="userInfoContact" class="nkBlock nkAlignLeft nkMarginBottom15">
-                                            <header class="nkSize14 nkAlignCenter nkPadding nkBold"><?php echo LASTVISITOR; ?></header>
-                                            <article>
-                                                <?php
-                                                    infoVisitor($user[0]);
-                                                ?>
-                                            </article>
-                                        </section>
-                                    </div>
-                                </div>
-
                                 <div id="profilStats" class="profilContent nkNone nkWidthFull nkMarginLRAuto">
                                     <header>
                                         <h3><?php echo MYSTATS; ?></h3>
@@ -1863,12 +1830,39 @@ if (!isset($GLOBALS['nkInitError'])) {
         }
 
         function userDetail($userId) {
-            global $nuked, $language;
+            global $nuked, $language, $user, $visiteur;
+
+                if ($userId == '') {
+                    $userId = $user[0];
+                }
+
                 $dbsUserInfo = 'SELECT U.pseudo, U.website, U.privateMail, U.publicMail, U.created, U.avatar, U.countForum, U.countComment, U.countSuggest, S.lastUsed, U.countVisitor, U.lastVisitor            FROM '.USER_TABLE.' AS U 
                                 LEFT JOIN '.SESSIONS_TABLE.' AS S ON U.id = S.userId 
                                 WHERE U.id = "'.$userId.'"';
                 $dbeUserInfo = mysql_query($dbsUserInfo);
                 list($pseudo, $website, $privateMail, $publicMail, $created, $avatar, $countForum, $countComment, $countSuggest, $lastUsed, $countVisitor, $lastVisitor) = mysql_fetch_array($dbeUserInfo);
+
+                if ($visiteur && $user[0] != $userId) {
+                    $newCountVisitor = $countVisitor + 1;
+                    $explodeVisitor = explode('|', $lastVisitor);
+                    foreach ($explodeVisitor as $visitorKey => $visitorValue) {
+                        if (!in_array($user[0], $explodeVisitor)) {
+                            if ($lastVisitor != '') {
+                                $newLastVisitor = $lastVisitor.'|'.$user[0];
+                            } else {
+                                $newLastVisitor = $user[0];
+                            }
+                            $dbuVisitor = ' UPDATE '.USER_TABLE.'
+                                            SET lastVisitor  = "'.$newLastVisitor.'"
+                                            WHERE id = "'.$userId.'"';
+                            $dbeVisitor = mysql_query($dbuVisitor);
+                        }
+                        $dbuVisitorCount = 'UPDATE '.USER_TABLE.'
+                                            SET countVisitor = "'.$newCountVisitor.'"
+                                            WHERE id = "'.$userId.'"';
+                        $dbeVisitorCount = mysql_query($dbuVisitorCount);
+                    }
+                }
                 ?>
 
                 <div class="userDetailContent">
@@ -1903,6 +1897,7 @@ if (!isset($GLOBALS['nkInitError'])) {
                     </div>
                 </div>
         <?php
+                echo $GLOBALS['nkFunctions']->nkHistoryBack(null, 'nkAlignCenter');
         }
 
 

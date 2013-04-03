@@ -112,6 +112,9 @@ define("SEEPROFILOF","Voir le profil de");
 define("PROFILOF","Profil de");
 define("MAILHIM","Contacter ce membre");
 define("VISITWEBSITE","Visiter son site");
+define("OTHER","Autre");
+define("ALL","Tous");
+define("MEMBERLIST","Liste des membres");
 
 
 ?>

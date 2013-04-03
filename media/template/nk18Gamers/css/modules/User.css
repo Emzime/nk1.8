@@ -202,3 +202,35 @@
 .nkImgProfile > img {
     width: 10px;
 }
+
+.nkMemberTitle,
+.nkMemberList ul {
+    display: block;
+}
+.nkMemberTitle li,
+.nkMemberList li {
+    display: inline-block;
+    text-align: center;
+    width: 185px;
+    padding: 5px;
+}
+.nkMemberTitle li:first-child, 
+.nkMemberList li:first-child {
+    width: 60px;
+}
+
+.nkMemberList:nth-child(even) {
+    background: #333;
+    border-top: 1px solid #666;
+}
+.nkMemberList:nth-child(odd) {
+    background-color: #2c2c2c;
+    border-top: 1px solid #666;
+}
+.nkMemberList img {
+    width: 30px;
+}
+#memberList {
+    border: 1px solid #666666;
+    text-align: center;
+}

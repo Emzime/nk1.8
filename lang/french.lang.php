@@ -193,6 +193,7 @@ define('SUGGESTED','suggestion');
 define("BYDEFAULT","par défaut");
 define("SELECTTHEME","Choix du thème");
 define('LANGUAGE', 'Choisir sa langue');
+define('CLOSEWINDOWS', 'Fermer cette fenêtre');
 
 
 ?>

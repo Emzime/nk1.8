@@ -1227,3 +1227,14 @@ option {
 .flagActive {
     display: inline-block;
 }
+.siteAvatar {
+    width: 390px;
+}
+.siteAvatar tr {
+    display: inline-block;
+    width: 100%;
+}
+.siteAvatar td {
+    display: block;
+    width: 100%;
+}

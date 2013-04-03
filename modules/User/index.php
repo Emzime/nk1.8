@@ -14,10 +14,10 @@ $modName = basename(dirname(__FILE__));
 
 // Vérification des variables
 $requestArray = array(
-    'integer' => array('error', 'codeConfirm'),
+    'integer' => array('error', 'codeConfirm', 'p'),
     'uniqid'  => array('userId'),
     'boolean' => array('captcha', 'refere', 'userReg'),
-    'string'  => array('rememberMe', 'pseudo')
+    'string'  => array('rememberMe', 'pseudo', 'letter', 'op')
 );
 $GLOBALS['nkFunctions']->nkInitRequest($requestArray, $GLOBALS['indexRequestArray']);
 if (!isset($GLOBALS['nkInitError'])) {
@@ -818,6 +818,46 @@ if (!isset($GLOBALS['nkInitError'])) {
             redirect('index.php', 2);
         }
 
+        function showAvatar() {
+            global $nuked, $theme, $lang, $language;
+        ?>
+            <!DOCTYPE html>
+            <html lang="<?php echo $lang; ?>">
+            <head>        
+                <meta name="keywords" content="<?php echo $nuked['keyword'] ?>" />
+                <meta name="Description" content="<?php echo $nuked['description'] ?>" />
+                <meta charset="UTF-8" />
+                <title><?php echo $nuked['name'] ?> - <?php echo $nuked['slogan'] ?></title>                        
+                <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+                <link type="text/css" rel="stylesheet" href="media/css/nkCss.css" media="screen" />
+                <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+                <script type="text/javascript" src="media/js/avatar.js"></script>
+            </head>
+            <body>
+                <table class="siteAvatar">
+                    <tr>
+                        <td>
+                            <?php 
+                            if ($dir = opendir('images/avatar/')) {
+                                while (false !== ($avatar = readdir($dir))) {
+                                    if ($avatar != "." && $avatar != ".." && $avatar != "index.html" && $avatar != "Thumbs.db" && $avatar != "thumbs.db") {
+                                        $avatar = 'images/avatar/'.$avatar;
+                                        echo '<a href="#"><img class="avatarCheck" src="'.$avatar.'" alt="" title="'.$avatar.'" /></a>';
+                                    }
+                                }
+                                closedir($dir);
+                            } 
+                            ?>
+                        </td>
+                    </tr>
+                </table>
+                <div class="nkAlignCenter"><a href="#" onclick="self.close()"><?php echo CLOSEWINDOWS; ?></a></div>
+            </body>
+            </html>
+
+        <?php
+        }
+
         function editAccount() {
             global $nuked, $user, $modulePref, $modName;
 
@@ -886,13 +926,16 @@ if (!isset($GLOBALS['nkInitError'])) {
                 // affichage avatar upload et url
                 if ($modulePref['avatarUpload'] == "on" || $modulePref['avatarUrl'] == "on") {
                    
-                    $avatarView = '<label class="nkLabelSpacing" for="editPhoto">'.AVATAR.'</label>&nbsp;:&nbsp;
+                    $siteAvatar = "<a  href=\"#\" onclick=\"javascript:window.open('index.php?file=User&amp;nuked_nude=index&amp;op=showAvatar','Avatar','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=420,height=450,top=30,left=0');return(false)\">tout les avatars</a>";
+
+                    $avatarView = '<label class="nkLabelSpacing" for="editPhoto">'.AVATAR.'&nbsp;&nbsp;('.$siteAvatar.')</label>&nbsp;:&nbsp;
                                         <input class="nkInput" type="text" id="editPhoto" name="avatarUrl" size="35" maxlength="150" value="'.$avatar.'" />';
 
                     if ($modulePref['avatarUpload'] == "on") {
                         $avatarUploadLink = '<label class="nkLabelSpacing" for="editAvatar">'.AVATARUPLOAD.'</label>&nbsp;:&nbsp;
                                                 <input class="nkInput" type="file" id="editAvatar" name="avatarUpload" size="23" />';
                     }
+
                 }
 
                 if ($modulePref['userAccountDelete'] == "on") {
@@ -1505,8 +1548,6 @@ if (!isset($GLOBALS['nkInitError'])) {
                 } else {
                     $country = $nuked['country'];
                 }
-
-
             ?>
             <article class="nkInlineBlock nkValignTop nkAlignLeft">
                 <span class="nkBlock nkBold nkSize11"><?php echo FIRSTNAME; ?>&nbsp;:&nbsp;
@@ -1628,13 +1669,14 @@ if (!isset($GLOBALS['nkInitError'])) {
             } else {
                 $countSuggest = $countSuggest;
             }
+          
 
             ?>
             <ul>
                 <li><?php echo MESSINFORUM; ?>&nbsp;:&nbsp;<?php echo $countForum; ?></li>
                 <li><?php echo USERCOMMENT; ?>&nbsp;:&nbsp;<?php echo $countComment; ?></li>
                 <li><?php echo USERSUGGEST; ?>&nbsp;:&nbsp;<?php echo $countSuggest; ?></li>
-                <li><?php echo USERVISITOR; ?>&nbsp;:&nbsp;<?php echo $countVisitor; ?></li>
+                <li><?php echo USERVISITOR; ?>&nbsp;:&nbsp;<?php echo $countVisitor.'&nbsp;'.TIMES; ?></li>
             </ul>
         <?php
         }
@@ -1666,7 +1708,6 @@ if (!isset($GLOBALS['nkInitError'])) {
             } else {
                 $privateMail = mysql_real_escape_string(stripslashes($privateMail));
                 $publicMail  = mysql_real_escape_string(stripslashes($publicMail));
-
                 $pseudo      = htmlentities($pseudo, ENT_QUOTES);
                 $privateMail = htmlentities($privateMail);
                 $publicMail  = htmlentities($publicMail);
@@ -1724,7 +1765,6 @@ if (!isset($GLOBALS['nkInitError'])) {
                         $dbeUserInfo = mysql_query($dbuUserInfo);
                     }
                 }
-
                 if ($privateMail != $oldMail) {
                     if ($reservedMail > 0) {
                         $GLOBALS['nkTpl']->nkExitAfterError(MAILINUSE, 'nkAlert nkAlertError');
@@ -1743,7 +1783,6 @@ if (!isset($GLOBALS['nkInitError'])) {
                         $dbeUserInfo = mysql_query($dbuUserInfo);
                     }
                 }
-
                 if ($passReg != '' || $passConf != '') {
                     if ($passReg != $passConf) {
                         $GLOBALS['nkTpl']->nkExitAfterError(PASSFAILED, 'nkAlert nkAlertError');
@@ -1759,16 +1798,13 @@ if (!isset($GLOBALS['nkInitError'])) {
                         $dbeUserInfo = mysql_query($dbuUserInfo);
                     }
                 }
-
                 if (!empty($website) && !is_int(stripos($website, 'http://'))) {
                     $website = 'http://'.$website;
                 }
-
                 // verification si avatar Url est rempli
                 if ($avatarUrl == '') {
                     $avatarUrl = null;
                 }
-
                 //Upload du fichier et choix du répertoire de destination
                 $avatar = $GLOBALS['nkFunctions']->UploadFiles($modName, 'avatarUpload', $avatarUrl);
 
@@ -1778,7 +1814,6 @@ if (!isset($GLOBALS['nkInitError'])) {
                         unlink($oldAvatar);
                     }
                 }
-
                 $dbuUpdate = '  UPDATE '.USER_TABLE.' 
                                 SET publicMail   = "'.$publicMail.'", 
                                     userLanguage = "'.$userLang.'",
@@ -1797,51 +1832,17 @@ if (!isset($GLOBALS['nkInitError'])) {
             }
         }
 
-        function showAvatar() {
-            global $theme;
-        ?>
-
-            <script type="text/javascript">
-            <!--
-                function go(img) {
-                    opener.document.getElementById('editAvatar').value = 'img';
-                } 
-            // -->
-            </script>
-
-            <table class="nkWidthFully">
-                <tr>
-                    <td align="center">
-                        <?php 
-            $showAvatar = '';
-            if ($dir = @opendir('images/avatar/')) {
-                while (false !== ($f = readdir($dir))) {
-                    if ($f != "." && $f != ".." && $f != "index.html" && $f != "Thumbs.db") {
-                        $avatar = 'images/avatar/'.$f;
-                        echo '<a href="#" onclick="javascript:go(\''.$avatar.'\');"><img style="border: 0;" src="images/avatar/'.$f.'" alt="" title="'.$f.'" /></a>';
-                    }
-                }
-                closedir($dir);
-            } ?>
-                    </td>
-                </tr>
-            </table>
-        <?php
-        }
-
         function userDetail($userId) {
             global $nuked, $language, $user, $visiteur;
 
                 if ($userId == '') {
                     $userId = $user[0];
                 }
-
                 $dbsUserInfo = 'SELECT U.pseudo, U.website, U.privateMail, U.publicMail, U.created, U.avatar, U.countForum, U.countComment, U.countSuggest, S.lastUsed, U.countVisitor, U.lastVisitor            FROM '.USER_TABLE.' AS U 
                                 LEFT JOIN '.SESSIONS_TABLE.' AS S ON U.id = S.userId 
                                 WHERE U.id = "'.$userId.'"';
                 $dbeUserInfo = mysql_query($dbsUserInfo);
                 list($pseudo, $website, $privateMail, $publicMail, $created, $avatar, $countForum, $countComment, $countSuggest, $lastUsed, $countVisitor, $lastVisitor) = mysql_fetch_array($dbeUserInfo);
-
                 if ($visiteur && $user[0] != $userId) {
                     $newCountVisitor = $countVisitor + 1;
                     $explodeVisitor = explode('|', $lastVisitor);
@@ -1864,7 +1865,6 @@ if (!isset($GLOBALS['nkInitError'])) {
                     }
                 }
                 ?>
-
                 <div class="userDetailContent">
                     <header>
                         <h3 class="nkAlignCenter"><?php echo PROFILOF.'&nbsp;'.$pseudo; ?></h3>
@@ -1897,368 +1897,290 @@ if (!isset($GLOBALS['nkInitError'])) {
                     </div>
                 </div>
         <?php
+            if ($user[0] == $userId) {
                 echo $GLOBALS['nkFunctions']->nkHistoryBack(null, 'nkAlignCenter');
+            }
         }
 
+        function memberList() {
+            global $nuked, $theme, $modulePref;
 
-
-
-
-
-
-
-
-
-        function updatePref($prenom, $jour, $mois, $an, $sex, $ville, $motherboard, $cpu, $ram, $video, $resolution, $sons, $ecran, $souris, $clavier, $connexion, $osystem, $photo, $avatarUpload, $game_id, $pref1, $pref2, $pref3, $pref4, $pref5){
-            global $nuked, $user;
-
-            $prenom = htmlentities($prenom);
-            $ville = htmlentities($ville);
-            $motherboard = htmlentities($motherboard);
-            $cpu = htmlentities($cpu);
-            $ram = htmlentities($ram);
-            $video = htmlentities($video);
-            $resolution = htmlentities($resolution);
-            $sons = htmlentities($sons);
-            $ecran = htmlentities($ecran);
-            $souris = htmlentities($souris);
-            $clavier = htmlentities($clavier);
-            $connexion = htmlentities($connexion);
-            $osystem = htmlentities($osystem);
-            $photo = htmlentities($photo);
-
-            $prenom = mysql_real_escape_string(stripslashes($prenom));
-            $ville = mysql_real_escape_string(stripslashes($ville));
-            $motherboard = mysql_real_escape_string(stripslashes($motherboard));
-            $cpu = mysql_real_escape_string(stripslashes($cpu));
-            $ram = mysql_real_escape_string(stripslashes($ram));
-            $video = mysql_real_escape_string(stripslashes($video));
-            $resolution = mysql_real_escape_string(stripslashes($resolution));
-            $sons = mysql_real_escape_string(stripslashes($sons));
-            $ecran = mysql_real_escape_string(stripslashes($ecran));
-            $souris = mysql_real_escape_string(stripslashes($souris));
-            $clavier = mysql_real_escape_string(stripslashes($clavier));
-            $connexion = mysql_real_escape_string(stripslashes ($connexion));
-            $osystem = mysql_real_escape_string(stripslashes($osystem));
-            $photo = mysql_real_escape_string(stripslashes($photo));
-
-            $filename = $_FILES['avatarUpload']['name'];
-            $filesize = $_FILES['avatarUpload']['size'];
-
-            if ($filename != "" && $filesize <= 100000){
-                $ext = pathinfo($filename, PATHINFO_EXTENSION);
-
-                if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG"){
-                    $url_photo = "upload/User/" . time() . "." . $ext;
-                    move_uploaded_file($_FILES['avatarUpload']['tmp_name'], $url_photo) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
-                    @chmod ($url_photo, 0644);
-                }
-                else{
-                    echo "<br /><br /><div style=\"text-align: center;\">" . _BADFILEFORMAT . "</div><br /><br />";
-                    redirect("index.php?file=User&op=editPref", 5);
-                    
-                    footer();
-                    exit();
-                }
+            if ($_REQUEST['letter'] == OTHER) {
+                $and = "AND pseudo NOT REGEXP '^[a-zA-Z].'";
+            } elseif ($_REQUEST['letter'] != '' && preg_match('`^[A-Z]+$`', $_REQUEST['letter'])) {
+                $and = "AND pseudo LIKE '" . $_REQUEST['letter'] . "%'";
+            } else {
+                $and = '';
             }
-            else if ($photo != ""){
-                $ext = strrchr($photo, '.');
-                $ext = substr($ext, 1);
-
-                if (!preg_match("`.php`i", $photo) && !preg_match("`.htm`i", $photo) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))){
-                    $url_photo = $photo;
-                }
-                else{
-                    echo "<br /><br /><div style=\"text-align: center;\">" . _BADFILEFORMAT . "</div><br /><br />";
-                    redirect("index.php?file=User&op=editPref", 5);
-                    
-                    footer();
-                    exit();
-                }
+            $dbsCount = '   SELECT pseudo FROM '.USER_TABLE.' 
+                            WHERE level > 0 '.$and;
+            $dbeCount = mysql_query($dbsCount);
+            $dbuCount = mysql_num_rows($dbeCount);
+            if (!$_REQUEST['p']) {
+                $_REQUEST['p'] = 1;
             }
-            else{
-                $url_photo = "";
-            }
+            $start = $_REQUEST['p'] * $modulePref['maxMembers'] - $modulePref['maxMembers'];
+            $alpha = array ("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", OTHER);
+            ?>
+            <article>
+                <header>
+                    <h3 class="nkAlignCenter"><?php echo MEMBERLIST; ?></h3>
+                </header>
+                <article class="nkAlignCenter nkMarginBottom15">
+                    <span>
+                        [ <a href="index.php?file=User&amp;op=memberList"><?php echo ALL; ?></a>&nbsp;|&nbsp;
+                        <?php
+                        $num = count($alpha) - 1;
+                        $counter = 0;
+                        while (list(, $lettre) = each($alpha)) {
+                        ?>
+                            <a href="index.php?file=User&amp;op=memberList&amp;letter=<?php echo $lettre; ?>"><?php echo $lettre; ?></a>
+                            <?php
+                            if ($counter == round($num / 2)) {
+                                echo ' ]<br />[ ';
+                            } elseif ($counter != $num) {
+                                echo ' | ';
+                            }
+                            $counter++;
+                        } 
+                        ?>
+                        &nbsp;]
+                    </span>
+                </article>
+            </article>
+            <?php
+            if ($dbuCount > $modulePref['maxMembers']) {
+                $url_members = 'index.php?file=User&amp;op=memberList&amp;letter='.$_REQUEST['letter'];
+                number($dbuCount, $modulePref['maxMembers'], $url_members);
+            } 
 
-            if ($an < date("Y")){
-                $age = $jour . "/" . $mois . "/" . $an;
-            }
-            else{
-                $age = "";
-            }
+                $userDetail = '<ul class="nkMemberTitle">';
+                $userDetail .= '<li>Pays</li>';
+                $userDetail .= '<li class="nkWidthQuarter">Pseudo</li>';
+                $userDetail .= '<li>Email</li>';
+                $userDetail .= '<li>Website</li>';
+                $userDetail .= '</ul>';
+                // initialize
+                $imgMail = '';
+                $dbsUserInfo = 'SELECT id, pseudo, publicMail, website, country            
+                                FROM '.USER_TABLE.'
+                                WHERE level > 0 '.$and.'
+                                ORDER BY pseudo 
+                                LIMIT '.$start.', '.$modulePref['maxMembers'];
+                $dbeUserInfo = mysql_query($dbsUserInfo);
+                while(list($userId, $pseudo, $publicMail, $website, $userCountry) = mysql_fetch_array($dbeUserInfo)) {
 
-            $verif = mysql_query("SELECT userId FROM " . USER_DETAIL_TABLE . " WHERE userId = '" . $user[0] . "'");
-            $res = mysql_num_rows($verif);
-
-            if ($res > 0){
-                $upd = mysql_query("UPDATE " . USER_DETAIL_TABLE . " SET prenom = '" . $prenom . "', age = '" . $age . "', sex = '" . $sex . "', ville = '" . $ville . "', motherboard = '" . $motherboard . "', cpu = '" . $cpu . "', ram = '" . $ram . "', video = '" . $video . "', resolution = '" . $resolution . "', son = '" . $sons . "', ecran = '" . $ecran . "', souris = '" . $souris . "', clavier = '" . $clavier . "', connexion = '" . $connexion . "', system = '" . $osystem . "', photo = '" . $url_photo . "' WHERE userId = '" . $user[0] . "'");
-            }
-            else{
-                $sql = mysql_query("INSERT INTO " . USER_DETAIL_TABLE . " ( `userId` , `prenom` , `age` , `sex` , `ville` , `photo` , `motherboard` , `cpu` , `ram` , `video` , `resolution` , `son` , `ecran` , `souris` , `clavier` , `connexion` , `system` , `pref_1` , `pref_2` , `pref_3` , `pref_4` , `pref_5` ) VALUES( '" . $user[0] . "' , '" . $prenom . "' , '" . $age . "' , '" . $sex . "' , '" . $ville . "' , '" . $url_photo . "' , '" . $motherboard . "' , '" . $cpu . "' , '" . $ram . "' , '" . $video . "' , '" . $resolution . "' , '" . $sons . "' , '" . $ecran . "' , '" . $souris . "' , '" . $clavier . "' , '" . $connexion . "' , '" . $osystem . "' , '' , '' , '' , '' , '' )");
-            }
-
-            $sql_game = mysql_query("SELECT game FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
-            list($game) = mysql_fetch_array($sql_game);
-
-            if (!$game_id){
-                $pref1 = htmlentities($pref1);
-                $pref2 = htmlentities($pref2);
-                $pref3 = htmlentities($pref3);
-                $pref4 = htmlentities($pref4);
-                $pref5 = htmlentities($pref5);
-
-                $pref1 = mysql_real_escape_string(stripslashes($pref1));
-                $pref2 = mysql_real_escape_string(stripslashes($pref2));
-                $pref3 = mysql_real_escape_string(stripslashes($pref3));
-                $pref4 = mysql_real_escape_string(stripslashes($pref4));
-                $pref5 = mysql_real_escape_string(stripslashes($pref5));
-
-                $upd1 = mysql_query("UPDATE " . USER_DETAIL_TABLE . " SET pref_1 = '" . $pref1 . "', pref_2 = '" . $pref2 . "' , pref_3 = '" . $pref3 . "', pref_4 = '" . $pref4 . "', pref_5 = '" . $pref5 . "' WHERE userId = '" . $user[0] . "'");
-            }
-            else{
-                if ($game_id[0] != ""){
-                    $pref1[0] = htmlentities($pref1[0]);
-                    $pref2[0] = htmlentities($pref2[0]);
-                    $pref3[0] = htmlentities($pref3[0]);
-                    $pref4[0] = htmlentities($pref4[0]);
-                    $pref5[0] = htmlentities($pref5[0]);
-
-                    $pref1[0] = mysql_real_escape_string(stripslashes($pref1[0]));
-                    $pref2[0] = mysql_real_escape_string(stripslashes($pref2[0]));
-                    $pref3[0] = mysql_real_escape_string(stripslashes($pref3[0]));
-                    $pref4[0] = mysql_real_escape_string(stripslashes($pref4[0]));
-                    $pref5[0] = mysql_real_escape_string(stripslashes($pref5[0]));
-
-                    $verif_game1 = mysql_query("SELECT * FROM " . GAMES_PREFS_TABLE . " WHERE userId = '" . $user[0] . "' AND game = '" . $game_id[0] . "'");
-                    $res1 = mysql_num_rows($verif_game1);
-
-                    if ($res1 > 0){
-                        $upd2 = mysql_query("UPDATE " . GAMES_PREFS_TABLE . " SET pref_1 = '" . $pref1[0] . "', pref_2 = '" . $pref2[0] . "', pref_3 = '" . $pref3[0] . "', pref_4 = '" . $pref4[0] . "', pref_5 = '" . $pref5[0] . "' WHERE userId = '" . $user[0] . "' AND game = '" . $game_id[0] . "'");
-                    }
-                    else{
-                        $sql1 = mysql_query("INSERT INTO " . GAMES_PREFS_TABLE . " ( `id` , `game` , `userId` , `pref_1` , `pref_2` , `pref_3` , `pref_4` , `pref_5` ) VALUES( '' , '" . $game_id[0] . "' , '" . $user[0] . "' , '" . $pref1[0] . "' , '" . $pref2[0] . "' , '" . $pref3[0] . "' , '" . $pref4[0] . "' , '" . $pref5[0] . "' )");
+                    if ($userCountry) {
+                        $lang = substr(strtoupper($userCountry), 0, 2);
+                        $userCountry = '<li><span class="nkFlags'.$lang.'" title="'.$userCountry.'"></span></li>';
+                    } else {
+                        $userCountry = '<li><span class="nkIconBlock" title="'.UNKNOW.'"></span></li>';
                     }
 
-                    if ($game_id[0] == $game){
-                        $upd3 = mysql_query("UPDATE " . USER_DETAIL_TABLE . " SET pref_1 = '" . $pref1[0] . "', pref_2 = '" . $pref2[0] . "', pref_3 = '" . $pref3[0]. "', pref_4 = '" . $pref4[0] . "', pref_5 = '" . $pref5[0] . "' WHERE userId = '" . $user[0] . "'");
+                    if ($publicMail && is_file('themes/'.$theme.'/images/mail.png')) {
+                        $imgMail = '<a href="mailto:'.$publicMail.'" title="'.MAILHIM.'"><img src="themes/'.$theme.'/images/mail.png" /></a>';
+                    } elseif ($publicMail) {
+                        $imgMail = '<a href="mailto:'.$publicMail.'" title="'.MAILHIM.'"><span class="nkIconEmail" /></a>';
+                    } else {
+                        $imgMail = '<span class="nkIconBlock" title="'.UNKNOW.'" />';
                     }
+
+                    if ($website != "" && preg_match("`http://`i", $website) && is_file('themes/'.$theme.'/images/website.png')) {
+                        $website = '<a href="'.$website.'" title="'.$website.'" target="_blank"><img src="themes/'.$theme.'/images/website.png" /></a>';
+                    } elseif ($website != "" && preg_match("`http://`i", $website)) {
+                        $website = '<a href="'.$website.'" title="'.$website.'" target="_blank"><span class="nkIconGlobe" title="'.$website.'" /></a>';
+                    } else {
+                        $website = '<span class="nkIconBlock" title="'.UNKNOW.'" />';
+                    } 
+
+
+                    $userDetail .= '<ul class="nkMemberList">';
+                    $userDetail .= $userCountry;
+                    $userDetail .= '<li class="nkWidthQuarter"><a href="index.php?file=User&amp;op=userDetail&amp;userId='.$userId.'" title="'.SEEPROFILOF.'&nbsp;'.$pseudo.'">'.$pseudo.'</a></li>';
+                    $userDetail .= '<li>'.$imgMail.'</li>';
+                    $userDetail .= '<li>'.$website.'</li>';
+                    $userDetail .= '</ul>';
                 }
 
-                if ($game_id[1] != ""){
-                    $pref1[1] = htmlentities($pref1[1]);
-                    $pref2[1] = htmlentities($pref2[1]);
-                    $pref3[1] = htmlentities($pref3[1]);
-                    $pref4[1] = htmlentities($pref4[1]);
-                    $pref5[1] = htmlentities($pref5[1]);
-
-                    $pref1[1] = mysql_real_escape_string(stripslashes($pref1[1]));
-                    $pref2[1] = mysql_real_escape_string(stripslashes($pref2[1]));
-                    $pref3[1] = mysql_real_escape_string(stripslashes($pref3[1]));
-                    $pref4[1] = mysql_real_escape_string(stripslashes($pref4[1]));
-                    $pref5[1] = mysql_real_escape_string(stripslashes($pref5[1]));
-
-                    $verif_game2 = mysql_query("SELECT * FROM " . GAMES_PREFS_TABLE . " WHERE userId = '" . $user[0] . "' AND game = '" . $game_id[1] . "'");
-                    $res2 = mysql_num_rows($verif_game2);
-
-                    if ($res2 > 0){
-                        $upd4 = mysql_query("UPDATE " . GAMES_PREFS_TABLE . " SET pref_1 = '" . $pref1[1] . "', pref_2 = '" . $pref2[1] . "', pref_3 = '" . $pref3[1] . "', pref_4 = '" . $pref4[1] . "', pref_5 = '" . $pref5[1] . "' WHERE userId = '" . $user[0] . "' AND game='" . $game_id[1] . "'");
-                    }
-                    else{
-                        $sql2 = mysql_query("INSERT INTO " . GAMES_PREFS_TABLE . " ( `id` , `game` , `userId` , `pref_1` , `pref_2` , `pref_3` , `pref_4` , `pref_5` ) VALUES( '' , '" . $game_id[1] . "' , '" . $user[0] . "' , '" . $pref1[1] . "' , '" . $pref2[1] . "' , '" . $pref3[1] . "' , '" . $pref4[1] . "' , '" . $pref5[1] . "' )");
-                    }
-
-                    if ($game_id[1] == $game){
-                        $upd5 = mysql_query("UPDATE " . USER_DETAIL_TABLE . " SET pref_1 = '" . $pref1[1] . "', pref_2 = '" . $pref2[1] . "', pref_3 = '" . $pref3[1] . "', pref_4 = '" . $pref4[1] . "', pref_5 = '" . $pref5[1] . "' WHERE userId = '" . $user[0] . "'");
-                    }
-                }
-
-                if ($game_id[2] != ""){
-                    $pref1[2] = htmlentities($pref1[2]);
-                    $pref2[2] = htmlentities($pref2[2]);
-                    $pref3[2] = htmlentities($pref3[2]);
-                    $pref4[2] = htmlentities($pref4[2]);
-                    $pref5[2] = htmlentities($pref5[2]);
-
-                    $pref1[2] = mysql_real_escape_string(stripslashes($pref1[2]));
-                    $pref2[2] = mysql_real_escape_string(stripslashes($pref2[2]));
-                    $pref3[2] = mysql_real_escape_string(stripslashes($pref3[2]));
-                    $pref4[2] = mysql_real_escape_string(stripslashes($pref4[2]));
-                    $pref5[2] = mysql_real_escape_string(stripslashes($pref5[2]));
-
-                    $verif_game3 = mysql_query("SELECT * FROM " . GAMES_PREFS_TABLE . " WHERE userId = '" . $user[0] . "' AND game = '" . $game_id[2] . "'");
-                    $res3 = mysql_num_rows($verif_game3);
-
-                    if ($res3 > 0){
-                        $upd6 = mysql_query("UPDATE " . GAMES_PREFS_TABLE . " SET pref_1 = '" . $pref1[2] . "', pref_2 = '" . $pref2[2] . "', pref_3 = '" . $pref3[2] . "', pref_4 = '" . $pref4[2] . "', pref_5 = '" . $pref5[2] . "' WHERE userId = '" . $user[0] . "' AND game = '" . $game_id[2] . "'");
-                    }
-                    else{
-                        $sql3 = mysql_query("INSERT INTO " . GAMES_PREFS_TABLE . " ( `id` , `game` , `userId` , `pref_1` , `pref_2` , `pref_3` , `pref_4` , `pref_5` ) VALUES( '' , '" . $game_id[2] . "' , '" . $user[0] . "' , '" . $pref1[2] . "' , '" . $pref2[2] . "' , '" . $pref3[2] . "' , '" . $pref4[2] . "' , '" . $pref5[2] . "' )");
-                    }
-
-                    if ($game_id[2] == $game){
-                        $upd7 = mysql_query("UPDATE " . USER_DETAIL_TABLE . " SET pref_1 = '" . $pref1[2] . "', pref_2 = '" . $pref2[2] . "', pref_3 = '" . $pref3[2] . "', pref_4 = '" . $pref4[2] . "', pref_5 = '" . $pref5[2] . "' WHERE userId = '" . $user[0] . "'");
-                    }
-                }
-            }
-            
-            echo "<br /><br /><div style=\"text-align: center;\">" . _PREFMODIF . "</div><br /><br />";
-            redirect("index.php?file=User", 2);
+                echo '<nav id="memberList" class="nkWidthFull nkMarginLRAuto">'.$userDetail.'</nav>';
         }
 
-        function envoiMail($email){
+        function envoiMail($email) {
             global $nuked;
 
             $pattern = '#^[a-z0-9]+[a-z0-9._-]*@[a-z0-9.-]+.[a-z0-9]{2,3}$#';
-            if(!preg_match($pattern, $email)){
-                echo '<div style="text-align:center;margin:30px;">'._WRONGMAIL.'</div>';
+            if(!preg_match($pattern, $email)) {
+                echo $GLOBALS['nkTpl']->nkDisplayError(WRONGMAIL, 'nkInitError');
                 redirect("index.php?file=User&op=oubliPass", 3);                
                 footer();
                 exit();
             }
 
-            $sql = mysql_query('SELECT pseudo, token, token_time FROM '.USER_TABLE.' WHERE mail = \''.$email.'\' ');
-            $count = mysql_num_rows($sql);
-            $data = mysql_fetch_assoc($sql);
+            $dbsTokenS = '  SELECT pseudo, token, token_time 
+                            FROM '.USER_TABLE.' 
+                            WHERE mail = "'.$email.'"';
+            $dbuTokenS = mysql_query($dbsTokenS);
+            $count = mysql_num_rows($dbsTokenS);
+            $data = mysql_fetch_assoc($dbsTokenS);
 
-            if($count > 0){
-                if($data['token'] != null && (time() - $data['token_time']) < 3600){
-                    echo '<div style="text-align:center;margin:30px;">'._LINKALWAYSACTIVE.'</div>';
-                    redirect("index.php", 3);                    
+            if ($count > 0) {
+                if ($data['token'] != null && (time() - $data['token_time']) < 3600) {
+                    echo $GLOBALS['nkTpl']->nkDisplayError(LINKALWAYSACTIVE, 'nkAlertError');
+                    redirect('index.php', 3);                    
                     footer();
                     exit();
-                }
-                elseif($data['token'] == null || ($data['token'] != null && (time() - $data['token_time']) > 3600)){
-                    $new_token = uniqid();
-                    mysql_query('UPDATE '.USER_TABLE.' SET token = \''.$new_token.'\', token_time = \''.time().'\' WHERE mail = \''.mysql_real_escape_string($email).'\' ');
+                } elseif ($data['token'] == null || ($data['token'] != null && (time() - $data['token_time']) > 3600)) {
+                    $newToken = uniqid();
+                    $dbuToken = '   UPDATE '.USER_TABLE.' 
+                                    SET token = "'.$newToken.'", 
+                                        token_time = "'.time().'" 
+                                    WHERE mail = "'.mysql_real_escape_string($email).'"';
+                    $dbeToken = mysql_query($dbuToken);
 
-                    $link = '<a href="'.$nuked['url'].'/index.php?file=User&op=envoiPass&email='.$email.'&token='.$new_token.'">'.$nuked['url'].'/index.php?file=User&op=envoiPass&email='.$email.'&token='.$new_token.'</a>';
+                    $link = '<a href="'.$nuked['url'].'/index.php?file=User&op=envoiPass&email='.$email.'&token='.$newToken.'">'.$nuked['url'].'/index.php?file=User&op=envoiPass&email='.$email.'&token='.$newToken.'</a>';
 
-                    $message = "<html><body><p>"._HI." ".$data['pseudo'].",<br/><br/>"._LINKTONEWPASSWORD." : <br/><br/>".$link."<br/><br/>"._LINKTIME."</p><p>".$nuked['name']." - ".$nuked['slogan']."</p></body></html>";
-                    $headers ='From: '.$nuked['name'].' <'.$nuked['contactMail'].'>'."\n";
-                    $headers .='Reply-To: '.$nuked['contactMail']."\n";
-                    $headers .='Content-Type: text/html; charset="iso-8859-1"'."\n";
+                    $message = '<html>
+                                    <body>
+                                        <p>'.HI.'&nbsp;'.$data['pseudo'].',</p>
+                                        <p>'.LINKTONEWPASSWORD.' : </p>
+                                        <p>'.$link.'</p>
+                                        <p>'.LINKTIME.'</p>
+                                        <p>'.$nuked['name'].' - '.$nuked['slogan'].'</p>
+                                    </body>
+                                </html>';
+                    $headers ='From: '.$nuked['name'].' <'.$nuked['contactMail'].'>';
+                    $headers .='Reply-To: '.$nuked['contactMail'];
+                    $headers .='Content-Type: text/html; charset="iso-8859-1"';
                     $headers .='Content-Transfer-Encoding: 8bit'; 
 
                     $message = @html_entity_decode($message);
 
-                    @mail($email, _LOSTPASSWORD, $message, $headers);
+                    @mail($email, LOSTPASSWORD, $message, $headers);
 
-                    echo '<div style="text-align:center;margin:30px;">'._MAILSEND.'</div>';
+                    echo $GLOBALS['nkTpl']->nkDisplaySuccess(MAILSEND, 'nkAlertSuccess');
                     redirect("index.php", 3);
                 }
             }
             else{
-                echo '<div style="text-align:center;margin:30px;">'._MAILNOEXIST.'</div>';
-                redirect("index.php?file=User&op=oubliPass", 3);
+                echo $GLOBALS['nkTpl']->nkDisplayError(MAILNOEXIST, 'nkAlertError');
+                redirect('index.php?file=User&op=oubliPass', 3);
             }    
         }
 
-        function envoiPass($email, $token){
+        function envoiPass($email, $token) {
             global $nuked;
 
             $pattern = '#^[a-z0-9]+[a-z0-9._-]*@[a-z0-9.-]+.[a-z0-9]{2,3}$#';
-            if(!preg_match($pattern, $email)){
-                echo '<div style="text-align:center;margin:30px;">'._WRONGMAIL.'</div>';
-                redirect("index.php", 3);
-                
+            if(!preg_match($pattern, $email)) {
+                echo $GLOBALS['nkTpl']->nkDisplayError(WRONGMAIL, 'nkAlertError');
+                redirect("index.php", 3);                
                 footer();
                 exit();
             }
 
             $pattern = '#^[a-z0-9]{13}$#';
-            if(!preg_match($pattern, $token)){
-                echo '<div style="text-align:center;margin:30px;">'._WRONGTOKEN.'</div>';
-                redirect("index.php", 3);
-                
+            if(!preg_match($pattern, $token)) {
+                echo $GLOBALS['nkTpl']->nkDisplayError(WRONGTOKEN, 'nkAlertError');
+                redirect("index.php", 3);                
                 footer();
                 exit();
             }
 
-            $sql = mysql_query('SELECT pseudo, token, token_time FROM '.USER_TABLE.' WHERE mail = \''.$email.'\' ');
-            $count = mysql_num_rows($sql);
-            $data = mysql_fetch_assoc($sql);
+            $dbsToken = '   SELECT pseudo, token, token_time 
+                            FROM '.USER_TABLE.' 
+                            WHERE mail = "'.$email.'"';
+            $dbeToken = mysql_query($dbsToken);
+            $count    = mysql_num_rows($dbeToken);
+            $data     = mysql_fetch_assoc($dbeToken);
 
-            if($count > 0){
-                if($data['token'] != null && (time() - $data['token_time']) < 3600){
-                    if($token == $data['token']){
+            if ($count > 0) {
+                if ($data['token'] != null && (time() - $data['token_time']) < 3600) {
+                    if ($token == $data['token']) {
                         $new_pass = makePass();
 
-                        $message = "<html><body><p>"._HI." ".$data['pseudo'].",<br/><br/>"._NEWPASSWORD." : <br/><br/><strong>".$new_pass."</strong><br/></p><p>".$nuked['name']." - ".$nuked['slogan']."</p></body></html>";
-                        $headers ='From: '.$nuked['name'].' <'.$nuked['contactMail'].'>'."\n";
-                        $headers .='Reply-To: '.$nuked['contactMail']."\n";
-                        $headers .='Content-Type: text/html; charset="iso-8859-1"'."\n";
+                        $message = '<html>
+                                        <body>
+                                            <p>'.HI.'&nbsp;'.$data['pseudo'].',</p>
+                                            <p>'.NEWPASSWORD.'&nbsp;:&nbsp;</p>
+                                            <p>'.$new_pass.'</p>
+                                            <p>'.$nuked['name'].' - '.$nuked['slogan'].'</p>
+                                        </body>
+                                    </html>';
+                        $headers ='From: '.$nuked['name'].' <'.$nuked['contactMail'].'>';
+                        $headers .='Reply-To: '.$nuked['contactMail'];
+                        $headers .='Content-Type: text/html; charset="iso-8859-1"';
                         $headers .='Content-Transfer-Encoding: 8bit'; 
 
                         $message = @html_entity_decode($message);
 
-                        @mail($email, _YOURNEWPASSWORD, $message, $headers);
+                        @mail($email, YOURNEWPASSWORD, $message, $headers);
 
                         $new_pass = nk_hash($new_pass);
 
-                        mysql_query('UPDATE '.USER_TABLE.' SET pass = \''.$new_pass.'\', token = \'null\', token_time = \'0\' WHERE mail = \''.mysql_real_escape_string($email).'\' ');
-
-                        echo '<div style="text-align:center;margin:30px;">'._NEWPASSSEND.'</div>';
-                        redirect("index.php?file=User&op=loginScreen", 3);
-                    }
-                    else{
-                        echo '<div style="text-align:center;margin:30px;">'._WRONGTOKEN.'</div>';
-                        redirect("index.php", 3);
-                        
+                        $dbuPass = 'UPDATE '.USER_TABLE.' 
+                                    SET pass = "'.$new_pass.'", 
+                                        token = "null", 
+                                        token_time = "0" 
+                                    WHERE mail = "'.mysql_real_escape_string($email).'"';
+                        $dbePass = mysql_query($dbuPass);
+                        echo $GLOBALS['nkTpl']->nkDisplaySuccess(NEWPASSSEND, 'nkAlertSuccess');
+                        redirect('index.php?file=User&op=loginScreen', 3);
+                    } else {
+                        echo $GLOBALS['nkTpl']->nkDisplayError(WRONGTOKEN, 'nkAlertError');
+                        redirect("index.php", 3);                        
                         footer();
                         exit();
                     }
-                }
-                elseif($data['token'] == null || ($data['token'] != null && (time() - $data['token_time']) > 3600)){
-                    echo '<div style="text-align:center;margin:30px;">'._LINKNOACTIVE.'</div>';
-                    redirect("index.php?file=User&op=oubliPass", 3);
-                    
+                } elseif ($data['token'] == null || ($data['token'] != null && (time() - $data['token_time']) > 3600)) {
+                    echo $GLOBALS['nkTpl']->nkDisplayError(LINKNOACTIVE, 'nkAlertError');
+                    redirect("index.php?file=User&op=oubliPass", 3);                    
                     footer();
                     exit();
                 }
-            }
-            else{
-                echo '<div style="text-align:center;margin:30px;">'._MAILNOEXIST.'</div>';
+            } else {
+                echo $GLOBALS['nkTpl']->nkDisplayError(MAILNOEXIST, 'nkAlertError');
                 redirect("index.php?file=User&op=oubliPass", 3);
             }
         }
 
-        function makePass(){
-            $makepass = "";
-            $syllables = "er,in,tia,wol,fe,pre,vet,jo,nes,al,len,son,cha,ir,ler,bo,ok,tio,nar,sim,ple,bla,ten,toe,cho,co,lat,spe,ak,er,po,co,lor,pen,cil,li,ght,wh,at,the,he,ck,is,mam,bo,no,fi,ve,any,way,pol,iti,cs,ra,dio,sou,rce,sea,rch,pa,per,com,bo,sp,eak,st,fi,rst,gr,oup,boy,ea,gle,tr,ail,bi,ble,brb,pri,dee,kay,en,be,se";
-            $syllable_array = explode(",", $syllables);
+        function makePass() {
+            $makepass = '';
+            $syllables = 'er,in,tia,wol,fe,pre,vet,jo,nes,al,len,son,cha,ir,ler,bo,ok,tio,nar,sim,ple,bla,ten,toe,cho,co,lat,spe,ak,er,po,co,lor,pen,cil,li,ght,wh,at,the,he,ck,is,mam,bo,no,fi,ve,any,way,pol,iti,cs,ra,dio,sou,rce,sea,rch,pa,per,com,bo,sp,eak,st,fi,rst,gr,oup,boy,ea,gle,tr,ail,bi,ble,brb,pri,dee,kay,en,be,se';
+            $syllable_array = explode(',', $syllables);
             srand((double)microtime() * 1000000);
-            for ($count = 1;$count <= 4;$count++){
-                if (rand() % 10 == 1){
-                    $makepass .= sprintf("%0.0f", (rand() % 50) + 1);
-                }
-                else{
-                    $makepass .= sprintf("%s", $syllable_array[rand() % 62]);
+            for ($count = 1;$count <= 4;$count++) {
+                if (rand() % 10 == 1) {
+                    $makepass .= sprintf('%0.0f', (rand() % 50) + 1);
+                } else {
+                    $makepass .= sprintf('%s', $syllable_array[rand() % 62]);
                 }
             }
             return($makepass);
         }
 
         function validation() {
-            global $user, $nuked;
+            global $user, $nuked, $modulePref;
 
             if ($modulePref['validation'] == 'mail') {
-                $sql = mysql_query('SELECT level FROM ' . USER_TABLE . ' WHERE id = "' . $_REQUEST['userId'] . '"');
-                list($level) = mysql_fetch_array($sql);
+                $dbsLevel = '   SELECT level 
+                                FROM ' . USER_TABLE . ' 
+                                WHERE id = "' . $_REQUEST['userId'] . '"';
+                $dbeLevel = mysql_query($dbsLevel);
+                list($level) = mysql_fetch_array($dbeLevel);
 
                 if ($level > 0) {
-                    echo '<br /><br /><div style="text-align: center">' . _ALREADYVALID . '</div><br /><br />';
+                    echo $GLOBALS['nkTpl']->nkDisplayError(ALREADYVALID, 'nkAlertError');
                     redirect('index.php?file=User', 3);
                 }
                 else {
-                    $upd = mysql_query('UPDATE ' . USER_TABLE . ' SET level = 1 WHERE id = "' . $_REQUEST['userId'] . '"');
+                    $dbuLevel = ' UPDATE '.USER_TABLE.' 
+                                    SET level = 1 
+                                    WHERE id = "'.$_REQUEST['userId'].'"';
+                    $dbeLevel = mysql_query();
 
-                    echo '<br /><br /><div style="text-align: center">' . _VALuserId . '</div><br /><br />';
+                    echo $GLOBALS['nkTpl']->nkDisplaySuccess(VALUSERID, 'nkAlertError');
                     redirect('index.php?file=User&op=loginScreen', 3);
                 }
-            }
-            else {
-                echo '<br /><br /><div style="text-align: center">' . _NOENTRANCE . '</div><br /><br />';
-                redirect('index.php?file=User&op=loginScreen', 2);
             }
         }
 
@@ -2267,59 +2189,68 @@ if (!isset($GLOBALS['nkInitError'])) {
          * @param integer $userId : a user ID
          * @return bool : true if delete success, false if not
          */
-        function delModerator($userId)
-        {
-            $resultQuery = mysql_query("SELECT id,moderateurs FROM " . FORUM_TABLE . " WHERE moderateurs LIKE '%" . $userId . "%'");
-            while (list($forumID, $listModos) = mysql_fetch_row($resultQuery))
-            {
-                if (is_int(strpos($listModos, '|'))) //Multiple moderators in this category
-                {
+        function delModerator($userId) {
+            $dbsResultQuery = ' SELECT id,moderateurs 
+                                FROM '.FORUM_TABLE.' 
+                                WHERE moderateurs LIKE "%' . $userId . '%"';
+            $dbeResultQuery = mysql_query($dbsResultQuery);
+            while (list($forumID, $listModos) = mysql_fetch_row($dbeResultQuery)) {
+                if (is_int(strpos($listModos, '|'))) {
                     var_dump($listModos);
                     $tmpListModos = explode('|', $listModos);
-                    $tmpKey = array_search($userId, $tmpListModos);
-                    if ($tmpKey !== false)
-                    {
+                    $tmpKey       = array_search($userId, $tmpListModos);
+                    if ($tmpKey !== false) {
                         unset($tmpListModos[$tmpKey]);
                         $tmpListModos = implode('|', $tmpListModos);
-                        $updateQuery = mysql_query("UPDATE " . FORUM_TABLE . " SET moderateurs = '" . $tmpListModos . "' WHERE id = '" . $forumID . "'");
+                        $dbuUpdateQuery = ' UPDATE '.FORUM_TABLE.' 
+                                            SET moderateurs = "' . $tmpListModos . '" 
+                                            WHERE id = "' . $forumID . '"';
+                        $dbeUpdateQuery = mysql_query($dbuUpdateQuery);
                     }
-                }
-                else
-                {
-                    if ($userId == $listModos) // Only one moderator in this category
-                    {
-                        $updateQuery = mysql_query("UPDATE " . FORUM_TABLE . " SET moderateurs = '' WHERE id = '" . $forumID . "'");
+                } else {
+                    if ($userId == $listModos) {
+                        $dbuUpdateQuery = ' UPDATE '.FORUM_TABLE.' 
+                                            SET moderateurs = ""
+                                            WHERE id = "'.$forumID.'"';
+                        $dbeUpdateQuery = mysql_query($dbuUpdateQuery);
                     }
-                    // Else, no moderator in this category
                 }
             }
-            if ($resultQuery)
+            if ($dbeResultQuery) {
                 return true;
-            else
+            } else {
                 return false;
+            }
         }
             
 
-        function delAccount($pass){
+        function delAccount($pass) {
             global $user, $nuked;
 
-            if ($pass != "" && $modulePref['userAccountDelete'] == "on"){
-                $sql = mysql_query("SELECT pass FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
-                $dbpass = mysql_fetch_row($sql);
-                if (Check_Hash($pass, $dbpass[0])){
+            if ($pass != '' && $modulePref['userAccountDelete'] == 'on') {
+                $dbsDel = ' SELECT pass 
+                            FROM '.USER_TABLE.' 
+                            WHERE id = "'.$user[0].'"';
+                $dbeDel = mysql_query($dbsDel);
+                $dbpass = mysql_fetch_row($dbeDel);
+                if (Check_Hash($pass, $dbpass[0])) {
                     $del1 = delModerator($user[0]);
-                    $del2 = mysql_query("DELETE FROM " . SESSIONS_TABLE . " WHERE userId = '" . $user[0] . "'");
-                    $del3 = mysql_query("DELETE FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
-                    echo "<br /><br /><div style=\"text-align: center;\">" . _ACCOUNTDELETE . "</div><br /><br />";
+                    // suppression de la session
+                    $dbdSession = ' DELETE FROM '.SESSIONS_TABLE.' 
+                                    WHERE userId = "'.$user[0].'"';
+                    $dbeSession = mysql_query($dbdSession);
+                    // suppression du compte utilisateur
+                    $dbdUser = 'DELETE FROM '.USER_TABLE.' 
+                                WHERE id = "'.$user[0].'"';
+                    $dbeUser = mysql_query($dbdUser);
+                    echo $GLOBALS['nkTpl']->nkDisplaySuccess(ACCOUNTDELETE, 'nkAlertError');
                     redirect("index.php", 2);
-                }
-                else{
-                    echo "<br /><br /><div style=\"text-align: center;\">" . _BADPASSWORD . "</div><br /><br />";
+                } else {
+                    echo $GLOBALS['nkTpl']->nkDisplayError(BADPASSWORD, 'nkAlertError');
                     redirect("index.php?file=User&op=editAccount", 2);
                 }
-            }
-            else{
-                echo "<br /><br /><div style=\"text-align: center;\">" . stripslashes(_NOPASSWORD) . "</div><br /><br />";
+            } else {
+                    echo $GLOBALS['nkTpl']->nkDisplayError(NOPASSWORD, 'nkAlertError');
                 redirect("index.php?file=User&op=editAccount", 2);
             }
         }
@@ -2366,6 +2297,10 @@ if (!isset($GLOBALS['nkInitError'])) {
                 showAvatar();
                 break;
 
+            case"changeTheme":                
+                changeTheme();                
+                break;
+
             case"modifTheme":
                 modifTheme($_REQUEST['userTheme']);
                 break;
@@ -2382,9 +2317,9 @@ if (!isset($GLOBALS['nkInitError'])) {
                 userDetail($_REQUEST['userId']);
                 break;
 
-
-
-
+            case"memberList":
+                memberList();
+                break;
 
             case"oubliPass":                
                 oubliPass();                
@@ -2392,10 +2327,6 @@ if (!isset($GLOBALS['nkInitError'])) {
 
             case"envoiPass":                
                 envoiPass($_REQUEST['email'], $_REQUEST['token']);                
-                break;
-
-            case"changeTheme":                
-                changeTheme();                
                 break;
 
             case"validation":                
